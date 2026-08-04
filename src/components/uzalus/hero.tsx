@@ -8,20 +8,17 @@ export function Hero() {
 
   return (
     <section className="relative h-screen min-h-[600px] max-h-[1000px] overflow-hidden">
-      {/* Video background - placeholder with gradient when no video */}
+      {/* Beauty hero image background */}
       <div className="absolute inset-0">
-        {/* Replace the div below with a <video> tag when you have the video file */}
-        {/* <video autoPlay muted loop playsInline className="w-full h-full object-cover">
-          <source src="/uzalus-hero.mp4" type="video/mp4" />
-        </video> */}
-        <div
-          className="w-full h-full"
-          style={{
-            background:
-              'linear-gradient(135deg, #0B0B0B 0%, #1a1510 25%, #0B0B0B 50%, #1a1510 75%, #0B0B0B 100%)',
-          }}
+        <img
+          src="/images/beauty/hero-beauty.png"
+          alt="UZALUS Beauty"
+          className="w-full h-full object-cover"
         />
       </div>
+
+      {/* Dark overlay */}
+      <div className="hero-overlay absolute inset-0" />
 
       {/* Gold particle accents */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -31,26 +28,21 @@ export function Hero() {
         <div className="absolute top-1/2 end-1/4 w-2.5 h-2.5 bg-gold/10 rounded-full animate-pulse" style={{ animationDelay: '0.5s' }} />
       </div>
 
-      {/* Dark overlay */}
-      <div className="hero-overlay absolute inset-0" />
-
       {/* Content */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
-        {/* Logo */}
         <div className="mb-6 opacity-0 animate-fade-in-up">
           <span className="font-display text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold gold-shimmer tracking-[0.2em]">
             UZALUS
           </span>
+          <span className="block font-elegant text-2xl sm:text-3xl text-gold/80 italic mt-2 tracking-wider">Beauté</span>
         </div>
 
-        {/* Tagline */}
         <div className="mb-10 opacity-0 animate-fade-in-up animate-delay-200">
-          <p className="font-elegant text-xl sm:text-2xl md:text-3xl lg:text-4xl text-foreground/90 italic max-w-3xl">
+          <p className="font-elegant text-xl sm:text-2xl md:text-3xl lg:text-4xl text-foreground/90 italic max-w-3xl leading-relaxed">
             {t('hero.tagline')}
           </p>
         </div>
 
-        {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 opacity-0 animate-fade-in-up animate-delay-400">
           <a
             href="#products"

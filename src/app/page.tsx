@@ -6,6 +6,7 @@ import { WhyUs } from '@/components/uzalus/why-us';
 import { Promotions } from '@/components/uzalus/promotions';
 import { Newsletter } from '@/components/uzalus/newsletter';
 import { Footer } from '@/components/uzalus/footer';
+import { ChatWidget } from '@/components/uzalus/chat-widget';
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         <Newsletter />
       </main>
       <Footer />
+      <ChatWidget />
     </div>
   );
 }
