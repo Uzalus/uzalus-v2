@@ -1,0 +1,2395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Uzalus — Global Finds, Everyday Style</title>
+  <meta name="description" content="Uzalus is a modern e-commerce marketplace concept for fashion, beauty, electronics, home decor, and perfumes." />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --ink: #17120f;
+      --muted: #6d625b;
+      --paper: #fff9f0;
+      --cream: #fff2de;
+      --coal: #201713;
+      --blush: #ff4f79;
+      --tangerine: #ff7a18;
+      --gold: #ffc857;
+      --mint: #a5ffcb;
+      --line: rgba(23, 18, 15, .12);
+      --shadow: 0 24px 70px rgba(48, 30, 18, .14);
+      --radius-xl: 34px;
+      --radius-lg: 24px;
+      --radius-md: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: "Manrope", sans-serif;
+      background:
+        radial-gradient(circle at 12% 6%, rgba(255, 122, 24, .18), transparent 28rem),
+        radial-gradient(circle at 86% 11%, rgba(255, 79, 121, .14), transparent 24rem),
+        linear-gradient(180deg, #fff9f0 0%, #fffaf4 38%, #f7efe5 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .12;
+      z-index: 100;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.74' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='.42'/%3E%3C/svg%3E");
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; width: 100%; }
+    button, input, select { font: inherit; }
+    .shell { width: min(1180px, calc(100% - 36px)); margin: 0 auto; }
+
+    .announcement {
+      background: var(--coal);
+      color: #fff8ec;
+      font-size: .82rem;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 5;
+    }
+
+    .announcement .shell {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 9px 0;
+    }
+
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(24px);
+      background: rgba(255, 249, 240, .76);
+      border-bottom: 1px solid rgba(23, 18, 15, .1);
+    }
+
+    .nav-inner {
+      display: grid;
+      grid-template-columns: auto minmax(240px, 1fr) auto;
+      align-items: center;
+      gap: 24px;
+      padding: 16px 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 176px;
+    }
+
+    .brand-mark {
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-family: "Fraunces", serif;
+      font-weight: 900;
+      font-size: 1.6rem;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.28), transparent 40%),
+        conic-gradient(from 150deg, var(--blush), var(--tangerine), var(--gold), var(--blush));
+      box-shadow: 0 14px 34px rgba(255, 87, 79, .32);
+      transform: rotate(-8deg);
+    }
+
+    .brand-copy strong {
+      display: block;
+      font-family: "Fraunces", serif;
+      font-size: 1.45rem;
+      line-height: .9;
+      letter-spacing: -.04em;
+    }
+
+    .brand-copy span {
+      display: block;
+      color: var(--muted);
+      font-size: .75rem;
+      margin-top: 4px;
+    }
+
+    .searchbar {
+      display: flex;
+      align-items: center;
+      min-height: 50px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.72);
+      box-shadow: 0 10px 35px rgba(58, 39, 24, .06);
+      overflow: hidden;
+    }
+
+    .searchbar input {
+      flex: 1;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      padding: 0 20px;
+      min-width: 0;
+      color: var(--ink);
+    }
+
+    .searchbar button,
+    .pill-button {
+      border: 0;
+      cursor: pointer;
+      color: #fff;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--ink), #4a2a20);
+      padding: 13px 21px;
+      border-radius: 999px;
+      margin-right: 5px;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    .searchbar button:hover,
+    .pill-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 24px rgba(32, 23, 19, .2);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .language-picker {
+      position: relative;
+    }
+
+    .language-current,
+    .account-btn,
+    .cart-btn {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.72);
+      border-radius: 999px;
+      height: 46px;
+      padding: 0 14px;
+      color: var(--ink);
+      font-weight: 900;
+      cursor: pointer;
+      outline: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+    }
+
+    .language-current:hover,
+    .account-btn:hover,
+    .cart-btn:hover {
+      transform: translateY(-2px);
+      background: #fff;
+      box-shadow: 0 12px 26px rgba(32,23,19,.12);
+    }
+
+    .language-menu {
+      position: absolute;
+      top: calc(100% + 10px);
+      right: 0;
+      width: 210px;
+      border: 1px solid rgba(23,18,15,.12);
+      border-radius: 22px;
+      background: rgba(255,250,244,.98);
+      box-shadow: 0 24px 60px rgba(23,18,15,.18);
+      padding: 8px;
+      display: grid;
+      gap: 4px;
+      z-index: 80;
+      opacity: 0;
+      transform: translateY(-8px) scale(.98);
+      pointer-events: none;
+      transition: opacity .18s ease, transform .18s ease;
+    }
+
+    .language-picker.open .language-menu {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .language-option {
+      border: 0;
+      background: transparent;
+      border-radius: 15px;
+      padding: 11px 12px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      cursor: pointer;
+      color: var(--ink);
+      font-weight: 800;
+      text-align: left;
+    }
+
+    .language-option:hover,
+    .language-option.active {
+      background: linear-gradient(135deg, rgba(255,79,121,.13), rgba(255,122,24,.12));
+    }
+
+    .account-btn {
+      background: linear-gradient(135deg, var(--blush), var(--tangerine));
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 12px 28px rgba(255, 87, 79, .22);
+    }
+
+    .cart-btn {
+      position: relative;
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+
+    .action-symbol {
+      display: inline-grid;
+      place-items: center;
+      min-width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      font-size: .62rem;
+      letter-spacing: .03em;
+      padding: 0 6px;
+    }
+
+    .icon-btn {
+      position: relative;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.68);
+      border-radius: 999px;
+      width: 46px;
+      height: 46px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .icon-btn:hover { transform: translateY(-2px); background: #fff; }
+    .cart-count {
+      position: absolute;
+      right: -4px;
+      top: -4px;
+      min-width: 20px;
+      height: 20px;
+      padding: 0 6px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--blush);
+      font-size: .72rem;
+      font-weight: 800;
+      border: 2px solid var(--paper);
+    }
+
+    .category-nav {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 0 0 14px;
+      scrollbar-width: none;
+    }
+    .category-nav::-webkit-scrollbar { display: none; }
+    .category-nav a {
+      white-space: nowrap;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 14px;
+      color: #382921;
+      background: rgba(255,255,255,.54);
+      font-weight: 700;
+      font-size: .88rem;
+      transition: all .2s ease;
+    }
+    .category-nav a:hover {
+      background: var(--ink);
+      color: #fff;
+      border-color: var(--ink);
+    }
+
+    .hero {
+      padding: 42px 0 26px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(330px, .68fr);
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .hero-copy {
+      position: relative;
+      min-height: 560px;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      padding: clamp(30px, 5vw, 64px);
+      background:
+        linear-gradient(90deg, rgba(23,18,15,.87) 0%, rgba(23,18,15,.62) 46%, rgba(23,18,15,.16) 100%),
+        url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1500&q=82") center / cover;
+      color: #fffaf3;
+      box-shadow: var(--shadow);
+      isolation: isolate;
+    }
+
+    .hero-copy::after {
+      content: "";
+      position: absolute;
+      inset: auto -8% -22% 34%;
+      height: 250px;
+      background: radial-gradient(circle, rgba(255, 200, 87, .45), transparent 68%);
+      z-index: -1;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 13px;
+      border: 1px solid rgba(255,255,255,.32);
+      background: rgba(255,255,255,.13);
+      backdrop-filter: blur(12px);
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: .72rem;
+      font-weight: 900;
+    }
+
+    .hero h1 {
+      font-family: "Fraunces", serif;
+      max-width: 680px;
+      font-size: clamp(3.4rem, 8vw, 7.2rem);
+      line-height: .82;
+      letter-spacing: -.075em;
+      margin: 32px 0 22px;
+    }
+
+    .hero p {
+      max-width: 540px;
+      color: rgba(255,250,243,.84);
+      font-size: 1.05rem;
+      line-height: 1.75;
+      margin: 0 0 28px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .ghost-button {
+      border: 1px solid rgba(255,255,255,.35);
+      color: #fff;
+      background: rgba(255,255,255,.12);
+      backdrop-filter: blur(12px);
+      padding: 13px 20px;
+      border-radius: 999px;
+      font-weight: 800;
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .ghost-button:hover { transform: translateY(-2px); background: rgba(255,255,255,.2); }
+
+    .stat-strip {
+      position: absolute;
+      left: clamp(22px, 5vw, 56px);
+      right: clamp(22px, 5vw, 56px);
+      bottom: 28px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .stat {
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,.2);
+      background: rgba(255,255,255,.14);
+      backdrop-filter: blur(16px);
+      border-radius: 20px;
+    }
+    .stat strong {
+      display: block;
+      font-family: "Fraunces", serif;
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+    .stat span { color: rgba(255,250,243,.72); font-size: .8rem; }
+
+    .side-deals {
+      display: grid;
+      gap: 20px;
+    }
+
+    .deal-card {
+      min-height: 270px;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      position: relative;
+      padding: 24px;
+      display: flex;
+      align-items: flex-end;
+      background: #ddd;
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .deal-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 22%, rgba(0,0,0,.72) 100%);
+    }
+
+    .deal-card > * { position: relative; z-index: 1; }
+    .deal-card h3 {
+      font-family: "Fraunces", serif;
+      letter-spacing: -.04em;
+      font-size: 2.1rem;
+      margin: 0 0 5px;
+      line-height: .9;
+    }
+    .deal-card p { margin: 0; color: rgba(255,255,255,.78); }
+    .deal-card.one { background: url("https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=900&q=82") center / cover; }
+    .deal-card.two { background: url("https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=82") center / cover; }
+
+    .section {
+      padding: 42px 0;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+    .section-kicker {
+      color: var(--blush);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: .75rem;
+    }
+    .section h2 {
+      font-family: "Fraunces", serif;
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      letter-spacing: -.065em;
+      line-height: .92;
+      margin: 8px 0 0;
+    }
+    .section-head p {
+      max-width: 460px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(130px, 1fr));
+      gap: 14px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      scrollbar-width: thin;
+    }
+
+    .category-card {
+      min-height: 220px;
+      border-radius: 26px;
+      overflow: hidden;
+      position: relative;
+      border: 1px solid rgba(23,18,15,.08);
+      background: #eee;
+      box-shadow: 0 16px 40px rgba(48,30,18,.08);
+      isolation: isolate;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .category-card:hover {
+      transform: translateY(-6px) rotate(-1deg);
+      box-shadow: 0 24px 54px rgba(48,30,18,.17);
+    }
+    .category-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.68));
+    }
+    .category-card img {
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      inset: 0;
+      transform: scale(1.02);
+      transition: transform .4s ease;
+    }
+    .category-card:hover img { transform: scale(1.1); }
+    .category-label {
+      position: absolute;
+      z-index: 1;
+      left: 15px;
+      right: 15px;
+      bottom: 15px;
+      color: white;
+    }
+    .category-label strong {
+      display: block;
+      font-family: "Fraunces", serif;
+      font-size: 1.35rem;
+      letter-spacing: -.04em;
+      line-height: .95;
+    }
+    .category-label span {
+      display: block;
+      margin-top: 5px;
+      color: rgba(255,255,255,.76);
+      font-size: .78rem;
+      font-weight: 700;
+    }
+
+    .promo-band {
+      border-radius: var(--radius-xl);
+      padding: clamp(24px, 4vw, 42px);
+      background:
+        linear-gradient(135deg, rgba(255,79,121,.94), rgba(255,122,24,.92)),
+        url("https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=82") center / cover;
+      color: white;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
+    }
+    .promo-band::after {
+      content: "UZALUS";
+      position: absolute;
+      right: -22px;
+      bottom: -33px;
+      font-family: "Fraunces", serif;
+      font-size: clamp(5rem, 14vw, 11rem);
+      font-weight: 900;
+      letter-spacing: -.08em;
+      opacity: .12;
+    }
+    .promo-band h2 {
+      color: white;
+      margin: 0 0 10px;
+      max-width: 740px;
+    }
+    .promo-band p { color: rgba(255,255,255,.8); max-width: 620px; margin: 0; line-height: 1.65; }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .filter-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .tab {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.7);
+      border-radius: 999px;
+      padding: 10px 14px;
+      cursor: pointer;
+      font-weight: 800;
+      color: #48362f;
+      transition: all .2s ease;
+    }
+    .tab.active,
+    .tab:hover {
+      color: #fff;
+      background: var(--ink);
+      border-color: var(--ink);
+      transform: translateY(-2px);
+    }
+
+    .sort-note {
+      color: var(--muted);
+      font-size: .9rem;
+      font-weight: 700;
+    }
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .product-card {
+      border: 1px solid rgba(23,18,15,.1);
+      border-radius: 28px;
+      overflow: hidden;
+      background: rgba(255,255,255,.72);
+      box-shadow: 0 18px 46px rgba(48,30,18,.08);
+      transition: transform .25s ease, box-shadow .25s ease;
+      position: relative;
+    }
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 26px 60px rgba(48,30,18,.15);
+    }
+    .product-image {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      background: #eee;
+      overflow: hidden;
+    }
+    .product-image img {
+      height: 100%;
+      object-fit: cover;
+      transition: transform .45s ease;
+    }
+    .product-card:hover .product-image img { transform: scale(1.08); }
+    .badge {
+      position: absolute;
+      top: 13px;
+      left: 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.9);
+      color: var(--ink);
+      font-weight: 900;
+      font-size: .74rem;
+      padding: 7px 10px;
+      box-shadow: 0 10px 20px rgba(0,0,0,.1);
+    }
+    .heart {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 38px;
+      height: 38px;
+      border: 0;
+      border-radius: 999px;
+      background: rgba(255,255,255,.88);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      color: var(--blush);
+    }
+    .heart.active {
+      color: #fff;
+      background: linear-gradient(135deg, var(--blush), var(--tangerine));
+    }
+    .product-image, .product-card h3 { cursor: pointer; }
+    .product-body { padding: 15px; }
+    .product-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--muted);
+      font-weight: 800;
+      font-size: .78rem;
+      margin-bottom: 7px;
+    }
+    .stars { color: #f4a916; letter-spacing: -.08em; }
+    .product-card h3 {
+      font-size: .98rem;
+      line-height: 1.28;
+      margin: 0 0 12px;
+      min-height: 42px;
+    }
+    .price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .price {
+      font-weight: 900;
+      font-size: 1.25rem;
+      letter-spacing: -.04em;
+    }
+    .old-price {
+      color: var(--muted);
+      font-size: .82rem;
+      text-decoration: line-through;
+      margin-left: 4px;
+      font-weight: 700;
+    }
+    .add-btn {
+      border: 0;
+      border-radius: 999px;
+      background: var(--ink);
+      color: white;
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: transform .2s ease, background .2s ease;
+    }
+    .add-btn:hover { transform: rotate(8deg) scale(1.06); background: var(--blush); }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .trust-card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 20px;
+      background: rgba(255,255,255,.62);
+    }
+    .trust-card b {
+      display: block;
+      font-family: "Fraunces", serif;
+      font-size: 1.35rem;
+      letter-spacing: -.04em;
+      margin-bottom: 6px;
+    }
+    .trust-card span { color: var(--muted); line-height: 1.55; font-size: .9rem; }
+
+    footer {
+      margin-top: 36px;
+      padding: 42px 0;
+      background: var(--coal);
+      color: #fff8ef;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr repeat(3, .7fr);
+      gap: 28px;
+    }
+    footer .brand-copy span { color: rgba(255,255,255,.6); }
+    footer p, footer a {
+      color: rgba(255,255,255,.66);
+      line-height: 1.7;
+      font-size: .92rem;
+    }
+    footer h4 { margin: 0 0 12px; }
+    footer a { display: block; margin: 7px 0; }
+
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(23,18,15,.42);
+      z-index: 40;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: min(420px, 92vw);
+      z-index: 50;
+      background: #fffaf4;
+      transform: translateX(105%);
+      transition: transform .32s cubic-bezier(.2,.8,.2,1);
+      box-shadow: -24px 0 60px rgba(0,0,0,.18);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+    }
+    body.cart-open .drawer-backdrop { opacity: 1; pointer-events: auto; }
+    body.cart-open .drawer { transform: translateX(0); }
+
+    .auth-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(23,18,15,.42);
+      z-index: 42;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s ease;
+    }
+
+    .auth-panel {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: min(440px, calc(100vw - 28px));
+      transform: translate(-50%, -46%) scale(.96);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 55;
+      background: #fffaf4;
+      border: 1px solid rgba(23,18,15,.12);
+      border-radius: 30px;
+      box-shadow: 0 30px 90px rgba(23,18,15,.24);
+      padding: 24px;
+      transition: opacity .25s ease, transform .25s ease;
+    }
+
+    body.auth-open .auth-backdrop {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    body.auth-open .auth-panel {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .auth-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .auth-head h3 {
+      font-family: "Fraunces", serif;
+      font-size: 2.25rem;
+      line-height: .9;
+      letter-spacing: -.055em;
+      margin: 0 0 8px;
+    }
+
+    .auth-head p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: .92rem;
+    }
+
+    .auth-form {
+      display: grid;
+      gap: 10px;
+    }
+
+    .auth-form input {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      background: #fff;
+      color: var(--ink);
+      padding: 13px 14px;
+      outline: 0;
+    }
+
+    .auth-form input:focus {
+      border-color: rgba(255,79,121,.55);
+      box-shadow: 0 0 0 4px rgba(255,79,121,.12);
+    }
+
+    .auth-submit {
+      border: 0;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--blush), var(--tangerine));
+      color: #fff;
+      padding: 14px 18px;
+      font-weight: 900;
+      cursor: pointer;
+      margin-top: 4px;
+    }
+
+    .auth-note {
+      color: var(--muted);
+      font-size: .78rem;
+      line-height: 1.55;
+      margin: 12px 0 0;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      transform: translate(-50%, 18px);
+      opacity: 0;
+      z-index: 90;
+      background: var(--coal);
+      color: #fff8ef;
+      border-radius: 999px;
+      padding: 12px 18px;
+      box-shadow: 0 18px 40px rgba(23,18,15,.22);
+      font-weight: 800;
+      pointer-events: none;
+      transition: opacity .22s ease, transform .22s ease;
+      max-width: min(560px, calc(100vw - 24px));
+      text-align: center;
+    }
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .drawer-head, .drawer-foot {
+      padding: 20px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .drawer-foot {
+      border-bottom: 0;
+      border-top: 1px solid var(--line);
+      display: block;
+    }
+    .drawer-head h3 {
+      font-family: "Fraunces", serif;
+      font-size: 2rem;
+      margin: 0;
+      letter-spacing: -.05em;
+    }
+    .close-btn {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: white;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+    }
+    .cart-items {
+      padding: 18px;
+      overflow: auto;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+    .cart-item {
+      display: grid;
+      grid-template-columns: 70px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 9px;
+    }
+    .cart-item img {
+      width: 70px;
+      height: 82px;
+      object-fit: cover;
+      border-radius: 13px;
+    }
+    .cart-item strong { display: block; font-size: .88rem; line-height: 1.25; }
+    .cart-item span { color: var(--muted); font-size: .8rem; font-weight: 800; }
+    .qty {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px 8px;
+      font-weight: 900;
+    }
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      font-weight: 900;
+      font-size: 1.12rem;
+    }
+    .checkout {
+      width: 100%;
+      border: 0;
+      background: linear-gradient(135deg, var(--blush), var(--tangerine));
+      color: #fff;
+      padding: 15px 18px;
+      border-radius: 999px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    html[dir="rtl"] body { text-align: right; }
+    html[dir="rtl"] .searchbar button { margin-right: 0; margin-left: 5px; }
+    html[dir="rtl"] .hero-copy {
+      background:
+        linear-gradient(270deg, rgba(23,18,15,.87) 0%, rgba(23,18,15,.62) 46%, rgba(23,18,15,.16) 100%),
+        url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1500&q=82") center / cover;
+    }
+    html[dir="rtl"] .drawer {
+      right: auto;
+      left: 0;
+      transform: translateX(-105%);
+      box-shadow: 24px 0 60px rgba(0,0,0,.18);
+    }
+    html[dir="rtl"] .language-menu { right: auto; left: 0; }
+    html[dir="rtl"] .language-option { text-align: right; }
+    html[dir="rtl"] body.cart-open .drawer { transform: translateX(0); }
+    html[dir="rtl"] .brand-mark { transform: rotate(8deg); }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: rise .7s ease forwards;
+    }
+    .delay-1 { animation-delay: .08s; }
+    .delay-2 { animation-delay: .16s; }
+    .delay-3 { animation-delay: .24s; }
+    @keyframes rise {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 980px) {
+      .nav-inner { grid-template-columns: 1fr auto; }
+      .searchbar { grid-column: 1 / -1; order: 3; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-copy { min-height: 620px; }
+      .product-grid { grid-template-columns: repeat(3, 1fr); }
+      .trust-grid, .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 700px) {
+      .announcement .shell { justify-content: center; text-align: center; }
+      .announcement span:last-child { display: none; }
+      .brand-copy span { display: none; }
+      .nav-actions { gap: 7px; }
+      .language-current { width: 58px; padding: 0 9px; }
+      .language-current .lang-name,
+      .language-current .chevron,
+      .account-btn .account-label,
+      .cart-btn .cart-label { display: none; }
+      .account-btn, .cart-btn { width: 48px; padding: 0 9px; }
+      .language-menu { right: -78px; }
+      .hero { padding-top: 24px; }
+      .hero-copy { min-height: 620px; padding: 28px; }
+      .stat-strip { grid-template-columns: 1fr; position: static; margin-top: 30px; }
+      .hero h1 { font-size: clamp(3.1rem, 17vw, 5rem); }
+      .side-deals { grid-template-columns: 1fr; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 12px; }
+      .promo-band { grid-template-columns: 1fr; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .product-card { border-radius: 22px; }
+      .product-body { padding: 12px; }
+      .product-card h3 { font-size: .88rem; min-height: 46px; }
+      .price { font-size: 1.05rem; }
+      .trust-grid, .footer-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 420px) {
+      .shell { width: min(100% - 24px, 1180px); }
+      .brand { min-width: auto; }
+      .brand-copy strong { font-size: 1.25rem; }
+      .brand-mark { width: 40px; height: 40px; }
+      .product-grid { grid-template-columns: 1fr; }
+      .category-grid { grid-template-columns: repeat(7, 148px); }
+    }
+  </style>
+</head>
+<body>
+<style>
+body{background:#0b0b0b!important}
+.hero-premium{background:linear-gradient(135deg,#0b0b0b,#1a1a1a);color:#fff;padding:80px 20px;text-align:center;border-bottom:1px solid #d4af37}
+.hero-premium h1{font-size:64px;color:#d4af37;margin:0}
+.hero-premium p{font-size:24px}
+.hero-premium a{display:inline-block;background:#d4af37;color:#000;padding:14px 28px;text-decoration:none;border-radius:30px;font-weight:bold}
+</style>
+<div class='hero-premium'><h1>UZALUS</h1><p>Everything You Need, All in One Place</p><a href='#'>SHOP NOW</a></div>
+
+  <div class="announcement">
+    <div class="shell">
+      <span data-i18n="announcement.offer">Launch offer: free shipping over $49 + extra 15% off bundles</span>
+      <span data-i18n="announcement.drops">New drops every week · Secure checkout concept</span>
+    </div>
+  </div>
+
+  <header class="nav">
+    <div class="shell nav-inner">
+      <a class="brand" href="#" aria-label="Uzalus home">
+        <span class="brand-mark">U</span>
+        <span class="brand-copy">
+          <strong>Uzalus</strong>
+          <span>www.uzalus.com</span>
+        </span>
+      </a>
+
+      <form class="searchbar" id="searchForm">
+        <input id="searchInput" type="search" data-i18n-placeholder="search.placeholder" placeholder="Search dresses, sneakers, perfume, decor..." aria-label="Search products" />
+        <button type="submit" data-i18n="search.button">Search</button>
+      </form>
+
+      <div class="nav-actions">
+        <div class="language-picker" id="languagePicker">
+          <button class="language-current" id="languageButton" type="button" aria-label="Language">
+            <span id="currentLanguageFlag">🇬🇧</span>
+            <span class="lang-name" id="currentLanguageLabel">English</span>
+            <span class="chevron">⌄</span>
+          </button>
+          <div class="language-menu" id="languageMenu" role="menu" aria-label="Language options">
+            <button class="language-option" type="button" data-lang="en">🇬🇧 English</button>
+            <button class="language-option" type="button" data-lang="fr">🇫🇷 Français</button>
+            <button class="language-option" type="button" data-lang="ar">🇸🇦 العربية</button>
+            <button class="language-option" type="button" data-lang="de">🇩🇪 Deutsch</button>
+            <button class="language-option" type="button" data-lang="es">🇪🇸 Español</button>
+          </div>
+        </div>
+        <button class="account-btn" id="signupButton" data-i18n-aria="actions.signupAria" aria-label="Create account">
+          <span class="action-symbol">ID</span>
+          <span class="account-label" data-i18n="actions.signup">Sign up</span>
+        </button>
+        <button class="cart-btn" id="cartButton" data-i18n-aria="actions.bagAria" aria-label="Open shopping bag">
+          <span class="action-symbol">BAG</span>
+          <span class="cart-label" data-i18n="actions.bag">Bag</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+    <nav class="shell category-nav" aria-label="Main categories">
+      <a href="#shop" data-nav-filter="Women" data-i18n="cat.Women">Women</a>
+      <a href="#shop" data-nav-filter="Men" data-i18n="cat.Men">Men</a>
+      <a href="#shop" data-nav-filter="Children" data-i18n="cat.Children">Children</a>
+      <a href="#shop" data-nav-filter="Beauty" data-i18n="cat.Beauty">Beauty</a>
+      <a href="#shop" data-nav-filter="Electronics" data-i18n="cat.Electronics">Electronics</a>
+      <a href="#shop" data-nav-filter="Home" data-i18n="cat.HomeDecor">Home & Decor</a>
+      <a href="#shop" data-nav-filter="Perfumes" data-i18n="cat.Perfumes">Perfumes</a>
+      <a href="#shop" data-nav-filter="All" data-i18n="cat.Deals">Deals</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="shell hero-grid">
+        <div class="hero-copy reveal">
+          <span class="eyebrow" data-i18n="hero.eyebrow">Marketplace concept · global style</span>
+          <h1 data-i18n="hero.title">Everything you want, styled in one bold cart.</h1>
+          <p data-i18n="hero.subtitle">Uzalus blends trend-led fashion, beauty essentials, clever electronics, home accents, and fragrance finds into a fast, visual shopping experience.</p>
+          <div class="hero-ctas">
+            <a href="#shop" class="pill-button" data-i18n="hero.shop">Shop trending picks</a>
+            <a href="#categories" class="ghost-button" data-i18n="hero.browse">Browse categories</a>
+          </div>
+          <div class="stat-strip">
+            <div class="stat"><strong>7</strong><span data-i18n="hero.stat1">Curated departments</span></div>
+            <div class="stat"><strong>48h</strong><span data-i18n="hero.stat2">New-season edit rhythm</span></div>
+            <div class="stat"><strong>15%</strong><span data-i18n="hero.stat3">Bundle promo concept</span></div>
+          </div>
+        </div>
+
+        <aside class="side-deals">
+          <a class="deal-card one reveal delay-1" href="#perfumes">
+            <div>
+              <h3 data-i18n="deal.scentTitle">Scent bar</h3>
+              <p data-i18n="deal.scentText">Modern perfumes and vanity-table favorites.</p>
+            </div>
+          </a>
+          <a class="deal-card two reveal delay-2" href="#electronics">
+            <div>
+              <h3 data-i18n="deal.techTitle">Tech finds</h3>
+              <p data-i18n="deal.techText">Everyday electronics with clean, useful design.</p>
+            </div>
+          </a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="categories">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker" data-i18n="departments.kicker">Departments</span>
+            <h2 data-i18n="departments.title">Shop by mood, need, or category.</h2>
+          </div>
+          <p data-i18n="departments.text">Large editorial photo tiles help customers jump quickly from broad browsing to specific products.</p>
+        </div>
+
+        <div class="category-grid">
+          <a class="category-card" id="women" href="#shop" data-filter-link="Women">
+            <img alt="Women's fashion editorial photo" src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=520&q=82" />
+            <span class="category-label"><strong data-i18n="cat.Women">Women</strong><span data-i18n="catDesc.Women">Dresses, sets, bags</span></span>
+          </a>
+          <a class="category-card" id="men" href="#shop" data-filter-link="Men">
+            <img alt="Men's fashion portrait" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=520&q=82" />
+            <span class="category-label"><strong data-i18n="cat.Men">Men</strong><span data-i18n="catDesc.Men">Layers, denim, shoes</span></span>
+          </a>
+          <a class="category-card" id="kids" href="#shop" data-filter-link="Children">
+            <img alt="Child wearing casual clothing" src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=520&q=82" />
+            <span class="category-label"><strong data-i18n="cat.Children">Children</strong><span data-i18n="catDesc.Children">Playwear, basics</span></span>
+          </a>
+          <a class="category-card" id="beauty" href="#shop" data-filter-link="Beauty">
+            <img alt="Cosmetics and makeup products" src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=520&q=82" />
+            <span class="category-label"><strong data-i18n="cat.Beauty">Beauty</strong><span data-i18n="catDesc.Beauty">Makeup, skincare</span></span>
+          </a>
+          <a class="category-card" id="electronics" href="#shop" data-filter-link="Electronics">
+            <img alt="Laptop and electronics setup" src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=520&q=82" />
+            <span class="category-label"><strong data-i18n="cat.Electronics">Electronics</strong><span data-i18n="catDesc.Electronics">Gadgets, audio</span></span>
+          </a>
+          <a class="category-card" id="home" href="#shop" data-filter-link="Home">
+            <img alt="Modern home decor interior" src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=520&q=82" />
+            <span class="category-label"><strong data-i18n="cat.Home">Home</strong><span data-i18n="catDesc.Home">Decor, lighting</span></span>
+          </a>
+          <a class="category-card" id="perfumes" href="#shop" data-filter-link="Perfumes">
+            <img alt="Perfume bottle still life" src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=520&q=82" />
+            <span class="category-label"><strong data-i18n="cat.Perfumes">Perfumes</strong><span data-i18n="catDesc.Perfumes">Signature scents</span></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="deals">
+      <div class="shell">
+        <div class="promo-band">
+          <div>
+            <span class="section-kicker" style="color:#fff;" data-i18n="promo.kicker">Limited edit</span>
+            <h2 data-i18n="promo.title">Bundle fashion, beauty, home, and tech in one marketplace bag.</h2>
+            <p data-i18n="promo.text">Designed as a professional storefront concept with promotional energy, quick discovery, category filters, and a working cart drawer.</p>
+          </div>
+          <a href="#shop" class="ghost-button" data-i18n="promo.cta">View deals</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="shop">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker" data-i18n="shop.kicker">Trending now</span>
+            <h2 data-i18n="shop.title">Marketplace picks with real product photography.</h2>
+          </div>
+          <p data-i18n="shop.text">Use the tabs or search to explore sample products across women's, men's, children, beauty, electronics, home, and perfume categories.</p>
+        </div>
+
+        <div class="toolbar">
+          <div class="filter-tabs" id="filterTabs" aria-label="Product filters"></div>
+          <div class="sort-note" id="resultCount">Showing all products</div>
+        </div>
+
+        <div class="product-grid" id="productGrid"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="shell">
+        <div class="trust-grid">
+          <div class="trust-card"><b data-i18n="trust.visualTitle">Visual-first shopping</b><span data-i18n="trust.visualText">Large photography, quick cards, and clean price hierarchy for fast browsing.</span></div>
+          <div class="trust-card"><b data-i18n="trust.mobileTitle">Mobile ready</b><span data-i18n="trust.mobileText">Responsive grids, sticky navigation, and thumb-friendly controls.</span></div>
+          <div class="trust-card"><b data-i18n="trust.promoTitle">Promo engine</b><span data-i18n="trust.promoText">Badges, discount pricing, and campaign banners support marketplace merchandising.</span></div>
+          <div class="trust-card"><b data-i18n="trust.brandTitle">Brand foundation</b><span data-i18n="trust.brandText">New Uzalus logo, color system, typography, and reusable category structure.</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="shell footer-grid">
+      <div>
+        <a class="brand" href="#">
+          <span class="brand-mark">U</span>
+          <span class="brand-copy">
+            <strong>Uzalus</strong>
+            <span>www.uzalus.com</span>
+          </span>
+        </a>
+        <p data-i18n="footer.description">A polished e-commerce storefront concept for global fashion, beauty, electronics, home decor, and fragrance discovery.</p>
+      </div>
+      <div>
+        <h4 data-i18n="footer.shop">Shop</h4>
+        <a href="#women" data-i18n="cat.Women">Women</a>
+        <a href="#men" data-i18n="cat.Men">Men</a>
+        <a href="#kids" data-i18n="cat.Children">Children</a>
+        <a href="#beauty" data-i18n="cat.Beauty">Beauty</a>
+      </div>
+      <div>
+        <h4 data-i18n="footer.more">More</h4>
+        <a href="#electronics" data-i18n="cat.Electronics">Electronics</a>
+        <a href="#home" data-i18n="cat.HomeDecor">Home & Decor</a>
+        <a href="#perfumes" data-i18n="cat.Perfumes">Perfumes</a>
+        <a href="#deals" data-i18n="cat.Deals">Deals</a>
+      </div>
+      <div>
+        <h4 data-i18n="footer.support">Support</h4>
+        <a href="#support" class="support-link" data-i18n="footer.shipping">Shipping</a>
+        <a href="#support" class="support-link" data-i18n="footer.returns">Returns</a>
+        <a href="#support" class="support-link" data-i18n="footer.track">Track order</a>
+        <a href="#support" class="support-link" data-i18n="footer.contact">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="auth-backdrop" id="authBackdrop"></div>
+  <aside class="auth-panel" data-i18n-aria="auth.panelAria" aria-label="Create account">
+    <div class="auth-head">
+      <div>
+        <h3 data-i18n="auth.title">Create your account</h3>
+        <p data-i18n="auth.text">Join Uzalus to save products, prepare orders, and manage your future catalogue purchases.</p>
+      </div>
+      <button class="close-btn" id="closeAuth" data-i18n-aria="auth.close" aria-label="Close registration">×</button>
+    </div>
+    <form class="auth-form">
+      <input type="text" data-i18n-placeholder="auth.name" placeholder="Full name" />
+      <input type="email" data-i18n-placeholder="auth.email" placeholder="Email address" />
+      <input type="password" data-i18n-placeholder="auth.password" placeholder="Password" />
+      <button class="auth-submit" type="button" data-i18n="auth.submit">Create account</button>
+    </form>
+    <p class="auth-note" data-i18n="auth.note">This is a storefront concept. Connect Shopify, WooCommerce, or your backend later for real customer accounts.</p>
+  </aside>
+
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="drawer" data-i18n-aria="actions.bagAria" aria-label="Shopping bag">
+    <div class="drawer-head">
+      <h3 data-i18n="cart.title">Your bag</h3>
+      <button class="close-btn" id="closeCart" data-i18n-aria="cart.close" aria-label="Close cart">×</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="drawer-foot">
+      <div class="total-row"><span data-i18n="cart.subtotal">Subtotal</span><span id="cartTotal">$0.00</span></div>
+      <button class="checkout" data-i18n="cart.checkout">Checkout concept</button>
+    </div>
+  </aside>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script>
+    const translations = {
+      en: {
+        "meta.title": "Uzalus — Global Finds, Everyday Style",
+        "announcement.offer": "Launch offer: free shipping over $49 + extra 15% off bundles",
+        "announcement.drops": "New drops every week · Secure checkout concept",
+        "search.placeholder": "Search dresses, sneakers, perfume, decor...",
+        "search.button": "Search",
+        "actions.saved": "Saved items",
+        "actions.bag": "Bag",
+        "actions.bagAria": "Open shopping bag",
+        "actions.signup": "Sign up",
+        "actions.signupAria": "Create account",
+        "cat.All": "All",
+        "cat.Women": "Women",
+        "cat.Men": "Men",
+        "cat.Children": "Children",
+        "cat.Beauty": "Beauty",
+        "cat.Electronics": "Electronics",
+        "cat.Home": "Home",
+        "cat.HomeDecor": "Home & Decor",
+        "cat.Perfumes": "Perfumes",
+        "cat.Deals": "Deals",
+        "hero.eyebrow": "Marketplace concept · global style",
+        "hero.title": "Everything you want, styled in one bold cart.",
+        "hero.subtitle": "Uzalus blends trend-led fashion, beauty essentials, clever electronics, home accents, and fragrance finds into a fast, visual shopping experience.",
+        "hero.shop": "Shop trending picks",
+        "hero.browse": "Browse categories",
+        "hero.stat1": "Curated departments",
+        "hero.stat2": "New-season edit rhythm",
+        "hero.stat3": "Bundle promo concept",
+        "deal.scentTitle": "Scent bar",
+        "deal.scentText": "Modern perfumes and vanity-table favorites.",
+        "deal.techTitle": "Tech finds",
+        "deal.techText": "Everyday electronics with clean, useful design.",
+        "departments.kicker": "Departments",
+        "departments.title": "Shop by mood, need, or category.",
+        "departments.text": "Large editorial photo tiles help customers jump quickly from broad browsing to specific products.",
+        "catDesc.Women": "Dresses, sets, bags",
+        "catDesc.Men": "Layers, denim, shoes",
+        "catDesc.Children": "Playwear, basics",
+        "catDesc.Beauty": "Makeup, skincare",
+        "catDesc.Electronics": "Gadgets, audio",
+        "catDesc.Home": "Decor, lighting",
+        "catDesc.Perfumes": "Signature scents",
+        "promo.kicker": "Limited edit",
+        "promo.title": "Bundle fashion, beauty, home, and tech in one marketplace bag.",
+        "promo.text": "Designed as a professional storefront concept with promotional energy, quick discovery, category filters, and a working cart drawer.",
+        "promo.cta": "View deals",
+        "shop.kicker": "Trending now",
+        "shop.title": "Marketplace picks with real product photography.",
+        "shop.text": "Use the tabs or search to explore sample products across women's, men's, children, beauty, electronics, home, and perfume categories.",
+        "trust.visualTitle": "Visual-first shopping",
+        "trust.visualText": "Large photography, quick cards, and clean price hierarchy for fast browsing.",
+        "trust.mobileTitle": "Mobile ready",
+        "trust.mobileText": "Responsive grids, sticky navigation, and thumb-friendly controls.",
+        "trust.promoTitle": "Promo engine",
+        "trust.promoText": "Badges, discount pricing, and campaign banners support marketplace merchandising.",
+        "trust.brandTitle": "Brand foundation",
+        "trust.brandText": "New Uzalus logo, color system, typography, and reusable category structure.",
+        "footer.description": "A polished e-commerce storefront concept for global fashion, beauty, electronics, home decor, and fragrance discovery.",
+        "footer.shop": "Shop",
+        "footer.more": "More",
+        "footer.support": "Support",
+        "footer.shipping": "Shipping",
+        "footer.returns": "Returns",
+        "footer.track": "Track order",
+        "footer.contact": "Contact",
+        "cart.title": "Your bag",
+        "cart.close": "Close cart",
+        "cart.subtotal": "Subtotal",
+        "cart.checkout": "Checkout concept",
+        "cart.empty": "Your bag is empty. Add a trending Uzalus pick to preview the cart flow.",
+        "auth.panelAria": "Create account",
+        "auth.title": "Create your account",
+        "auth.text": "Join Uzalus to save products, prepare orders, and manage your future catalogue purchases.",
+        "auth.close": "Close registration",
+        "auth.name": "Full name",
+        "auth.email": "Email address",
+        "auth.password": "Password",
+        "auth.submit": "Create account",
+        "auth.note": "This is a storefront concept. Connect Shopify, WooCommerce, or your backend later for real customer accounts.",
+        "toast.added": "Added to bag",
+        "toast.saved": "Saved to favourites",
+        "toast.unsaved": "Removed from favourites",
+        "toast.checkoutEmpty": "Add a product before checkout.",
+        "toast.checkoutReady": "Checkout will be connected when you add Shopify, WooCommerce, or a backend.",
+        "toast.account": "Account form ready. Real registration needs a backend.",
+        "toast.support": "This support page will be connected later.",
+        "toast.quickView": "Product photo clicked — item added to your bag.",
+        "results": "{count} product{plural} shown",
+        "addToCart": "Add {name} to cart",
+        "saveItem": "Save {name}",
+        "product.1": "Satin wrap midi dress with soft drape",
+        "product.2": "Structured mini shoulder bag",
+        "product.3": "Clean-cut cotton overshirt",
+        "product.4": "Everyday low-top sneakers",
+        "product.5": "Kids color-block weekend set",
+        "product.6": "Playday denim jacket",
+        "product.7": "Pigment-rich makeup palette",
+        "product.8": "Glow serum skincare trio",
+        "product.9": "Wireless studio headphones",
+        "product.10": "Slim smartphone stand and desk dock",
+        "product.11": "Curved ceramic vase set",
+        "product.12": "Warm woven throw blanket",
+        "product.13": "Amber oud eau de parfum",
+        "product.14": "Floral travel fragrance duo",
+        "product.15": "Ribbed lounge co-ord set",
+        "product.16": "Minimal LED bedside lamp"
+      },
+      fr: {
+        "meta.title": "Uzalus — Trouvailles mondiales, style quotidien",
+        "announcement.offer": "Offre de lancement : livraison gratuite dès 49 $ + 15 % sur les lots",
+        "announcement.drops": "Nouveautés chaque semaine · Paiement sécurisé concept",
+        "search.placeholder": "Rechercher robes, baskets, parfum, déco...",
+        "search.button": "Rechercher",
+        "actions.saved": "Articles favoris",
+        "actions.bag": "Panier",
+        "actions.bagAria": "Ouvrir le panier",
+        "actions.signup": "Inscription",
+        "actions.signupAria": "Créer un compte",
+        "cat.All": "Tout",
+        "cat.Women": "Femmes",
+        "cat.Men": "Hommes",
+        "cat.Children": "Enfants",
+        "cat.Beauty": "Beauté",
+        "cat.Electronics": "Électronique",
+        "cat.Home": "Maison",
+        "cat.HomeDecor": "Maison & déco",
+        "cat.Perfumes": "Parfums",
+        "cat.Deals": "Promos",
+        "hero.eyebrow": "Marketplace concept · style mondial",
+        "hero.title": "Tout ce que tu veux, dans un panier stylé.",
+        "hero.subtitle": "Uzalus réunit mode tendance, beauté, électronique utile, décoration et parfums dans une expérience shopping rapide et visuelle.",
+        "hero.shop": "Voir les tendances",
+        "hero.browse": "Parcourir les catégories",
+        "hero.stat1": "Départements sélectionnés",
+        "hero.stat2": "Nouveautés saisonnières",
+        "hero.stat3": "Promo sur les lots",
+        "deal.scentTitle": "Bar à parfums",
+        "deal.scentText": "Parfums modernes et favoris beauté.",
+        "deal.techTitle": "Sélection tech",
+        "deal.techText": "Électronique quotidienne au design utile.",
+        "departments.kicker": "Rayons",
+        "departments.title": "Acheter par style, besoin ou catégorie.",
+        "departments.text": "De grandes photos éditoriales aident les clients à passer vite de la découverte aux produits.",
+        "catDesc.Women": "Robes, ensembles, sacs",
+        "catDesc.Men": "Vestes, denim, chaussures",
+        "catDesc.Children": "Tenues, basiques",
+        "catDesc.Beauty": "Maquillage, soin",
+        "catDesc.Electronics": "Gadgets, audio",
+        "catDesc.Home": "Déco, éclairage",
+        "catDesc.Perfumes": "Senteurs signature",
+        "promo.kicker": "Édition limitée",
+        "promo.title": "Mode, beauté, maison et tech dans un seul panier marketplace.",
+        "promo.text": "Concept professionnel avec énergie promotionnelle, découverte rapide, filtres de catégories et panier fonctionnel.",
+        "promo.cta": "Voir les promos",
+        "shop.kicker": "Tendances",
+        "shop.title": "Sélection marketplace avec vraies photos produits.",
+        "shop.text": "Utilise les onglets ou la recherche pour explorer femmes, hommes, enfants, beauté, électronique, maison et parfums.",
+        "trust.visualTitle": "Shopping visuel",
+        "trust.visualText": "Grandes photos, cartes rapides et prix clairs pour naviguer facilement.",
+        "trust.mobileTitle": "Prêt mobile",
+        "trust.mobileText": "Grilles responsives, navigation fixe et contrôles adaptés au pouce.",
+        "trust.promoTitle": "Moteur promo",
+        "trust.promoText": "Badges, prix barrés et bannières soutiennent le merchandising.",
+        "trust.brandTitle": "Base de marque",
+        "trust.brandText": "Nouveau logo Uzalus, couleurs, typographie et structure réutilisable.",
+        "footer.description": "Concept e-commerce professionnel pour mode, beauté, électronique, décoration et parfums.",
+        "footer.shop": "Boutique",
+        "footer.more": "Plus",
+        "footer.support": "Support",
+        "footer.shipping": "Livraison",
+        "footer.returns": "Retours",
+        "footer.track": "Suivre commande",
+        "footer.contact": "Contact",
+        "cart.title": "Ton panier",
+        "cart.close": "Fermer le panier",
+        "cart.subtotal": "Sous-total",
+        "cart.checkout": "Paiement concept",
+        "cart.empty": "Ton panier est vide. Ajoute un produit tendance Uzalus pour voir le panier.",
+        "auth.panelAria": "Créer un compte",
+        "auth.title": "Créer ton compte",
+        "auth.text": "Rejoins Uzalus pour sauvegarder des produits, préparer tes commandes et gérer tes futurs achats catalogue.",
+        "auth.close": "Fermer l'inscription",
+        "auth.name": "Nom complet",
+        "auth.email": "Adresse e-mail",
+        "auth.password": "Mot de passe",
+        "auth.submit": "Créer un compte",
+        "auth.note": "Ceci est un concept de boutique. Connecte Shopify, WooCommerce ou ton backend plus tard pour de vrais comptes clients.",
+        "toast.added": "Ajouté au panier",
+        "toast.saved": "Ajouté aux favoris",
+        "toast.unsaved": "Retiré des favoris",
+        "toast.checkoutEmpty": "Ajoute un produit avant le paiement.",
+        "toast.checkoutReady": "Le paiement sera connecté avec Shopify, WooCommerce ou un backend.",
+        "toast.account": "Formulaire prêt. Une vraie inscription demande un backend.",
+        "toast.support": "Cette page support sera connectée plus tard.",
+        "toast.quickView": "Photo produit cliquée — article ajouté au panier.",
+        "results": "{count} produit{plural} affiché{plural}",
+        "addToCart": "Ajouter {name} au panier",
+        "saveItem": "Enregistrer {name}",
+        "product.1": "Robe midi portefeuille satinée",
+        "product.2": "Mini sac épaule structuré",
+        "product.3": "Surchemise coton coupe nette",
+        "product.4": "Baskets basses du quotidien",
+        "product.5": "Ensemble enfant color-block week-end",
+        "product.6": "Veste en jean enfant",
+        "product.7": "Palette maquillage pigmentée",
+        "product.8": "Trio sérums éclat soin",
+        "product.9": "Casque studio sans fil",
+        "product.10": "Support smartphone fin pour bureau",
+        "product.11": "Lot de vases céramique courbés",
+        "product.12": "Plaid tissé chaleureux",
+        "product.13": "Eau de parfum ambre oud",
+        "product.14": "Duo parfum floral voyage",
+        "product.15": "Ensemble lounge côtelé",
+        "product.16": "Lampe de chevet LED minimaliste"
+      },
+      ar: {
+        "meta.title": "أوزالوس — اختيارات عالمية وأناقة يومية",
+        "announcement.offer": "عرض الافتتاح: شحن مجاني فوق 49$ + خصم 15% على الباقات",
+        "announcement.drops": "منتجات جديدة كل أسبوع · تجربة دفع آمنة",
+        "search.placeholder": "ابحث عن فساتين، أحذية، عطور، ديكور...",
+        "search.button": "بحث",
+        "actions.saved": "العناصر المفضلة",
+        "actions.bag": "السلة",
+        "actions.bagAria": "فتح سلة التسوق",
+        "actions.signup": "تسجيل",
+        "actions.signupAria": "إنشاء حساب",
+        "cat.All": "الكل",
+        "cat.Women": "نساء",
+        "cat.Men": "رجال",
+        "cat.Children": "أطفال",
+        "cat.Beauty": "جمال",
+        "cat.Electronics": "إلكترونيات",
+        "cat.Home": "المنزل",
+        "cat.HomeDecor": "المنزل والديكور",
+        "cat.Perfumes": "عطور",
+        "cat.Deals": "عروض",
+        "hero.eyebrow": "فكرة متجر عالمي · أسلوب عصري",
+        "hero.title": "كل ما تريده، في سلة واحدة أنيقة.",
+        "hero.subtitle": "يجمع Uzalus الموضة الرائجة والجمال والإلكترونيات المفيدة والديكور والعطور في تجربة تسوق سريعة وبصرية.",
+        "hero.shop": "تسوق المنتجات الرائجة",
+        "hero.browse": "تصفح الأقسام",
+        "hero.stat1": "أقسام مختارة",
+        "hero.stat2": "تحديثات موسمية",
+        "hero.stat3": "عرض الباقات",
+        "deal.scentTitle": "ركن العطور",
+        "deal.scentText": "عطور عصرية ومفضلات لطاولة الزينة.",
+        "deal.techTitle": "اختيارات تقنية",
+        "deal.techText": "إلكترونيات يومية بتصميم عملي.",
+        "departments.kicker": "الأقسام",
+        "departments.title": "تسوق حسب الذوق أو الحاجة أو القسم.",
+        "departments.text": "صور كبيرة تساعد العميل على الانتقال بسرعة من التصفح إلى المنتج.",
+        "catDesc.Women": "فساتين، أطقم، حقائب",
+        "catDesc.Men": "طبقات، جينز، أحذية",
+        "catDesc.Children": "ملابس لعب، أساسيات",
+        "catDesc.Beauty": "مكياج، عناية",
+        "catDesc.Electronics": "أجهزة، صوتيات",
+        "catDesc.Home": "ديكور، إضاءة",
+        "catDesc.Perfumes": "روائح مميزة",
+        "promo.kicker": "تشكيلة محدودة",
+        "promo.title": "الموضة والجمال والمنزل والتقنية في سلة واحدة.",
+        "promo.text": "واجهة متجر احترافية بطاقة ترويجية، اكتشاف سريع، فلاتر أقسام وسلة تعمل.",
+        "promo.cta": "شاهد العروض",
+        "shop.kicker": "الرائج الآن",
+        "shop.title": "اختيارات متجر بصور منتجات حقيقية.",
+        "shop.text": "استخدم التبويبات أو البحث لاستكشاف النساء والرجال والأطفال والجمال والإلكترونيات والمنزل والعطور.",
+        "trust.visualTitle": "تسوق بصري أولاً",
+        "trust.visualText": "صور كبيرة وبطاقات سريعة وتسعير واضح للتصفح السهل.",
+        "trust.mobileTitle": "جاهز للموبايل",
+        "trust.mobileText": "شبكات متجاوبة وتنقل ثابت وأزرار سهلة.",
+        "trust.promoTitle": "محرك عروض",
+        "trust.promoText": "شارات وأسعار مخفضة ولافتات تدعم البيع.",
+        "trust.brandTitle": "هوية العلامة",
+        "trust.brandText": "شعار Uzalus جديد وألوان وخطوط وهيكل أقسام قابل لإعادة الاستخدام.",
+        "footer.description": "مفهوم متجر إلكتروني احترافي للموضة والجمال والإلكترونيات والديكور والعطور.",
+        "footer.shop": "المتجر",
+        "footer.more": "المزيد",
+        "footer.support": "الدعم",
+        "footer.shipping": "الشحن",
+        "footer.returns": "الإرجاع",
+        "footer.track": "تتبع الطلب",
+        "footer.contact": "اتصال",
+        "cart.title": "سلتك",
+        "cart.close": "إغلاق السلة",
+        "cart.subtotal": "المجموع الفرعي",
+        "cart.checkout": "تجربة الدفع",
+        "cart.empty": "سلتك فارغة. أضف منتجاً رائجاً من Uzalus لمعاينة السلة.",
+        "auth.panelAria": "إنشاء حساب",
+        "auth.title": "أنشئ حسابك",
+        "auth.text": "انضم إلى Uzalus لحفظ المنتجات وتحضير الطلبات وإدارة مشتريات الكتالوج مستقبلاً.",
+        "auth.close": "إغلاق التسجيل",
+        "auth.name": "الاسم الكامل",
+        "auth.email": "البريد الإلكتروني",
+        "auth.password": "كلمة المرور",
+        "auth.submit": "إنشاء حساب",
+        "auth.note": "هذا مفهوم واجهة متجر. اربطه لاحقاً مع Shopify أو WooCommerce أو نظامك الخلفي لحسابات عملاء حقيقية.",
+        "toast.added": "تمت الإضافة إلى السلة",
+        "toast.saved": "تم الحفظ في المفضلة",
+        "toast.unsaved": "تمت الإزالة من المفضلة",
+        "toast.checkoutEmpty": "أضف منتجاً قبل الدفع.",
+        "toast.checkoutReady": "سيتم ربط الدفع لاحقاً مع Shopify أو WooCommerce أو نظام خلفي.",
+        "toast.account": "نموذج الحساب جاهز. التسجيل الحقيقي يحتاج نظاماً خلفياً.",
+        "toast.support": "سيتم ربط صفحة الدعم لاحقاً.",
+        "toast.quickView": "تم النقر على صورة المنتج — أضيفت إلى السلة.",
+        "results": "تم عرض {count} منتج",
+        "addToCart": "أضف {name} إلى السلة",
+        "saveItem": "حفظ {name}",
+        "product.1": "فستان ميدي ساتان ملفوف",
+        "product.2": "حقيبة كتف صغيرة منظمة",
+        "product.3": "قميص قطني خارجي بقصة نظيفة",
+        "product.4": "حذاء رياضي منخفض يومي",
+        "product.5": "طقم أطفال ملون لعطلة الأسبوع",
+        "product.6": "جاكيت جينز للأطفال",
+        "product.7": "باليت مكياج غني بالألوان",
+        "product.8": "ثلاثي سيروم للإشراقة",
+        "product.9": "سماعات ستوديو لاسلكية",
+        "product.10": "حامل هاتف رفيع للمكتب",
+        "product.11": "طقم مزهريات سيراميك منحنية",
+        "product.12": "بطانية منسوجة دافئة",
+        "product.13": "عطر أمبر عود",
+        "product.14": "ثنائي عطر زهري للسفر",
+        "product.15": "طقم منزلي مضلع",
+        "product.16": "مصباح LED جانبي بسيط"
+      },
+      de: {
+        "meta.title": "Uzalus — Globale Fundstücke, täglicher Style",
+        "announcement.offer": "Launch-Angebot: kostenloser Versand ab 49 $ + 15 % auf Bundles",
+        "announcement.drops": "Neue Drops jede Woche · Sicherer Checkout als Konzept",
+        "search.placeholder": "Kleider, Sneaker, Parfum, Deko suchen...",
+        "search.button": "Suchen",
+        "actions.saved": "Gespeicherte Artikel",
+        "actions.bag": "Tasche",
+        "actions.bagAria": "Einkaufstasche öffnen",
+        "actions.signup": "Registrieren",
+        "actions.signupAria": "Konto erstellen",
+        "cat.All": "Alle",
+        "cat.Women": "Damen",
+        "cat.Men": "Herren",
+        "cat.Children": "Kinder",
+        "cat.Beauty": "Beauty",
+        "cat.Electronics": "Elektronik",
+        "cat.Home": "Wohnen",
+        "cat.HomeDecor": "Wohnen & Deko",
+        "cat.Perfumes": "Parfums",
+        "cat.Deals": "Deals",
+        "hero.eyebrow": "Marketplace-Konzept · globaler Stil",
+        "hero.title": "Alles, was du willst, in einer starken Tasche.",
+        "hero.subtitle": "Uzalus verbindet trendige Mode, Beauty-Essentials, smarte Elektronik, Wohnakzente und Düfte zu einem schnellen visuellen Shopping-Erlebnis.",
+        "hero.shop": "Trends shoppen",
+        "hero.browse": "Kategorien ansehen",
+        "hero.stat1": "Kuratierte Abteilungen",
+        "hero.stat2": "Saisonale Updates",
+        "hero.stat3": "Bundle-Promo",
+        "deal.scentTitle": "Duftbar",
+        "deal.scentText": "Moderne Parfums und Vanity-Favoriten.",
+        "deal.techTitle": "Tech-Funde",
+        "deal.techText": "Alltagselektronik mit sauberem Design.",
+        "departments.kicker": "Abteilungen",
+        "departments.title": "Nach Stimmung, Bedarf oder Kategorie shoppen.",
+        "departments.text": "Große Editorial-Fotos führen Kunden schnell vom Stöbern zum passenden Produkt.",
+        "catDesc.Women": "Kleider, Sets, Taschen",
+        "catDesc.Men": "Layer, Denim, Schuhe",
+        "catDesc.Children": "Spielkleidung, Basics",
+        "catDesc.Beauty": "Make-up, Pflege",
+        "catDesc.Electronics": "Gadgets, Audio",
+        "catDesc.Home": "Deko, Licht",
+        "catDesc.Perfumes": "Signature-Düfte",
+        "promo.kicker": "Limitierte Auswahl",
+        "promo.title": "Mode, Beauty, Wohnen und Tech in einer Marketplace-Tasche.",
+        "promo.text": "Professionelles Storefront-Konzept mit Promotion-Energie, schneller Entdeckung, Kategorienfiltern und Warenkorb.",
+        "promo.cta": "Deals ansehen",
+        "shop.kicker": "Jetzt im Trend",
+        "shop.title": "Marketplace-Auswahl mit echten Produktfotos.",
+        "shop.text": "Nutze Tabs oder Suche für Damen, Herren, Kinder, Beauty, Elektronik, Wohnen und Parfums.",
+        "trust.visualTitle": "Visuelles Shopping",
+        "trust.visualText": "Große Fotos, schnelle Karten und klare Preise für einfaches Browsen.",
+        "trust.mobileTitle": "Mobil bereit",
+        "trust.mobileText": "Responsive Grids, Sticky Navigation und fingerfreundliche Controls.",
+        "trust.promoTitle": "Promo-Engine",
+        "trust.promoText": "Badges, Rabattpreise und Kampagnenbanner unterstützen Merchandising.",
+        "trust.brandTitle": "Markenbasis",
+        "trust.brandText": "Neues Uzalus-Logo, Farbsystem, Typografie und wiederverwendbare Kategorien.",
+        "footer.description": "Professionelles E-Commerce-Konzept für Mode, Beauty, Elektronik, Wohndeko und Düfte.",
+        "footer.shop": "Shop",
+        "footer.more": "Mehr",
+        "footer.support": "Support",
+        "footer.shipping": "Versand",
+        "footer.returns": "Retouren",
+        "footer.track": "Bestellung verfolgen",
+        "footer.contact": "Kontakt",
+        "cart.title": "Deine Tasche",
+        "cart.close": "Warenkorb schließen",
+        "cart.subtotal": "Zwischensumme",
+        "cart.checkout": "Checkout-Konzept",
+        "cart.empty": "Deine Tasche ist leer. Füge einen Uzalus-Trend hinzu, um den Warenkorb zu testen.",
+        "auth.panelAria": "Konto erstellen",
+        "auth.title": "Konto erstellen",
+        "auth.text": "Tritt Uzalus bei, speichere Produkte, bereite Bestellungen vor und verwalte spätere Katalogkäufe.",
+        "auth.close": "Registrierung schließen",
+        "auth.name": "Vollständiger Name",
+        "auth.email": "E-Mail-Adresse",
+        "auth.password": "Passwort",
+        "auth.submit": "Konto erstellen",
+        "auth.note": "Dies ist ein Storefront-Konzept. Verbinde später Shopify, WooCommerce oder dein Backend für echte Kundenkonten.",
+        "toast.added": "Zur Tasche hinzugefügt",
+        "toast.saved": "Zu Favoriten gespeichert",
+        "toast.unsaved": "Aus Favoriten entfernt",
+        "toast.checkoutEmpty": "Lege vor dem Checkout ein Produkt in den Warenkorb.",
+        "toast.checkoutReady": "Checkout wird später mit Shopify, WooCommerce oder Backend verbunden.",
+        "toast.account": "Formular bereit. Echte Registrierung benötigt ein Backend.",
+        "toast.support": "Diese Support-Seite wird später verbunden.",
+        "toast.quickView": "Produktfoto geklickt — Artikel wurde hinzugefügt.",
+        "results": "{count} Produkt{plural} angezeigt",
+        "addToCart": "{name} in den Warenkorb legen",
+        "saveItem": "{name} speichern",
+        "product.1": "Midi-Wickelkleid aus Satin",
+        "product.2": "Strukturierte Mini-Schultertasche",
+        "product.3": "Baumwoll-Overshirt mit klarer Linie",
+        "product.4": "Alltags-Sneaker Low-Top",
+        "product.5": "Kinder-Wochenendset im Colorblock",
+        "product.6": "Kinder-Jeansjacke",
+        "product.7": "Hochpigmentierte Make-up-Palette",
+        "product.8": "Glow-Serum-Pflege-Trio",
+        "product.9": "Kabellose Studio-Kopfhörer",
+        "product.10": "Schlanke Smartphone-Dockstation",
+        "product.11": "Geschwungenes Keramikvasen-Set",
+        "product.12": "Warme gewebte Decke",
+        "product.13": "Amber Oud Eau de Parfum",
+        "product.14": "Florales Reise-Duftduo",
+        "product.15": "Geripptes Lounge-Set",
+        "product.16": "Minimalistische LED-Nachttischlampe"
+      },
+      es: {
+        "meta.title": "Uzalus — Hallazgos globales, estilo diario",
+        "announcement.offer": "Oferta de lanzamiento: envío gratis desde 49 $ + 15 % en packs",
+        "announcement.drops": "Novedades cada semana · Checkout seguro conceptual",
+        "search.placeholder": "Buscar vestidos, zapatillas, perfume, decoración...",
+        "search.button": "Buscar",
+        "actions.saved": "Artículos guardados",
+        "actions.bag": "Bolsa",
+        "actions.bagAria": "Abrir bolsa de compra",
+        "actions.signup": "Registro",
+        "actions.signupAria": "Crear cuenta",
+        "cat.All": "Todo",
+        "cat.Women": "Mujer",
+        "cat.Men": "Hombre",
+        "cat.Children": "Niños",
+        "cat.Beauty": "Belleza",
+        "cat.Electronics": "Electrónica",
+        "cat.Home": "Hogar",
+        "cat.HomeDecor": "Hogar y decoración",
+        "cat.Perfumes": "Perfumes",
+        "cat.Deals": "Ofertas",
+        "hero.eyebrow": "Concepto marketplace · estilo global",
+        "hero.title": "Todo lo que quieres, en una bolsa con estilo.",
+        "hero.subtitle": "Uzalus combina moda tendencia, belleza, electrónica útil, decoración y fragancias en una experiencia de compra rápida y visual.",
+        "hero.shop": "Comprar tendencias",
+        "hero.browse": "Ver categorías",
+        "hero.stat1": "Departamentos curados",
+        "hero.stat2": "Ritmo de temporada",
+        "hero.stat3": "Promo de packs",
+        "deal.scentTitle": "Bar de aromas",
+        "deal.scentText": "Perfumes modernos y favoritos de tocador.",
+        "deal.techTitle": "Hallazgos tech",
+        "deal.techText": "Electrónica diaria con diseño útil.",
+        "departments.kicker": "Departamentos",
+        "departments.title": "Compra por estilo, necesidad o categoría.",
+        "departments.text": "Grandes fotos editoriales ayudan a pasar rápido de explorar a elegir productos.",
+        "catDesc.Women": "Vestidos, conjuntos, bolsos",
+        "catDesc.Men": "Capas, denim, zapatos",
+        "catDesc.Children": "Ropa de juego, básicos",
+        "catDesc.Beauty": "Maquillaje, skincare",
+        "catDesc.Electronics": "Gadgets, audio",
+        "catDesc.Home": "Decoración, iluminación",
+        "catDesc.Perfumes": "Aromas signature",
+        "promo.kicker": "Edición limitada",
+        "promo.title": "Moda, belleza, hogar y tech en una sola bolsa marketplace.",
+        "promo.text": "Concepto de tienda profesional con energía promocional, descubrimiento rápido, filtros y carrito funcional.",
+        "promo.cta": "Ver ofertas",
+        "shop.kicker": "Tendencias",
+        "shop.title": "Selección marketplace con fotos reales.",
+        "shop.text": "Usa pestañas o búsqueda para explorar mujer, hombre, niños, belleza, electrónica, hogar y perfumes.",
+        "trust.visualTitle": "Compra visual",
+        "trust.visualText": "Fotos grandes, tarjetas rápidas y precios claros para navegar mejor.",
+        "trust.mobileTitle": "Listo para móvil",
+        "trust.mobileText": "Grids responsivos, navegación fija y controles cómodos.",
+        "trust.promoTitle": "Motor promocional",
+        "trust.promoText": "Badges, precios rebajados y banners apoyan el merchandising.",
+        "trust.brandTitle": "Base de marca",
+        "trust.brandText": "Nuevo logo Uzalus, colores, tipografía y estructura reutilizable.",
+        "footer.description": "Concepto e-commerce profesional para moda, belleza, electrónica, decoración y perfumes.",
+        "footer.shop": "Tienda",
+        "footer.more": "Más",
+        "footer.support": "Soporte",
+        "footer.shipping": "Envío",
+        "footer.returns": "Devoluciones",
+        "footer.track": "Seguir pedido",
+        "footer.contact": "Contacto",
+        "cart.title": "Tu bolsa",
+        "cart.close": "Cerrar carrito",
+        "cart.subtotal": "Subtotal",
+        "cart.checkout": "Checkout conceptual",
+        "cart.empty": "Tu bolsa está vacía. Añade un producto tendencia Uzalus para probar el carrito.",
+        "auth.panelAria": "Crear cuenta",
+        "auth.title": "Crea tu cuenta",
+        "auth.text": "Únete a Uzalus para guardar productos, preparar pedidos y gestionar futuras compras de catálogo.",
+        "auth.close": "Cerrar registro",
+        "auth.name": "Nombre completo",
+        "auth.email": "Correo electrónico",
+        "auth.password": "Contraseña",
+        "auth.submit": "Crear cuenta",
+        "auth.note": "Este es un concepto de tienda. Conecta Shopify, WooCommerce o tu backend más adelante para cuentas reales.",
+        "toast.added": "Añadido a la bolsa",
+        "toast.saved": "Guardado en favoritos",
+        "toast.unsaved": "Eliminado de favoritos",
+        "toast.checkoutEmpty": "Añade un producto antes del checkout.",
+        "toast.checkoutReady": "El checkout se conectará con Shopify, WooCommerce o backend.",
+        "toast.account": "Formulario listo. El registro real necesita backend.",
+        "toast.support": "Esta página de soporte se conectará más adelante.",
+        "toast.quickView": "Foto de producto clicada — artículo añadido.",
+        "results": "{count} producto{plural} mostrado{plural}",
+        "addToCart": "Añadir {name} al carrito",
+        "saveItem": "Guardar {name}",
+        "product.1": "Vestido midi satinado cruzado",
+        "product.2": "Mini bolso de hombro estructurado",
+        "product.3": "Sobrecamisa de algodón limpia",
+        "product.4": "Zapatillas bajas de diario",
+        "product.5": "Conjunto infantil color-block",
+        "product.6": "Chaqueta vaquera infantil",
+        "product.7": "Paleta de maquillaje pigmentada",
+        "product.8": "Trío de sérums glow",
+        "product.9": "Auriculares de estudio inalámbricos",
+        "product.10": "Soporte fino para smartphone",
+        "product.11": "Set de jarrones cerámicos curvos",
+        "product.12": "Manta tejida cálida",
+        "product.13": "Eau de parfum ámbar oud",
+        "product.14": "Dúo floral de viaje",
+        "product.15": "Conjunto lounge acanalado",
+        "product.16": "Lámpara LED minimalista"
+      }
+    };
+
+    const badgeTranslations = {
+      Hot: { fr: "Top", ar: "رائج", de: "Hot", es: "Top" },
+      Sale: { fr: "Promo", ar: "خصم", de: "Sale", es: "Oferta" },
+      New: { fr: "Nouveau", ar: "جديد", de: "Neu", es: "Nuevo" },
+      Deal: { fr: "Deal", ar: "عرض", de: "Deal", es: "Oferta" },
+      Bundle: { fr: "Lot", ar: "باقة", de: "Bundle", es: "Pack" },
+      Cute: { fr: "Mignon", ar: "لطيف", de: "Süß", es: "Bonito" },
+      Top: { fr: "Top", ar: "أفضل", de: "Top", es: "Top" },
+      Glow: { fr: "Éclat", ar: "إشراقة", de: "Glow", es: "Glow" },
+      Tech: { fr: "Tech", ar: "تقني", de: "Tech", es: "Tech" },
+      Useful: { fr: "Utile", ar: "عملي", de: "Nützlich", es: "Útil" },
+      Decor: { fr: "Déco", ar: "ديكور", de: "Deko", es: "Deco" },
+      Cozy: { fr: "Cosy", ar: "دافئ", de: "Cozy", es: "Cómodo" },
+      Scent: { fr: "Senteur", ar: "عطر", de: "Duft", es: "Aroma" },
+      Gift: { fr: "Cadeau", ar: "هدية", de: "Geschenk", es: "Regalo" },
+      Soft: { fr: "Doux", ar: "ناعم", de: "Weich", es: "Suave" },
+      Light: { fr: "Lumière", ar: "إضاءة", de: "Licht", es: "Luz" }
+    };
+
+    const categories = ["All", "Women", "Men", "Children", "Beauty", "Electronics", "Home", "Perfumes"];
+    const products = [
+      {
+        id: 1,
+        name: "Satin wrap midi dress with soft drape",
+        category: "Women",
+        price: 34.9,
+        oldPrice: 58,
+        rating: 4.8,
+        badge: "Hot",
+        image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=720&q=82"
+      },
+      {
+        id: 2,
+        name: "Structured mini shoulder bag",
+        category: "Women",
+        price: 24.5,
+        oldPrice: 42,
+        rating: 4.7,
+        badge: "Sale",
+        image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=720&q=82"
+      },
+      {
+        id: 3,
+        name: "Clean-cut cotton overshirt",
+        category: "Men",
+        price: 39.0,
+        oldPrice: 64,
+        rating: 4.6,
+        badge: "New",
+        image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=720&q=82"
+      },
+      {
+        id: 4,
+        name: "Everyday low-top sneakers",
+        category: "Men",
+        price: 46.8,
+        oldPrice: 79,
+        rating: 4.8,
+        badge: "Deal",
+        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=720&q=82"
+      },
+      {
+        id: 5,
+        name: "Kids color-block weekend set",
+        category: "Children",
+        price: 18.75,
+        oldPrice: 31,
+        rating: 4.9,
+        badge: "Bundle",
+        image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=720&q=82"
+      },
+      {
+        id: 6,
+        name: "Playday denim jacket",
+        category: "Children",
+        price: 22.4,
+        oldPrice: 38,
+        rating: 4.6,
+        badge: "Cute",
+        image: "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=720&q=82"
+      },
+      {
+        id: 7,
+        name: "Pigment-rich makeup palette",
+        category: "Beauty",
+        price: 16.99,
+        oldPrice: 28,
+        rating: 4.7,
+        badge: "Top",
+        image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=720&q=82"
+      },
+      {
+        id: 8,
+        name: "Glow serum skincare trio",
+        category: "Beauty",
+        price: 27.2,
+        oldPrice: 45,
+        rating: 4.8,
+        badge: "Glow",
+        image: "https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=720&q=82"
+      },
+      {
+        id: 9,
+        name: "Wireless studio headphones",
+        category: "Electronics",
+        price: 59.9,
+        oldPrice: 98,
+        rating: 4.6,
+        badge: "Tech",
+        image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=720&q=82"
+      },
+      {
+        id: 10,
+        name: "Slim smartphone stand and desk dock",
+        category: "Electronics",
+        price: 14.3,
+        oldPrice: 24,
+        rating: 4.5,
+        badge: "Useful",
+        image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=720&q=82"
+      },
+      {
+        id: 11,
+        name: "Curved ceramic vase set",
+        category: "Home",
+        price: 32.1,
+        oldPrice: 52,
+        rating: 4.7,
+        badge: "Decor",
+        image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=720&q=82"
+      },
+      {
+        id: 12,
+        name: "Warm woven throw blanket",
+        category: "Home",
+        price: 29.6,
+        oldPrice: 49,
+        rating: 4.8,
+        badge: "Cozy",
+        image: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&w=720&q=82"
+      },
+      {
+        id: 13,
+        name: "Amber oud eau de parfum",
+        category: "Perfumes",
+        price: 41.4,
+        oldPrice: 72,
+        rating: 4.9,
+        badge: "Scent",
+        image: "https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=720&q=82"
+      },
+      {
+        id: 14,
+        name: "Floral travel fragrance duo",
+        category: "Perfumes",
+        price: 25.8,
+        oldPrice: 43,
+        rating: 4.6,
+        badge: "Gift",
+        image: "https://images.unsplash.com/photo-1590736704728-f4730bb30770?auto=format&fit=crop&w=720&q=82"
+      },
+      {
+        id: 15,
+        name: "Ribbed lounge co-ord set",
+        category: "Women",
+        price: 31.5,
+        oldPrice: 54,
+        rating: 4.7,
+        badge: "Soft",
+        image: "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=720&q=82"
+      },
+      {
+        id: 16,
+        name: "Minimal LED bedside lamp",
+        category: "Home",
+        price: 36.9,
+        oldPrice: 60,
+        rating: 4.5,
+        badge: "Light",
+        image: "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=720&q=82"
+      }
+    ];
+
+    const state = {
+      activeCategory: "All",
+      query: "",
+      cart: [],
+      saved: [],
+      lang: localStorage.getItem("uzalusLanguage") || "en"
+    };
+
+    const productGrid = document.querySelector("#productGrid");
+    const filterTabs = document.querySelector("#filterTabs");
+    const resultCount = document.querySelector("#resultCount");
+    const cartButton = document.querySelector("#cartButton");
+    const closeCart = document.querySelector("#closeCart");
+    const drawerBackdrop = document.querySelector("#drawerBackdrop");
+    const cartItems = document.querySelector("#cartItems");
+    const cartCount = document.querySelector("#cartCount");
+    const cartTotal = document.querySelector("#cartTotal");
+    const searchForm = document.querySelector("#searchForm");
+    const searchInput = document.querySelector("#searchInput");
+    const languagePicker = document.querySelector("#languagePicker");
+    const languageButton = document.querySelector("#languageButton");
+    const currentLanguageFlag = document.querySelector("#currentLanguageFlag");
+    const currentLanguageLabel = document.querySelector("#currentLanguageLabel");
+    const languageOptions = document.querySelectorAll(".language-option");
+    const signupButton = document.querySelector("#signupButton");
+    const authBackdrop = document.querySelector("#authBackdrop");
+    const closeAuth = document.querySelector("#closeAuth");
+    const checkoutButton = document.querySelector(".checkout");
+    const authSubmit = document.querySelector(".auth-submit");
+    const toast = document.querySelector("#toast");
+    let toastTimer;
+    const languageMeta = {
+      en: { flag: "🇬🇧", label: "English" },
+      fr: { flag: "🇫🇷", label: "Français" },
+      ar: { flag: "🇸🇦", label: "العربية" },
+      de: { flag: "🇩🇪", label: "Deutsch" },
+      es: { flag: "🇪🇸", label: "Español" }
+    };
+
+    function t(key, replacements = {}) {
+      const text = translations[state.lang]?.[key] || translations.en[key] || key;
+      return Object.entries(replacements).reduce((value, [name, replacement]) => {
+        return value.replaceAll(`{${name}}`, replacement);
+      }, text);
+    }
+
+    function tCategory(category) {
+      return t(`cat.${category}`);
+    }
+
+    function tProduct(product) {
+      return t(`product.${product.id}`);
+    }
+
+    function tBadge(badge) {
+      return state.lang === "en" ? badge : (badgeTranslations[badge]?.[state.lang] || badge);
+    }
+
+    function formatPrice(value) {
+      const locales = { en: "en-US", fr: "fr-FR", ar: "ar", de: "de-DE", es: "es-ES" };
+      return new Intl.NumberFormat(locales[state.lang] || "en-US", { style: "currency", currency: "USD" }).format(value);
+    }
+
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 2400);
+    }
+
+    function applyLanguage() {
+      if (!languageMeta[state.lang]) state.lang = "en";
+      const isArabic = state.lang === "ar";
+      document.documentElement.lang = state.lang;
+      document.documentElement.dir = isArabic ? "rtl" : "ltr";
+      document.title = t("meta.title");
+      currentLanguageFlag.textContent = languageMeta[state.lang].flag;
+      currentLanguageLabel.textContent = languageMeta[state.lang].label;
+      languageOptions.forEach(option => {
+        option.classList.toggle("active", option.dataset.lang === state.lang);
+      });
+      document.querySelectorAll("[data-i18n]").forEach(element => {
+        element.textContent = t(element.dataset.i18n);
+      });
+      document.querySelectorAll("[data-i18n-placeholder]").forEach(element => {
+        element.placeholder = t(element.dataset.i18nPlaceholder);
+      });
+      document.querySelectorAll("[data-i18n-aria]").forEach(element => {
+        element.setAttribute("aria-label", t(element.dataset.i18nAria));
+      });
+    }
+
+    function renderTabs() {
+      filterTabs.innerHTML = categories.map(category => `
+        <button class="tab ${category === state.activeCategory ? "active" : ""}" data-category="${category}">
+          ${tCategory(category)}
+        </button>
+      `).join("");
+    }
+
+    function getFilteredProducts() {
+      return products.filter(product => {
+        const matchesCategory = state.activeCategory === "All" || product.category === state.activeCategory;
+        const haystack = `${product.name} ${tProduct(product)} ${product.category} ${tCategory(product.category)}`.toLowerCase();
+        const matchesQuery = !state.query || haystack.includes(state.query.toLowerCase());
+        return matchesCategory && matchesQuery;
+      });
+    }
+
+    function renderProducts() {
+      const visible = getFilteredProducts();
+      const plural = visible.length === 1 ? "" : "s";
+      resultCount.textContent = t("results", { count: visible.length, plural });
+      productGrid.innerHTML = visible.map((product, index) => `
+        <article class="product-card reveal" style="animation-delay:${Math.min(index * 35, 260)}ms">
+          <div class="product-image" data-id="${product.id}" role="button" tabindex="0" aria-label="${t("addToCart", { name: tProduct(product) })}">
+            <img src="${product.image}" alt="${tProduct(product)}" loading="lazy" />
+            <span class="badge">${tBadge(product.badge)}</span>
+            <button class="heart ${state.saved.includes(product.id) ? "active" : ""}" data-id="${product.id}" aria-label="${t("saveItem", { name: tProduct(product) })}">${state.saved.includes(product.id) ? "♥" : "♡"}</button>
+          </div>
+          <div class="product-body">
+            <div class="product-meta">
+              <span>${tCategory(product.category)}</span>
+              <span class="stars">★★★★★ <span style="color:var(--muted); letter-spacing:0;">${product.rating}</span></span>
+            </div>
+            <h3 data-id="${product.id}">${tProduct(product)}</h3>
+            <div class="price-row">
+              <div>
+                <span class="price">${formatPrice(product.price)}</span>
+                <span class="old-price">${formatPrice(product.oldPrice)}</span>
+              </div>
+              <button class="add-btn" data-id="${product.id}" aria-label="${t("addToCart", { name: tProduct(product) })}">+</button>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function addToCart(id) {
+      const product = products.find(item => item.id === Number(id));
+      if (!product) return;
+      const existing = state.cart.find(item => item.id === product.id);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        state.cart.push({ ...product, qty: 1 });
+      }
+      renderCart();
+      document.body.classList.add("cart-open");
+      showToast(t("toast.added"));
+    }
+
+    function toggleSaved(id) {
+      const productId = Number(id);
+      if (state.saved.includes(productId)) {
+        state.saved = state.saved.filter(item => item !== productId);
+        showToast(t("toast.unsaved"));
+      } else {
+        state.saved.push(productId);
+        showToast(t("toast.saved"));
+      }
+      renderProducts();
+    }
+
+    function renderCart() {
+      const quantity = state.cart.reduce((sum, item) => sum + item.qty, 0);
+      const total = state.cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      cartCount.textContent = quantity;
+      cartTotal.textContent = formatPrice(total);
+      if (!state.cart.length) {
+        cartItems.innerHTML = `<p style="color:var(--muted); line-height:1.7; margin:0;">${t("cart.empty")}</p>`;
+        return;
+      }
+      cartItems.innerHTML = state.cart.map(item => `
+        <div class="cart-item">
+          <img src="${item.image}" alt="${tProduct(item)}" />
+          <div>
+            <strong>${tProduct(item)}</strong>
+            <span>${formatPrice(item.price)} · ${tCategory(item.category)}</span>
+          </div>
+          <span class="qty">×${item.qty}</span>
+        </div>
+      `).join("");
+    }
+
+    filterTabs.addEventListener("click", event => {
+      const button = event.target.closest(".tab");
+      if (!button) return;
+      state.activeCategory = button.dataset.category;
+      renderTabs();
+      renderProducts();
+    });
+
+    document.querySelectorAll("[data-filter-link]").forEach(link => {
+      link.addEventListener("click", event => {
+        event.preventDefault();
+        state.activeCategory = link.dataset.filterLink;
+        state.query = "";
+        searchInput.value = "";
+        renderTabs();
+        renderProducts();
+        document.querySelector("#shop").scrollIntoView({ behavior: "smooth" });
+      });
+    });
+
+    document.querySelectorAll("[data-nav-filter]").forEach(link => {
+      link.addEventListener("click", event => {
+        event.preventDefault();
+        state.activeCategory = link.dataset.navFilter;
+        state.query = "";
+        searchInput.value = "";
+        renderTabs();
+        renderProducts();
+        document.querySelector("#shop").scrollIntoView({ behavior: "smooth" });
+      });
+    });
+
+    productGrid.addEventListener("click", event => {
+      const heart = event.target.closest(".heart");
+      if (heart) {
+        event.stopPropagation();
+        toggleSaved(heart.dataset.id);
+        return;
+      }
+      const addButton = event.target.closest(".add-btn");
+      if (addButton) {
+        addToCart(addButton.dataset.id);
+        return;
+      }
+      const image = event.target.closest(".product-image");
+      if (image) {
+        addToCart(image.dataset.id);
+        showToast(t("toast.quickView"));
+        return;
+      }
+      const title = event.target.closest(".product-card h3");
+      if (title) {
+        addToCart(title.dataset.id);
+      }
+    });
+
+    searchForm.addEventListener("submit", event => {
+      event.preventDefault();
+      state.query = searchInput.value.trim();
+      state.activeCategory = "All";
+      renderTabs();
+      renderProducts();
+      document.querySelector("#shop").scrollIntoView({ behavior: "smooth" });
+    });
+
+    languageButton.addEventListener("click", event => {
+      event.stopPropagation();
+      languagePicker.classList.toggle("open");
+    });
+
+    languageOptions.forEach(option => {
+      option.addEventListener("click", () => {
+        state.lang = option.dataset.lang;
+        localStorage.setItem("uzalusLanguage", state.lang);
+        languagePicker.classList.remove("open");
+        applyLanguage();
+        renderTabs();
+        renderProducts();
+        renderCart();
+      });
+    });
+
+    document.addEventListener("click", event => {
+      if (!languagePicker.contains(event.target)) {
+        languagePicker.classList.remove("open");
+      }
+    });
+
+    signupButton.addEventListener("click", () => document.body.classList.add("auth-open"));
+    closeAuth.addEventListener("click", () => document.body.classList.remove("auth-open"));
+    authBackdrop.addEventListener("click", () => document.body.classList.remove("auth-open"));
+    authSubmit.addEventListener("click", () => {
+      showToast(t("toast.account"));
+      document.body.classList.remove("auth-open");
+    });
+
+    cartButton.addEventListener("click", () => document.body.classList.add("cart-open"));
+    closeCart.addEventListener("click", () => document.body.classList.remove("cart-open"));
+    drawerBackdrop.addEventListener("click", () => document.body.classList.remove("cart-open"));
+    checkoutButton.addEventListener("click", () => {
+      if (!state.cart.length) {
+        showToast(t("toast.checkoutEmpty"));
+        return;
+      }
+      showToast(t("toast.checkoutReady"));
+      document.body.classList.add("auth-open");
+    });
+
+    document.querySelectorAll(".support-link").forEach(link => {
+      link.addEventListener("click", event => {
+        event.preventDefault();
+        showToast(t("toast.support"));
+      });
+    });
+
+    applyLanguage();
+    renderTabs();
+    renderProducts();
+    renderCart();
+  </script>
+</body>
+</html>

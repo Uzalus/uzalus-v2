@@ -1,16 +1,44 @@
 'use client';
 
 import { useI18n } from '@/lib/i18n-context';
-import { Sparkles, Flower2, Shirt, Smartphone, Home as HomeIcon, Baby, Watch } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 const categories = [
-  { key: 'cat.beauty', icon: Sparkles, gradient: 'from-rose-500/20 to-pink-500/20', accent: 'text-rose-400' },
-  { key: 'cat.perfumes', icon: Flower2, gradient: 'from-purple-500/20 to-violet-500/20', accent: 'text-purple-400' },
-  { key: 'cat.fashion', icon: Shirt, gradient: 'from-amber-500/20 to-yellow-500/20', accent: 'text-amber-400' },
-  { key: 'cat.electronics', icon: Smartphone, gradient: 'from-blue-500/20 to-cyan-500/20', accent: 'text-blue-400' },
-  { key: 'cat.home', icon: HomeIcon, gradient: 'from-emerald-500/20 to-green-500/20', accent: 'text-emerald-400' },
-  { key: 'cat.kids', icon: Baby, gradient: 'from-orange-500/20 to-red-500/20', accent: 'text-orange-400' },
-  { key: 'cat.watches', icon: Watch, gradient: 'from-slate-400/20 to-gray-500/20', accent: 'text-slate-300' },
+  {
+    key: 'cat.women',
+    descKey: 'cat.womenDesc',
+    image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    key: 'cat.men',
+    descKey: 'cat.menDesc',
+    image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    key: 'cat.beauty',
+    descKey: 'cat.beautyDesc',
+    image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    key: 'cat.perfumes',
+    descKey: 'cat.perfumesDesc',
+    image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    key: 'cat.electronics',
+    descKey: 'cat.electronicsDesc',
+    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    key: 'cat.kids',
+    descKey: 'cat.kidsDesc',
+    image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=600&q=80',
+  },
+  {
+    key: 'cat.home',
+    descKey: 'cat.homeDesc',
+    image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=600&q=80',
+  },
 ];
 
 export function Categories() {
@@ -30,26 +58,40 @@ export function Categories() {
           </p>
         </div>
 
-        {/* Category grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 gap-4 lg:gap-5">
-          {categories.map((cat, i) => {
-            const Icon = cat.icon;
-            return (
-              <a
-                key={cat.key}
-                href="#"
-                className={`category-card group flex flex-col items-center justify-center p-6 lg:p-8 rounded-2xl bg-noir-card border border-border text-center opacity-0 animate-fade-in-up`}
-                style={{ animationDelay: `${i * 0.08}s` }}
-              >
-                <div className={`w-16 h-16 lg:w-20 lg:h-20 rounded-2xl bg-gradient-to-br ${cat.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <Icon size={28} className={cat.accent} />
-                </div>
-                <span className="text-sm font-semibold text-foreground/90 group-hover:text-gold transition-colors">
+        {/* Category grid - visual cards with real photos */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-5">
+          {categories.map((cat, i) => (
+            <a
+              key={cat.key}
+              href="#products"
+              className={`category-card group relative rounded-2xl overflow-hidden border border-border aspect-[3/4] sm:aspect-auto sm:min-h-[280px] opacity-0 animate-fade-in-up ${i === 0 || i === 1 ? 'sm:col-span-1 sm:row-span-1' : ''}`}
+              style={{ animationDelay: `${i * 0.08}s` }}
+            >
+              {/* Background image */}
+              <img
+                src={cat.image}
+                alt={t(cat.key)}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                loading="lazy"
+              />
+
+              {/* Dark overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-noir via-noir/40 to-transparent" />
+
+              {/* Content */}
+              <div className="relative z-10 h-full flex flex-col justify-end p-5 lg:p-6">
+                <h3 className="font-display text-lg lg:text-xl font-bold text-white mb-1 group-hover:text-gold transition-colors">
                   {t(cat.key)}
-                </span>
-              </a>
-            );
-          })}
+                </h3>
+                <p className="text-xs text-white/70">
+                  {t(cat.descKey)}
+                </p>
+              </div>
+
+              {/* Hover border glow */}
+              <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-gold/40 transition-colors duration-500 pointer-events-none" />
+            </a>
+          ))}
         </div>
       </div>
     </section>

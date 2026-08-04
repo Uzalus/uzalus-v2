@@ -1,107 +1,205 @@
 'use client';
 
 import { useI18n } from '@/lib/i18n-context';
-import { Star, Heart, ShoppingBag } from 'lucide-react';
+import { Star, Heart } from 'lucide-react';
+import { useState } from 'react';
 
-const products = [
+const allProducts = [
   {
     id: 1,
-    name: 'Parfum Luxe Noir',
-    price: 89.99,
-    oldPrice: 129.99,
+    name: 'Satin wrap midi dress with soft drape',
+    nameFr: 'Robe midi en satin drapé souple',
+    category: 'women',
+    price: 34.90,
+    oldPrice: 58,
     rating: 4.8,
     reviews: 342,
-    discount: 31,
-    badge: 'sale' as const,
-    color: 'from-amber-900/40 to-stone-900/40',
+    discount: 40,
+    badge: 'Hot' as const,
+    image: 'https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=520&q=82',
   },
   {
     id: 2,
-    name: 'Sérum Visage Éclat',
-    price: 49.99,
-    oldPrice: null,
-    rating: 4.9,
+    name: 'Structured mini shoulder bag',
+    nameFr: 'Mini sac à main structuré',
+    category: 'women',
+    price: 24.50,
+    oldPrice: 42,
+    rating: 4.7,
     reviews: 128,
-    discount: 0,
-    badge: 'new' as const,
-    color: 'from-rose-900/40 to-pink-900/40',
+    discount: 42,
+    badge: 'Sale' as const,
+    image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=520&q=82',
   },
   {
     id: 3,
-    name: 'Montre Premium Or',
-    price: 199.99,
-    oldPrice: 299.99,
-    rating: 4.7,
+    name: 'Clean-cut cotton overshirt',
+    nameFr: 'Chemise-surchemise en coton coup net',
+    category: 'men',
+    price: 39.00,
+    oldPrice: 64,
+    rating: 4.6,
     reviews: 256,
-    discount: 33,
-    badge: 'sale' as const,
-    color: 'from-yellow-900/40 to-amber-900/40',
+    discount: 39,
+    badge: 'New' as const,
+    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=520&q=82',
   },
   {
     id: 4,
-    name: 'Écouteurs Sans Fil',
-    price: 69.99,
-    oldPrice: null,
-    rating: 4.6,
+    name: 'Everyday low-top sneakers',
+    nameFr: 'Baskets basses du quotidien',
+    category: 'men',
+    price: 46.80,
+    oldPrice: 79,
+    rating: 4.8,
     reviews: 89,
-    discount: 0,
-    badge: 'new' as const,
-    color: 'from-slate-800/40 to-gray-900/40',
+    discount: 41,
+    badge: 'Deal' as const,
+    image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=520&q=82',
   },
   {
     id: 5,
-    name: 'Robe Élégante Soie',
-    price: 119.99,
-    oldPrice: 179.99,
-    rating: 4.8,
+    name: 'Kids color-block weekend set',
+    nameFr: 'Enfant ensemble color-block week-end',
+    category: 'kids',
+    price: 18.75,
+    oldPrice: 31,
+    rating: 4.9,
     reviews: 197,
-    discount: 33,
-    badge: 'sale' as const,
-    color: 'from-red-900/30 to-rose-900/30',
+    discount: 40,
+    badge: 'Bundle' as const,
+    image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=520&q=82',
   },
   {
     id: 6,
-    name: 'Coffret Beauté Complet',
-    price: 59.99,
-    oldPrice: 89.99,
-    rating: 4.9,
+    name: 'Pigment-rich makeup palette',
+    nameFr: 'Palette maquillage riche en pigments',
+    category: 'beauty',
+    price: 16.99,
+    oldPrice: 28,
+    rating: 4.7,
     reviews: 412,
-    discount: 33,
-    badge: 'sale' as const,
-    color: 'from-purple-900/30 to-violet-900/30',
+    discount: 39,
+    badge: 'Top' as const,
+    image: 'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=520&q=82',
   },
   {
     id: 7,
-    name: 'Lampe Design LED',
-    price: 44.99,
-    oldPrice: null,
-    rating: 4.5,
-    reviews: 73,
-    discount: 0,
-    badge: 'new' as const,
-    color: 'from-emerald-900/30 to-teal-900/30',
+    name: 'Glow serum skincare trio',
+    nameFr: 'Trio sérums éclat soin peau',
+    category: 'beauty',
+    price: 27.20,
+    oldPrice: 45,
+    rating: 4.8,
+    reviews: 164,
+    discount: 40,
+    badge: 'Glow' as const,
+    image: 'https://images.unsplash.com/photo-1571781926291-c477ebfd024b?auto=format&fit=crop&w=520&q=82',
   },
   {
     id: 8,
-    name: 'Sac Cuir Artisanal',
-    price: 149.99,
-    oldPrice: 219.99,
+    name: 'Wireless studio headphones',
+    nameFr: 'Casque sans fil studio',
+    category: 'electronics',
+    price: 59.90,
+    oldPrice: 98,
+    rating: 4.6,
+    reviews: 73,
+    discount: 39,
+    badge: 'Tech' as const,
+    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=520&q=82',
+  },
+  {
+    id: 9,
+    name: 'Curved ceramic vase set',
+    nameFr: 'Ensemble vases en céramique courbés',
+    category: 'home',
+    price: 32.10,
+    oldPrice: 52,
     rating: 4.7,
-    reviews: 164,
-    discount: 32,
-    badge: 'sale' as const,
-    color: 'from-orange-900/30 to-amber-900/30',
+    reviews: 156,
+    discount: 38,
+    badge: 'Decor' as const,
+    image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=520&q=82',
+  },
+  {
+    id: 10,
+    name: 'Amber oud eau de parfum',
+    nameFr: 'Eau de parfum oud ambre',
+    category: 'perfumes',
+    price: 41.40,
+    oldPrice: 72,
+    rating: 4.9,
+    reviews: 298,
+    discount: 43,
+    badge: 'Scent' as const,
+    image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=520&q=82',
+  },
+  {
+    id: 11,
+    name: 'Floral travel fragrance duo',
+    nameFr: 'Duo parfum voyage floral',
+    category: 'perfumes',
+    price: 25.80,
+    oldPrice: 43,
+    rating: 4.6,
+    reviews: 134,
+    discount: 40,
+    badge: 'Gift' as const,
+    image: 'https://images.unsplash.com/photo-1590736704728-f4730bb30770?auto=format&fit=crop&w=520&q=82',
+  },
+  {
+    id: 12,
+    name: 'Ribbed lounge co-ord set',
+    nameFr: 'Ensemble coordonné côtelé loungewear',
+    category: 'women',
+    price: 31.50,
+    oldPrice: 54,
+    rating: 4.7,
+    reviews: 189,
+    discount: 42,
+    badge: 'Soft' as const,
+    image: 'https://images.unsplash.com/photo-1485968579580-b6d095142e6e?auto=format&fit=crop&w=520&q=82',
   },
 ];
 
+const filterTabs = ['all', 'women', 'men', 'kids', 'beauty', 'electronics', 'home', 'perfumes'] as const;
+type FilterTab = typeof filterTabs[number];
+
+const tabKeys: Record<FilterTab, string> = {
+  all: 'nav.shop',
+  women: 'cat.women',
+  men: 'cat.men',
+  kids: 'cat.kids',
+  beauty: 'cat.beauty',
+  electronics: 'cat.electronics',
+  home: 'cat.home',
+  perfumes: 'cat.perfumes',
+};
+
 export function Products() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const [activeFilter, setActiveFilter] = useState<FilterTab>('all');
+  const [liked, setLiked] = useState<Set<number>>(new Set());
+
+  const filtered = activeFilter === 'all'
+    ? allProducts
+    : allProducts.filter((p) => p.category === activeFilter);
+
+  const toggleLike = (id: number) => {
+    setLiked((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
   return (
     <section id="products" className="py-20 lg:py-28 bg-noir-light/50">
       <div className="max-w-7xl mx-auto px-4 lg:px-6">
         {/* Section header */}
-        <div className="text-center mb-14">
+        <div className="text-center mb-10">
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold gold-text mb-4">
             {t('products.title')}
           </h2>
@@ -111,37 +209,61 @@ export function Products() {
           </p>
         </div>
 
+        {/* Filter tabs */}
+        <div className="flex flex-wrap justify-center gap-2 mb-10">
+          {filterTabs.map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveFilter(tab)}
+              className={`px-5 py-2 rounded-full text-sm font-medium tracking-wide transition-all duration-300 ${
+                activeFilter === tab
+                  ? 'gold-btn'
+                  : 'bg-noir-card border border-border text-foreground/70 hover:text-gold hover:border-gold/30'
+              }`}
+            >
+              {t(tabKeys[tab])}
+            </button>
+          ))}
+        </div>
+
         {/* Products grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
-          {products.map((product, i) => (
+          {filtered.map((product, i) => (
             <div
               key={product.id}
               className="product-card group bg-noir-card rounded-2xl border border-border overflow-hidden opacity-0 animate-fade-in-up"
               style={{ animationDelay: `${i * 0.06}s` }}
             >
-              {/* Image placeholder */}
-              <div className={`relative aspect-square bg-gradient-to-br ${product.color} flex items-center justify-center overflow-hidden`}>
-                <ShoppingBag size={40} className="text-foreground/10 group-hover:scale-110 transition-transform duration-500" />
+              {/* Image */}
+              <div className="relative aspect-square overflow-hidden bg-noir-lighter">
+                <img
+                  src={product.image}
+                  alt={locale === 'fr' ? product.nameFr : product.name}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  loading="lazy"
+                />
 
                 {/* Badge */}
-                {product.badge && (
-                  <span
-                    className={`absolute top-3 start-3 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase ${
-                      product.badge === 'new'
-                        ? 'bg-gold text-noir'
-                        : 'bg-red-500 text-white'
-                    }`}
-                  >
-                    {product.badge === 'new' ? t('products.new') : `-${product.discount}%`}
-                  </span>
-                )}
+                <span
+                  className={`absolute top-3 start-3 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase ${
+                    product.badge === 'New' || product.badge === 'Hot'
+                      ? 'bg-gold text-noir'
+                      : 'bg-red-500 text-white'
+                  }`}
+                >
+                  {product.badge === 'New' ? t('products.new') : `-${product.discount}%`}
+                </span>
 
                 {/* Wishlist */}
                 <button
+                  onClick={() => toggleLike(product.id)}
                   className="absolute top-3 end-3 w-9 h-9 rounded-full bg-noir/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-noir/80"
                   aria-label="Add to wishlist"
                 >
-                  <Heart size={16} className="text-foreground/70 hover:text-red-400 transition-colors" />
+                  <Heart
+                    size={16}
+                    className={`transition-colors ${liked.has(product.id) ? 'text-red-400 fill-red-400' : 'text-foreground/70 hover:text-red-400'}`}
+                  />
                 </button>
 
                 {/* Quick add */}
@@ -154,8 +276,8 @@ export function Products() {
 
               {/* Info */}
               <div className="p-4">
-                <h3 className="text-sm font-semibold text-foreground/90 mb-2 truncate group-hover:text-gold transition-colors">
-                  {product.name}
+                <h3 className="text-sm font-semibold text-foreground/90 mb-2 line-clamp-2 group-hover:text-gold transition-colors leading-snug">
+                  {locale === 'fr' ? product.nameFr : product.name}
                 </h3>
 
                 {/* Rating */}
@@ -187,7 +309,7 @@ export function Products() {
         </div>
       </div>
 
-      {/* AdSense placeholder - after products */}
+      {/* AdSense placeholder */}
       <div className="max-w-7xl mx-auto px-4 lg:px-6 mt-12">
         <div className="ad-placeholder rounded-xl p-6 text-center">
           <span className="text-xs text-muted-foreground/50 uppercase tracking-widest">{t('ad.label')} — Google AdSense</span>
