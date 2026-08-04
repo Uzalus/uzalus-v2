@@ -20,18 +20,18 @@ export function Hero() {
     <section className="relative h-screen min-h-[600px] max-h-[1000px] overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0">
-        {/* <video
+        <video
           ref={videoRef}
-          src="/videos/uzalus-promo.mp4"
+          src="/videos/hero.mp4"
           autoPlay
           muted
           loop
           playsInline
           onCanPlay={() => setVideoReady(true)}
           className={`w-full h-full object-cover transition-opacity duration-1000 ${videoReady ? 'opacity-100' : 'opacity-0'}`}
-        /> */}
+        />
         {/* Fallback: animated beauty hero with Ken Burns effect */}
-        <div className="hero-video-fallback absolute inset-0">
+        <div className={`hero-video-fallback absolute inset-0 transition-opacity duration-1000 ${videoReady ? 'opacity-0' : 'opacity-100'}`}>
           <img
             src="/images/hero-video-fallback.jpg"
             alt="UZALUS"
