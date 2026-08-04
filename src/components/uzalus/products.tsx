@@ -18,7 +18,7 @@ const allProducts = [
     reviews: 1247,
     discount: 38,
     badge: 'bestseller' as const,
-    image: '/images/beauty/product-antiaging.png',
+    image: '/images/beauty/product-antiaging.jpg',
   },
   {
     id: 2,
@@ -33,7 +33,7 @@ const allProducts = [
     reviews: 892,
     discount: 33,
     badge: 'bestseller' as const,
-    image: '/images/beauty/product-smoothskin.png',
+    image: '/images/beauty/product-smoothskin.jpg',
   },
   {
     id: 3,
@@ -48,7 +48,7 @@ const allProducts = [
     reviews: 634,
     discount: 40,
     badge: 'sale' as const,
-    image: '/images/beauty/product-acne.png',
+    image: '/images/beauty/product-acne.jpg',
   },
   {
     id: 4,
@@ -63,7 +63,7 @@ const allProducts = [
     reviews: 521,
     discount: 38,
     badge: 'new' as const,
-    image: '/images/beauty/product-purify.png',
+    image: '/images/beauty/product-purify.jpg',
   },
   {
     id: 5,
@@ -78,7 +78,7 @@ const allProducts = [
     reviews: 312,
     discount: 36,
     badge: 'new' as const,
-    image: '/images/beauty/product-handcare.png',
+    image: '/images/beauty/product-handcare.jpg',
   },
   {
     id: 6,
@@ -93,7 +93,7 @@ const allProducts = [
     reviews: 756,
     discount: 36,
     badge: 'bestseller' as const,
-    image: '/images/beauty/product-glowing.png',
+    image: '/images/beauty/product-glowing.jpg',
   },
   {
     id: 7,
@@ -108,7 +108,7 @@ const allProducts = [
     reviews: 445,
     discount: 40,
     badge: 'sale' as const,
-    image: '/images/beauty/product-giftset.png',
+    image: '/images/beauty/product-giftset.jpg',
   },
   {
     id: 8,
@@ -123,7 +123,7 @@ const allProducts = [
     reviews: 389,
     discount: 38,
     badge: 'new' as const,
-    image: '/images/beauty/product-eyecream.png',
+    image: '/images/beauty/product-eyecream.jpg',
   },
 ];
 

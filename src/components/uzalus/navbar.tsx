@@ -14,15 +14,26 @@ const navLinks = [
 ];
 
 const shopCats = [
-  { key: 'shop.boutique', icon: BoutiqueIcon },
-  { key: 'shop.cosmetiques', icon: Sparkles },
-  { key: 'shop.parfums', icon: SprayCan },
-  { key: 'shop.mode', icon: Shirt },
-  { key: 'shop.chaussures', icon: Footprints },
-  { key: 'shop.electronique', icon: Cpu },
-  { key: 'shop.maison', icon: HomeIcon },
-  { key: 'shop.accessoires', icon: Watch },
+  { key: 'shop.boutique', icon: BoutiqueIcon, slug: 'boutique' },
+  { key: 'shop.cosmetiques', icon: Sparkles, slug: 'cosmetiques' },
+  { key: 'shop.parfums', icon: SprayCan, slug: 'parfums' },
+  { key: 'shop.mode', icon: Shirt, slug: 'mode' },
+  { key: 'shop.chaussures', icon: Footprints, slug: 'chaussures' },
+  { key: 'shop.electronique', icon: Cpu, slug: 'electronique' },
+  { key: 'shop.maison', icon: HomeIcon, slug: 'maison' },
+  { key: 'shop.accessoires', icon: Watch, slug: 'accessoires' },
 ];
+
+const keyToSlug: Record<string, string> = {
+  'shop.boutique': 'boutique',
+  'shop.cosmetiques': 'cosmetiques',
+  'shop.parfums': 'parfums',
+  'shop.mode': 'mode',
+  'shop.chaussures': 'chaussures',
+  'shop.electronique': 'electronique',
+  'shop.maison': 'maison',
+  'shop.accessoires': 'accessoires',
+};
 
 export function Navbar() {
   const { t, locale, setLocale } = useI18n();
@@ -44,6 +55,15 @@ export function Navbar() {
   };
   const closeMega = () => {
     megaTimeout.current = setTimeout(() => setMegaOpen(false), 200);
+  };
+
+  const openCategory = (key: string) => {
+    const slug = keyToSlug[key];
+    if (slug) {
+      window.dispatchEvent(new CustomEvent('open-category', { detail: slug }));
+      setMegaOpen(false);
+      setMobileOpen(false);
+    }
   };
 
   const locales: Locale[] = ['fr', 'en', 'es', 'ar'];
@@ -175,11 +195,10 @@ export function Navbar() {
                 {shopCats.map((cat) => {
                   const Icon = cat.icon;
                   return (
-                    <a
+                    <button
                       key={cat.key}
-                      href="#shop-categories"
-                      onClick={() => setMegaOpen(false)}
-                      className="flex items-center gap-3 p-3 rounded-xl hover:bg-noir-lighter transition-colors group"
+                      onClick={() => openCategory(cat.key)}
+                      className="flex items-center gap-3 p-3 rounded-xl hover:bg-noir-lighter transition-colors group w-full text-start"
                     >
                       <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center group-hover:bg-gold/20 transition-colors">
                         <Icon size={18} className="text-gold" />
@@ -187,7 +206,7 @@ export function Navbar() {
                       <span className="text-sm font-medium text-foreground/80 group-hover:text-gold transition-colors">
                         {t(cat.key)}
                       </span>
-                    </a>
+                    </button>
                   );
                 })}
               </div>
@@ -225,15 +244,14 @@ export function Navbar() {
                   {shopCats.map((cat) => {
                     const Icon = cat.icon;
                     return (
-                      <a
+                      <button
                         key={cat.key}
-                        href="#shop-categories"
-                        onClick={() => setMobileOpen(false)}
-                        className="flex items-center gap-2 py-1.5 text-foreground/70 hover:text-gold transition-colors text-xs"
+                        onClick={() => openCategory(cat.key)}
+                        className="flex items-center gap-2 py-1.5 text-foreground/70 hover:text-gold transition-colors text-xs w-full text-start"
                       >
                         <Icon size={14} className="text-gold/60" />
                         {t(cat.key)}
-                      </a>
+                      </button>
                     );
                   })}
                 </div>

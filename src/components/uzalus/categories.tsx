@@ -6,37 +6,37 @@ const categories = [
   {
     key: 'cat.antiaging',
     descKey: 'cat.antiagingDesc',
-    image: '/images/beauty/product-antiaging.png',
+    image: '/images/beauty/product-antiaging.jpg',
   },
   {
     key: 'cat.acne',
     descKey: 'cat.acneDesc',
-    image: '/images/beauty/product-acne.png',
+    image: '/images/beauty/product-acne.jpg',
   },
   {
     key: 'cat.blackheads',
     descKey: 'cat.blackheadsDesc',
-    image: '/images/beauty/product-purify.png',
+    image: '/images/beauty/product-purify.jpg',
   },
   {
     key: 'cat.smooth',
     descKey: 'cat.smoothDesc',
-    image: '/images/beauty/product-smoothskin.png',
+    image: '/images/beauty/product-smoothskin.jpg',
   },
   {
     key: 'cat.burns',
     descKey: 'cat.burnsDesc',
-    image: '/images/beauty/product-handcare.png',
+    image: '/images/beauty/product-handcare.jpg',
   },
   {
     key: 'cat.eyes',
     descKey: 'cat.eyesDesc',
-    image: '/images/beauty/product-eyecream.png',
+    image: '/images/beauty/product-eyecream.jpg',
   },
   {
     key: 'cat.bright',
     descKey: 'cat.brightDesc',
-    image: '/images/beauty/product-glowing.png',
+    image: '/images/beauty/product-glowing.jpg',
   },
 ];
 

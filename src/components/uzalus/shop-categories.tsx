@@ -3,6 +3,17 @@
 import { useI18n } from '@/lib/i18n-context';
 import { ShoppingBag, Sparkles, SprayCan, Shirt, Footprints, Cpu, Home, Watch } from 'lucide-react';
 
+const keyToSlug: Record<string, string> = {
+  'shop.boutique': 'boutique',
+  'shop.cosmetiques': 'cosmetiques',
+  'shop.parfums': 'parfums',
+  'shop.mode': 'mode',
+  'shop.chaussures': 'chaussures',
+  'shop.electronique': 'electronique',
+  'shop.maison': 'maison',
+  'shop.accessoires': 'accessoires',
+};
+
 const shopCategories = [
   {
     key: 'shop.boutique',
@@ -74,10 +85,13 @@ export function ShopCategories() {
           {shopCategories.map((cat, i) => {
             const Icon = cat.icon;
             return (
-              <a
+              <button
                 key={cat.key}
-                href="#"
-                className="group relative rounded-2xl overflow-hidden border border-border aspect-[3/4] sm:aspect-auto sm:min-h-[240px] opacity-0 animate-fade-in-up"
+                onClick={() => {
+                  const slug = keyToSlug[cat.key];
+                  if (slug) window.dispatchEvent(new CustomEvent('open-category', { detail: slug }));
+                }}
+                className="group relative rounded-2xl overflow-hidden border border-border aspect-[3/4] sm:aspect-auto sm:min-h-[240px] opacity-0 animate-fade-in-up text-start w-full"
                 style={{ animationDelay: `${i * 0.07}s` }}
               >
                 <img
@@ -100,7 +114,7 @@ export function ShopCategories() {
                   <p className="text-xs text-white/60">{t(cat.descKey)}</p>
                 </div>
                 <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-gold/40 transition-colors duration-500 pointer-events-none" />
-              </a>
+              </button>
             );
           })}
         </div>
