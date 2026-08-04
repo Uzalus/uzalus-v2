@@ -93,7 +93,7 @@ export function ChatWidget() {
               <h3 className="font-display text-sm font-bold text-gold">{t('chat.title')}</h3>
               <span className="text-xs text-green-400 flex items-center gap-1">
                 <span className="w-1.5 h-1.5 bg-green-400 rounded-full inline-block" />
-                En ligne
+                {t('chat.online')}
               </span>
             </div>
           </div>

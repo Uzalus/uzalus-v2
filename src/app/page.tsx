@@ -1,5 +1,6 @@
 import { Navbar } from '@/components/uzalus/navbar';
 import { Hero } from '@/components/uzalus/hero';
+import { ShopCategories } from '@/components/uzalus/shop-categories';
 import { Categories } from '@/components/uzalus/categories';
 import { Products } from '@/components/uzalus/products';
 import { WhyUs } from '@/components/uzalus/why-us';
@@ -14,6 +15,7 @@ export default function Home() {
       <Navbar />
       <main className="flex-1">
         <Hero />
+        <ShopCategories />
         <Categories />
         <Products />
         <WhyUs />
