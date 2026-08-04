@@ -8,11 +8,17 @@ export function Hero() {
   const { t } = useI18n();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [videoReady, setVideoReady] = useState(false);
+  const [videoError, setVideoError] = useState(false);
 
   useEffect(() => {
     const v = videoRef.current;
     if (v) {
-      v.play().catch(() => {}); // autoplay may be blocked
+      v.load();
+      v.play().catch(() => {
+        // retry on user interaction
+        const handleClick = () => { v.play().catch(() => {}); document.removeEventListener('click', handleClick); };
+        document.addEventListener('click', handleClick, { once: true });
+      });
     }
   }, []);
 
@@ -28,10 +34,11 @@ export function Hero() {
           loop
           playsInline
           onCanPlay={() => setVideoReady(true)}
+          onError={() => setVideoError(true)}
           className={`w-full h-full object-cover transition-opacity duration-1000 ${videoReady ? 'opacity-100' : 'opacity-0'}`}
         />
         {/* Fallback: animated beauty hero with Ken Burns effect */}
-        <div className={`hero-video-fallback absolute inset-0 transition-opacity duration-1000 ${videoReady ? 'opacity-0' : 'opacity-100'}`}>
+        <div className={`hero-video-fallback absolute inset-0 transition-opacity duration-1000 ${videoReady && !videoError ? 'opacity-0' : 'opacity-100'}`}>
           <img
             src="/images/hero-video-fallback.jpg"
             alt="UZALUS"
