@@ -1,0 +1,2002 @@
+     1→<!DOCTYPE html>
+     2→<html lang="en">
+     3→<head>
+     4→  <meta charset="UTF-8" />
+     5→  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     6→  <title>Uzalus — Global Finds, Everyday Style</title>
+     7→  <meta name="description" content="Uzalus is a modern e-commerce marketplace concept for fashion, beauty, electronics, home decor, and perfumes." />
+     8→  <style>
+     9→    @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,900&family=Manrope:wght@400;500;600;700;800&display=swap');
+    10→
+    11→    :root {
+    12→      --ink: #17120f;
+    13→      --muted: #6d625b;
+    14→      --paper: #fff9f0;
+    15→      --cream: #fff2de;
+    16→      --coal: #201713;
+    17→      --blush: #ff4f79;
+    18→      --tangerine: #ff7a18;
+    19→      --gold: #ffc857;
+    20→      --mint: #a5ffcb;
+    21→      --line: rgba(23, 18, 15, .12);
+    22→      --shadow: 0 24px 70px rgba(48, 30, 18, .14);
+    23→      --radius-xl: 34px;
+    24→      --radius-lg: 24px;
+    25→      --radius-md: 18px;
+    26→    }
+    27→
+    28→    * { box-sizing: border-box; }
+    29→    html { scroll-behavior: smooth; }
+    30→    body {
+    31→      margin: 0;
+    32→      color: var(--ink);
+    33→      font-family: "Manrope", sans-serif;
+    34→      background:
+    35→        radial-gradient(circle at 12% 6%, rgba(255, 122, 24, .18), transparent 28rem),
+    36→        radial-gradient(circle at 86% 11%, rgba(255, 79, 121, .14), transparent 24rem),
+    37→        linear-gradient(180deg, #fff9f0 0%, #fffaf4 38%, #f7efe5 100%);
+    38→      min-height: 100vh;
+    39→      overflow-x: hidden;
+    40→    }
+    41→
+    42→    body::before {
+    43→      content: "";
+    44→      position: fixed;
+    45→      inset: 0;
+    46→      pointer-events: none;
+    47→      opacity: .12;
+    48→      z-index: 100;
+    49→      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.74' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='.42'/%3E%3C/svg%3E");
+    50→    }
+    51→
+    52→    a { color: inherit; text-decoration: none; }
+    53→    img { display: block; width: 100%; }
+    54→    button, input, select { font: inherit; }
+    55→    .shell { width: min(1180px, calc(100% - 36px)); margin: 0 auto; }
+    56→
+    57→    .announcement {
+    58→      background: var(--coal);
+    59→      color: #fff8ec;
+    60→      font-size: .82rem;
+    61→      letter-spacing: .04em;
+    62→      text-transform: uppercase;
+    63→      position: relative;
+    64→      z-index: 5;
+    65→    }
+    66→
+    67→    .announcement .shell {
+    68→      display: flex;
+    69→      justify-content: space-between;
+    70→      gap: 18px;
+    71→      padding: 9px 0;
+    72→    }
+    73→
+    74→    .nav {
+    75→      position: sticky;
+    76→      top: 0;
+    77→      z-index: 20;
+    78→      backdrop-filter: blur(24px);
+    79→      background: rgba(255, 249, 240, .76);
+    80→      border-bottom: 1px solid rgba(23, 18, 15, .1);
+    81→    }
+    82→
+    83→    .nav-inner {
+    84→      display: grid;
+    85→      grid-template-columns: auto minmax(240px, 1fr) auto;
+    86→      align-items: center;
+    87→      gap: 24px;
+    88→      padding: 16px 0;
+    89→    }
+    90→
+    91→    .brand {
+    92→      display: inline-flex;
+    93→      align-items: center;
+    94→      gap: 12px;
+    95→      min-width: 176px;
+    96→    }
+    97→
+    98→    .brand-mark {
+    99→      width: 46px;
+   100→      height: 46px;
+   101→      border-radius: 16px;
+   102→      display: grid;
+   103→      place-items: center;
+   104→      color: white;
+   105→      font-family: "Fraunces", serif;
+   106→      font-weight: 900;
+   107→      font-size: 1.6rem;
+   108→      background:
+   109→        linear-gradient(135deg, rgba(255,255,255,.28), transparent 40%),
+   110→        conic-gradient(from 150deg, var(--blush), var(--tangerine), var(--gold), var(--blush));
+   111→      box-shadow: 0 14px 34px rgba(255, 87, 79, .32);
+   112→      transform: rotate(-8deg);
+   113→    }
+   114→
+   115→    .brand-copy strong {
+   116→      display: block;
+   117→      font-family: "Fraunces", serif;
+   118→      font-size: 1.45rem;
+   119→      line-height: .9;
+   120→      letter-spacing: -.04em;
+   121→    }
+   122→
+   123→    .brand-copy span {
+   124→      display: block;
+   125→      color: var(--muted);
+   126→      font-size: .75rem;
+   127→      margin-top: 4px;
+   128→    }
+   129→
+   130→    .searchbar {
+   131→      display: flex;
+   132→      align-items: center;
+   133→      min-height: 50px;
+   134→      border: 1px solid var(--line);
+   135→      border-radius: 999px;
+   136→      background: rgba(255,255,255,.72);
+   137→      box-shadow: 0 10px 35px rgba(58, 39, 24, .06);
+   138→      overflow: hidden;
+   139→    }
+   140→
+   141→    .searchbar input {
+   142→      flex: 1;
+   143→      border: 0;
+   144→      outline: 0;
+   145→      background: transparent;
+   146→      padding: 0 20px;
+   147→      min-width: 0;
+   148→      color: var(--ink);
+   149→    }
+   150→
+   151→    .searchbar button,
+   152→    .pill-button {
+   153→      border: 0;
+   154→      cursor: pointer;
+   155→      color: #fff;
+   156→      font-weight: 800;
+   157→      background: linear-gradient(135deg, var(--ink), #4a2a20);
+   158→      padding: 13px 21px;
+   159→      border-radius: 999px;
+   160→      margin-right: 5px;
+   161→      transition: transform .2s ease, box-shadow .2s ease;
+   162→    }
+   163→
+   164→    .searchbar button:hover,
+   165→    .pill-button:hover {
+   166→      transform: translateY(-2px);
+   167→      box-shadow: 0 14px 24px rgba(32, 23, 19, .2);
+   168→    }
+   169→
+   170→    .nav-actions {
+   171→      display: flex;
+   172→      align-items: center;
+   173→      gap: 10px;
+   174→      justify-content: flex-end;
+   175→    }
+   176→
+   177→    .language-picker {
+   178→      position: relative;
+   179→    }
+   180→
+   181→    .language-current,
+   182→    .account-btn,
+   183→    .cart-btn {
+   184→      border: 1px solid var(--line);
+   185→      background: rgba(255,255,255,.72);
+   186→      border-radius: 999px;
+   187→      height: 46px;
+   188→      padding: 0 14px;
+   189→      color: var(--ink);
+   190→      font-weight: 900;
+   191→      cursor: pointer;
+   192→      outline: 0;
+   193→      display: inline-flex;
+   194→      align-items: center;
+   195→      justify-content: center;
+   196→      gap: 8px;
+   197→      transition: transform .2s ease, background .2s ease, box-shadow .2s ease;
+   198→    }
+   199→
+   200→    .language-current:hover,
+   201→    .account-btn:hover,
+   202→    .cart-btn:hover {
+   203→      transform: translateY(-2px);
+   204→      background: #fff;
+   205→      box-shadow: 0 12px 26px rgba(32,23,19,.12);
+   206→    }
+   207→
+   208→    .language-menu {
+   209→      position: absolute;
+   210→      top: calc(100% + 10px);
+   211→      right: 0;
+   212→      width: 210px;
+   213→      border: 1px solid rgba(23,18,15,.12);
+   214→      border-radius: 22px;
+   215→      background: rgba(255,250,244,.98);
+   216→      box-shadow: 0 24px 60px rgba(23,18,15,.18);
+   217→      padding: 8px;
+   218→      display: grid;
+   219→      gap: 4px;
+   220→      z-index: 80;
+   221→      opacity: 0;
+   222→      transform: translateY(-8px) scale(.98);
+   223→      pointer-events: none;
+   224→      transition: opacity .18s ease, transform .18s ease;
+   225→    }
+   226→
+   227→    .language-picker.open .language-menu {
+   228→      opacity: 1;
+   229→      transform: translateY(0) scale(1);
+   230→      pointer-events: auto;
+   231→    }
+   232→
+   233→    .language-option {
+   234→      border: 0;
+   235→      background: transparent;
+   236→      border-radius: 15px;
+   237→      padding: 11px 12px;
+   238→      display: flex;
+   239→      align-items: center;
+   240→      gap: 9px;
+   241→      cursor: pointer;
+   242→      color: var(--ink);
+   243→      font-weight: 800;
+   244→      text-align: left;
+   245→    }
+   246→
+   247→    .language-option:hover,
+   248→    .language-option.active {
+   249→      background: linear-gradient(135deg, rgba(255,79,121,.13), rgba(255,122,24,.12));
+   250→    }
+   251→
+   252→    .account-btn {
+   253→      background: linear-gradient(135deg, var(--blush), var(--tangerine));
+   254→      border-color: transparent;
+   255→      color: #fff;
+   256→      box-shadow: 0 12px 28px rgba(255, 87, 79, .22);
+   257→    }
+   258→
+   259→    .cart-btn {
+   260→      position: relative;
+   261→      background: var(--ink);
+   262→      color: #fff;
+   263→      border-color: var(--ink);
+   264→    }
+   265→
+   266→    .action-symbol {
+   267→      display: inline-grid;
+   268→      place-items: center;
+   269→      min-width: 26px;
+   270→      height: 26px;
+   271→      border-radius: 999px;
+   272→      background: rgba(255,255,255,.18);
+   273→      font-size: .62rem;
+   274→      letter-spacing: .03em;
+   275→      padding: 0 6px;
+   276→    }
+   277→
+   278→    .icon-btn {
+   279→      position: relative;
+   280→      border: 1px solid var(--line);
+   281→      background: rgba(255,255,255,.68);
+   282→      border-radius: 999px;
+   283→      width: 46px;
+   284→      height: 46px;
+   285→      cursor: pointer;
+   286→      display: grid;
+   287→      place-items: center;
+   288→      transition: transform .2s ease, background .2s ease;
+   289→    }
+   290→
+   291→    .icon-btn:hover { transform: translateY(-2px); background: #fff; }
+   292→    .cart-count {
+   293→      position: absolute;
+   294→      right: -4px;
+   295→      top: -4px;
+   296→      min-width: 20px;
+   297→      height: 20px;
+   298→      padding: 0 6px;
+   299→      display: grid;
+   300→      place-items: center;
+   301→      border-radius: 999px;
+   302→      color: #fff;
+   303→      background: var(--blush);
+   304→      font-size: .72rem;
+   305→      font-weight: 800;
+   306→      border: 2px solid var(--paper);
+   307→    }
+   308→
+   309→    .category-nav {
+   310→      display: flex;
+   311→      align-items: center;
+   312→      gap: 10px;
+   313→      overflow-x: auto;
+   314→      padding: 0 0 14px;
+   315→      scrollbar-width: none;
+   316→    }
+   317→    .category-nav::-webkit-scrollbar { display: none; }
+   318→    .category-nav a {
+   319→      white-space: nowrap;
+   320→      border: 1px solid var(--line);
+   321→      border-radius: 999px;
+   322→      padding: 9px 14px;
+   323→      color: #382921;
+   324→      background: rgba(255,255,255,.54);
+   325→      font-weight: 700;
+   326→      font-size: .88rem;
+   327→      transition: all .2s ease;
+   328→    }
+   329→    .category-nav a:hover {
+   330→      background: var(--ink);
+   331→      color: #fff;
+   332→      border-color: var(--ink);
+   333→    }
+   334→
+   335→    .hero {
+   336→      padding: 42px 0 26px;
+   337→    }
+   338→
+   339→    .hero-grid {
+   340→      display: grid;
+   341→      grid-template-columns: minmax(0, 1.02fr) minmax(330px, .68fr);
+   342→      gap: 24px;
+   343→      align-items: stretch;
+   344→    }
+   345→
+   346→    .hero-copy {
+   347→      position: relative;
+   348→      min-height: 560px;
+   349→      border-radius: var(--radius-xl);
+   350→      overflow: hidden;
+   351→      padding: clamp(30px, 5vw, 64px);
+   352→      background:
+   353→        linear-gradient(90deg, rgba(23,18,15,.87) 0%, rgba(23,18,15,.62) 46%, rgba(23,18,15,.16) 100%),
+   354→        url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1500&q=82") center / cover;
+   355→      color: #fffaf3;
+   356→      box-shadow: var(--shadow);
+   357→      isolation: isolate;
+   358→    }
+   359→
+   360→    .hero-copy::after {
+   361→      content: "";
+   362→      position: absolute;
+   363→      inset: auto -8% -22% 34%;
+   364→      height: 250px;
+   365→      background: radial-gradient(circle, rgba(255, 200, 87, .45), transparent 68%);
+   366→      z-index: -1;
+   367→    }
+   368→
+   369→    .eyebrow {
+   370→      display: inline-flex;
+   371→      align-items: center;
+   372→      gap: 10px;
+   373→      padding: 9px 13px;
+   374→      border: 1px solid rgba(255,255,255,.32);
+   375→      background: rgba(255,255,255,.13);
+   376→      backdrop-filter: blur(12px);
+   377→      border-radius: 999px;
+   378→      text-transform: uppercase;
+   379→      letter-spacing: .12em;
+   380→      font-size: .72rem;
+   381→      font-weight: 900;
+   382→    }
+   383→
+   384→    .hero h1 {
+   385→      font-family: "Fraunces", serif;
+   386→      max-width: 680px;
+   387→      font-size: clamp(3.4rem, 8vw, 7.2rem);
+   388→      line-height: .82;
+   389→      letter-spacing: -.075em;
+   390→      margin: 32px 0 22px;
+   391→    }
+   392→
+   393→    .hero p {
+   394→      max-width: 540px;
+   395→      color: rgba(255,250,243,.84);
+   396→      font-size: 1.05rem;
+   397→      line-height: 1.75;
+   398→      margin: 0 0 28px;
+   399→    }
+   400→
+   401→    .hero-ctas {
+   402→      display: flex;
+   403→      flex-wrap: wrap;
+   404→      gap: 12px;
+   405→      align-items: center;
+   406→    }
+   407→
+   408→    .ghost-button {
+   409→      border: 1px solid rgba(255,255,255,.35);
+   410→      color: #fff;
+   411→      background: rgba(255,255,255,.12);
+   412→      backdrop-filter: blur(12px);
+   413→      padding: 13px 20px;
+   414→      border-radius: 999px;
+   415→      font-weight: 800;
+   416→      transition: transform .2s ease, background .2s ease;
+   417→    }
+   418→
+   419→    .ghost-button:hover { transform: translateY(-2px); background: rgba(255,255,255,.2); }
+   420→
+   421→    .stat-strip {
+   422→      position: absolute;
+   423→      left: clamp(22px, 5vw, 56px);
+   424→      right: clamp(22px, 5vw, 56px);
+   425→      bottom: 28px;
+   426→      display: grid;
+   427→      grid-template-columns: repeat(3, 1fr);
+   428→      gap: 10px;
+   429→    }
+   430→
+   431→    .stat {
+   432→      padding: 16px;
+   433→      border: 1px solid rgba(255,255,255,.2);
+   434→      background: rgba(255,255,255,.14);
+   435→      backdrop-filter: blur(16px);
+   436→      border-radius: 20px;
+   437→    }
+   438→    .stat strong {
+   439→      display: block;
+   440→      font-family: "Fraunces", serif;
+   441→      font-size: 1.5rem;
+   442→      line-height: 1;
+   443→    }
+   444→    .stat span { color: rgba(255,250,243,.72); font-size: .8rem; }
+   445→
+   446→    .side-deals {
+   447→      display: grid;
+   448→      gap: 20px;
+   449→    }
+   450→
+   451→    .deal-card {
+   452→      min-height: 270px;
+   453→      border-radius: var(--radius-xl);
+   454→      overflow: hidden;
+   455→      position: relative;
+   456→      padding: 24px;
+   457→      display: flex;
+   458→      align-items: flex-end;
+   459→      background: #ddd;
+   460→      color: #fff;
+   461→      box-shadow: var(--shadow);
+   462→    }
+   463→
+   464→    .deal-card::before {
+   465→      content: "";
+   466→      position: absolute;
+   467→      inset: 0;
+   468→      background: linear-gradient(180deg, transparent 22%, rgba(0,0,0,.72) 100%);
+   469→    }
+   470→
+   471→    .deal-card > * { position: relative; z-index: 1; }
+   472→    .deal-card h3 {
+   473→      font-family: "Fraunces", serif;
+   474→      letter-spacing: -.04em;
+   475→      font-size: 2.1rem;
+   476→      margin: 0 0 5px;
+   477→      line-height: .9;
+   478→    }
+   479→    .deal-card p { margin: 0; color: rgba(255,255,255,.78); }
+   480→    .deal-card.one { background: url("https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=900&q=82") center / cover; }
+   481→    .deal-card.two { background: url("https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=900&q=82") center / cover; }
+   482→
+   483→    .section {
+   484→      padding: 42px 0;
+   485→    }
+   486→
+   487→    .section-head {
+   488→      display: flex;
+   489→      justify-content: space-between;
+   490→      align-items: end;
+   491→      gap: 20px;
+   492→      margin-bottom: 18px;
+   493→    }
+   494→    .section-kicker {
+   495→      color: var(--blush);
+   496→      font-weight: 900;
+   497→      text-transform: uppercase;
+   498→      letter-spacing: .12em;
+   499→      font-size: .75rem;
+   500→    }
+   501→    .section h2 {
+   502→      font-family: "Fraunces", serif;
+   503→      font-size: clamp(2.2rem, 4vw, 4rem);
+   504→      letter-spacing: -.065em;
+   505→      line-height: .92;
+   506→      margin: 8px 0 0;
+   507→    }
+   508→    .section-head p {
+   509→      max-width: 460px;
+   510→      color: var(--muted);
+   511→      line-height: 1.65;
+   512→      margin: 0;
+   513→    }
+   514→
+   515→    .category-grid {
+   516→      display: grid;
+   517→      grid-template-columns: repeat(7, minmax(130px, 1fr));
+   518→      gap: 14px;
+   519→      overflow-x: auto;
+   520→      padding-bottom: 8px;
+   521→      scrollbar-width: thin;
+   522→    }
+   523→
+   524→    .category-card {
+   525→      min-height: 220px;
+   526→      border-radius: 26px;
+   527→      overflow: hidden;
+   528→      position: relative;
+   529→      border: 1px solid rgba(23,18,15,.08);
+   530→      background: #eee;
+   531→      box-shadow: 0 16px 40px rgba(48,30,18,.08);
+   532→      isolation: isolate;
+   533→      transition: transform .25s ease, box-shadow .25s ease;
+   534→    }
+   535→    .category-card:hover {
+   536→      transform: translateY(-6px) rotate(-1deg);
+   537→      box-shadow: 0 24px 54px rgba(48,30,18,.17);
+   538→    }
+   539→    .category-card::after {
+   540→      content: "";
+   541→      position: absolute;
+   542→      inset: 0;
+   543→      background: linear-gradient(180deg, rgba(0,0,0,.02), rgba(0,0,0,.68));
+   544→    }
+   545→    .category-card img {
+   546→      height: 100%;
+   547→      object-fit: cover;
+   548→      position: absolute;
+   549→      inset: 0;
+   550→      transform: scale(1.02);
+   551→      transition: transform .4s ease;
+   552→    }
+   553→    .category-card:hover img { transform: scale(1.1); }
+   554→    .category-label {
+   555→      position: absolute;
+   556→      z-index: 1;
+   557→      left: 15px;
+   558→      right: 15px;
+   559→      bottom: 15px;
+   560→      color: white;
+   561→    }
+   562→    .category-label strong {
+   563→      display: block;
+   564→      font-family: "Fraunces", serif;
+   565→      font-size: 1.35rem;
+   566→      letter-spacing: -.04em;
+   567→      line-height: .95;
+   568→    }
+   569→    .category-label span {
+   570→      display: block;
+   571→      margin-top: 5px;
+   572→      color: rgba(255,255,255,.76);
+   573→      font-size: .78rem;
+   574→      font-weight: 700;
+   575→    }
+   576→
+   577→    .promo-band {
+   578→      border-radius: var(--radius-xl);
+   579→      padding: clamp(24px, 4vw, 42px);
+   580→      background:
+   581→        linear-gradient(135deg, rgba(255,79,121,.94), rgba(255,122,24,.92)),
+   582→        url("https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=82") center / cover;
+   583→      color: white;
+   584→      display: grid;
+   585→      grid-template-columns: 1fr auto;
+   586→      gap: 24px;
+   587→      align-items: center;
+   588→      box-shadow: var(--shadow);
+   589→      overflow: hidden;
+   590→      position: relative;
+   591→    }
+   592→    .promo-band::after {
+   593→      content: "UZALUS";
+   594→      position: absolute;
+   595→      right: -22px;
+   596→      bottom: -33px;
+   597→      font-family: "Fraunces", serif;
+   598→      font-size: clamp(5rem, 14vw, 11rem);
+   599→      font-weight: 900;
+   600→      letter-spacing: -.08em;
+   601→      opacity: .12;
+   602→    }
+   603→    .promo-band h2 {
+   604→      color: white;
+   605→      margin: 0 0 10px;
+   606→      max-width: 740px;
+   607→    }
+   608→    .promo-band p { color: rgba(255,255,255,.8); max-width: 620px; margin: 0; line-height: 1.65; }
+   609→
+   610→    .toolbar {
+   611→      display: flex;
+   612→      align-items: center;
+   613→      justify-content: space-between;
+   614→      gap: 16px;
+   615→      margin: 20px 0;
+   616→      flex-wrap: wrap;
+   617→    }
+   618→
+   619→    .filter-tabs {
+   620→      display: flex;
+   621→      flex-wrap: wrap;
+   622→      gap: 9px;
+   623→    }
+   624→
+   625→    .tab {
+   626→      border: 1px solid var(--line);
+   627→      background: rgba(255,255,255,.7);
+   628→      border-radius: 999px;
+   629→      padding: 10px 14px;
+   630→      cursor: pointer;
+   631→      font-weight: 800;
+   632→      color: #48362f;
+   633→      transition: all .2s ease;
+   634→    }
+   635→    .tab.active,
+   636→    .tab:hover {
+   637→      color: #fff;
+   638→      background: var(--ink);
+   639→      border-color: var(--ink);
+   640→      transform: translateY(-2px);
+   641→    }
+   642→
+   643→    .sort-note {
+   644→      color: var(--muted);
+   645→      font-size: .9rem;
+   646→      font-weight: 700;
+   647→    }
+   648→
+   649→    .product-grid {
+   650→      display: grid;
+   651→      grid-template-columns: repeat(4, minmax(0, 1fr));
+   652→      gap: 18px;
+   653→    }
+   654→
+   655→    .product-card {
+   656→      border: 1px solid rgba(23,18,15,.1);
+   657→      border-radius: 28px;
+   658→      overflow: hidden;
+   659→      background: rgba(255,255,255,.72);
+   660→      box-shadow: 0 18px 46px rgba(48,30,18,.08);
+   661→      transition: transform .25s ease, box-shadow .25s ease;
+   662→      position: relative;
+   663→    }
+   664→    .product-card:hover {
+   665→      transform: translateY(-8px);
+   666→      box-shadow: 0 26px 60px rgba(48,30,18,.15);
+   667→    }
+   668→    .product-image {
+   669→      position: relative;
+   670→      aspect-ratio: 4 / 5;
+   671→      background: #eee;
+   672→      overflow: hidden;
+   673→    }
+   674→    .product-image img {
+   675→      height: 100%;
+   676→      object-fit: cover;
+   677→      transition: transform .45s ease;
+   678→    }
+   679→    .product-card:hover .product-image img { transform: scale(1.08); }
+   680→    .badge {
+   681→      position: absolute;
+   682→      top: 13px;
+   683→      left: 13px;
+   684→      border-radius: 999px;
+   685→      background: rgba(255,255,255,.9);
+   686→      color: var(--ink);
+   687→      font-weight: 900;
+   688→      font-size: .74rem;
+   689→      padding: 7px 10px;
+   690→      box-shadow: 0 10px 20px rgba(0,0,0,.1);
+   691→    }
+   692→    .heart {
+   693→      position: absolute;
+   694→      top: 12px;
+   695→      right: 12px;
+   696→      width: 38px;
+   697→      height: 38px;
+   698→      border: 0;
+   699→      border-radius: 999px;
+   700→      background: rgba(255,255,255,.88);
+   701→      cursor: pointer;
+   702→      display: grid;
+   703→      place-items: center;
+   704→      color: var(--blush);
+   705→    }
+   706→    .heart.active {
+   707→      color: #fff;
+   708→      background: linear-gradient(135deg, var(--blush), var(--tangerine));
+   709→    }
+   710→    .product-image, .product-card h3 { cursor: pointer; }
+   711→    .product-body { padding: 15px; }
+   712→    .product-meta {
+   713→      display: flex;
+   714→      align-items: center;
+   715→      justify-content: space-between;
+   716→      gap: 12px;
+   717→      color: var(--muted);
+   718→      font-weight: 800;
+   719→      font-size: .78rem;
+   720→      margin-bottom: 7px;
+   721→    }
+   722→    .stars { color: #f4a916; letter-spacing: -.08em; }
+   723→    .product-card h3 {
+   724→      font-size: .98rem;
+   725→      line-height: 1.28;
+   726→      margin: 0 0 12px;
+   727→      min-height: 42px;
+   728→    }
+   729→    .price-row {
+   730→      display: flex;
+   731→      align-items: center;
+   732→      justify-content: space-between;
+   733→      gap: 8px;
+   734→    }
+   735→    .price {
+   736→      font-weight: 900;
+   737→      font-size: 1.25rem;
+   738→      letter-spacing: -.04em;
+   739→    }
+   740→    .old-price {
+   741→      color: var(--muted);
+   742→      font-size: .82rem;
+   743→      text-decoration: line-through;
+   744→      margin-left: 4px;
+   745→      font-weight: 700;
+   746→    }
+   747→    .add-btn {
+   748→      border: 0;
+   749→      border-radius: 999px;
+   750→      background: var(--ink);
+   751→      color: white;
+   752→      width: 42px;
+   753→      height: 42px;
+   754→      display: grid;
+   755→      place-items: center;
+   756→      cursor: pointer;
+   757→      font-size: 1.2rem;
+   758→      transition: transform .2s ease, background .2s ease;
+   759→    }
+   760→    .add-btn:hover { transform: rotate(8deg) scale(1.06); background: var(--blush); }
+   761→
+   762→    .trust-grid {
+   763→      display: grid;
+   764→      grid-template-columns: repeat(4, 1fr);
+   765→      gap: 14px;
+   766→    }
+   767→    .trust-card {
+   768→      border: 1px solid var(--line);
+   769→      border-radius: 24px;
+   770→      padding: 20px;
+   771→      background: rgba(255,255,255,.62);
+   772→    }
+   773→    .trust-card b {
+   774→      display: block;
+   775→      font-family: "Fraunces", serif;
+   776→      font-size: 1.35rem;
+   777→      letter-spacing: -.04em;
+   778→      margin-bottom: 6px;
+   779→    }
+   780→    .trust-card span { color: var(--muted); line-height: 1.55; font-size: .9rem; }
+   781→
+   782→    footer {
+   783→      margin-top: 36px;
+   784→      padding: 42px 0;
+   785→      background: var(--coal);
+   786→      color: #fff8ef;
+   787→    }
+   788→    .footer-grid {
+   789→      display: grid;
+   790→      grid-template-columns: 1.2fr repeat(3, .7fr);
+   791→      gap: 28px;
+   792→    }
+   793→    footer .brand-copy span { color: rgba(255,255,255,.6); }
+   794→    footer p, footer a {
+   795→      color: rgba(255,255,255,.66);
+   796→      line-height: 1.7;
+   797→      font-size: .92rem;
+   798→    }
+   799→    footer h4 { margin: 0 0 12px; }
+   800→    footer a { display: block; margin: 7px 0; }
+   801→
+   802→    .drawer-backdrop {
+   803→      position: fixed;
+   804→      inset: 0;
+   805→      background: rgba(23,18,15,.42);
+   806→      z-index: 40;
+   807→      opacity: 0;
+   808→      pointer-events: none;
+   809→      transition: opacity .25s ease;
+   810→    }
+   811→    .drawer {
+   812→      position: fixed;
+   813→      top: 0;
+   814→      right: 0;
+   815→      bottom: 0;
+   816→      width: min(420px, 92vw);
+   817→      z-index: 50;
+   818→      background: #fffaf4;
+   819→      transform: translateX(105%);
+   820→      transition: transform .32s cubic-bezier(.2,.8,.2,1);
+   821→      box-shadow: -24px 0 60px rgba(0,0,0,.18);
+   822→      display: grid;
+   823→      grid-template-rows: auto 1fr auto;
+   824→    }
+   825→    body.cart-open .drawer-backdrop { opacity: 1; pointer-events: auto; }
+   826→    body.cart-open .drawer { transform: translateX(0); }
+   827→
+   828→    .auth-backdrop {
+   829→      position: fixed;
+   830→      inset: 0;
+   831→      background: rgba(23,18,15,.42);
+   832→      z-index: 42;
+   833→      opacity: 0;
+   834→      pointer-events: none;
+   835→      transition: opacity .25s ease;
+   836→    }
+   837→
+   838→    .auth-panel {
+   839→      position: fixed;
+   840→      top: 50%;
+   841→      left: 50%;
+   842→      width: min(440px, calc(100vw - 28px));
+   843→      transform: translate(-50%, -46%) scale(.96);
+   844→      opacity: 0;
+   845→      pointer-events: none;
+   846→      z-index: 55;
+   847→      background: #fffaf4;
+   848→      border: 1px solid rgba(23,18,15,.12);
+   849→      border-radius: 30px;
+   850→      box-shadow: 0 30px 90px rgba(23,18,15,.24);
+   851→      padding: 24px;
+   852→      transition: opacity .25s ease, transform .25s ease;
+   853→    }
+   854→
+   855→    body.auth-open .auth-backdrop {
+   856→      opacity: 1;
+   857→      pointer-events: auto;
+   858→    }
+   859→
+   860→    body.auth-open .auth-panel {
+   861→      opacity: 1;
+   862→      pointer-events: auto;
+   863→      transform: translate(-50%, -50%) scale(1);
+   864→    }
+   865→
+   866→    .auth-head {
+   867→      display: flex;
+   868→      align-items: start;
+   869→      justify-content: space-between;
+   870→      gap: 16px;
+   871→      margin-bottom: 18px;
+   872→    }
+   873→
+   874→    .auth-head h3 {
+   875→      font-family: "Fraunces", serif;
+   876→      font-size: 2.25rem;
+   877→      line-height: .9;
+   878→      letter-spacing: -.055em;
+   879→      margin: 0 0 8px;
+   880→    }
+   881→
+   882→    .auth-head p {
+   883→      margin: 0;
+   884→      color: var(--muted);
+   885→      line-height: 1.6;
+   886→      font-size: .92rem;
+   887→    }
+   888→
+   889→    .auth-form {
+   890→      display: grid;
+   891→      gap: 10px;
+   892→    }
+   893→
+   894→    .auth-form input {
+   895→      width: 100%;
+   896→      border: 1px solid var(--line);
+   897→      border-radius: 17px;
+   898→      background: #fff;
+   899→      color: var(--ink);
+   900→      padding: 13px 14px;
+   901→      outline: 0;
+   902→    }
+   903→
+   904→    .auth-form input:focus {
+   905→      border-color: rgba(255,79,121,.55);
+   906→      box-shadow: 0 0 0 4px rgba(255,79,121,.12);
+   907→    }
+   908→
+   909→    .auth-submit {
+   910→      border: 0;
+   911→      border-radius: 999px;
+   912→      background: linear-gradient(135deg, var(--blush), var(--tangerine));
+   913→      color: #fff;
+   914→      padding: 14px 18px;
+   915→      font-weight: 900;
+   916→      cursor: pointer;
+   917→      margin-top: 4px;
+   918→    }
+   919→
+   920→    .auth-note {
+   921→      color: var(--muted);
+   922→      font-size: .78rem;
+   923→      line-height: 1.55;
+   924→      margin: 12px 0 0;
+   925→    }
+   926→
+   927→    .toast {
+   928→      position: fixed;
+   929→      left: 50%;
+   930→      bottom: 22px;
+   931→      transform: translate(-50%, 18px);
+   932→      opacity: 0;
+   933→      z-index: 90;
+   934→      background: var(--coal);
+   935→      color: #fff8ef;
+   936→      border-radius: 999px;
+   937→      padding: 12px 18px;
+   938→      box-shadow: 0 18px 40px rgba(23,18,15,.22);
+   939→      font-weight: 800;
+   940→      pointer-events: none;
+   941→      transition: opacity .22s ease, transform .22s ease;
+   942→      max-width: min(560px, calc(100vw - 24px));
+   943→      text-align: center;
+   944→    }
+   945→    .toast.show {
+   946→      opacity: 1;
+   947→      transform: translate(-50%, 0);
+   948→    }
+   949→
+   950→    .drawer-head, .drawer-foot {
+   951→      padding: 20px;
+   952→      border-bottom: 1px solid var(--line);
+   953→      display: flex;
+   954→      align-items: center;
+   955→      justify-content: space-between;
+   956→      gap: 12px;
+   957→    }
+   958→    .drawer-foot {
+   959→      border-bottom: 0;
+   960→      border-top: 1px solid var(--line);
+   961→      display: block;
+   962→    }
+   963→    .drawer-head h3 {
+   964→      font-family: "Fraunces", serif;
+   965→      font-size: 2rem;
+   966→      margin: 0;
+   967→      letter-spacing: -.05em;
+   968→    }
+   969→    .close-btn {
+   970→      border: 1px solid var(--line);
+   971→      border-radius: 999px;
+   972→      background: white;
+   973→      width: 40px;
+   974→      height: 40px;
+   975→      cursor: pointer;
+   976→    }
+   977→    .cart-items {
+   978→      padding: 18px;
+   979→      overflow: auto;
+   980→      display: grid;
+   981→      align-content: start;
+   982→      gap: 12px;
+   983→    }
+   984→    .cart-item {
+   985→      display: grid;
+   986→      grid-template-columns: 70px 1fr auto;
+   987→      gap: 12px;
+   988→      align-items: center;
+   989→      background: white;
+   990→      border: 1px solid var(--line);
+   991→      border-radius: 18px;
+   992→      padding: 9px;
+   993→    }
+   994→    .cart-item img {
+   995→      width: 70px;
+   996→      height: 82px;
+   997→      object-fit: cover;
+   998→      border-radius: 13px;
+   999→    }
+  1000→    .cart-item strong { display: block; font-size: .88rem; line-height: 1.25; }
+  1001→    .cart-item span { color: var(--muted); font-size: .8rem; font-weight: 800; }
+  1002→    .qty {
+  1003→      border: 1px solid var(--line);
+  1004→      border-radius: 999px;
+  1005→      padding: 5px 8px;
+  1006→      font-weight: 900;
+  1007→    }
+  1008→    .total-row {
+  1009→      display: flex;
+  1010→      justify-content: space-between;
+  1011→      margin-bottom: 14px;
+  1012→      font-weight: 900;
+  1013→      font-size: 1.12rem;
+  1014→    }
+  1015→    .checkout {
+  1016→      width: 100%;
+  1017→      border: 0;
+  1018→      background: linear-gradient(135deg, var(--blush), var(--tangerine));
+  1019→      color: #fff;
+  1020→      padding: 15px 18px;
+  1021→      border-radius: 999px;
+  1022→      font-weight: 900;
+  1023→      cursor: pointer;
+  1024→    }
+  1025→
+  1026→    html[dir="rtl"] body { text-align: right; }
+  1027→    html[dir="rtl"] .searchbar button { margin-right: 0; margin-left: 5px; }
+  1028→    html[dir="rtl"] .hero-copy {
+  1029→      background:
+  1030→        linear-gradient(270deg, rgba(23,18,15,.87) 0%, rgba(23,18,15,.62) 46%, rgba(23,18,15,.16) 100%),
+  1031→        url("https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1500&q=82") center / cover;
+  1032→    }
+  1033→    html[dir="rtl"] .drawer {
+  1034→      right: auto;
+  1035→      left: 0;
+  1036→      transform: translateX(-105%);
+  1037→      box-shadow: 24px 0 60px rgba(0,0,0,.18);
+  1038→    }
+  1039→    html[dir="rtl"] .language-menu { right: auto; left: 0; }
+  1040→    html[dir="rtl"] .language-option { text-align: right; }
+  1041→    html[dir="rtl"] body.cart-open .drawer { transform: translateX(0); }
+  1042→    html[dir="rtl"] .brand-mark { transform: rotate(8deg); }
+  1043→
+  1044→    .reveal {
+  1045→      opacity: 0;
+  1046→      transform: translateY(20px);
+  1047→      animation: rise .7s ease forwards;
+  1048→    }
+  1049→    .delay-1 { animation-delay: .08s; }
+  1050→    .delay-2 { animation-delay: .16s; }
+  1051→    .delay-3 { animation-delay: .24s; }
+  1052→    @keyframes rise {
+  1053→      to { opacity: 1; transform: translateY(0); }
+  1054→    }
+  1055→
+  1056→    @media (max-width: 980px) {
+  1057→      .nav-inner { grid-template-columns: 1fr auto; }
+  1058→      .searchbar { grid-column: 1 / -1; order: 3; }
+  1059→      .hero-grid { grid-template-columns: 1fr; }
+  1060→      .hero-copy { min-height: 620px; }
+  1061→      .product-grid { grid-template-columns: repeat(3, 1fr); }
+  1062→      .trust-grid, .footer-grid { grid-template-columns: repeat(2, 1fr); }
+  1063→    }
+  1064→
+  1065→    @media (max-width: 700px) {
+  1066→      .announcement .shell { justify-content: center; text-align: center; }
+  1067→      .announcement span:last-child { display: none; }
+  1068→      .brand-copy span { display: none; }
+  1069→      .nav-actions { gap: 7px; }
+  1070→      .language-current { width: 58px; padding: 0 9px; }
+  1071→      .language-current .lang-name,
+  1072→      .language-current .chevron,
+  1073→      .account-btn .account-label,
+  1074→      .cart-btn .cart-label { display: none; }
+  1075→      .account-btn, .cart-btn { width: 48px; padding: 0 9px; }
+  1076→      .language-menu { right: -78px; }
+  1077→      .hero { padding-top: 24px; }
+  1078→      .hero-copy { min-height: 620px; padding: 28px; }
+  1079→      .stat-strip { grid-template-columns: 1fr; position: static; margin-top: 30px; }
+  1080→      .hero h1 { font-size: clamp(3.1rem, 17vw, 5rem); }
+  1081→      .side-deals { grid-template-columns: 1fr; }
+  1082→      .section-head { display: block; }
+  1083→      .section-head p { margin-top: 12px; }
+  1084→      .promo-band { grid-template-columns: 1fr; }
+  1085→      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  1086→      .product-card { border-radius: 22px; }
+  1087→      .product-body { padding: 12px; }
+  1088→      .product-card h3 { font-size: .88rem; min-height: 46px; }
+  1089→      .price { font-size: 1.05rem; }
+  1090→      .trust-grid, .footer-grid { grid-template-columns: 1fr; }
+  1091→    }
+  1092→
+  1093→    @media (max-width: 420px) {
+  1094→      .shell { width: min(100% - 24px, 1180px); }
+  1095→      .brand { min-width: auto; }
+  1096→      .brand-copy strong { font-size: 1.25rem; }
+  1097→      .brand-mark { width: 40px; height: 40px; }
+  1098→      .product-grid { grid-template-columns: 1fr; }
+  1099→      .category-grid { grid-template-columns: repeat(7, 148px); }
+  1100→    }
+  1101→  </style>
+  1102→</head>
+  1103→<body>
+  1104→<style>
+  1105→body{background:#0b0b0b!important}
+  1106→.hero-premium{background:linear-gradient(135deg,#0b0b0b,#1a1a1a);color:#fff;padding:80px 20px;text-align:center;border-bottom:1px solid #d4af37}
+  1107→.hero-premium h1{font-size:64px;color:#d4af37;margin:0}
+  1108→.hero-premium p{font-size:24px}
+  1109→.hero-premium a{display:inline-block;background:#d4af37;color:#000;padding:14px 28px;text-decoration:none;border-radius:30px;font-weight:bold}
+  1110→</style>
+  1111→<div class='hero-premium'><h1>UZALUS</h1><p>Everything You Need, All in One Place</p><a href='#'>SHOP NOW</a></div>
+  1112→
+  1113→  <div class="announcement">
+  1114→    <div class="shell">
+  1115→      <span data-i18n="announcement.offer">Launch offer: free shipping over $49 + extra 15% off bundles</span>
+  1116→      <span data-i18n="announcement.drops">New drops every week · Secure checkout concept</span>
+  1117→    </div>
+  1118→  </div>
+  1119→
+  1120→  <header class="nav">
+  1121→    <div class="shell nav-inner">
+  1122→      <a class="brand" href="#" aria-label="Uzalus home">
+  1123→        <span class="brand-mark">U</span>
+  1124→        <span class="brand-copy">
+  1125→          <strong>Uzalus</strong>
+  1126→          <span>www.uzalus.com</span>
+  1127→        </span>
+  1128→      </a>
+  1129→
+  1130→      <form class="searchbar" id="searchForm">
+  1131→        <input id="searchInput" type="search" data-i18n-placeholder="search.placeholder" placeholder="Search dresses, sneakers, perfume, decor..." aria-label="Search products" />
+  1132→        <button type="submit" data-i18n="search.button">Search</button>
+  1133→      </form>
+  1134→
+  1135→      <div class="nav-actions">
+  1136→        <div class="language-picker" id="languagePicker">
+  1137→          <button class="language-current" id="languageButton" type="button" aria-label="Language">
+  1138→            <span id="currentLanguageFlag">🇬🇧</span>
+  1139→            <span class="lang-name" id="currentLanguageLabel">English</span>
+  1140→            <span class="chevron">⌄</span>
+  1141→          </button>
+  1142→          <div class="language-menu" id="languageMenu" role="menu" aria-label="Language options">
+  1143→            <button class="language-option" type="button" data-lang="en">🇬🇧 English</button>
+  1144→            <button class="language-option" type="button" data-lang="fr">🇫🇷 Français</button>
+  1145→            <button class="language-option" type="button" data-lang="ar">🇸🇦 العربية</button>
+  1146→            <button class="language-option" type="button" data-lang="de">🇩🇪 Deutsch</button>
+  1147→            <button class="language-option" type="button" data-lang="es">🇪🇸 Español</button>
+  1148→          </div>
+  1149→        </div>
+  1150→        <button class="account-btn" id="signupButton" data-i18n-aria="actions.signupAria" aria-label="Create account">
+  1151→          <span class="action-symbol">ID</span>
+  1152→          <span class="account-label" data-i18n="actions.signup">Sign up</span>
+  1153→        </button>
+  1154→        <button class="cart-btn" id="cartButton" data-i18n-aria="actions.bagAria" aria-label="Open shopping bag">
+  1155→          <span class="action-symbol">BAG</span>
+  1156→          <span class="cart-label" data-i18n="actions.bag">Bag</span>
+  1157→          <span class="cart-count" id="cartCount">0</span>
+  1158→        </button>
+  1159→      </div>
+  1160→    </div>
+  1161→    <nav class="shell category-nav" aria-label="Main categories">
+  1162→      <a href="#shop" data-nav-filter="Women" data-i18n="cat.Women">Women</a>
+  1163→      <a href="#shop" data-nav-filter="Men" data-i18n="cat.Men">Men</a>
+  1164→      <a href="#shop" data-nav-filter="Children" data-i18n="cat.Children">Children</a>
+  1165→      <a href="#shop" data-nav-filter="Beauty" data-i18n="cat.Beauty">Beauty</a>
+  1166→      <a href="#shop" data-nav-filter="Electronics" data-i18n="cat.Electronics">Electronics</a>
+  1167→      <a href="#shop" data-nav-filter="Home" data-i18n="cat.HomeDecor">Home & Decor</a>
+  1168→      <a href="#shop" data-nav-filter="Perfumes" data-i18n="cat.Perfumes">Perfumes</a>
+  1169→      <a href="#shop" data-nav-filter="All" data-i18n="cat.Deals">Deals</a>
+  1170→    </nav>
+  1171→  </header>
+  1172→
+  1173→  <main>
+  1174→    <section class="hero">
+  1175→      <div class="shell hero-grid">
+  1176→        <div class="hero-copy reveal">
+  1177→          <span class="eyebrow" data-i18n="hero.eyebrow">Marketplace concept · global style</span>
+  1178→          <h1 data-i18n="hero.title">Everything you want, styled in one bold cart.</h1>
+  1179→          <p data-i18n="hero.subtitle">Uzalus blends trend-led fashion, beauty essentials, clever electronics, home accents, and fragrance finds into a fast, visual shopping experience.</p>
+  1180→          <div class="hero-ctas">
+  1181→            <a href="#shop" class="pill-button" data-i18n="hero.shop">Shop trending picks</a>
+  1182→            <a href="#categories" class="ghost-button" data-i18n="hero.browse">Browse categories</a>
+  1183→          </div>
+  1184→          <div class="stat-strip">
+  1185→            <div class="stat"><strong>7</strong><span data-i18n="hero.stat1">Curated departments</span></div>
+  1186→            <div class="stat"><strong>48h</strong><span data-i18n="hero.stat2">New-season edit rhythm</span></div>
+  1187→            <div class="stat"><strong>15%</strong><span data-i18n="hero.stat3">Bundle promo concept</span></div>
+  1188→          </div>
+  1189→        </div>
+  1190→
+  1191→        <aside class="side-deals">
+  1192→          <a class="deal-card one reveal delay-1" href="#perfumes">
+  1193→            <div>
+  1194→              <h3 data-i18n="deal.scentTitle">Scent bar</h3>
+  1195→              <p data-i18n="deal.scentText">Modern perfumes and vanity-table favorites.</p>
+  1196→            </div>
+  1197→          </a>
+  1198→          <a class="deal-card two reveal delay-2" href="#electronics">
+  1199→            <div>
+  1200→              <h3 data-i18n="deal.techTitle">Tech finds</h3>
+  1201→              <p data-i18n="deal.techText">Everyday electronics with clean, useful design.</p>
+  1202→            </div>
+  1203→          </a>
+  1204→        </aside>
+  1205→      </div>
+  1206→    </section>
+  1207→
+  1208→    <section class="section" id="categories">
+  1209→      <div class="shell">
+  1210→        <div class="section-head">
+  1211→          <div>
+  1212→            <span class="section-kicker" data-i18n="departments.kicker">Departments</span>
+  1213→            <h2 data-i18n="departments.title">Shop by mood, need, or category.</h2>
+  1214→          </div>
+  1215→          <p data-i18n="departments.text">Large editorial photo tiles help customers jump quickly from broad browsing to specific products.</p>
+  1216→        </div>
+  1217→
+  1218→        <div class="category-grid">
+  1219→          <a class="category-card" id="women" href="#shop" data-filter-link="Women">
+  1220→            <img alt="Women's fashion editorial photo" src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=520&q=82" />
+  1221→            <span class="category-label"><strong data-i18n="cat.Women">Women</strong><span data-i18n="catDesc.Women">Dresses, sets, bags</span></span>
+  1222→          </a>
+  1223→          <a class="category-card" id="men" href="#shop" data-filter-link="Men">
+  1224→            <img alt="Men's fashion portrait" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=520&q=82" />
+  1225→            <span class="category-label"><strong data-i18n="cat.Men">Men</strong><span data-i18n="catDesc.Men">Layers, denim, shoes</span></span>
+  1226→          </a>
+  1227→          <a class="category-card" id="kids" href="#shop" data-filter-link="Children">
+  1228→            <img alt="Child wearing casual clothing" src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=520&q=82" />
+  1229→            <span class="category-label"><strong data-i18n="cat.Children">Children</strong><span data-i18n="catDesc.Children">Playwear, basics</span></span>
+  1230→          </a>
+  1231→          <a class="category-card" id="beauty" href="#shop" data-filter-link="Beauty">
+  1232→            <img alt="Cosmetics and makeup products" src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=520&q=82" />
+  1233→            <span class="category-label"><strong data-i18n="cat.Beauty">Beauty</strong><span data-i18n="catDesc.Beauty">Makeup, skincare</span></span>
+  1234→          </a>
+  1235→          <a class="category-card" id="electronics" href="#shop" data-filter-link="Electronics">
+  1236→            <img alt="Laptop and electronics setup" src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=520&q=82" />
+  1237→            <span class="category-label"><strong data-i18n="cat.Electronics">Electronics</strong><span data-i18n="catDesc.Electronics">Gadgets, audio</span></span>
+  1238→          </a>
+  1239→          <a class="category-card" id="home" href="#shop" data-filter-link="Home">
+  1240→            <img alt="Modern home decor interior" src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=520&q=82" />
+  1241→            <span class="category-label"><strong data-i18n="cat.Home">Home</strong><span data-i18n="catDesc.Home">Decor, lighting</span></span>
+  1242→          </a>
+  1243→          <a class="category-card" id="perfumes" href="#shop" data-filter-link="Perfumes">
+  1244→            <img alt="Perfume bottle still life" src="https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=520&q=82" />
+  1245→            <span class="category-label"><strong data-i18n="cat.Perfumes">Perfumes</strong><span data-i18n="catDesc.Perfumes">Signature scents</span></span>
+  1246→          </a>
+  1247→        </div>
+  1248→      </div>
+  1249→    </section>
+  1250→
+  1251→    <section class="section" id="deals">
+  1252→      <div class="shell">
+  1253→        <div class="promo-band">
+  1254→          <div>
+  1255→            <span class="section-kicker" style="color:#fff;" data-i18n="promo.kicker">Limited edit</span>
+  1256→            <h2 data-i18n="promo.title">Bundle fashion, beauty, home, and tech in one marketplace bag.</h2>
+  1257→            <p data-i18n="promo.text">Designed as a professional storefront concept with promotional energy, quick discovery, category filters, and a working cart drawer.</p>
+  1258→          </div>
+  1259→          <a href="#shop" class="ghost-button" data-i18n="promo.cta">View deals</a>
+  1260→        </div>
+  1261→      </div>
+  1262→    </section>
+  1263→
+  1264→    <section class="section" id="shop">
+  1265→      <div class="shell">
+  1266→        <div class="section-head">
+  1267→          <div>
+  1268→            <span class="section-kicker" data-i18n="shop.kicker">Trending now</span>
+  1269→            <h2 data-i18n="shop.title">Marketplace picks with real product photography.</h2>
+  1270→          </div>
+  1271→          <p data-i18n="shop.text">Use the tabs or search to explore sample products across women's, men's, children, beauty, electronics, home, and perfume categories.</p>
+  1272→        </div>
+  1273→
+  1274→        <div class="toolbar">
+  1275→          <div class="filter-tabs" id="filterTabs" aria-label="Product filters"></div>
+  1276→          <div class="sort-note" id="resultCount">Showing all products</div>
+  1277→        </div>
+  1278→
+  1279→        <div class="product-grid" id="productGrid"></div>
+  1280→      </div>
+  1281→    </section>
+  1282→
+  1283→    <section class="section">
+  1284→      <div class="shell">
+  1285→        <div class="trust-grid">
+  1286→          <div class="trust-card"><b data-i18n="trust.visualTitle">Visual-first shopping</b><span data-i18n="trust.visualText">Large photography, quick cards, and clean price hierarchy for fast browsing.</span></div>
+  1287→          <div class="trust-card"><b data-i18n="trust.mobileTitle">Mobile ready</b><span data-i18n="trust.mobileText">Responsive grids, sticky navigation, and thumb-friendly controls.</span></div>
+  1288→          <div class="trust-card"><b data-i18n="trust.promoTitle">Promo engine</b><span data-i18n="trust.promoText">Badges, discount pricing, and campaign banners support marketplace merchandising.</span></div>
+  1289→          <div class="trust-card"><b data-i18n="trust.brandTitle">Brand foundation</b><span data-i18n="trust.brandText">New Uzalus logo, color system, typography, and reusable category structure.</span></div>
+  1290→        </div>
+  1291→      </div>
+  1292→    </section>
+  1293→  </main>
+  1294→
+  1295→  <footer>
+  1296→    <div class="shell footer-grid">
+  1297→      <div>
+  1298→        <a class="brand" href="#">
+  1299→          <span class="brand-mark">U</span>
+  1300→          <span class="brand-copy">
+  1301→            <strong>Uzalus</strong>
+  1302→            <span>www.uzalus.com</span>
+  1303→          </span>
+  1304→        </a>
+  1305→        <p data-i18n="footer.description">A polished e-commerce storefront concept for global fashion, beauty, electronics, home decor, and fragrance discovery.</p>
+  1306→      </div>
+  1307→      <div>
+  1308→        <h4 data-i18n="footer.shop">Shop</h4>
+  1309→        <a href="#women" data-i18n="cat.Women">Women</a>
+  1310→        <a href="#men" data-i18n="cat.Men">Men</a>
+  1311→        <a href="#kids" data-i18n="cat.Children">Children</a>
+  1312→        <a href="#beauty" data-i18n="cat.Beauty">Beauty</a>
+  1313→      </div>
+  1314→      <div>
+  1315→        <h4 data-i18n="footer.more">More</h4>
+  1316→        <a href="#electronics" data-i18n="cat.Electronics">Electronics</a>
+  1317→        <a href="#home" data-i18n="cat.HomeDecor">Home & Decor</a>
+  1318→        <a href="#perfumes" data-i18n="cat.Perfumes">Perfumes</a>
+  1319→        <a href="#deals" data-i18n="cat.Deals">Deals</a>
+  1320→      </div>
+  1321→      <div>
+  1322→        <h4 data-i18n="footer.support">Support</h4>
+  1323→        <a href="#support" class="support-link" data-i18n="footer.shipping">Shipping</a>
+  1324→        <a href="#support" class="support-link" data-i18n="footer.returns">Returns</a>
+  1325→        <a href="#support" class="support-link" data-i18n="footer.track">Track order</a>
+  1326→        <a href="#support" class="support-link" data-i18n="footer.contact">Contact</a>
+  1327→      </div>
+  1328→    </div>
+  1329→  </footer>
+  1330→
+  1331→  <div class="auth-backdrop" id="authBackdrop"></div>
+  1332→  <aside class="auth-panel" data-i18n-aria="auth.panelAria" aria-label="Create account">
+  1333→    <div class="auth-head">
+  1334→      <div>
+  1335→        <h3 data-i18n="auth.title">Create your account</h3>
+  1336→        <p data-i18n="auth.text">Join Uzalus to save products, prepare orders, and manage your future catalogue purchases.</p>
+  1337→      </div>
+  1338→      <button class="close-btn" id="closeAuth" data-i18n-aria="auth.close" aria-label="Close registration">×</button>
+  1339→    </div>
+  1340→    <form class="auth-form">
+  1341→      <input type="text" data-i18n-placeholder="auth.name" placeholder="Full name" />
+  1342→      <input type="email" data-i18n-placeholder="auth.email" placeholder="Email address" />
+  1343→      <input type="password" data-i18n-placeholder="auth.password" placeholder="Password" />
+  1344→      <button class="auth-submit" type="button" data-i18n="auth.submit">Create account</button>
+  1345→    </form>
+  1346→    <p class="auth-note" data-i18n="auth.note">This is a storefront concept. Connect Shopify, WooCommerce, or your backend later for real customer accounts.</p>
+  1347→  </aside>
+  1348→
+  1349→  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  1350→  <aside class="drawer" data-i18n-aria="actions.bagAria" aria-label="Shopping bag">
+  1351→    <div class="drawer-head">
+  1352→      <h3 data-i18n="cart.title">Your bag</h3>
+  1353→      <button class="close-btn" id="closeCart" data-i18n-aria="cart.close" aria-label="Close cart">×</button>
+  1354→    </div>
+  1355→    <div class="cart-items" id="cartItems"></div>
+  1356→    <div class="drawer-foot">
+  1357→      <div class="total-row"><span data-i18n="cart.subtotal">Subtotal</span><span id="cartTotal">$0.00</span></div>
+  1358→      <button class="checkout" data-i18n="cart.checkout">Checkout concept</button>
+  1359→    </div>
+  1360→  </aside>
+  1361→  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  1362→  <script>
+  1363→    const translations = {
+  1364→      en: {
+  1365→        "meta.title": "Uzalus — Global Finds, Everyday Style",
+  1366→        "announcement.offer": "Launch offer: free shipping over $49 + extra 15% off bundles",
+  1367→        "announcement.drops": "New drops every week · Secure checkout concept",
+  1368→        "search.placeholder": "Search dresses, sneakers, perfume, decor...",
+  1369→        "search.button": "Search",
+  1370→        "actions.saved": "Saved items",
+  1371→        "actions.bag": "Bag",
+  1372→        "actions.bagAria": "Open shopping bag",
+  1373→        "actions.signup": "Sign up",
+  1374→        "actions.signupAria": "Create account",
+  1375→        "cat.All": "All",
+  1376→        "cat.Women": "Women",
+  1377→        "cat.Men": "Men",
+  1378→        "cat.Children": "Children",
+  1379→        "cat.Beauty": "Beauty",
+  1380→        "cat.Electronics": "Electronics",
+  1381→        "cat.Home": "Home",
+  1382→        "cat.HomeDecor": "Home & Decor",
+  1383→        "cat.Perfumes": "Perfumes",
+  1384→        "cat.Deals": "Deals",
+  1385→        "hero.eyebrow": "Marketplace concept · global style",
+  1386→        "hero.title": "Everything you want, styled in one bold cart.",
+  1387→        "hero.subtitle": "Uzalus blends trend-led fashion, beauty essentials, clever electronics, home accents, and fragrance finds into a fast, visual shopping experience.",
+  1388→        "hero.shop": "Shop trending picks",
+  1389→        "hero.browse": "Browse categories",
+  1390→        "hero.stat1": "Curated departments",
+  1391→        "hero.stat2": "New-season edit rhythm",
+  1392→        "hero.stat3": "Bundle promo concept",
+  1393→        "deal.scentTitle": "Scent bar",
+  1394→        "deal.scentText": "Modern perfumes and vanity-table favorites.",
+  1395→        "deal.techTitle": "Tech finds",
+  1396→        "deal.techText": "Everyday electronics with clean, useful design.",
+  1397→        "departments.kicker": "Departments",
+  1398→        "departments.title": "Shop by mood, need, or category.",
+  1399→        "departments.text": "Large editorial photo tiles help customers jump quickly from broad browsing to specific products.",
+  1400→        "catDesc.Women": "Dresses, sets, bags",
+  1401→        "catDesc.Men": "Layers, denim, shoes",
+  1402→        "catDesc.Children": "Playwear, basics",
+  1403→        "catDesc.Beauty": "Makeup, skincare",
+  1404→        "catDesc.Electronics": "Gadgets, audio",
+  1405→        "catDesc.Home": "Decor, lighting",
+  1406→        "catDesc.Perfumes": "Signature scents",
+  1407→        "promo.kicker": "Limited edit",
+  1408→        "promo.title": "Bundle fashion, beauty, home, and tech in one marketplace bag.",
+  1409→        "promo.text": "Designed as a professional storefront concept with promotional energy, quick discovery, category filters, and a working cart drawer.",
+  1410→        "promo.cta": "View deals",
+  1411→        "shop.kicker": "Trending now",
+  1412→        "shop.title": "Marketplace picks with real product photography.",
+  1413→        "shop.text": "Use the tabs or search to explore sample products across women's, men's, children, beauty, electronics, home, and perfume categories.",
+  1414→        "trust.visualTitle": "Visual-first shopping",
+  1415→        "trust.visualText": "Large photography, quick cards, and clean price hierarchy for fast browsing.",
+  1416→        "trust.mobileTitle": "Mobile ready",
+  1417→        "trust.mobileText": "Responsive grids, sticky navigation, and thumb-friendly controls.",
+  1418→        "trust.promoTitle": "Promo engine",
+  1419→        "trust.promoText": "Badges, discount pricing, and campaign banners support marketplace merchandising.",
+  1420→        "trust.brandTitle": "Brand foundation",
+  1421→        "trust.brandText": "New Uzalus logo, color system, typography, and reusable category structure.",
+  1422→        "footer.description": "A polished e-commerce storefront concept for global fashion, beauty, electronics, home decor, and fragrance discovery.",
+  1423→        "footer.shop": "Shop",
+  1424→        "footer.more": "More",
+  1425→        "footer.support": "Support",
+  1426→        "footer.shipping": "Shipping",
+  1427→        "footer.returns": "Returns",
+  1428→        "footer.track": "Track order",
+  1429→        "footer.contact": "Contact",
+  1430→        "cart.title": "Your bag",
+  1431→        "cart.close": "Close cart",
+  1432→        "cart.subtotal": "Subtotal",
+  1433→        "cart.checkout": "Checkout concept",
+  1434→        "cart.empty": "Your bag is empty. Add a trending Uzalus pick to preview the cart flow.",
+  1435→        "auth.panelAria": "Create account",
+  1436→        "auth.title": "Create your account",
+  1437→        "auth.text": "Join Uzalus to save products, prepare orders, and manage your future catalogue purchases.",
+  1438→        "auth.close": "Close registration",
+  1439→        "auth.name": "Full name",
+  1440→        "auth.email": "Email address",
+  1441→        "auth.password": "Password",
+  1442→        "auth.submit": "Create account",
+  1443→        "auth.note": "This is a storefront concept. Connect Shopify, WooCommerce, or your backend later for real customer accounts.",
+  1444→        "toast.added": "Added to bag",
+  1445→        "toast.saved": "Saved to favourites",
+  1446→        "toast.unsaved": "Removed from favourites",
+  1447→        "toast.checkoutEmpty": "Add a product before checkout.",
+  1448→        "toast.checkoutReady": "Checkout will be connected when you add Shopify, WooCommerce, or a backend.",
+  1449→        "toast.account": "Account form ready. Real registration needs a backend.",
+  1450→        "toast.support": "This support page will be connected later.",
+  1451→        "toast.quickView": "Product photo clicked — item added to your bag.",
+  1452→        "results": "{count} product{plural} shown",
+  1453→        "addToCart": "Add {name} to cart",
+  1454→        "saveItem": "Save {name}",
+  1455→        "product.1": "Satin wrap midi dress with soft drape",
+  1456→        "product.2": "Structured mini shoulder bag",
+  1457→        "product.3": "Clean-cut cotton overshirt",
+  1458→        "product.4": "Everyday low-top sneakers",
+  1459→        "product.5": "Kids color-block weekend set",
+  1460→        "product.6": "Playday denim jacket",
+  1461→        "product.7": "Pigment-rich makeup palette",
+  1462→        "product.8": "Glow serum skincare trio",
+  1463→        "product.9": "Wireless studio headphones",
+  1464→        "product.10": "Slim smartphone stand and desk dock",
+  1465→        "product.11": "Curved ceramic vase set",
+  1466→        "product.12": "Warm woven throw blanket",
+  1467→        "product.13": "Amber oud eau de parfum",
+  1468→        "product.14": "Floral travel fragrance duo",
+  1469→        "product.15": "Ribbed lounge co-ord set",
+  1470→        "product.16": "Minimal LED bedside lamp"
+  1471→      },
+  1472→      fr: {
+  1473→        "meta.title": "Uzalus — Trouvailles mondiales, style quotidien",
+  1474→        "announcement.offer": "Offre de lancement : livraison gratuite dès 49 $ + 15 % sur les lots",
+  1475→        "announcement.drops": "Nouveautés chaque semaine · Paiement sécurisé concept",
+  1476→        "search.placeholder": "Rechercher robes, baskets, parfum, déco...",
+  1477→        "search.button": "Rechercher",
+  1478→        "actions.saved": "Articles favoris",
+  1479→        "actions.bag": "Panier",
+  1480→        "actions.bagAria": "Ouvrir le panier",
+  1481→        "actions.signup": "Inscription",
+  1482→        "actions.signupAria": "Créer un compte",
+  1483→        "cat.All": "Tout",
+  1484→        "cat.Women": "Femmes",
+  1485→        "cat.Men": "Hommes",
+  1486→        "cat.Children": "Enfants",
+  1487→        "cat.Beauty": "Beauté",
+  1488→        "cat.Electronics": "Électronique",
+  1489→        "cat.Home": "Maison",
+  1490→        "cat.HomeDecor": "Maison & déco",
+  1491→        "cat.Perfumes": "Parfums",
+  1492→        "cat.Deals": "Promos",
+  1493→        "hero.eyebrow": "Marketplace concept · style mondial",
+  1494→        "hero.title": "Tout ce que tu veux, dans un panier stylé.",
+  1495→        "hero.subtitle": "Uzalus réunit mode tendance, beauté, électronique utile, décoration et parfums dans une expérience shopping rapide et visuelle.",
+  1496→        "hero.shop": "Voir les tendances",
+  1497→        "hero.browse": "Parcourir les catégories",
+  1498→        "hero.stat1": "Départements sélectionnés",
+  1499→        "hero.stat2": "Nouveautés saisonnières",
+  1500→        "hero.stat3": "Promo sur les lots",
+  1501→        "deal.scentTitle": "Bar à parfums",
+  1502→        "deal.scentText": "Parfums modernes et favoris beauté.",
+  1503→        "deal.techTitle": "Sélection tech",
+  1504→        "deal.techText": "Électronique quotidienne au design utile.",
+  1505→        "departments.kicker": "Rayons",
+  1506→        "departments.title": "Acheter par style, besoin ou catégorie.",
+  1507→        "departments.text": "De grandes photos éditoriales aident les clients à passer vite de la découverte aux produits.",
+  1508→        "catDesc.Women": "Robes, ensembles, sacs",
+  1509→        "catDesc.Men": "Vestes, denim, chaussures",
+  1510→        "catDesc.Children": "Tenues, basiques",
+  1511→        "catDesc.Beauty": "Maquillage, soin",
+  1512→        "catDesc.Electronics": "Gadgets, audio",
+  1513→        "catDesc.Home": "Déco, éclairage",
+  1514→        "catDesc.Perfumes": "Senteurs signature",
+  1515→        "promo.kicker": "Édition limitée",
+  1516→        "promo.title": "Mode, beauté, maison et tech dans un seul panier marketplace.",
+  1517→        "promo.text": "Concept professionnel avec énergie promotionnelle, découverte rapide, filtres de catégories et panier fonctionnel.",
+  1518→        "promo.cta": "Voir les promos",
+  1519→        "shop.kicker": "Tendances",
+  1520→        "shop.title": "Sélection marketplace avec vraies photos produits.",
+  1521→        "shop.text": "Utilise les onglets ou la recherche pour explorer femmes, hommes, enfants, beauté, électronique, maison et parfums.",
+  1522→        "trust.visualTitle": "Shopping visuel",
+  1523→        "trust.visualText": "Grandes photos, cartes rapides et prix clairs pour naviguer facilement.",
+  1524→        "trust.mobileTitle": "Prêt mobile",
+  1525→        "trust.mobileText": "Grilles responsives, navigation fixe et contrôles adaptés au pouce.",
+  1526→        "trust.promoTitle": "Moteur promo",
+  1527→        "trust.promoText": "Badges, prix barrés et bannières soutiennent le merchandising.",
+  1528→        "trust.brandTitle": "Base de marque",
+  1529→        "trust.brandText": "Nouveau logo Uzalus, couleurs, typographie et structure réutilisable.",
+  1530→        "footer.description": "Concept e-commerce professionnel pour mode, beauté, électronique, décoration et parfums.",
+  1531→        "footer.shop": "Boutique",
+  1532→        "footer.more": "Plus",
+  1533→        "footer.support": "Support",
+  1534→        "footer.shipping": "Livraison",
+  1535→        "footer.returns": "Retours",
+  1536→        "footer.track": "Suivre commande",
+  1537→        "footer.contact": "Contact",
+  1538→        "cart.title": "Ton panier",
+  1539→        "cart.close": "Fermer le panier",
+  1540→        "cart.subtotal": "Sous-total",
+  1541→        "cart.checkout": "Paiement concept",
+  1542→        "cart.empty": "Ton panier est vide. Ajoute un produit tendance Uzalus pour voir le panier.",
+  1543→        "auth.panelAria": "Créer un compte",
+  1544→        "auth.title": "Créer ton compte",
+  1545→        "auth.text": "Rejoins Uzalus pour sauvegarder des produits, préparer tes commandes et gérer tes futurs achats catalogue.",
+  1546→        "auth.close": "Fermer l'inscription",
+  1547→        "auth.name": "Nom complet",
+  1548→        "auth.email": "Adresse e-mail",
+  1549→        "auth.password": "Mot de passe",
+  1550→        "auth.submit": "Créer un compte",
+  1551→        "auth.note": "Ceci est un concept de boutique. Connecte Shopify, WooCommerce ou ton backend plus tard pour de vrais comptes clients.",
+  1552→        "toast.added": "Ajouté au panier",
+  1553→        "toast.saved": "Ajouté aux favoris",
+  1554→        "toast.unsaved": "Retiré des favoris",
+  1555→        "toast.checkoutEmpty": "Ajoute un produit avant le paiement.",
+  1556→        "toast.checkoutReady": "Le paiement sera connecté avec Shopify, WooCommerce ou un backend.",
+  1557→        "toast.account": "Formulaire prêt. Une vraie inscription demande un backend.",
+  1558→        "toast.support": "Cette page support sera connectée plus tard.",
+  1559→        "toast.quickView": "Photo produit cliquée — article ajouté au panier.",
+  1560→        "results": "{count} produit{plural} affiché{plural}",
+  1561→        "addToCart": "Ajouter {name} au panier",
+  1562→        "saveItem": "Enregistrer {name}",
+  1563→        "product.1": "Robe midi portefeuille satinée",
+  1564→        "product.2": "Mini sac épaule structuré",
+  1565→        "product.3": "Surchemise coton coupe nette",
+  1566→        "product.4": "Baskets basses du quotidien",
+  1567→        "product.5": "Ensemble enfant color-block week-end",
+  1568→        "product.6": "Veste en jean enfant",
+  1569→        "product.7": "Palette maquillage pigmentée",
+  1570→        "product.8": "Trio sérums éclat soin",
+  1571→        "product.9": "Casque studio sans fil",
+  1572→        "product.10": "Support smartphone fin pour bureau",
+  1573→        "product.11": "Lot de vases céramique courbés",
+  1574→        "product.12": "Plaid tissé chaleureux",
+  1575→        "product.13": "Eau de parfum ambre oud",
+  1576→        "product.14": "Duo parfum floral voyage",
+  1577→        "product.15": "Ensemble lounge côtelé",
+  1578→        "product.16": "Lampe de chevet LED minimaliste"
+  1579→      },
+  1580→      ar: {
+  1581→        "meta.title": "أوزالوس — اختيارات عالمية وأناقة يومية",
+  1582→        "announcement.offer": "عرض الافتتاح: شحن مجاني فوق 49$ + خصم 15% على الباقات",
+  1583→        "announcement.drops": "منتجات جديدة كل أسبوع · تجربة دفع آمنة",
+  1584→        "search.placeholder": "ابحث عن فساتين، أحذية، عطور، ديكور...",
+  1585→        "search.button": "بحث",
+  1586→        "actions.saved": "العناصر المفضلة",
+  1587→        "actions.bag": "السلة",
+  1588→        "actions.bagAria": "فتح سلة التسوق",
+  1589→        "actions.signup": "تسجيل",
+  1590→        "actions.signupAria": "إنشاء حساب",
+  1591→        "cat.All": "الكل",
+  1592→        "cat.Women": "نساء",
+  1593→        "cat.Men": "رجال",
+  1594→        "cat.Children": "أطفال",
+  1595→        "cat.Beauty": "جمال",
+  1596→        "cat.Electronics": "إلكترونيات",
+  1597→        "cat.Home": "المنزل",
+  1598→        "cat.HomeDecor": "المنزل والديكور",
+  1599→        "cat.Perfumes": "عطور",
+  1600→        "cat.Deals": "عروض",
+  1601→        "hero.eyebrow": "فكرة متجر عالمي · أسلوب عصري",
+  1602→        "hero.title": "كل ما تريده، في سلة واحدة أنيقة.",
+  1603→        "hero.subtitle": "يجمع Uzalus الموضة الرائجة والجمال والإلكترونيات المفيدة والديكور والعطور في تجربة تسوق سريعة وبصرية.",
+  1604→        "hero.shop": "تسوق المنتجات الرائجة",
+  1605→        "hero.browse": "تصفح الأقسام",
+  1606→        "hero.stat1": "أقسام مختارة",
+  1607→        "hero.stat2": "تحديثات موسمية",
+  1608→        "hero.stat3": "عرض الباقات",
+  1609→        "deal.scentTitle": "ركن العطور",
+  1610→        "deal.scentText": "عطور عصرية ومفضلات لطاولة الزينة.",
+  1611→        "deal.techTitle": "اختيارات تقنية",
+  1612→        "deal.techText": "إلكترونيات يومية بتصميم عملي.",
+  1613→        "departments.kicker": "الأقسام",
+  1614→        "departments.title": "تسوق حسب الذوق أو الحاجة أو القسم.",
+  1615→        "departments.text": "صور كبيرة تساعد العميل على الانتقال بسرعة من التصفح إلى المنتج.",
+  1616→        "catDesc.Women": "فساتين، أطقم، حقائب",
+  1617→        "catDesc.Men": "طبقات، جينز، أحذية",
+  1618→        "catDesc.Children": "ملابس لعب، أساسيات",
+  1619→        "catDesc.Beauty": "مكياج، عناية",
+  1620→        "catDesc.Electronics": "أجهزة، صوتيات",
+  1621→        "catDesc.Home": "ديكور، إضاءة",
+  1622→        "catDesc.Perfumes": "روائح مميزة",
+  1623→        "promo.kicker": "تشكيلة محدودة",
+  1624→        "promo.title": "الموضة والجمال والمنزل والتقنية في سلة واحدة.",
+  1625→        "promo.text": "واجهة متجر احترافية بطاقة ترويجية، اكتشاف سريع، فلاتر أقسام وسلة تعمل.",
+  1626→        "promo.cta": "شاهد العروض",
+  1627→        "shop.kicker": "الرائج الآن",
+  1628→        "shop.title": "اختيارات متجر بصور منتجات حقيقية.",
+  1629→        "shop.text": "استخدم التبويبات أو البحث لاستكشاف النساء والرجال والأطفال والجمال والإلكترونيات والمنزل والعطور.",
+  1630→        "trust.visualTitle": "تسوق بصري أولاً",
+  1631→        "trust.visualText": "صور كبيرة وبطاقات سريعة وتسعير واضح للتصفح السهل.",
+  1632→        "trust.mobileTitle": "جاهز للموبايل",
+  1633→        "trust.mobileText": "شبكات متجاوبة وتنقل ثابت وأزرار سهلة.",
+  1634→        "trust.promoTitle": "محرك عروض",
+  1635→        "trust.promoText": "شارات وأسعار مخفضة ولافتات تدعم البيع.",
+  1636→        "trust.brandTitle": "هوية العلامة",
+  1637→        "trust.brandText": "شعار Uzalus جديد وألوان وخطوط وهيكل أقسام قابل لإعادة الاستخدام.",
+  1638→        "footer.description": "مفهوم متجر إلكتروني احترافي للموضة والجمال والإلكترونيات والديكور والعطور.",
+  1639→        "footer.shop": "المتجر",
+  1640→        "footer.more": "المزيد",
+  1641→        "footer.support": "الدعم",
+  1642→        "footer.shipping": "الشحن",
+  1643→        "footer.returns": "الإرجاع",
+  1644→        "footer.track": "تتبع الطلب",
+  1645→        "footer.contact": "اتصال",
+  1646→        "cart.title": "سلتك",
+  1647→        "cart.close": "إغلاق السلة",
+  1648→        "cart.subtotal": "المجموع الفرعي",
+  1649→        "cart.checkout": "تجربة الدفع",
+  1650→        "cart.empty": "سلتك فارغة. أضف منتجاً رائجاً من Uzalus لمعاينة السلة.",
+  1651→        "auth.panelAria": "إنشاء حساب",
+  1652→        "auth.title": "أنشئ حسابك",
+  1653→        "auth.text": "انضم إلى Uzalus لحفظ المنتجات وتحضير الطلبات وإدارة مشتريات الكتالوج مستقبلاً.",
+  1654→        "auth.close": "إغلاق التسجيل",
+  1655→        "auth.name": "الاسم الكامل",
+  1656→        "auth.email": "البريد الإلكتروني",
+  1657→        "auth.password": "كلمة المرور",
+  1658→        "auth.submit": "إنشاء حساب",
+  1659→        "auth.note": "هذا مفهوم واجهة متجر. اربطه لاحقاً مع Shopify أو WooCommerce أو نظامك الخلفي لحسابات عملاء حقيقية.",
+  1660→        "toast.added": "تمت الإضافة إلى السلة",
+  1661→        "toast.saved": "تم الحفظ في المفضلة",
+  1662→        "toast.unsaved": "تمت الإزالة من المفضلة",
+  1663→        "toast.checkoutEmpty": "أضف منتجاً قبل الدفع.",
+  1664→        "toast.checkoutReady": "سيتم ربط الدفع لاحقاً مع Shopify أو WooCommerce أو نظام خلفي.",
+  1665→        "toast.account": "نموذج الحساب جاهز. التسجيل الحقيقي يحتاج نظاماً خلفياً.",
+  1666→        "toast.support": "سيتم ربط صفحة الدعم لاحقاً.",
+  1667→        "toast.quickView": "تم النقر على صورة المنتج — أضيفت إلى السلة.",
+  1668→        "results": "تم عرض {count} منتج",
+  1669→        "addToCart": "أضف {name} إلى السلة",
+  1670→        "saveItem": "حفظ {name}",
+  1671→        "product.1": "فستان ميدي ساتان ملفوف",
+  1672→        "product.2": "حقيبة كتف صغيرة منظمة",
+  1673→        "product.3": "قميص قطني خارجي بقصة نظيفة",
+  1674→        "product.4": "حذاء رياضي منخفض يومي",
+  1675→        "product.5": "طقم أطفال ملون لعطلة الأسبوع",
+  1676→        "product.6": "جاكيت جينز للأطفال",
+  1677→        "product.7": "باليت مكياج غني بالألوان",
+  1678→        "product.8": "ثلاثي سيروم للإشراقة",
+  1679→        "product.9": "سماعات ستوديو لاسلكية",
+  1680→        "product.10": "حامل هاتف رفيع للمكتب",
+  1681→        "product.11": "طقم مزهريات سيراميك منحنية",
+  1682→        "product.12": "بطانية منسوجة دافئة",
+  1683→        "product.13": "عطر أمبر عود",
+  1684→        "product.14": "ثنائي عطر زهري للسفر",
+  1685→        "product.15": "طقم منزلي مضلع",
+  1686→        "product.16": "مصباح LED جانبي بسيط"
+  1687→      },
+  1688→      de: {
+  1689→        "meta.title": "Uzalus — Globale Fundstücke, täglicher Style",
+  1690→        "announcement.offer": "Launch-Angebot: kostenloser Versand ab 49 $ + 15 % auf Bundles",
+  1691→        "announcement.drops": "Neue Drops jede Woche · Sicherer Checkout als Konzept",
+  1692→        "search.placeholder": "Kleider, Sneaker, Parfum, Deko suchen...",
+  1693→        "search.button": "Suchen",
+  1694→        "actions.saved": "Gespeicherte Artikel",
+  1695→        "actions.bag": "Tasche",
+  1696→        "actions.bagAria": "Einkaufstasche öffnen",
+  1697→        "actions.signup": "Registrieren",
+  1698→        "actions.signupAria": "Konto erstellen",
+  1699→        "cat.All": "Alle",
+  1700→        "cat.Women": "Damen",
+  1701→        "cat.Men": "Herren",
+  1702→        "cat.Children": "Kinder",
+  1703→        "cat.Beauty": "Beauty",
+  1704→        "cat.Electronics": "Elektronik",
+  1705→        "cat.Home": "Wohnen",
+  1706→        "cat.HomeDecor": "Wohnen & Deko",
+  1707→        "cat.Perfumes": "Parfums",
+  1708→        "cat.Deals": "Deals",
+  1709→        "hero.eyebrow": "Marketplace-Konzept · globaler Stil",
+  1710→        "hero.title": "Alles, was du willst, in einer starken Tasche.",
+  1711→        "hero.subtitle": "Uzalus verbindet trendige Mode, Beauty-Essentials, smarte Elektronik, Wohnakzente und Düfte zu einem schnellen visuellen Shopping-Erlebnis.",
+  1712→        "hero.shop": "Trends shoppen",
+  1713→        "hero.browse": "Kategorien ansehen",
+  1714→        "hero.stat1": "Kuratierte Abteilungen",
+  1715→        "hero.stat2": "Saisonale Updates",
+  1716→        "hero.stat3": "Bundle-Promo",
+  1717→        "deal.scentTitle": "Duftbar",
+  1718→        "deal.scentText": "Moderne Parfums und Vanity-Favoriten.",
+  1719→        "deal.techTitle": "Tech-Funde",
+  1720→        "deal.techText": "Alltagselektronik mit sauberem Design.",
+  1721→        "departments.kicker": "Abteilungen",
+  1722→        "departments.title": "Nach Stimmung, Bedarf oder Kategorie shoppen.",
+  1723→        "departments.text": "Große Editorial-Fotos führen Kunden schnell vom Stöbern zum passenden Produkt.",
+  1724→        "catDesc.Women": "Kleider, Sets, Taschen",
+  1725→        "catDesc.Men": "Layer, Denim, Schuhe",
+  1726→        "catDesc.Children": "Spielkleidung, Basics",
+  1727→        "catDesc.Beauty": "Make-up, Pflege",
+  1728→        "catDesc.Electronics": "Gadgets, Audio",
+  1729→        "catDesc.Home": "Deko, Licht",
+  1730→        "catDesc.Perfumes": "Signature-Düfte",
+  1731→        "promo.kicker": "Limitierte Auswahl",
+  1732→        "promo.title": "Mode, Beauty, Wohnen und Tech in einer Marketplace-Tasche.",
+  1733→        "promo.text": "Professionelles Storefront-Konzept mit Promotion-Energie, schneller Entdeckung, Kategorienfiltern und Warenkorb.",
+  1734→        "promo.cta": "Deals ansehen",
+  1735→        "shop.kicker": "Jetzt im Trend",
+  1736→        "shop.title": "Marketplace-Auswahl mit echten Produktfotos.",
+  1737→        "shop.text": "Nutze Tabs oder Suche für Damen, Herren, Kinder, Beauty, Elektronik, Wohnen und Parfums.",
+  1738→        "trust.visualTitle": "Visuelles Shopping",
+  1739→        "trust.visualText": "Große Fotos, schnelle Karten und klare Preise für einfaches Browsen.",
+  1740→        "trust.mobileTitle": "Mobil bereit",
+  1741→        "trust.mobileText": "Responsive Grids, Sticky Navigation und fingerfreundliche Controls.",
+  1742→        "trust.promoTitle": "Promo-Engine",
+  1743→        "trust.promoText": "Badges, Rabattpreise und Kampagnenbanner unterstützen Merchandising.",
+  1744→        "trust.brandTitle": "Markenbasis",
+  1745→        "trust.brandText": "Neues Uzalus-Logo, Farbsystem, Typografie und wiederverwendbare Kategorien.",
+  1746→        "footer.description": "Professionelles E-Commerce-Konzept für Mode, Beauty, Elektronik, Wohndeko und Düfte.",
+  1747→        "footer.shop": "Shop",
+  1748→        "footer.more": "Mehr",
+  1749→        "footer.support": "Support",
+  1750→        "footer.shipping": "Versand",
+  1751→        "footer.returns": "Retouren",
+  1752→        "footer.track": "Bestellung verfolgen",
+  1753→        "footer.contact": "Kontakt",
+  1754→        "cart.title": "Deine Tasche",
+  1755→        "cart.close": "Warenkorb schließen",
+  1756→        "cart.subtotal": "Zwischensumme",
+  1757→        "cart.checkout": "Checkout-Konzept",
+  1758→        "cart.empty": "Deine Tasche ist leer. Füge einen Uzalus-Trend hinzu, um den Warenkorb zu testen.",
+  1759→        "auth.panelAria": "Konto erstellen",
+  1760→        "auth.title": "Konto erstellen",
+  1761→        "auth.text": "Tritt Uzalus bei, speichere Produkte, bereite Bestellungen vor und verwalte spätere Katalogkäufe.",
+  1762→        "auth.close": "Registrierung schließen",
+  1763→        "auth.name": "Vollständiger Name",
+  1764→        "auth.email": "E-Mail-Adresse",
+  1765→        "auth.password": "Passwort",
+  1766→        "auth.submit": "Konto erstellen",
+  1767→        "auth.note": "Dies ist ein Storefront-Konzept. Verbinde später Shopify, WooCommerce oder dein Backend für echte Kundenkonten.",
+  1768→        "toast.added": "Zur Tasche hinzugefügt",
+  1769→        "toast.saved": "Zu Favoriten gespeichert",
+  1770→        "toast.unsaved": "Aus Favoriten entfernt",
+  1771→        "toast.checkoutEmpty": "Lege vor dem Checkout ein Produkt in den Warenkorb.",
+  1772→        "toast.checkoutReady": "Checkout wird später mit Shopify, WooCommerce oder Backend verbunden.",
+  1773→        "toast.account": "Formular bereit. Echte Registrierung benötigt ein Backend.",
+  1774→        "toast.support": "Diese Support-Seite wird später verbunden.",
+  1775→        "toast.quickView": "Produktfoto geklickt — Artikel wurde hinzugefügt.",
+  1776→        "results": "{count} Produkt{plural} angezeigt",
+  1777→        "addToCart": "{name} in den Warenkorb legen",
+  1778→        "saveItem": "{name} speichern",
+  1779→        "product.1": "Midi-Wickelkleid aus Satin",
+  1780→        "product.2": "Strukturierte Mini-Schultertasche",
+  1781→        "product.3": "Baumwoll-Overshirt mit klarer Linie",
+  1782→        "product.4": "Alltags-Sneaker Low-Top",
+  1783→        "product.5": "Kinder-Wochenendset im Colorblock",
+  1784→        "product.6": "Kinder-Jeansjacke",
+  1785→        "product.7": "Hochpigmentierte Make-up-Palette",
+  1786→        "product.8": "Glow-Serum-Pflege-Trio",
+  1787→        "product.9": "Kabellose Studio-Kopfhörer",
+  1788→        "product.10": "Schlanke Smartphone-Dockstation",
+  1789→        "product.11": "Geschwungenes Keramikvasen-Set",
+  1790→        "product.12": "Warme gewebte Decke",
+  1791→        "product.13": "Amber Oud Eau de Parfum",
+  1792→        "product.14": "Florales Reise-Duftduo",
+  1793→        "product.15": "Geripptes Lounge-Set",
+  1794→        "product.16": "Minimalistische LED-Nachttischlampe"
+  1795→      },
+  1796→      es: {
+  1797→        "meta.title": "Uzalus — Hallazgos globales, estilo diario",
+  1798→        "announcement.offer": "Oferta de lanzamiento: envío gratis desde 49 $ + 15 % en packs",
+  1799→        "announcement.drops": "Novedades cada semana · Checkout seguro conceptual",
+  1800→        "search.placeholder": "Buscar vestidos, zapatillas, perfume, decoración...",
+  1801→        "search.button": "Buscar",
+  1802→        "actions.saved": "Artículos guardados",
+  1803→        "actions.bag": "Bolsa",
+  1804→        "actions.bagAria": "Abrir bolsa de compra",
+  1805→        "actions.signup": "Registro",
+  1806→        "actions.signupAria": "Crear cuenta",
+  1807→        "cat.All": "Todo",
+  1808→        "cat.Women": "Mujer",
+  1809→        "cat.Men": "Hombre",
+  1810→        "cat.Children": "Niños",
+  1811→        "cat.Beauty": "Belleza",
+  1812→        "cat.Electronics": "Electrónica",
+  1813→        "cat.Home": "Hogar",
+  1814→        "cat.HomeDecor": "Hogar y decoración",
+  1815→        "cat.Perfumes": "Perfumes",
+  1816→        "cat.Deals": "Ofertas",
+  1817→        "hero.eyebrow": "Concepto marketplace · estilo global",
+  1818→        "hero.title": "Todo lo que quieres, en una bolsa con estilo.",
+  1819→        "hero.subtitle": "Uzalus combina moda tendencia, belleza, electrónica útil, decoración y fragancias en una experiencia de compra rápida y visual.",
+  1820→        "hero.shop": "Comprar tendencias",
+  1821→        "hero.browse": "Ver categorías",
+  1822→        "hero.stat1": "Departamentos curados",
+  1823→        "hero.stat2": "Ritmo de temporada",
+  1824→        "hero.stat3": "Promo de packs",
+  1825→        "deal.scentTitle": "Bar de aromas",
+  1826→        "deal.scentText": "Perfumes modernos y favoritos de tocador.",
+  1827→        "deal.techTitle": "Hallazgos tech",
+  1828→        "deal.techText": "Electrónica diaria con diseño útil.",
+  1829→        "departments.kicker": "Departamentos",
+  1830→        "departments.title": "Compra por estilo, necesidad o categoría.",
+  1831→        "departments.text": "Grandes fotos editoriales ayudan a pasar rápido de explorar a elegir productos.",
+  1832→        "catDesc.Women": "Vestidos, conjuntos, bolsos",
+  1833→        "catDesc.Men": "Capas, denim, zapatos",
+  1834→        "catDesc.Children": "Ropa de juego, básicos",
+  1835→        "catDesc.Beauty": "Maquillaje, skincare",
+  1836→        "catDesc.Electronics": "Gadgets, audio",
+  1837→        "catDesc.Home": "Decoración, iluminación",
+  1838→        "catDesc.Perfumes": "Aromas signature",
+  1839→        "promo.kicker": "Edición limitada",
+  1840→        "promo.title": "Moda, belleza, hogar y tech en una sola bolsa marketplace.",
+  1841→        "promo.text": "Concepto de tienda profesional con energía promocional, descubrimiento rápido, filtros y carrito funcional.",
+  1842→        "promo.cta": "Ver ofertas",
+  1843→        "shop.kicker": "Tendencias",
+  1844→        "shop.title": "Selección marketplace con fotos reales.",
+  1845→        "shop.text": "Usa pestañas o búsqueda para explorar mujer, hombre, niños, belleza, electrónica, hogar y perfumes.",
+  1846→        "trust.visualTitle": "Compra visual",
+  1847→        "trust.visualText": "Fotos grandes, tarjetas rápidas y precios claros para navegar mejor.",
+  1848→        "trust.mobileTitle": "Listo para móvil",
+  1849→        "trust.mobileText": "Grids responsivos, navegación fija y controles cómodos.",
+  1850→        "trust.promoTitle": "Motor promocional",
+  1851→        "trust.promoText": "Badges, precios rebajados y banners apoyan el merchandising.",
+  1852→        "trust.brandTitle": "Base de marca",
+  1853→        "trust.brandText": "Nuevo logo Uzalus, colores, tipografía y estructura reutilizable.",
+  1854→        "footer.description": "Concepto e-commerce profesional para moda, belleza, electrónica, decoración y perfumes.",
+  1855→        "footer.shop": "Tienda",
+  1856→        "footer.more": "Más",
+  1857→        "footer.support": "Soporte",
+  1858→        "footer.shipping": "Envío",
+  1859→        "footer.returns": "Devoluciones",
+  1860→        "footer.track": "Seguir pedido",
+  1861→        "footer.contact": "Contacto",
+  1862→        "cart.title": "Tu bolsa",
+  1863→        "cart.close": "Cerrar carrito",
+  1864→        "cart.subtotal": "Subtotal",
+  1865→        "cart.checkout": "Checkout conceptual",
+  1866→        "cart.empty": "Tu bolsa está vacía. Añade un producto tendencia Uzalus para probar el carrito.",
+  1867→        "auth.panelAria": "Crear cuenta",
+  1868→        "auth.title": "Crea tu cuenta",
+  1869→        "auth.text": "Únete a Uzalus para guardar productos, preparar pedidos y gestionar futuras compras de catálogo.",
+  1870→        "auth.close": "Cerrar registro",
+  1871→        "auth.name": "Nombre completo",
+  1872→        "auth.email": "Correo electrónico",
+  1873→        "auth.password": "Contraseña",
+  1874→        "auth.submit": "Crear cuenta",
+  1875→        "auth.note": "Este es un concepto de tienda. Conecta Shopify, WooCommerce o tu backend más adelante para cuentas reales.",
+  1876→        "toast.added": "Añadido a la bolsa",
+  1877→        "toast.saved": "Guardado en favoritos",
+  1878→        "toast.unsaved": "Eliminado de favoritos",
+  1879→        "toast.checkoutEmpty": "Añade un producto antes del checkout.",
+  1880→        "toast.checkoutReady": "El checkout se conectará con Shopify, WooCommerce o backend.",
+  1881→        "toast.account": "Formulario listo. El registro real necesita backend.",
+  1882→        "toast.support": "Esta página de soporte se conectará más adelante.",
+  1883→        "toast.quickView": "Foto de producto clicada — artículo añadido.",
+  1884→        "results": "{count} producto{plural} mostrado{plural}",
+  1885→        "addToCart": "Añadir {name} al carrito",
+  1886→        "saveItem": "Guardar {name}",
+  1887→        "product.1": "Vestido midi satinado cruzado",
+  1888→        "product.2": "Mini bolso de hombro estructurado",
+  1889→        "product.3": "Sobrecamisa de algodón limpia",
+  1890→        "product.4": "Zapatillas bajas de diario",
+  1891→        "product.5": "Conjunto infantil color-block",
+  1892→        "product.6": "Chaqueta vaquera infantil",
+  1893→        "product.7": "Paleta de maquillaje pigmentada",
+  1894→        "product.8": "Trío de sérums glow",
+  1895→        "product.9": "Auriculares de estudio inalámbricos",
+  1896→        "product.10": "Soporte fino para smartphone",
+  1897→        "product.11": "Set de jarrones cerámicos curvos",
+  1898→        "product.12": "Manta tejida cálida",
+  1899→        "product.13": "Eau de parfum ámbar oud",
+  1900→        "product.14": "Dúo floral de viaje",
+  1901→        "product.15": "Conjunto lounge acanalado",
+  1902→        "product.16": "Lámpara LED minimalista"
+  1903→      }
+  1904→    };
+  1905→
+  1906→    const badgeTranslations = {
+  1907→      Hot: { fr: "Top", ar: "رائج", de: "Hot", es: "Top" },
+  1908→      Sale: { fr: "Promo", ar: "خصم", de: "Sale", es: "Oferta" },
+  1909→      New: { fr: "Nouveau", ar: "جديد", de: "Neu", es: "Nuevo" },
+  1910→      Deal: { fr: "Deal", ar: "عرض", de: "Deal", es: "Oferta" },
+  1911→      Bundle: { fr: "Lot", ar: "باقة", de: "Bundle", es: "Pack" },
+  1912→      Cute: { fr: "Mignon", ar: "لطيف", de: "Süß", es: "Bonito" },
+  1913→      Top: { fr: "Top", ar: "أفضل", de: "Top", es: "Top" },
+  1914→      Glow: { fr: "Éclat", ar: "إشراقة", de: "Glow", es: "Glow" },
+  1915→      Tech: { fr: "Tech", ar: "تقني", de: "Tech", es: "Tech" },
+  1916→      Useful: { fr: "Utile", ar: "عملي", de: "Nützlich", es: "Útil" },
+  1917→      Decor: { fr: "Déco", ar: "ديكور", de: "Deko", es: "Deco" },
+  1918→      Cozy: { fr: "Cosy", ar: "دافئ", de: "Cozy", es: "Cómodo" },
+  1919→      Scent: { fr: "Senteur", ar: "عطر", de: "Duft", es: "Aroma" },
+  1920→      Gift: { fr: "Cadeau", ar: "هدية", de: "Geschenk", es: "Regalo" },
+  1921→      Soft: { fr: "Doux", ar: "ناعم", de: "Weich", es: "Suave" },
+  1922→      Light: { fr: "Lumière", ar: "إضاءة", de: "Licht", es: "Luz" }
+  1923→    };
+  1924→
+  1925→    const categories = ["All", "Women", "Men", "Children", "Beauty", "Electronics", "Home", "Perfumes"];
+  1926→    const products = [
+  1927→      {
+  1928→        id: 1,
+  1929→        name: "Satin wrap midi dress with soft drape",
+  1930→        category: "Women",
+  1931→        price: 34.9,
+  1932→        oldPrice: 58,
+  1933→        rating: 4.8,
+  1934→        badge: "Hot",
+  1935→        image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=720&q=82"
+  1936→      },
+  1937→      {
+  1938→        id: 2,
+  1939→        name: "Structured mini shoulder bag",
+  1940→        category: "Women",
+  1941→        price: 24.5,
+  1942→        oldPrice: 42,
+  1943→        rating: 4.7,
+  1944→        badge: "Sale",
+  1945→        image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=720&q=82"
+  1946→      },
+  1947→      {
+  1948→        id: 3,
+  1949→        name: "Clean-cut cotton overshirt",
+  1950→        category: "Men",
+  1951→        price: 39.0,
+  1952→        oldPrice: 64,
+  1953→        rating: 4.6,
+  1954→        badge: "New",
+  1955→        image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=720&q=82"
+  1956→      },
+  1957→      {
+  1958→        id: 4,
+  1959→        name: "Everyday low-top sneakers",
+  1960→        category: "Men",
+  1961→        price: 46.8,
+  1962→        oldPrice: 79,
+  1963→        rating: 4.8,
+  1964→        badge: "Deal",
+  1965→        image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=720&q=82"
+  1966→      },
+  1967→      {
+  1968→        id: 5,
+  1969→        name: "Kids color-block weekend set",
+  1970→        category: "Children",
+  1971→        price: 18.75,
+  1972→        oldPrice: 31,
+  1973→        rating: 4.9,
+  1974→        badge: "Bundle",
+  1975→        image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?auto=format&fit=crop&w=720&q=82"
+  1976→      },
+  1977→      {
+  1978→        id: 6,
+  1979→        name: "Playday denim jacket",
+  1980→        category: "Children",
+  1981→        price: 22.4,
+  1982→        oldPrice: 38,
+  1983→        rating: 4.6,
+  1984→        badge: "Cute",
+  1985→        image: "https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?auto=format&fit=crop&w=720&q=82"
+  1986→      },
+  1987→      {
+  1988→        id: 7,
+  1989→        name: "Pigment-rich makeup palette",
+  1990→        category: "Beauty",
+  1991→        price: 16.99,
+  1992→        oldPrice: 28,
+  1993→        rating: 4.7,
+  1994→        badge: "Top",
+  1995→        image: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=720&q=82"
+  1996→      },
+  1997→      {
+  1998→        id: 8,
+  1999→        name: "Glow serum skincare trio",
+  2000→        category: "Beauty",
+
+[showing lines 1-2000 of 2396; use offset=2001 with limit to continue reading]
