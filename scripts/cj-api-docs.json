@@ -1,0 +1,47 @@
+[
+  {
+    "url": "https://developers.cjdropshipping.com",
+    "name": "CJ Docs | CJdropshipping API - How To Connect Your Store To",
+    "snippet": "Welcome to the CJ documentation! Here you'll find all the information you need to get started with CJ. # Table of Contents. API Introduction.",
+    "host_name": "developers.cjdropshipping.com",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developers.cjdropshipping.cn/en/api/api2/api/product.html",
+    "name": "3 Product | CJ Docs - CJdropshipping API",
+    "snippet": "List V2(GET) Get all available products from CJ with criteria inquiry supported. V2 version uses elasticsearch search engine for higher performance product ...",
+    "host_name": "developers.cjdropshipping.cn",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developers.cjdropshipping.com/en/api/api2/api/shop.html",
+    "name": "9 Shop | CJ Docs - CJdropshipping API",
+    "snippet": "CJ API enables developers to access CJ system. Retrieve the list of shops bound to / created under the current account. Query existing product connection ...",
+    "host_name": "developers.cjdropshipping.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://webkul.com/blog/magento-2-cj-dropshipping-documentation",
+    "name": "User Guide for Magento 2 CJ Dropshipping - Webkul",
+    "snippet": "Feb 11, 2026 · This guide explains how to use the Magento 2 CJ Dropshipping Extension to import products, automate orders, and sync shipping updates.",
+    "host_name": "webkul.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://stackoverflow.com/questions/14978805/how-to-retrieve-products-catalogs-based-on-category-in-cj-api",
+    "name": "how to retrieve products catalogs based on category in cj api?",
+    "snippet": "Feb 20, 2013 · A small script I wrote for testing the REST API over at Commission Junction. Build REST URI for product search. Refer to // documentation for ...",
+    "host_name": "stackoverflow.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  }
+]

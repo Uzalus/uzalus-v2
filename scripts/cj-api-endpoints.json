@@ -1,0 +1,47 @@
+[
+  {
+    "url": "https://developers.cjdropshipping.cn/en/api/api2/api/product.html",
+    "name": "3 Product | CJ Docs",
+    "snippet": "Product List V2(GET) Get all available products from CJ with criteria inquiry supported. V2 version uses elasticsearch search engine for higher performance ...\nProduct List V2(GET ) Get all available products from CJ with criteria inquiry supported. V2 version uses elasticsearch search engine for higher performance  ...",
+    "host_name": "developers.cjdropshipping.cn",
+    "rank": 0,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developers.cjdropshipping.com",
+    "name": "CJ Docs | CJdropshipping API - How To Connect Your Store",
+    "snippet": "CJdropshipping API, link your store to CJdropshipping, import dropshipping products, Here you'll find all the information you need to get started with CJ.\nCJdropshipping API , link your store to CJdropshipping, import dropshipping products, Here you'll find all the information you need to get started with CJ.",
+    "host_name": "developers.cjdropshipping.com",
+    "rank": 1,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://developers.cjdropshipping.com/en/api/api2/api/shop.html",
+    "name": "9 Shop | CJ Docs",
+    "snippet": "# 1.1 Get Shop List (GET). Retrieve the list of shops bound to / created under the current account. # URL. https://developers.cjdropshipping.com/api2.0 ...",
+    "host_name": "developers.cjdropshipping.com",
+    "rank": 2,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.cjdropshipping.com/help-center?navType=search&searchType=content&keyWord=shopify&pageNum=4",
+    "name": "CJdropshipping Tutorials | How to Use",
+    "snippet": "Step by step tutorials on how to use each feature of CJdropshipping(CJ App), FAQ, new features tutorials. Welcome to visit our CJ help center！\nStep by step tutorials on how to use each feature of CJdropshipping (CJ App), FAQ, new features tutorials. Welcome to visit our CJ help center！\nStep by step tutorials on how to use each feature of CJdropshipping ( CJ App), FAQ, Go to Settings (gear icon) → Account → API Settings .",
+    "host_name": "www.cjdropshipping.com",
+    "rank": 3,
+    "date": "",
+    "favicon": ""
+  },
+  {
+    "url": "https://www.youtube.com/watch?v=Sr7dZSid8Qg",
+    "name": "CJ Dropshipping Full Tutorial (2021/22)",
+    "snippet": "Today, I will show you how to use CJ , including connecting your CJ account to your Shopify & WooCommerce stores, how to import products to ...",
+    "host_name": "www.youtube.com",
+    "rank": 4,
+    "date": "",
+    "favicon": ""
+  }
+]
