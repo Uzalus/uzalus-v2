@@ -133,4 +133,16 @@ export const shopCategoriesData: Record<string, ShopCategory> = {
       { id: 704, name: 'Collier Tiffany & Co.', nameEn: 'Tiffany & Co. Necklace', nameEs: 'Collar Tiffany & Co.', nameAr: 'قلادة تيفاني آند كو', price: 450.00, oldPrice: 550.00, rating: 4.9, reviews: 890, discount: 18, badge: 'new', image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&h=400&fit=crop&q=80' },
     ],
   },
+  auto: {
+    key: 'shop.auto',
+    image: '/images/shop/cat-auto.jpg',
+    products: [
+      { id: 801, name: 'Support Smartphone Magnetique Voiture', nameEn: 'Magnetic Car Phone Mount', nameEs: 'Soporte Magnetico Coche', nameAr: 'حامل هاتف مغناطيسي للسيارة', price: 14.90, oldPrice: 24.90, rating: 4.6, reviews: 2345, discount: 40, badge: 'bestseller', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=400&fit=crop&q=80' },
+      { id: 802, name: 'Chargeur USB Voiture Rapide 65W', nameEn: 'Fast Car USB Charger 65W', nameEs: 'Cargador USB Coche Rapido 65W', nameAr: 'شاحن سيارة سريع 65 واط', price: 19.90, oldPrice: 29.90, rating: 4.7, reviews: 1876, discount: 33, badge: 'sale', image: 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400&h=400&fit=crop&q=80' },
+      { id: 803, name: 'Camera de Recul HD 12 LED', nameEn: 'HD Backup Camera 12 LED', nameEs: 'Camara Trasera HD 12 LED', nameAr: 'كاميرا خلفية HD 12 LED', price: 24.90, oldPrice: 39.90, rating: 4.5, reviews: 987, discount: 38, badge: 'new', image: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&h=400&fit=crop&q=80' },
+      { id: 804, name: 'Couvre-Sieges Auto Cuir Premium', nameEn: 'Premium Leather Car Seat Covers', nameEs: 'Fundas Asientos Coche Cuero', nameAr: 'غطاء مقاعد سيارة جلد فاخر', price: 59.90, oldPrice: 89.90, rating: 4.8, reviews: 1543, discount: 33, badge: 'bestseller', image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0afe?w=400&h=400&fit=crop&q=80' },
+      { id: 805, name: 'Balais d\'Essuie-Glace Silicone Premium', nameEn: 'Premium Silicone Wiper Blades', nameEs: 'Escobillas Silicona Premium', nameAr: 'مساحات سيارة سيليكون بريميوم', price: 16.90, oldPrice: 22.90, rating: 4.4, reviews: 876, discount: 26, badge: 'sale', image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=400&fit=crop&q=80' },
+      { id: 806, name: 'Amplificateur Bluetooth Auto 12V', nameEn: 'Bluetooth Car Amplifier 12V', nameEs: 'Amplificador Bluetooth Coche 12V', nameAr: 'مكبر بلوتوث سيارة 12 فولت', price: 34.90, oldPrice: 49.90, rating: 4.6, reviews: 654, discount: 30, badge: 'new', image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=400&h=400&fit=crop&q=80' },
+    ],
+  },
 };

@@ -1,7 +1,7 @@
 'use client';
 
 import { useI18n } from '@/lib/i18n-context';
-import { ShoppingBag, Sparkles, SprayCan, Shirt, Footprints, Cpu, Home, Watch } from 'lucide-react';
+import { ShoppingBag, Sparkles, SprayCan, Shirt, Footprints, Cpu, Home, Watch, Car } from 'lucide-react';
 
 const keyToSlug: Record<string, string> = {
   'shop.boutique': 'boutique',
@@ -12,6 +12,7 @@ const keyToSlug: Record<string, string> = {
   'shop.electronique': 'electronique',
   'shop.maison': 'maison',
   'shop.accessoires': 'accessoires',
+  'shop.auto': 'auto',
 };
 
 const shopCategories = [
@@ -62,6 +63,12 @@ const shopCategories = [
     descKey: 'shop.accessoiresDesc',
     image: '/images/shop/cat-accessoires.jpg',
     icon: Watch,
+  },
+  {
+    key: 'shop.auto',
+    descKey: 'shop.autoDesc',
+    image: '/images/shop/cat-auto.jpg',
+    icon: Car,
   },
 ];
 
