@@ -1,11 +1,11 @@
 'use client';
 
 import { useI18n } from '@/lib/i18n-context';
-import { ArrowLeft, Star, Heart } from 'lucide-react';
+import { ArrowLeft, Star, Heart, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { shopCategoriesData, type ShopProduct } from '@/lib/shop-data';
 
-const catSlugs = ['boutique', 'cosmetiques', 'parfums', 'mode', 'chaussures', 'electronique', 'maison', 'accessoires'] as const;
+const catSlugs = ['boutique', 'cosmetiques', 'parfums', 'mode', 'chaussures', 'electronique', 'maison', 'accessoires', 'auto'] as const;
 type CatSlug = typeof catSlugs[number];
 
 interface CategoryPageProps {
@@ -60,6 +60,60 @@ function ProductCard({ product, locale }: { product: ShopProduct; locale: string
   );
 }
 
+function BrandsSection({ brands, locale }: { brands: NonNullable<ReturnType<typeof shopCategoriesData[string]>['brands']>; locale: string }) {
+  const { t } = useI18n();
+  const getBrandName = (brand: typeof brands[0]) => {
+    if (locale === 'ar') return brand.nameAr;
+    if (locale === 'es') return brand.nameEs;
+    if (locale === 'en') return brand.nameEn;
+    return brand.name;
+  };
+
+  // Brand initial colors for the logo circle
+  const brandColors = [
+    'from-blue-900/80 to-blue-700/40',
+    'from-gray-800/80 to-gray-500/40',
+    'from-zinc-700/80 to-zinc-400/40',
+    'from-indigo-900/80 to-indigo-600/40',
+    'from-slate-800/80 to-slate-500/40',
+    'from-yellow-900/60 to-yellow-600/30',
+    'from-red-900/60 to-red-600/30',
+    'from-emerald-900/60 to-emerald-600/30',
+    'from-blue-800/60 to-blue-500/30',
+    'from-sky-900/60 to-sky-600/30',
+    'from-rose-900/60 to-rose-600/30',
+    'from-orange-900/60 to-orange-600/30',
+  ];
+
+  return (
+    <div className="mb-12">
+      <div className="flex items-center justify-between mb-6">
+        <h3 className="font-display text-xl font-bold text-gold">{t('auto.brands')}</h3>
+        <span className="text-xs text-muted-foreground">{t('auto.selectBrand')}</span>
+      </div>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 lg:gap-4">
+        {brands.map((brand, i) => (
+          <button
+            key={brand.slug}
+            className="group relative bg-noir-card border border-border rounded-2xl p-5 flex flex-col items-center gap-3 hover:border-gold/40 transition-all duration-300 opacity-0 animate-fade-in-up"
+            style={{ animationDelay: `${i * 0.05}s` }}
+          >
+            {/* Brand logo circle */}
+            <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${brandColors[i % brandColors.length]} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
+              <span className="font-display text-lg font-bold text-white/90">{brand.name.slice(0, 2).toUpperCase()}</span>
+            </div>
+            <div className="text-center">
+              <p className="text-sm font-semibold text-foreground/90 group-hover:text-gold transition-colors">{getBrandName(brand)}</p>
+              <p className="text-[10px] text-muted-foreground mt-1">{brand.productCount} {t('auto.productsCount')}</p>
+            </div>
+            <ChevronRight size={14} className="absolute top-3 end-3 text-foreground/20 group-hover:text-gold/60 transition-colors" />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export function CategoryPage({ category, onBack }: CategoryPageProps) {
   const { t, locale } = useI18n();
   const [selectedSub, setSelectedSub] = useState<string | null>(null);
@@ -68,6 +122,8 @@ export function CategoryPage({ category, onBack }: CategoryPageProps) {
   if (!data) return null;
 
   const hasSubCategories = data.subCategories && data.subCategories.length > 0;
+  const hasBrands = !!data.brands && data.brands.length > 0;
+  const isAuto = category === 'auto';
   const currentProducts = selectedSub
     ? data.subCategories?.find(s => s.key === selectedSub)?.products || []
     : data.products;
@@ -105,11 +161,16 @@ export function CategoryPage({ category, onBack }: CategoryPageProps) {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 lg:px-6 py-10">
-        {/* Sub-categories (Mode) */}
+        {/* Brands section - show on auto category main page */}
+        {isAuto && hasBrands && !selectedSub && (
+          <BrandsSection brands={data.brands!} locale={locale} />
+        )}
+
+        {/* Sub-categories */}
         {hasSubCategories && !selectedSub && (
           <div className="mb-12">
             <h3 className="font-display text-xl font-bold text-gold mb-6">{t('cat.subCategories')}</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 lg:gap-6">
+            <div className={`grid gap-4 lg:gap-6 ${isAuto ? 'grid-cols-3' : 'grid-cols-2 md:grid-cols-4'}`}>
               {data.subCategories!.map((sub) => (
                 <button
                   key={sub.key}
@@ -121,7 +182,7 @@ export function CategoryPage({ category, onBack }: CategoryPageProps) {
                   <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-gold/40 transition-colors duration-500 pointer-events-none" />
                   <div className="relative z-10 h-full flex flex-col justify-end p-5">
                     <h4 className="font-display text-lg lg:text-xl font-bold text-white group-hover:text-gold transition-colors">{t(sub.key)}</h4>
-                    <p className="text-xs text-white/60 mt-1">{sub.products.length} articles</p>
+                    <p className="text-xs text-white/60 mt-1">{t(sub.key + 'Desc')}</p>
                   </div>
                 </button>
               ))}
@@ -164,7 +225,7 @@ export function CategoryPage({ category, onBack }: CategoryPageProps) {
         ) : (
           !hasSubCategories && (
             <div className="text-center py-20">
-              <p className="text-muted-foreground text-lg">Bientôt disponible...</p>
+              <p className="text-muted-foreground text-lg">Bientot disponible...</p>
             </div>
           )
         )}

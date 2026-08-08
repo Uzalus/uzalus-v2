@@ -18,6 +18,7 @@ export interface ShopCategory {
   image: string;
   products: ShopProduct[];
   subCategories?: { key: string; image: string; products: ShopProduct[] }[];
+  brands?: { name: string; nameEn: string; nameEs: string; nameAr: string; logo: string; slug: string; productCount: number }[];
 }
 
 export const shopCategoriesData: Record<string, ShopCategory> = {
@@ -136,13 +137,60 @@ export const shopCategoriesData: Record<string, ShopCategory> = {
   auto: {
     key: 'shop.auto',
     image: '/images/shop/cat-auto.jpg',
-    products: [
-      { id: 801, name: 'Support Smartphone Magnetique Voiture', nameEn: 'Magnetic Car Phone Mount', nameEs: 'Soporte Magnetico Coche', nameAr: 'حامل هاتف مغناطيسي للسيارة', price: 14.90, oldPrice: 24.90, rating: 4.6, reviews: 2345, discount: 40, badge: 'bestseller', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=400&fit=crop&q=80' },
-      { id: 802, name: 'Chargeur USB Voiture Rapide 65W', nameEn: 'Fast Car USB Charger 65W', nameEs: 'Cargador USB Coche Rapido 65W', nameAr: 'شاحن سيارة سريع 65 واط', price: 19.90, oldPrice: 29.90, rating: 4.7, reviews: 1876, discount: 33, badge: 'sale', image: 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400&h=400&fit=crop&q=80' },
-      { id: 803, name: 'Camera de Recul HD 12 LED', nameEn: 'HD Backup Camera 12 LED', nameEs: 'Camara Trasera HD 12 LED', nameAr: 'كاميرا خلفية HD 12 LED', price: 24.90, oldPrice: 39.90, rating: 4.5, reviews: 987, discount: 38, badge: 'new', image: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&h=400&fit=crop&q=80' },
-      { id: 804, name: 'Couvre-Sieges Auto Cuir Premium', nameEn: 'Premium Leather Car Seat Covers', nameEs: 'Fundas Asientos Coche Cuero', nameAr: 'غطاء مقاعد سيارة جلد فاخر', price: 59.90, oldPrice: 89.90, rating: 4.8, reviews: 1543, discount: 33, badge: 'bestseller', image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0afe?w=400&h=400&fit=crop&q=80' },
-      { id: 805, name: 'Balais d\'Essuie-Glace Silicone Premium', nameEn: 'Premium Silicone Wiper Blades', nameEs: 'Escobillas Silicona Premium', nameAr: 'مساحات سيارة سيليكون بريميوم', price: 16.90, oldPrice: 22.90, rating: 4.4, reviews: 876, discount: 26, badge: 'sale', image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=400&fit=crop&q=80' },
-      { id: 806, name: 'Amplificateur Bluetooth Auto 12V', nameEn: 'Bluetooth Car Amplifier 12V', nameEs: 'Amplificador Bluetooth Coche 12V', nameAr: 'مكبر بلوتوث سيارة 12 فولت', price: 34.90, oldPrice: 49.90, rating: 4.6, reviews: 654, discount: 30, badge: 'new', image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=400&h=400&fit=crop&q=80' },
+    products: [],
+    subCategories: [
+      {
+        key: 'auto.pieces',
+        image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&h=400&fit=crop&q=80',
+        products: [
+          { id: 810, name: "Filtre à Huile Universal Premium", nameEn: 'Universal Premium Oil Filter', nameEs: 'Filtro de Aceite Universal Premium', nameAr: 'فلتر زيت عالمي بريميوم', price: 12.90, oldPrice: 19.90, rating: 4.6, reviews: 1234, discount: 35, badge: 'bestseller', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=400&fit=crop&q=80' },
+          { id: 811, name: "Plaquettes de Frein Céramique Avant", nameEn: 'Ceramic Front Brake Pads', nameEs: 'Pastillas de Freno Cerámicas Delanteras', nameAr: 'فرامل فرامل سيراميك أمامية', price: 34.90, oldPrice: 49.90, rating: 4.8, reviews: 987, discount: 30, badge: 'bestseller', image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=400&fit=crop&q=80' },
+          { id: 812, name: 'Courroie de Distribution Kit Complet', nameEn: 'Complete Timing Belt Kit', nameEs: 'Kit Correa de Distribución Completo', nameAr: 'طقم سيور التوزيع كامل', price: 79.90, oldPrice: 119.90, rating: 4.7, reviews: 654, discount: 33, badge: 'sale', image: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&h=400&fit=crop&q=80' },
+          { id: 813, name: 'Batterie Auto 12V 60Ah AGM', nameEn: '12V 60Ah AGM Car Battery', nameEs: 'Batería Coche 12V 60Ah AGM', nameAr: 'بطارية سيارة 12V 60Ah AGM', price: 89.90, oldPrice: 129.90, rating: 4.9, reviews: 1876, discount: 31, badge: 'bestseller', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=400&fit=crop&q=80' },
+          { id: 814, name: "Bougies d'Allumage Iridium x4", nameEn: 'Iridium Spark Plugs x4', nameEs: 'Bujías Iridio x4', nameAr: 'بوجيات إيريديوم x4', price: 29.90, oldPrice: 44.90, rating: 4.5, reviews: 543, discount: 33, badge: 'new', image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=400&fit=crop&q=80' },
+          { id: 815, name: 'Amortisseurs Avant Paire', nameEn: 'Front Shock Absorbers Pair', nameEs: 'Amortiguadores Delanteros Par', nameAr: 'مصادمات أمامية زوج', price: 69.90, oldPrice: 99.90, rating: 4.7, reviews: 432, discount: 30, badge: 'sale', image: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&h=400&fit=crop&q=80' },
+          { id: 816, name: "Filtre à Air Haute Performance", nameEn: 'High Performance Air Filter', nameEs: 'Filtro de Aire Alto Rendimiento', nameAr: 'فلتر هواء عالي الأداء', price: 24.90, oldPrice: 34.90, rating: 4.6, reviews: 876, discount: 29, badge: 'bestseller', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=400&fit=crop&q=80' },
+          { id: 817, name: "Disque de Frein Avant Ventilé", nameEn: 'Ventilated Front Brake Disc', nameEs: 'Disco de Freno Delantero Ventilado', nameAr: 'قرص فرامل أمامي مبرد', price: 44.90, oldPrice: 64.90, rating: 4.8, reviews: 765, discount: 31, badge: 'new', image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=400&fit=crop&q=80' },
+        ],
+      },
+      {
+        key: 'auto.huiles',
+        image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=600&h=400&fit=crop&q=80',
+        products: [
+          { id: 820, name: "Huile Moteur 5W-30 Synthétique 5L", nameEn: '5W-30 Synthetic Engine Oil 5L', nameEs: 'Aceite Motor 5W-30 Sintético 5L', nameAr: 'زيت محرك 5W-30 اصطناعي 5 لتر', price: 39.90, oldPrice: 54.90, rating: 4.9, reviews: 2345, discount: 27, badge: 'bestseller', image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=400&h=400&fit=crop&q=80' },
+          { id: 821, name: "Huile de Boîte Automatique ATF", nameEn: 'ATF Automatic Transmission Fluid', nameEs: 'Aceite Transmisión Automática ATF', nameAr: 'زيت نقل حركة آلي ATF', price: 24.90, oldPrice: 34.90, rating: 4.7, reviews: 1234, discount: 29, badge: 'sale', image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=400&h=400&fit=crop&q=80' },
+          { id: 822, name: "Liquide de Refroidissement -30°C 5L", nameEn: 'Coolant Fluid -30°C 5L', nameEs: 'Líquido Refrigerante -30°C 5L', nameAr: 'سائل مبرد -30°C 5 لتر', price: 18.90, oldPrice: 24.90, rating: 4.6, reviews: 987, discount: 24, badge: 'bestseller', image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=400&h=400&fit=crop&q=80' },
+          { id: 823, name: 'Liquide de Frein DOT 4 1L', nameEn: 'DOT 4 Brake Fluid 1L', nameEs: 'Líquido de Freno DOT 4 1L', nameAr: 'سائل فرامل DOT 4 1 لتر', price: 9.90, oldPrice: 14.90, rating: 4.8, reviews: 876, discount: 34, badge: 'new', image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=400&h=400&fit=crop&q=80' },
+          { id: 824, name: "Huile de Direction Assistée", nameEn: 'Power Steering Fluid', nameEs: 'Aceite Dirección Asistida', nameAr: 'زيت التوجيه المساعدة', price: 14.90, oldPrice: 19.90, rating: 4.5, reviews: 543, discount: 25, image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=400&h=400&fit=crop&q=80' },
+          { id: 825, name: "Liquide Lave-Glace Concentré -5°C", nameEn: 'Concentrated Washer Fluid -5°C', nameEs: 'Líquido Limpiaparabrisas Concentrado', nameAr: 'سائل غسيل الزجاج مركز', price: 6.90, oldPrice: 9.90, rating: 4.4, reviews: 1567, discount: 30, badge: 'sale', image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=400&h=400&fit=crop&q=80' },
+        ],
+      },
+      {
+        key: 'auto.accessoires',
+        image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0afe?w=600&h=400&fit=crop&q=80',
+        products: [
+          { id: 801, name: 'Support Smartphone Magnetique Voiture', nameEn: 'Magnetic Car Phone Mount', nameEs: 'Soporte Magnetico Coche', nameAr: 'حامل هاتف مغناطيسي للسيارة', price: 14.90, oldPrice: 24.90, rating: 4.6, reviews: 2345, discount: 40, badge: 'bestseller', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=400&fit=crop&q=80' },
+          { id: 802, name: 'Chargeur USB Voiture Rapide 65W', nameEn: 'Fast Car USB Charger 65W', nameEs: 'Cargador USB Coche Rapido 65W', nameAr: 'شاحن سيارة سريع 65 واط', price: 19.90, oldPrice: 29.90, rating: 4.7, reviews: 1876, discount: 33, badge: 'sale', image: 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400&h=400&fit=crop&q=80' },
+          { id: 803, name: 'Camera de Recul HD 12 LED', nameEn: 'HD Backup Camera 12 LED', nameEs: 'Camara Trasera HD 12 LED', nameAr: 'كاميرا خلفية HD 12 LED', price: 24.90, oldPrice: 39.90, rating: 4.5, reviews: 987, discount: 38, badge: 'new', image: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&h=400&fit=crop&q=80' },
+          { id: 804, name: 'Couvre-Sieges Auto Cuir Premium', nameEn: 'Premium Leather Car Seat Covers', nameEs: 'Fundas Asientos Coche Cuero', nameAr: 'غطاء مقاعد سيارة جلد فاخر', price: 59.90, oldPrice: 89.90, rating: 4.8, reviews: 1543, discount: 33, badge: 'bestseller', image: 'https://images.unsplash.com/photo-1549317661-bd32c8ce0afe?w=400&h=400&fit=crop&q=80' },
+          { id: 805, name: "Balais d'Essuie-Glace Silicone Premium", nameEn: 'Premium Silicone Wiper Blades', nameEs: 'Escobillas Silicona Premium', nameAr: 'مساحات سيارة سيليكون بريميوم', price: 16.90, oldPrice: 22.90, rating: 4.4, reviews: 876, discount: 26, badge: 'sale', image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=400&fit=crop&q=80' },
+          { id: 806, name: 'Amplificateur Bluetooth Auto 12V', nameEn: 'Bluetooth Car Amplifier 12V', nameEs: 'Amplificador Bluetooth Coche 12V', nameAr: 'مكبر بلوتوث سيارة 12 فولت', price: 34.90, oldPrice: 49.90, rating: 4.6, reviews: 654, discount: 30, badge: 'new', image: 'https://images.unsplash.com/photo-1553440569-bcc63803a83d?w=400&h=400&fit=crop&q=80' },
+        ],
+      },
+    ],
+    brands: [
+      { name: 'BMW', nameEn: 'BMW', nameEs: 'BMW', nameAr: 'بي إم دبليو', logo: '', slug: 'bmw', productCount: 245 },
+      { name: 'Mercedes-Benz', nameEn: 'Mercedes-Benz', nameEs: 'Mercedes-Benz', nameAr: 'مرسيدس بنز', logo: '', slug: 'mercedes', productCount: 312 },
+      { name: 'Audi', nameEn: 'Audi', nameEs: 'Audi', nameAr: 'أودي', logo: '', slug: 'audi', productCount: 198 },
+      { name: 'Volkswagen', nameEn: 'Volkswagen', nameEs: 'Volkswagen', nameAr: 'فولكسواجن', logo: '', slug: 'volkswagen', productCount: 287 },
+      { name: 'Peugeot', nameEn: 'Peugeot', nameEs: 'Peugeot', nameAr: 'بيجو', logo: '', slug: 'peugeot', productCount: 234 },
+      { name: 'Renault', nameEn: 'Renault', nameEs: 'Renault', nameAr: 'رنو', logo: '', slug: 'renault', productCount: 267 },
+      { name: 'Toyota', nameEn: 'Toyota', nameEs: 'Toyota', nameAr: 'تويوتا', logo: '', slug: 'toyota', productCount: 356 },
+      { name: 'Honda', nameEn: 'Honda', nameEs: 'Honda', nameAr: 'هوندا', logo: '', slug: 'honda', productCount: 189 },
+      { name: 'Ford', nameEn: 'Ford', nameEs: 'Ford', nameAr: 'فورد', logo: '', slug: 'ford', productCount: 278 },
+      { name: 'Hyundai', nameEn: 'Hyundai', nameEs: 'Hyundai', nameAr: 'هيونداي', logo: '', slug: 'hyundai', productCount: 201 },
+      { name: 'Kia', nameEn: 'Kia', nameEs: 'Kia', nameAr: 'كيا', logo: '', slug: 'kia', productCount: 178 },
+      { name: 'Nissan', nameEn: 'Nissan', nameEs: 'Nissan', nameAr: 'نيسان', logo: '', slug: 'nissan', productCount: 223 },
     ],
   },
 };

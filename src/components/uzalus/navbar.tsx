@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useI18n } from '@/lib/i18n-context';
 import { type Locale, localeNames, localeFlags } from '@/lib/i18n';
-import { Search, User, Heart, ShoppingBag, Menu, X, Globe, ChevronDown, Sparkles, SprayCan, Shirt, Footprints, Cpu, Home as HomeIcon, Watch, ShoppingBag as BoutiqueIcon } from 'lucide-react';
+import { Search, User, Heart, ShoppingBag, Menu, X, Globe, ChevronDown, Sparkles, SprayCan, Shirt, Footprints, Cpu, Home as HomeIcon, Watch, ShoppingBag as BoutiqueIcon, Car } from 'lucide-react';
 
 const navLinks = [
   { key: 'nav.home', href: '#' },
@@ -22,6 +22,7 @@ const shopCats = [
   { key: 'shop.electronique', icon: Cpu, slug: 'electronique' },
   { key: 'shop.maison', icon: HomeIcon, slug: 'maison' },
   { key: 'shop.accessoires', icon: Watch, slug: 'accessoires' },
+  { key: 'shop.auto', icon: Car, slug: 'auto' },
 ];
 
 const keyToSlug: Record<string, string> = {
@@ -33,6 +34,7 @@ const keyToSlug: Record<string, string> = {
   'shop.electronique': 'electronique',
   'shop.maison': 'maison',
   'shop.accessoires': 'accessoires',
+  'shop.auto': 'auto',
 };
 
 export function Navbar() {
