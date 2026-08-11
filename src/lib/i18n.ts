@@ -510,3 +510,5 @@ export const translations: Record<Locale, Record<string, string>> = {
     'auto.findParts': 'البحث عن قطع',
 },
 };
+
+export { useI18n } from './i18n-context';
