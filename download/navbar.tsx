@@ -1,136 +1,446 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import { shopCategoriesData } from "@/lib/shop-data";
-import MobileNav from "@/components/uzalus/mobile-nav";
+import { useState, useEffect, useRef } from 'react';
+import { useI18n } from '@/lib/i18n-context';
+import { type Locale, localeNames, localeFlags } from '@/lib/i18n';
+import { shopCategoriesData } from '@/lib/shop-data';
+import {
+  Search,
+  User,
+  Heart,
+  ShoppingBag,
+  Menu,
+  X,
+  Globe,
+  ChevronDown,
+  Shirt,
+  Footprints,
+  Cpu,
+  Home as HomeIcon,
+  Watch,
+  Car,
+  Baby,
+  Smartphone,
+  Sparkles,
+  Package,
+  Dumbbell,
+  Wrench,
+  PawPrint,
+  Gamepad2,
+  Briefcase,
+  Luggage,
+  ShoppingBasket,
+  Truck,
+  RotateCcw,
+  PackageCheck,
+  Bell,
+  Gift,
+  Star,
+  Clock,
+  Grid3X3,
+  ChevronRight,
+} from 'lucide-react';
 
-const catEntries = Object.values(shopCategoriesData);
+const navLinks = [
+  { key: 'nav.home', href: '/' },
+  { key: 'nav.shop', href: '#shop-categories', megaMenu: true },
+  { key: 'nav.categories', href: '#categories' },
+  { key: 'nav.deals', href: '#promotions' },
+  { key: 'nav.blog', href: '#' },
+];
 
-export function Navbar() {
+const shopCats = [
+  { key: 'shop.modeHomme', icon: Shirt, slug: 'mode-homme' },
+  { key: 'shop.modeFemme', icon: Shirt, slug: 'mode-femme' },
+  { key: 'shop.enfant', icon: Baby, slug: 'enfant' },
+  { key: 'shop.chaussures', icon: Footprints, slug: 'chaussures' },
+  { key: 'shop.maison', icon: HomeIcon, slug: 'maison' },
+  { key: 'shop.accessoires', icon: Watch, slug: 'accessoires' },
+  { key: 'shop.telephones', icon: Smartphone, slug: 'telephones' },
+  { key: 'shop.parfumsCosmetiques', icon: Sparkles, slug: 'parfums-cosmetiques' },
+  { key: 'shop.auto', icon: Car, slug: 'auto-moto' },
+  { key: 'shop.emballage', icon: Package, slug: 'emballage' },
+  { key: 'shop.electronique', icon: Cpu, slug: 'electronique' },
+  { key: 'shop.sport', icon: Dumbbell, slug: 'sport' },
+  { key: 'shop.bricolage', icon: Wrench, slug: 'bricolage' },
+  { key: 'shop.animaux', icon: PawPrint, slug: 'animaux' },
+  { key: 'shop.jouets', icon: Gamepad2, slug: 'jouets' },
+  { key: 'shop.bureau', icon: Briefcase, slug: 'bureau' },
+  { key: 'shop.bagagerie', icon: Luggage, slug: 'bagagerie' },
+  { key: 'shop.alimentation', icon: ShoppingBasket, slug: 'alimentation' },
+];
+
+const keyToSlug: Record<string, string> = {
+  'shop.modeHomme': 'mode-homme',
+  'shop.modeFemme': 'mode-femme',
+  'shop.enfant': 'enfant',
+  'shop.chaussures': 'chaussures',
+  'shop.maison': 'maison',
+  'shop.accessoires': 'accessoires',
+  'shop.telephones': 'telephones',
+  'shop.parfumsCosmetiques': 'parfums-cosmetiques',
+  'shop.auto': 'auto-moto',
+  'shop.emballage': 'emballage',
+  'shop.electronique': 'electronique',
+  'shop.sport': 'sport',
+  'shop.bricolage': 'bricolage',
+  'shop.animaux': 'animaux',
+  'shop.jouets': 'jouets',
+  'shop.bureau': 'bureau',
+  'shop.bagagerie': 'bagagerie',
+  'shop.alimentation': 'alimentation',
+};
+
+/* Profile dropdown items */
+const profileItems = [
+  { key: 'profile.orders', icon: PackageCheck },
+  { key: 'profile.notifications', icon: Bell },
+  { key: 'profile.coupons', icon: Gift },
+  { key: 'profile.points', icon: Star },
+  { key: 'profile.recentlyViewed', icon: Clock },
+  { key: 'profile.moreServices', icon: Grid3X3 },
+];
+
+export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => void; onProfileClick?: () => void }) {
+  const { t, locale, setLocale } = useI18n();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [shopOpen, setShopOpen] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [megaOpen, setMegaOpen] = useState(false);
+  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
+  const [scrolled, setScrolled] = useState(false);
+  const megaTimeout = useRef<NodeJS.Timeout | null>(null);
 
-  const handleCatClick = (slug: string) => {
-    const event = new CustomEvent("open-category", { detail: { slug } });
-    window.dispatchEvent(event);
-    setShopOpen(false);
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const openMega = () => {
+    if (megaTimeout.current) clearTimeout(megaTimeout.current);
+    setMegaOpen(true);
   };
+  const closeMega = () => {
+    megaTimeout.current = setTimeout(() => setMegaOpen(false), 200);
+  };
+
+  const openCategory = (key: string) => {
+    const slug = keyToSlug[key];
+    if (slug) {
+      window.dispatchEvent(new CustomEvent('open-category', { detail: slug }));
+      setMegaOpen(false);
+      setMobileOpen(false);
+    }
+  };
+
+  const locales: Locale[] = ['fr', 'en', 'es', 'ar'];
 
   return (
     <>
-      <nav className="sticky top-0 z-40 bg-[#0B0B0B]/95 backdrop-blur-md border-b border-white/5">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+      {/* ---- Promo bar (SHEIN-style: free shipping + 30-day returns) ---- */}
+      <div className="bg-noir-lighter/80 border-b border-border text-xs text-muted-foreground hidden md:block">
+        <div className="max-w-[1400px] mx-auto px-4 flex justify-center items-center h-9 gap-8">
+          <span className="flex items-center gap-1.5">
+            <Truck size={13} className="text-gold" />
+            {t('promo.freeShipping')}
+          </span>
+          <span className="w-px h-3.5 bg-border" />
+          <span className="flex items-center gap-1.5">
+            <RotateCcw size={13} className="text-gold" />
+            {t('promo.returns30')}
+          </span>
+          <span className="w-px h-3.5 bg-border" />
+          <span className="flex items-center gap-1.5">
+            <PackageCheck size={13} className="text-gold" />
+            {t('promo.securePayment')}
+          </span>
+        </div>
+      </div>
+
+      {/* ---- Main navbar ---- */}
+      <nav className={`sticky top-0 z-50 transition-all duration-300 ${scrolled ? 'bg-noir/95 backdrop-blur-xl shadow-lg shadow-black/30 border-b border-border' : 'bg-noir border-b border-border'}`}>
+        <div className="max-w-[1400px] mx-auto px-4 lg:px-6">
+          <div className="flex items-center justify-between h-14 lg:h-16">
+            {/* Mobile menu button */}
+            <button
+              className="lg:hidden p-2 text-foreground hover:text-gold transition-colors"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle menu"
+            >
+              {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+
             {/* Logo */}
-            <Link href="/" className="flex-shrink-0">
-              <span className="text-2xl font-bold gold-text">UZALUS</span>
-            </Link>
+            <a href="/" className="flex items-center gap-2">
+              <span className="font-display text-xl lg:text-2xl font-bold gold-shimmer tracking-wider">
+                UZALUS
+              </span>
+            </a>
 
-            {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center gap-1">
-              <Link href="/" className="px-3 py-2 text-sm font-medium text-white hover:text-[#D4AF37] transition-colors">
-                Accueil
-              </Link>
+            {/* Center search bar (SHEIN-style: prominent search in the middle) */}
+            <div className="hidden md:flex flex-1 max-w-xl mx-6 items-center bg-noir-lighter border border-border rounded-full px-5 py-2.5 gap-2 focus-within:border-gold/50 transition-colors">
+              <Search size={16} className="text-muted-foreground shrink-0" />
+              <input
+                type="text"
+                placeholder={t('nav.search')}
+                className="bg-transparent text-sm text-foreground placeholder-muted-foreground outline-none w-full"
+              />
+            </div>
 
-              {/* Shop dropdown */}
-              <div className="relative"
-                onMouseEnter={() => setShopOpen(true)}
-                onMouseLeave={() => setShopOpen(false)}
-              >
-                <button className="px-3 py-2 text-sm font-medium text-white hover:text-[#D4AF37] transition-colors flex items-center gap-1">
-                  Boutique
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                  </svg>
+            {/* Desktop nav links */}
+            <div className="hidden lg:flex items-center gap-6">
+              {navLinks.map((link) => (
+                <div
+                  key={link.key}
+                  className="relative"
+                  onMouseEnter={link.megaMenu ? openMega : undefined}
+                  onMouseLeave={link.megaMenu ? closeMega : undefined}
+                >
+                  <a
+                    href={link.href}
+                    className="text-xs font-semibold text-foreground/80 hover:text-gold transition-colors duration-300 tracking-wide uppercase flex items-center gap-1"
+                  >
+                    {t(link.key)}
+                    {link.megaMenu && <ChevronDown size={12} className={`transition-transform duration-200 ${megaOpen ? 'rotate-180' : ''}`} />}
+                  </a>
+                </div>
+              ))}
+            </div>
+
+            {/* Right actions */}
+            <div className="flex items-center gap-1.5 sm:gap-2.5">
+              {/* Profile dropdown */}
+              <div className="relative">
+                <button
+                  onClick={() => { setProfileOpen(!profileOpen); setLangOpen(false); }}
+                  className="p-2 text-foreground/80 hover:text-gold transition-colors relative"
+                  aria-label={t('nav.account')}
+                >
+                  <User size={20} />
                 </button>
-
-                {shopOpen && (
-                  <div className="absolute top-full left-0 w-[600px] bg-[#111111] border border-white/10 rounded-xl shadow-2xl p-6 fadeInUp">
-                    <div className="grid grid-cols-3 gap-3">
-                      {catEntries.map((cat: any) => (
+                {profileOpen && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setProfileOpen(false)} />
+                    <div className="absolute top-full end-0 mt-2 bg-noir-lighter border border-border rounded-xl shadow-2xl shadow-black/50 py-2 z-50 min-w-[220px] animate-fade-in-up">
+                      <div className="px-4 py-3 border-b border-border">
+                        <p className="text-sm font-bold text-foreground">{t('profile.personalCenter')}</p>
+                      </div>
+                      {profileItems.map((item) => {
+                        const Icon = item.icon;
+                        return (
+                          <button
+                            key={item.key}
+                            onClick={() => { onProfileClick?.(); setProfileOpen(false); }}
+                            className="w-full text-start px-4 py-3 text-sm flex items-center gap-3 hover:bg-noir-card transition-colors text-foreground/80 hover:text-gold"
+                          >
+                            <Icon size={16} className="text-muted-foreground" />
+                            {t(item.key)}
+                          </button>
+                        );
+                      })}
+                      <div className="border-t border-border mt-1 pt-1">
                         <button
-                          key={cat.slug}
-                          onClick={() => handleCatClick(cat.slug)}
-                          className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-white/5 transition-colors text-left"
+                          onClick={() => { onProfileClick?.(); setProfileOpen(false); }}
+                          className="w-full text-start px-4 py-3 text-sm font-bold text-gold hover:bg-gold/5 transition-colors flex items-center gap-3"
                         >
-                          <span>{cat.icon}</span>
-                          <span className="text-white text-sm hover:text-[#D4AF37]">{cat.name}</span>
+                          {t('profile.signIn')}
                         </button>
-                      ))}
+                      </div>
                     </div>
-                  </div>
+                  </>
                 )}
               </div>
 
-              <a href="#categories" className="px-3 py-2 text-sm font-medium text-white hover:text-[#D4AF37] transition-colors">
-                Categories
-              </a>
-
-              <a href="#promotions" className="px-3 py-2 text-sm font-medium text-white hover:text-[#D4AF37] transition-colors">
-                Promotions
-              </a>
-            </div>
-
-            {/* Right icons */}
-            <div className="flex items-center gap-3">
-              {/* Search */}
-              <div className="hidden sm:flex items-center bg-white/5 rounded-full px-4 py-2 border border-white/10">
-                <svg className="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                <input
-                  type="text"
-                  placeholder="Rechercher un produit..."
-                  className="bg-transparent border-none outline-none text-white text-sm placeholder-gray-400 ml-2 w-40 lg:w-56"
-                />
+              {/* Language selector */}
+              <div className="relative">
+                <button
+                  onClick={() => { setLangOpen(!langOpen); setProfileOpen(false); }}
+                  className="flex items-center gap-1 px-2 py-2 text-sm text-foreground/80 hover:text-gold transition-colors rounded-lg hover:bg-noir-lighter"
+                >
+                  <Globe size={16} />
+                  <span className="hidden sm:inline text-xs">{locale.toUpperCase()}</span>
+                  <ChevronDown size={12} className={`transition-transform ${langOpen ? 'rotate-180' : ''}`} />
+                </button>
+                {langOpen && (
+                  <>
+                    <div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} />
+                    <div className="absolute top-full end-0 mt-2 bg-noir-lighter border border-border rounded-xl shadow-2xl shadow-black/50 py-2 z-50 min-w-[160px] animate-fade-in-up">
+                      {locales.map((l) => (
+                        <button
+                          key={l}
+                          onClick={() => { setLocale(l); setLangOpen(false); }}
+                          className={`w-full text-start px-4 py-2.5 text-sm flex items-center gap-3 hover:bg-noir-card transition-colors ${locale === l ? 'text-gold bg-gold/5' : 'text-foreground/80'}`}
+                        >
+                          <span>{localeFlags[l]}</span>
+                          <span>{localeNames[l]}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </>
+                )}
               </div>
 
-              {/* Language */}
-              <button className="hidden sm:flex items-center gap-1 text-gray-400 hover:text-white text-sm px-2">
-                <span>FR</span>
-                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-
               {/* Wishlist */}
-              <button className="relative text-gray-400 hover:text-white transition-colors">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">0</span>
+              <button className="p-2 text-foreground/80 hover:text-gold transition-colors relative" aria-label={t('nav.wishlist')}>
+                <Heart size={20} />
+                <span className="absolute -top-0.5 -end-0.5 w-4 h-4 bg-gold text-noir text-[10px] font-bold rounded-full flex items-center justify-center">2</span>
               </button>
 
               {/* Cart */}
-              <button className="relative text-gray-400 hover:text-white transition-colors">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                </svg>
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">0</span>
-              </button>
-
-              {/* Mobile menu btn */}
               <button
-                onClick={() => setMobileOpen(true)}
-                className="lg:hidden text-gray-400 hover:text-white"
+                onClick={onCartClick}
+                className="p-2 text-foreground/80 hover:text-gold transition-colors relative"
+                aria-label={t('nav.cart')}
               >
-                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
+                <ShoppingBag size={20} />
+                <span className="absolute -top-0.5 -end-0.5 w-4 h-4 bg-gold text-noir text-[10px] font-bold rounded-full flex items-center justify-center">0</span>
               </button>
             </div>
           </div>
         </div>
-      </nav>
 
-      {/* Mobile Nav */}
-      <MobileNav
-        isOpen={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-        categories={catEntries.map((c: any) => ({ slug: c.slug, name: c.name, icon: c.icon }))}
-        onCategoryClick={handleCatClick}
-      />
+        {/* Desktop Mega Menu — Wish-style: left categories + right subcategories */}
+        {megaOpen && (
+          <div
+            className="hidden lg:block absolute start-0 end-0 bg-noir-card/98 backdrop-blur-2xl border-b border-border shadow-2xl shadow-black/50"
+            onMouseEnter={openMega}
+            onMouseLeave={closeMega}
+          >
+            <div className="max-w-[1400px] mx-auto flex">
+              {/* Left panel — 18 categories list */}
+              <div className="w-[260px] shrink-0 border-e border-border py-4 px-2 max-h-[480px] overflow-y-auto">
+                <p className="text-[10px] text-gold font-bold tracking-widest uppercase px-3 mb-3">{t('nav.allCategories')}</p>
+                {shopCats.map((cat) => {
+                  const Icon = cat.icon;
+                  const isActive = hoveredSlug === cat.slug;
+                  return (
+                    <button
+                      key={cat.slug}
+                      onMouseEnter={() => setHoveredSlug(cat.slug)}
+                      onClick={() => openCategory(cat.key)}
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-start transition-colors duration-150 ${isActive ? 'bg-gold/10 text-gold' : 'text-foreground/70 hover:text-foreground hover:bg-noir-lighter'}`}
+                    >
+                      <Icon size={16} className={isActive ? 'text-gold' : 'text-muted-foreground'} />
+                      <span className="text-sm font-medium truncate">{t(cat.key)}</span>
+                      <ChevronRight size={14} className={`ms-auto shrink-0 transition-colors ${isActive ? 'text-gold' : 'text-foreground/20'}`} />
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Right panel — subcategories of hovered category */}
+              <div className="flex-1 py-6 px-6 max-h-[480px] overflow-y-auto">
+                {hoveredSlug && shopCategoriesData[hoveredSlug] ? (
+                  <>
+                    <div className="flex items-center justify-between mb-5">
+                      <h3 className="font-display text-lg font-bold text-foreground">{t(shopCategoriesData[hoveredSlug].key)}</h3>
+                      <button
+                        onClick={() => openCategory(shopCats.find(c => c.slug === hoveredSlug)?.key || '')}
+                        className="text-xs text-gold hover:text-gold-light font-semibold tracking-wide uppercase"
+                      >
+                        {t('cat.seeAll')} →
+                      </button>
+                    </div>
+
+                    {/* Brands column for auto-moto */}
+                    {hoveredSlug === 'auto-moto' && shopCategoriesData[hoveredSlug].brands && (
+                      <div className="mb-5">
+                        <p className="text-[10px] text-gold font-bold tracking-widest uppercase mb-3">{t('auto.brands')}</p>
+                        <div className="flex flex-wrap gap-2">
+                          {shopCategoriesData[hoveredSlug].brands!.slice(0, 8).map((brand) => (
+                            <span
+                              key={brand.slug}
+                              className="px-3 py-1.5 rounded-full bg-noir-lighter border border-border text-xs text-foreground/70 hover:text-gold hover:border-gold/30 transition-colors cursor-pointer"
+                            >
+                              {locale === 'ar' ? brand.nameAr : locale === 'es' ? brand.nameEs : locale === 'en' ? brand.nameEn : brand.name}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Subcategories in columns */}
+                    {shopCategoriesData[hoveredSlug].subCategories && shopCategoriesData[hoveredSlug].subCategories!.length > 0 ? (
+                      <div className={`grid gap-x-8 gap-y-1 ${shopCategoriesData[hoveredSlug].subCategories!.length > 14 ? 'grid-cols-4' : shopCategoriesData[hoveredSlug].subCategories!.length > 8 ? 'grid-cols-3' : 'grid-cols-2'}`}>
+                        {shopCategoriesData[hoveredSlug].subCategories!.map((sub) => (
+                          <button
+                            key={sub.key}
+                            onClick={() => {
+                              window.dispatchEvent(new CustomEvent('open-category', { detail: { slug: hoveredSlug, sub: sub.key } }));
+                              setMegaOpen(false);
+                            }}
+                            className="text-start py-1.5 text-sm text-foreground/60 hover:text-gold transition-colors duration-150 truncate"
+                          >
+                            {t(sub.key)}
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">{t('cat.seeAll')} →</p>
+                    )}
+                  </>
+                ) : (
+                  <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
+                    <p className="text-sm">{t('nav.allCategories')}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Mobile menu */}
+        {mobileOpen && (
+          <div className="lg:hidden bg-noir/98 backdrop-blur-xl border-t border-border">
+            <div className="px-4 py-4 space-y-3">
+              {/* Mobile search */}
+              <div className="flex items-center bg-noir-lighter border border-border rounded-full px-4 py-2.5 gap-2">
+                <Search size={16} className="text-muted-foreground" />
+                <input
+                  type="text"
+                  placeholder={t('nav.search')}
+                  className="bg-transparent text-sm text-foreground placeholder-muted-foreground outline-none w-full"
+                />
+              </div>
+              {navLinks.map((link) => (
+                <a
+                  key={link.key}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="block py-2.5 text-foreground/80 hover:text-gold transition-colors font-medium tracking-wide uppercase text-sm"
+                >
+                  {t(link.key)}
+                </a>
+              ))}
+              {/* Mobile shop categories sub-links */}
+              <div className="pt-2 border-t border-border">
+                <p className="text-xs text-gold font-bold tracking-widest uppercase mb-2">{t('nav.allCategories')}</p>
+                <div className="grid grid-cols-2 gap-1">
+                  {shopCats.map((cat) => {
+                    const Icon = cat.icon;
+                    return (
+                      <button
+                        key={cat.key}
+                        onClick={() => openCategory(cat.key)}
+                        className="flex items-center gap-2 py-1.5 text-foreground/70 hover:text-gold transition-colors text-xs w-full text-start"
+                      >
+                        <Icon size={14} className="text-gold/60" />
+                        {t(cat.key)}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+              <div className="pt-3 border-t border-border flex items-center gap-4">
+                <button className="flex items-center gap-2 text-sm text-foreground/80 hover:text-gold transition-colors">
+                  <User size={18} /> {t('nav.account')}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </nav>
     </>
   );
 }
