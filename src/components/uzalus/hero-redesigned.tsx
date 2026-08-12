@@ -139,7 +139,7 @@ export function HeroRedesigned() {
 
         {/* CENTER — Main carousel */}
         <div className="relative min-h-[280px] sm:min-h-[360px] lg:min-h-[460px] rounded-xl overflow-hidden group">
-          {/* Background image with transition */
+          {/* Background image with transition */}
           {slides.map((s, i) => (
             <div
               key={i}

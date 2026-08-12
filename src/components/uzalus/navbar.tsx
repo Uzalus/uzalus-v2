@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useI18n } from '@/lib/i18n-context';
 import { type Locale, localeNames, localeFlags } from '@/lib/i18n';
+import { shopCategoriesData } from '@/lib/shop-data';
 import {
   Search,
   User,
@@ -37,6 +38,7 @@ import {
   Star,
   Clock,
   Grid3X3,
+  ChevronRight,
 } from 'lucide-react';
 
 const navLinks = [
@@ -105,6 +107,7 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
   const [langOpen, setLangOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
+  const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const megaTimeout = useRef<NodeJS.Timeout | null>(null);
 
@@ -297,33 +300,91 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
           </div>
         </div>
 
-        {/* Desktop Mega Menu — 5 columns for 18 categories */}
+        {/* Desktop Mega Menu — Wish-style: left categories + right subcategories */}
         {megaOpen && (
           <div
             className="hidden lg:block absolute start-0 end-0 bg-noir-card/98 backdrop-blur-2xl border-b border-border shadow-2xl shadow-black/50"
             onMouseEnter={openMega}
             onMouseLeave={closeMega}
           >
-            <div className="max-w-[1400px] mx-auto px-4 lg:px-6 py-8">
-              <p className="text-xs text-gold font-bold tracking-widest uppercase mb-5">{t('nav.allCategories')}</p>
-              <div className="grid grid-cols-5 gap-4">
+            <div className="max-w-[1400px] mx-auto flex">
+              {/* Left panel — 18 categories list */}
+              <div className="w-[260px] shrink-0 border-e border-border py-4 px-2 max-h-[480px] overflow-y-auto">
+                <p className="text-[10px] text-gold font-bold tracking-widest uppercase px-3 mb-3">{t('nav.allCategories')}</p>
                 {shopCats.map((cat) => {
                   const Icon = cat.icon;
+                  const isActive = hoveredSlug === cat.slug;
                   return (
                     <button
-                      key={cat.key}
+                      key={cat.slug}
+                      onMouseEnter={() => setHoveredSlug(cat.slug)}
                       onClick={() => openCategory(cat.key)}
-                      className="flex items-center gap-3 p-3 rounded-xl hover:bg-noir-lighter transition-colors group w-full text-start"
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-start transition-colors duration-150 ${isActive ? 'bg-gold/10 text-gold' : 'text-foreground/70 hover:text-foreground hover:bg-noir-lighter'}`}
                     >
-                      <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center group-hover:bg-gold/20 transition-colors">
-                        <Icon size={18} className="text-gold" />
-                      </div>
-                      <span className="text-sm font-medium text-foreground/80 group-hover:text-gold transition-colors">
-                        {t(cat.key)}
-                      </span>
+                      <Icon size={16} className={isActive ? 'text-gold' : 'text-muted-foreground'} />
+                      <span className="text-sm font-medium truncate">{t(cat.key)}</span>
+                      <ChevronRight size={14} className={`ms-auto shrink-0 transition-colors ${isActive ? 'text-gold' : 'text-foreground/20'}`} />
                     </button>
                   );
                 })}
+              </div>
+
+              {/* Right panel — subcategories of hovered category */}
+              <div className="flex-1 py-6 px-6 max-h-[480px] overflow-y-auto">
+                {hoveredSlug && shopCategoriesData[hoveredSlug] ? (
+                  <>
+                    <div className="flex items-center justify-between mb-5">
+                      <h3 className="font-display text-lg font-bold text-foreground">{t(shopCategoriesData[hoveredSlug].key)}</h3>
+                      <button
+                        onClick={() => openCategory(shopCats.find(c => c.slug === hoveredSlug)?.key || '')}
+                        className="text-xs text-gold hover:text-gold-light font-semibold tracking-wide uppercase"
+                      >
+                        {t('cat.seeAll')} →
+                      </button>
+                    </div>
+
+                    {/* Brands column for auto-moto */}
+                    {hoveredSlug === 'auto-moto' && shopCategoriesData[hoveredSlug].brands && (
+                      <div className="mb-5">
+                        <p className="text-[10px] text-gold font-bold tracking-widest uppercase mb-3">{t('auto.brands')}</p>
+                        <div className="flex flex-wrap gap-2">
+                          {shopCategoriesData[hoveredSlug].brands!.slice(0, 8).map((brand) => (
+                            <span
+                              key={brand.slug}
+                              className="px-3 py-1.5 rounded-full bg-noir-lighter border border-border text-xs text-foreground/70 hover:text-gold hover:border-gold/30 transition-colors cursor-pointer"
+                            >
+                              {locale === 'ar' ? brand.nameAr : locale === 'es' ? brand.nameEs : locale === 'en' ? brand.nameEn : brand.name}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Subcategories in columns */}
+                    {shopCategoriesData[hoveredSlug].subCategories && shopCategoriesData[hoveredSlug].subCategories!.length > 0 ? (
+                      <div className={`grid gap-x-8 gap-y-1 ${shopCategoriesData[hoveredSlug].subCategories!.length > 14 ? 'grid-cols-4' : shopCategoriesData[hoveredSlug].subCategories!.length > 8 ? 'grid-cols-3' : 'grid-cols-2'}`}>
+                        {shopCategoriesData[hoveredSlug].subCategories!.map((sub) => (
+                          <button
+                            key={sub.key}
+                            onClick={() => {
+                              window.dispatchEvent(new CustomEvent('open-category', { detail: { slug: hoveredSlug, sub: sub.key } }));
+                              setMegaOpen(false);
+                            }}
+                            className="text-start py-1.5 text-sm text-foreground/60 hover:text-gold transition-colors duration-150 truncate"
+                          >
+                            {t(sub.key)}
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-sm text-muted-foreground">{t('cat.seeAll')} →</p>
+                    )}
+                  </>
+                ) : (
+                  <div className="flex flex-col items-center justify-center h-full text-muted-foreground">
+                    <p className="text-sm">{t('nav.allCategories')}</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
