@@ -1,164 +1,239 @@
 'use client';
 
 import { useI18n } from '@/lib/i18n-context';
-import { ChevronDown } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
 
+/* ------------------------------------------------------------------ */
+/*  Slide data                                                        */
+/* ------------------------------------------------------------------ */
+interface Slide {
+  title: string;
+  titleKey: string;
+  subtitle: string;
+  subtitleKey: string;
+  cta: string;
+  ctaKey: string;
+  bg: string;
+  tag?: string;
+  tagKey?: string;
+}
+
+const slides: Slide[] = [
+  {
+    title: "C'EST LA RENTRÉE",
+    titleKey: 'hero.slide1Title',
+    subtitle: '400 000 BEST-SELLERS',
+    subtitleKey: 'hero.slide1Sub',
+    cta: 'ACHETER MAINTENANT',
+    ctaKey: 'hero.slide1Cta',
+    bg: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&h=600&fit=crop&q=80',
+    tag: 'TENDANCES',
+    tagKey: 'hero.slide1Tag',
+  },
+  {
+    title: 'ESTHÉTIQUE D\'AOÛT',
+    titleKey: 'hero.slide2Title',
+    subtitle: 'Des tenues pour tous les styles',
+    subtitleKey: 'hero.slide2Sub',
+    cta: 'VOIR TOUT',
+    ctaKey: 'hero.slide2Cta',
+    bg: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&h=600&fit=crop&q=80',
+  },
+  {
+    title: 'AUTO & MOTO',
+    titleKey: 'hero.slide3Title',
+    subtitle: 'Accessoires & pièces détachées',
+    subtitleKey: 'hero.slide3Sub',
+    cta: 'DÉCOUVRIR',
+    ctaKey: 'hero.slide3Cta',
+    bg: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1200&h=600&fit=crop&q=80',
+  },
+];
+
+/* Side promo banners — left column */
+const leftBanners = [
+  {
+    titleKey: 'hero.sideStyle',
+    image: 'https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=400&h=260&fit=crop&q=80',
+  },
+  {
+    titleKey: 'hero.sideFast',
+    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=260&fit=crop&q=80',
+  },
+  {
+    titleKey: 'hero.sideHome',
+    image: 'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=260&fit=crop&q=80',
+  },
+];
+
+/* Side promo banners — right column (brand spotlights) */
+const rightBanners = [
+  {
+    label: 'U',
+    labelKey: 'hero.brandU',
+    bg: 'from-gold/30 to-noir-card',
+    image: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=400&h=260&fit=crop&q=80',
+  },
+  {
+    label: 'Z',
+    labelKey: 'hero.brandZ',
+    bg: 'from-gold-dark/30 to-noir-card',
+    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=260&fit=crop&q=80',
+  },
+  {
+    label: 'PREMIUM',
+    labelKey: 'hero.brandPremium',
+    bg: 'from-gold/20 to-noir-card',
+    image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=260&fit=crop&q=80',
+  },
+];
+
+/* ------------------------------------------------------------------ */
+/*  Component                                                         */
+/* ------------------------------------------------------------------ */
 export function HeroRedesigned() {
   const { t } = useI18n();
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [videoReady, setVideoReady] = useState(false);
-  const [videoError, setVideoError] = useState(false);
+  const [current, setCurrent] = useState(0);
 
+  const next = useCallback(() => setCurrent((p) => (p + 1) % slides.length), []);
+  const prev = useCallback(() => setCurrent((p) => (p - 1 + slides.length) % slides.length), []);
+
+  /* Auto-advance every 5s */
   useEffect(() => {
-    const v = videoRef.current;
-    if (v) {
-      v.load();
-      v.play().catch(() => {
-        const handleClick = () => {
-          v.play().catch(() => {});
-          document.removeEventListener('click', handleClick);
-        };
-        document.addEventListener('click', handleClick, { once: true });
-      });
-    }
-  }, []);
+    const timer = setInterval(next, 5000);
+    return () => clearInterval(timer);
+  }, [next]);
 
-  const scrollToCategories = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const el = document.querySelector('#categories');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
+  const slide = slides[current];
 
   return (
-    <section className="relative w-full overflow-hidden h-screen lg:h-[85vh]">
-      {/* LEFT SIDE — Video Background (60% desktop, full mobile) */}
-      <div className="absolute inset-0 lg:w-[60%] z-0">
-        <video
-          ref={videoRef}
-          src="/videos/hero.mp4"
-          autoPlay
-          muted
-          loop
-          playsInline
-          onCanPlay={() => setVideoReady(true)}
-          onError={() => setVideoError(true)}
-          className={`w-full h-full object-cover transition-opacity duration-1000 hero-ken-burns ${
-            videoReady ? 'opacity-100' : 'opacity-0'
-          }`}
-        />
-
-        {/* Fallback image with Ken Burns */}
-        <div
-          className={`absolute inset-0 transition-opacity duration-1000 ${
-            videoReady && !videoError ? 'opacity-0' : 'opacity-100'
-          }`}
-        >
-          <img
-            src="/images/hero-video-fallback.jpg"
-            alt="UZALUS"
-            className="w-full h-full object-cover hero-ken-burns"
-          />
+    <section className="relative w-full bg-noir overflow-hidden">
+      {/* ---- 3-column grid ---- */}
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_2.5fr_1fr] gap-2 p-2 max-w-[1400px] mx-auto">
+        {/* LEFT — 3 stacked promo banners (hidden on mobile) */}
+        <div className="hidden lg:flex flex-col gap-2">
+          {leftBanners.map((b, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                const el = document.querySelector('#categories');
+                el?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="group relative flex-1 min-h-[160px] rounded-xl overflow-hidden cursor-pointer"
+            >
+              <img
+                src={b.image}
+                alt={t(b.titleKey)}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+              <div className="absolute bottom-3 start-3 z-10">
+                <span className="text-white font-bold text-sm tracking-wide drop-shadow-lg">
+                  {t(b.titleKey)}
+                </span>
+              </div>
+            </button>
+          ))}
         </div>
 
-        {/* Dark overlay on left side */}
-        <div className="absolute inset-0 bg-gradient-to-r from-noir/80 via-noir/60 to-transparent lg:bg-gradient-to-l lg:from-noir/80 lg:via-noir/60 lg:to-transparent" />
-      </div>
+        {/* CENTER — Main carousel */}
+        <div className="relative min-h-[280px] sm:min-h-[360px] lg:min-h-[460px] rounded-xl overflow-hidden group">
+          {/* Background image with transition */
+          {slides.map((s, i) => (
+            <div
+              key={i}
+              className={`absolute inset-0 transition-opacity duration-700 ${i === current ? 'opacity-100' : 'opacity-0'}`}
+            >
+              <img
+                src={s.bg}
+                alt={t(s.titleKey)}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/20" />
+            </div>
+          ))}
 
-      {/* RIGHT SIDE — Auto parts photo (40% desktop, hidden mobile) */}
-      <div className="absolute inset-y-0 end-0 w-[40%] hidden lg:block z-0">
-        <img
-          src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&h=1200&fit=crop&q=80"
-          alt="Auto Parts"
-          className="w-full h-full object-cover hero-ken-burns"
-        />
-        <div className="absolute inset-0 bg-noir/40" />
-      </div>
-
-      {/* Animated gold particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
-        <div className="absolute top-[12%] start-[8%] w-1 h-1 bg-gold/30 rounded-full animate-pulse" />
-        <div
-          className="absolute top-[22%] end-[18%] w-1.5 h-1.5 bg-gold/20 rounded-full animate-pulse"
-          style={{ animationDelay: '1s' }}
-        />
-        <div
-          className="absolute top-[38%] start-[22%] w-1 h-1 bg-gold/25 rounded-full animate-pulse"
-          style={{ animationDelay: '2s' }}
-        />
-        <div
-          className="absolute top-[55%] end-[25%] w-2 h-2 bg-gold/15 rounded-full animate-pulse"
-          style={{ animationDelay: '0.5s' }}
-        />
-        <div
-          className="absolute top-[70%] start-[35%] w-1.5 h-1.5 bg-gold/20 rounded-full animate-pulse"
-          style={{ animationDelay: '3s' }}
-        />
-        <div
-          className="absolute top-[18%] end-[35%] w-1 h-1 bg-gold/25 rounded-full animate-pulse"
-          style={{ animationDelay: '1.5s' }}
-        />
-        <div
-          className="absolute top-[80%] end-[12%] w-1.5 h-1.5 bg-gold/18 rounded-full animate-pulse"
-          style={{ animationDelay: '2.5s' }}
-        />
-        <div
-          className="absolute top-[45%] start-[12%] w-1 h-1 bg-gold/22 rounded-full animate-pulse"
-          style={{ animationDelay: '4s' }}
-        />
-      </div>
-
-      {/* Content overlay */}
-      <div className="relative z-20 flex items-center h-full">
-        <div className="w-full h-full flex items-center">
-          <div className="max-w-7xl mx-auto w-full px-4 lg:px-6 py-16 lg:py-0">
-            <div className="max-w-2xl lg:max-w-3xl space-y-6 lg:space-y-8">
-              {/* UZALUS Logo Text */}
-              <div className="opacity-0 animate-fade-in-up">
-                <h1
-                  className="font-display text-5xl md:text-6xl lg:text-7xl font-bold gold-shimmer tracking-[0.2em]"
-                >
-                  UZALUS
-                </h1>
-              </div>
-
-              {/* Tagline */}
-              <div className="opacity-0 animate-fade-in-up animate-delay-200">
-                <p className="text-lg sm:text-xl lg:text-2xl text-foreground/80 font-elegant italic max-w-xl leading-relaxed">
-                  {t('hero.tagline')}
-                </p>
-              </div>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 opacity-0 animate-fade-in-up animate-delay-400">
-                <a
-                  href="#categories"
-                  onClick={scrollToCategories}
-                  className="gold-btn px-8 py-4 rounded-full text-sm tracking-[0.15em] uppercase font-bold inline-flex items-center justify-center gap-2"
-                >
-                  {t('hero.cta')}
-                </a>
-                <a
-                  href="#categories"
-                  onClick={scrollToCategories}
-                  className="px-8 py-4 rounded-full text-sm tracking-[0.15em] uppercase font-medium border border-gold/40 text-gold hover:bg-gold/10 transition-all duration-300 inline-flex items-center justify-center"
-                >
-                  {t('hero.cta2')}
-                </a>
-              </div>
+          {/* Content overlay */}
+          <div className="relative z-10 h-full flex items-center px-6 sm:px-10 lg:px-14">
+            <div className="max-w-lg">
+              {slide.tag && (
+                <span className="inline-block px-4 py-1.5 rounded-full bg-gold text-noir text-xs font-bold tracking-wider uppercase mb-4 opacity-0 animate-fade-in-up">
+                  {t(slide.tagKey!)}
+                </span>
+              )}
+              <h1 className="font-display text-2xl sm:text-3xl lg:text-5xl font-bold text-white mb-3 leading-tight opacity-0 animate-fade-in-up animate-delay-100">
+                {t(slide.titleKey)}
+              </h1>
+              <p className="text-base sm:text-lg lg:text-xl text-white/80 mb-6 opacity-0 animate-fade-in-up animate-delay-200">
+                {t(slide.subtitleKey)}
+              </p>
+              <button
+                onClick={() => {
+                  const el = document.querySelector('#categories');
+                  el?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="px-8 py-3.5 rounded-full bg-white text-noir text-sm font-bold tracking-wider uppercase hover:bg-gold hover:text-noir transition-all duration-300 inline-flex items-center gap-2 opacity-0 animate-fade-in-up animate-delay-300"
+              >
+                {t(slide.ctaKey)}
+              </button>
             </div>
           </div>
-        </div>
-      </div>
 
-      {/* Scroll Down Indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0 animate-fade-in-up animate-delay-600 z-20">
-        <span className="text-xs text-muted-foreground tracking-widest uppercase">
-          {t('hero.scroll')}
-        </span>
-        <ChevronDown size={20} className="text-gold animate-bounce" />
+          {/* Arrows */}
+          <button
+            onClick={prev}
+            className="absolute start-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white hover:bg-gold/80 transition-colors opacity-0 lg:group-hover:opacity-100"
+            aria-label="Previous"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          <button
+            onClick={next}
+            className="absolute end-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center text-white hover:bg-gold/80 transition-colors opacity-0 lg:group-hover:opacity-100"
+            aria-label="Next"
+          >
+            <ChevronRight size={20} />
+          </button>
+
+          {/* Dots */}
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                className={`h-2 rounded-full transition-all duration-300 ${i === current ? 'w-6 bg-gold' : 'w-2 bg-white/40 hover:bg-white/60'}`}
+                aria-label={`Slide ${i + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* RIGHT — 3 brand/spotlight banners (hidden on mobile) */}
+        <div className="hidden lg:flex flex-col gap-2">
+          {rightBanners.map((b, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                const el = document.querySelector('#categories');
+                el?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="group relative flex-1 min-h-[160px] rounded-xl overflow-hidden cursor-pointer"
+            >
+              <img
+                src={b.image}
+                alt={t(b.labelKey)}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div className={`absolute inset-0 bg-gradient-to-t ${b.bg}`} />
+              <div className="absolute inset-0 flex items-center justify-center z-10">
+                <span className="font-display text-2xl font-bold text-gold/80 group-hover:text-gold transition-colors drop-shadow-lg">
+                  {t(b.labelKey)}
+                </span>
+              </div>
+            </button>
+          ))}
+        </div>
       </div>
     </section>
   );

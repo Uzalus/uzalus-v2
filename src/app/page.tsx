@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useI18n } from '@/lib/i18n-context';
 import { Navbar } from '@/components/uzalus/navbar';
 import { HeroRedesigned } from '@/components/uzalus/hero-redesigned';
+import { CategoryCircles } from '@/components/uzalus/category-circles';
 import { ShopCategories } from '@/components/uzalus/shop-categories';
 import { FlashSales } from '@/components/uzalus/flash-sales';
 import { Products } from '@/components/uzalus/products';
@@ -14,21 +15,21 @@ import { Newsletter } from '@/components/uzalus/newsletter';
 import { Footer } from '@/components/uzalus/footer';
 import { ChatWidget } from '@/components/uzalus/chat-widget';
 import { MobileNav } from '@/components/uzalus/mobile-nav';
+import { EmptyCartModal } from '@/components/uzalus/empty-cart-modal';
 import { CategoryPage, type CatSlug } from '@/components/uzalus/category-page';
 
 /* ------------------------------------------------------------------ */
-/*  Inline MarqueeBanner (marquee-banner.tsx does not exist yet)      */
+/*  Inline MarqueeBanner                                              */
 /* ------------------------------------------------------------------ */
 const BRANDS = [
-  'GUCCI', 'LOUIS VUITTON', 'PRADA', 'CHANEL', 'DIOR',
-  'HERMÈS', 'VERSACE', 'BALMAIN', 'FENDI', 'ARMANI',
-  'BURBERRY', 'BVLGARI', 'CARTIER', 'TIFFANY & CO.', 'ROLEX',
+  'NIKE', 'SAMSUNG', 'GUCCI', 'ADIDAS', 'APPLE', 'SONY', 'PUMA', 'H&M',
+  'ZARA', 'LOUIS VUITTON', 'DIOR', 'HERMÈS', 'CHANEL', 'PRADA', 'VERSACE',
 ];
 
 function MarqueeBanner() {
   const items = [...BRANDS, ...BRANDS, ...BRANDS];
   return (
-    <section className="relative overflow-hidden py-5 bg-noir-light/60 border-y border-border/30">
+    <section className="relative overflow-hidden py-3 bg-noir-lighter/60 border-y border-border/30">
       <style>{`
         @keyframes marquee-scroll {
           0%   { transform: translateX(0); }
@@ -79,6 +80,7 @@ function AdSenseBlock({ size = '728x90', className = '' }: { size?: string; clas
 /* ------------------------------------------------------------------ */
 export default function Home() {
   const [activeCategory, setActiveCategory] = useState<CatSlug | null>(null);
+  const [cartOpen, setCartOpen] = useState(false);
 
   useEffect(() => {
     const handler = (e: Event) => {
@@ -96,7 +98,7 @@ export default function Home() {
   if (activeCategory) {
     return (
       <div className="min-h-screen flex flex-col bg-noir pb-20 md:pb-0">
-        <Navbar />
+        <Navbar onCartClick={() => setCartOpen(true)} />
         <CategoryPage
           category={activeCategory}
           onBack={() => {
@@ -107,55 +109,65 @@ export default function Home() {
         <Footer />
         <ChatWidget />
         <MobileNav />
+        <EmptyCartModal open={cartOpen} onClose={() => setCartOpen(false)} />
       </div>
     );
   }
 
-  /* ---- Main homepage ---- */
+  /* ---- Main homepage (SHEIN-style layout) ---- */
   return (
     <div className="min-h-screen flex flex-col bg-noir">
-      <Navbar />
+      <Navbar
+        onCartClick={() => setCartOpen(true)}
+        onProfileClick={() => setCartOpen(false)}
+      />
 
       <main className="flex-1 pb-20 md:pb-0">
-        {/* 1. Hero */}
+        {/* 1. Hero — SHEIN-style 3-column (side banners + carousel + brand cards) */}
         <HeroRedesigned />
 
-        {/* 2. Marquee banner of luxury brand names */}
+        {/* 2. Circular category quick-links (SHEIN-style) */}
+        <CategoryCircles />
+
+        {/* 3. Marquee banner of brand names */}
         <MarqueeBanner />
 
-        {/* 3. AdSense Block #1 — leaderboard above categories */}
+        {/* 4. AdSense Block #1 — leaderboard */}
         <AdSenseBlock size="728x90" />
-
-        {/* 4. Shop categories grid */}
-        <ShopCategories />
 
         {/* 5. Flash sales / deals section */}
         <FlashSales />
 
-        {/* 6. AdSense Block #2 — between flash sales and bestsellers */}
+        {/* 6. Shop categories grid */}
+        <ShopCategories />
+
+        {/* 7. AdSense Block #2 */}
         <AdSenseBlock size="970x90" />
 
-        {/* 7. Bestsellers / featured products */}
+        {/* 8. Bestsellers / featured products */}
         <Products />
 
-        {/* 8. Trust indicators */}
+        {/* 9. Trust indicators */}
         <TrustBar />
 
-        {/* 9. Why shop with UZALUS */}
+        {/* 10. Why shop with UZALUS */}
         <WhyUs />
 
-        {/* 10. Promotional banners */}
+        {/* 11. Promotional banners */}
         <Promotions />
 
-        {/* 11. Newsletter signup */}
+        {/* 12. Newsletter signup */}
         <Newsletter />
       </main>
 
       <Footer />
 
-      {/* Floating widgets — outside main flow */}
+      {/* Floating widgets */}
       <ChatWidget />
       <MobileNav />
+
+      {/* Modals */}
+      <EmptyCartModal open={cartOpen} onClose={() => setCartOpen(false)} />
     </div>
   );
 }

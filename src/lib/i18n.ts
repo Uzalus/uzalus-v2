@@ -230,6 +230,45 @@ export const translations: Record<Locale, Record<string, string>> = {
     'auto.step3': 'Motorisation',
     'auto.findParts': 'Trouver des pièces',
 
+    // Hero Slides
+    'hero.slide1Tag': 'TENDANCES',
+    'hero.slide1Title': "C'EST LA RENTRÉE",
+    'hero.slide1Sub': '400 000 BEST-SELLERS',
+    'hero.slide1Cta': 'ACHETER MAINTENANT',
+    'hero.slide2Title': "ESTHÉTIQUE D'AOÛT",
+    'hero.slide2Sub': 'Des tenues pour tous les styles',
+    'hero.slide2Cta': 'VOIR TOUT',
+    'hero.slide3Title': 'AUTO & MOTO',
+    'hero.slide3Sub': 'Accessoires & pièces détachées',
+    'hero.slide3Cta': 'DÉCOUVRIR',
+
+    // Hero Side Banners
+    'hero.sideStyle': 'Styles Tendance',
+    'hero.sideFast': 'Livraison Rapide',
+    'hero.sideHome': 'Maison Cosy',
+    'hero.brandU': 'U',
+    'hero.brandZ': 'Z',
+    'hero.brandPremium': 'PREMIUM',
+
+    // Promo Bar
+    'promo.freeShipping': 'Livraison gratuite dès 39€',
+    'promo.returns30': 'Retours gratuits sous 30 jours',
+    'promo.securePayment': 'Paiement 100% sécurisé',
+
+    // Profile Dropdown
+    'profile.personalCenter': 'Mon Espace Personnel',
+    'profile.orders': 'Mes Commandes',
+    'profile.notifications': 'Mes Notifications',
+    'profile.coupons': 'Mes Coupons',
+    'profile.points': 'Mes Points Bonus',
+    'profile.recentlyViewed': 'Récemment Visité',
+    'profile.moreServices': 'Plus De Services',
+    'profile.signIn': 'SE CONNECTER',
+
+    // Empty Cart
+    'cart.emptyTitle': 'Votre panier est vide',
+    'cart.emptyDesc': 'Connectez-vous pour voir vos articles et profiter d\'offres exclusives.',
+
     // Mobile Nav
     'mob.home': 'Accueil',
     'mob.categories': 'Catégories',
@@ -445,6 +484,45 @@ export const translations: Record<Locale, Record<string, string>> = {
     'auto.step2': 'Model',
     'auto.step3': 'Engine',
     'auto.findParts': 'Find Parts',
+
+    // Hero Slides
+    'hero.slide1Tag': 'TRENDS',
+    'hero.slide1Title': "BACK TO SCHOOL",
+    'hero.slide1Sub': '400,000 BEST-SELLERS',
+    'hero.slide1Cta': 'SHOP NOW',
+    'hero.slide2Title': "AUGUST AESTHETIC",
+    'hero.slide2Sub': 'Outfits for every style',
+    'hero.slide2Cta': 'VIEW ALL',
+    'hero.slide3Title': 'AUTO & MOTO',
+    'hero.slide3Sub': 'Accessories & spare parts',
+    'hero.slide3Cta': 'DISCOVER',
+
+    // Hero Side Banners
+    'hero.sideStyle': 'Trending Styles',
+    'hero.sideFast': 'Fast Delivery',
+    'hero.sideHome': 'Cosy Home',
+    'hero.brandU': 'U',
+    'hero.brandZ': 'Z',
+    'hero.brandPremium': 'PREMIUM',
+
+    // Promo Bar
+    'promo.freeShipping': 'Free shipping on orders over 39€',
+    'promo.returns30': 'Free 30-day returns',
+    'promo.securePayment': '100% secure payment',
+
+    // Profile Dropdown
+    'profile.personalCenter': 'Personal Center',
+    'profile.orders': 'My Orders',
+    'profile.notifications': 'My Notifications',
+    'profile.coupons': 'My Coupons',
+    'profile.points': 'My Bonus Points',
+    'profile.recentlyViewed': 'Recently Viewed',
+    'profile.moreServices': 'More Services',
+    'profile.signIn': 'SIGN IN',
+
+    // Empty Cart
+    'cart.emptyTitle': 'Your cart is empty',
+    'cart.emptyDesc': 'Sign in to see your items and enjoy exclusive offers.',
 
     // Mobile Nav
     'mob.home': 'Home',
@@ -662,6 +740,45 @@ export const translations: Record<Locale, Record<string, string>> = {
     'auto.step3': 'Motorización',
     'auto.findParts': 'Buscar piezas',
 
+    // Hero Slides
+    'hero.slide1Tag': 'TENDENCIAS',
+    'hero.slide1Title': 'LA VUELTA A CLASES',
+    'hero.slide1Sub': '400 000 BEST-SELLERS',
+    'hero.slide1Cta': 'COMPRAR AHORA',
+    'hero.slide2Title': 'ESTÉTICA DE AGOSTO',
+    'hero.slide2Sub': 'Atuendos para todos los estilos',
+    'hero.slide2Cta': 'VER TODO',
+    'hero.slide3Title': 'AUTO Y MOTO',
+    'hero.slide3Sub': 'Accesorios y piezas de repuesto',
+    'hero.slide3Cta': 'DESCUBRIR',
+
+    // Hero Side Banners
+    'hero.sideStyle': 'Estilos Tendencia',
+    'hero.sideFast': 'Envío Rápido',
+    'hero.sideHome': 'Hogar Acogedor',
+    'hero.brandU': 'U',
+    'hero.brandZ': 'Z',
+    'hero.brandPremium': 'PREMIUM',
+
+    // Promo Bar
+    'promo.freeShipping': 'Envío gratis desde 39€',
+    'promo.returns30': 'Devolución gratis en 30 días',
+    'promo.securePayment': 'Pago 100% seguro',
+
+    // Profile Dropdown
+    'profile.personalCenter': 'Mi Centro Personal',
+    'profile.orders': 'Mis Pedidos',
+    'profile.notifications': 'Mis Notificaciones',
+    'profile.coupons': 'Mis Cupones',
+    'profile.points': 'Mis Puntos Bonus',
+    'profile.recentlyViewed': 'Visitado Recientemente',
+    'profile.moreServices': 'Más Servicios',
+    'profile.signIn': 'INICIAR SESIÓN',
+
+    // Empty Cart
+    'cart.emptyTitle': 'Tu carrito está vacío',
+    'cart.emptyDesc': 'Inicia sesión para ver tus artículos y disfrutar de ofertas exclusivas.',
+
     // Mobile Nav
     'mob.home': 'Inicio',
     'mob.categories': 'Categorías',
@@ -877,6 +994,45 @@ export const translations: Record<Locale, Record<string, string>> = {
     'auto.step2': 'الموديل',
     'auto.step3': 'المحرك',
     'auto.findParts': 'البحث عن قطع',
+
+    // Hero Slides
+    'hero.slide1Tag': 'اتجاهات',
+    'hero.slide1Title': 'العودة إلى المدرسة',
+    'hero.slide1Sub': '400,000 من الأكثر مبيعاً',
+    'hero.slide1Cta': 'تسوقي الآن',
+    'hero.slide2Title': 'جماليات أغسطس',
+    'hero.slide2Sub': 'إطلالات لكل الأنماط',
+    'hero.slide2Cta': 'عرض الكل',
+    'hero.slide3Title': 'سيارات ودراجات نارية',
+    'hero.slide3Sub': 'إكسسوارات وقطع غيار',
+    'hero.slide3Cta': 'اكتشف',
+
+    // Hero Side Banners
+    'hero.sideStyle': 'أنماط رائجة',
+    'hero.sideFast': 'توصيل سريع',
+    'hero.sideHome': 'منزل مريح',
+    'hero.brandU': 'U',
+    'hero.brandZ': 'Z',
+    'hero.brandPremium': 'بريميوم',
+
+    // Promo Bar
+    'promo.freeShipping': 'شحن مجاني للطلبات فوق 39€',
+    'promo.returns30': 'إرجاع مجاني خلال 30 يومًا',
+    'promo.securePayment': 'دفع آمن 100%',
+
+    // Profile Dropdown
+    'profile.personalCenter': 'مركزي الشخصي',
+    'profile.orders': 'طلباتي',
+    'profile.notifications': 'إشعاراتي',
+    'profile.coupons': 'قسائمي',
+    'profile.points': 'نقاطي المكافأة',
+    'profile.recentlyViewed': 'تمت زيارته مؤخرًا',
+    'profile.moreServices': 'المزيد من الخدمات',
+    'profile.signIn': 'تسجيل الدخول',
+
+    // Empty Cart
+    'cart.emptyTitle': 'سلتك فارغة',
+    'cart.emptyDesc': 'سجلي الدخول لعرض منتجاتك والاستفادة من العروض الحصرية.',
 
     // Mobile Nav
     'mob.home': 'الرئيسية',

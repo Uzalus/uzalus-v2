@@ -5,7 +5,12 @@ import { ArrowLeft, Star, Heart, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { shopCategoriesData, type ShopProduct } from '@/lib/shop-data';
 
-const catSlugs = ['boutique', 'cosmetiques', 'parfums', 'mode', 'chaussures', 'electronique', 'maison', 'accessoires', 'auto'] as const;
+const catSlugs = [
+  'mode-homme', 'mode-femme', 'enfant', 'chaussures', 'maison',
+  'accessoires', 'telephones', 'parfums-cosmetiques', 'auto-moto',
+  'emballage', 'electronique', 'sport', 'bricolage', 'animaux',
+  'jouets', 'bureau', 'bagagerie', 'alimentation',
+] as const;
 type CatSlug = typeof catSlugs[number];
 
 interface CategoryPageProps {
@@ -123,7 +128,7 @@ export function CategoryPage({ category, onBack }: CategoryPageProps) {
 
   const hasSubCategories = data.subCategories && data.subCategories.length > 0;
   const hasBrands = !!data.brands && data.brands.length > 0;
-  const isAuto = category === 'auto';
+  const isAuto = category === 'auto-moto';
   const currentProducts = selectedSub
     ? data.subCategories?.find(s => s.key === selectedSub)?.products || []
     : data.products;
