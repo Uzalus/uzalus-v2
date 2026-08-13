@@ -24,27 +24,27 @@ const categories = [
   },
   {
     id: 'audio', name: 'Audio', color: '#ff9800', count: 14,
-    tools: ['Convertir audio','Compresser audio','Fusionner audio','MP3 en WAV','WAV en MP3','Extracteur audio','Normaliser audio','Changer le volume','Couper audio','Audio en MIDI','Vitesse audio','Reverse audio','Fade in/out','BPM detector']
+    tools: ['Compresser audio','Convertir audio','MP4 en MP3','WAV en MP3','MP3 en WAV','Audio en MIDI','Extraire audio vidéo','Couper audio','Fusionner audio','Volume booster','Vitesse audio','Audio en texte','Texte en audio','Normaliser audio']
   },
   {
-    id: 'ia', name: 'Intelligence Artificielle', color: '#3498db', count: 30,
-    tools: ['Chat IA (Assistant)','Résumé de texte','Traducteur de texte','Correcteur de texte','Paraphraser','Générateur de texte','Supprimer arrière-plan (IA)','OCR Image en texte','Générateur d’images IA','Transcription audio IA','Analyse de sentiment','Générateur de code IA','Explication de code','Chatbot builder','Générateur d’emails','Réponse IA','Générateur slogans IA','Description produit IA','Titre YouTube IA','Mots-clés IA']
+    id: 'ia', name: 'Intelligence Artificielle', color: '#00bcd4', count: 16,
+    tools: ['ChatGPT clone','Générateur de texte IA','Résumé automatique','Traducteur IA','Correcteur orthographique','Générateur d\'emails','Générateur de code','Analyse de sentiment','Générateur de slogans','Générateur de noms','Générateur de bio','Générateur de posts','Générateur de FAQ','Générateur de descriptions produit','Générateur de lettres','Générateur d\'articles']
   },
   {
-    id: 'convertisseurs', name: 'Convertisseurs', color: '#00bcd4', count: 25,
-    tools: ['Convertisseur de fichiers','Convertisseur d’images','Convertisseur audio','Convertisseur vidéo','Convertisseur PDF','Convertisseur d’unités','Température','Volume','Vitesse','Poids','Longueur','Devises','Énergie','Pression','Données','Temps','HEX en RGB','RGB en HEX','Texte en binaire','Bases numériques']
+    id: 'convertisseurs', name: 'Convertisseurs', color: '#2196f3', count: 20,
+    tools: ['JPG en PNG','PNG en JPG','WEBP en JPG','JPG en WEBP','SVG en PNG','PNG en SVG','BMP en JPG','TIFF en JPG','HEIC en JPG','AVIF en JPG','ICO en PNG','PNG en ICO','Word en PDF','PDF en Word','Excel en PDF','PDF en Excel','PPT en PDF','PDF en PPT','HTML en PDF','PDF en HTML']
   },
   {
-    id: 'calculateurs', name: 'Calculatrices', color: '#f39c12', count: 15,
-    tools: ['Calculatrice standard','Calculatrice scientifique','Pourcentage','TVA','Simulateur d’emprunt','Rendement','Calculateur de prêt','Intérêts composés','IMC','Marge','Prix de vente','Compteur de mots','Calculatrice de date','Hexadécimale','Numéraire romain']
+    id: 'calculateurs', name: 'Calculateurs', color: '#ff5722', count: 18,
+    tools: ['Calculatrice en ligne','Calculatrice IMC','Calcul pourcentage','Calcul TVA','Calcul marge','Convertisseur d\'unités','Calculatrice hypothécaire','Calculatrice de prêt','Calcul âge','Calcul date','Calculatrice scientifique','Compteur de mots','Compteur de caractères','Calculatrice de densité','Convertisseur de devises','Calculatrice de temps','Calculatrice binaire','Calculatrice RGB']
   },
   {
-    id: 'dev', name: 'Développeurs', color: '#607d8b', count: 20,
-    tools: ['JSON Formatter','SQL Formatter','HTML Formatter','CSS Minifier','Regex Tester','Base64 Encode/Decode','URL Encoder/Decode','JWT Decoder','UUID Generator','Color Converter','Lorem Ipsum Generator','Markdown Editor','XML Formatter','API Tester','Cron Generator','Timestamp Converter','Live Editor','Diff Checker','HTML Entities','Unicode Lookup']
+    id: 'dev', name: 'Développeur', color: '#607d8b', count: 16,
+    tools: ['Formateur JSON','Minifier CSS','Minifier JS','Minifier HTML','Beautifier JSON','Beautifier CSS','Beautifier JS','HTML en JSX','JSX en HTML','Encode Base64','Decode Base64','Encode URL','Decode URL','Générateur de gradient','Générateur de box-shadow','Générateur de placeholder']
   },
   {
-    id: 'securite', name: 'Sécurité', color: '#8bc34a', count: 14,
-    tools: ['Générateur de mot de passe','Vérificateur de mot de passe','Analyse de mot de passe','Clé aléatoire','Hash Generator','QR Code Generator','OTP Code Generator','Chiffrement de texte','Déchiffrement de texte','Générateur de token','Vérificateur IP','Whois Lookup','DNS Lookup','SSL Checker']
+    id: 'securite', name: 'Sécurité', color: '#f44336', count: 14,
+    tools: ['Générateur de mot de passe','Vérificateur de mot de passe','Hash MD5','Hash SHA256','Hash SHA512','Encode Base64','Decode Base64','Crypter texte','Décrypter texte','Générateur de clé API','Vérificateur de sécurité','Analyse d\'URL','Whois lookup','Vérificateur IP']
   },
   {
     id: 'fichiers', name: 'Fichiers', color: '#673ab7', count: 16,
@@ -52,51 +52,50 @@ const categories = [
   },
   {
     id: 'business', name: 'Business', color: '#e74c3c', count: 18,
-    tools: ['Générateur de facture','Générateur de devis','Bon de commande','Reçu de paiement','Contrat de travail','Lettre de motivation','CV professionnel','Rapport d’activité','Fiche de paie','Calcul de marge','Note de frais','PV d’assemblée','Charte graphique','Business plan','Générateur logo','Plan comptable','Amortissement','Tableau de bord']
+    tools: ['Générateur de facture','Générateur de devis','Bon de commande','Reçu de paiement','Contrat de travail','Lettre de motivation','CV professionnel','Rapport d\'activité','Fiche de paie','Calcul de marge','Note de frais','PV d\'assemblée','Charte graphique','Business plan','Générateur logo','Plan comptable','Amortissement','Tableau de bord']
   },
   {
     id: 'marketing', name: 'Marketing', color: '#ff5252', count: 17,
-    tools: ['Générateur de slogan','Description produit (IA)','Générateur de titres','Générateur d’accroches','Email marketing IA','Générateur de hashtags','Idées de contenu','Analyse de concurrence','Calendrier éditorial','A/B Test calculator','ROI Calculator','Générateur meta tags','Générateur CTAs','Landing page analyzer','Générateur FAQ','Audit marketing','Brand voice']
+    tools: ['Générateur de slogan','Description produit (IA)','Générateur de titres','Générateur d\'accroches','Email marketing IA','Générateur de hashtags','Idées de contenu','Analyse de concurrence','Calendrier éditorial','A/B Test calculator','ROI Calculator','Générateur meta tags','Générateur CTAs','Landing page analyzer','Générateur FAQ','Audit marketing','Brand voice']
   },
   {
     id: 'seo', name: 'SEO', color: '#009688', count: 16,
     tools: ['Générateur Meta Title','Générateur Meta Description','Analyser SEO On-Page','Analyse mots-clés','Sitemap Generator','Robots.txt Generator','Schema Validator','SEO Score Checker','Analyse de backlinks','Générateur de slug','Keyword density','Page speed test','Mobile friendly test','Redirect checker','HTTP header checker','Open graph preview']
   },
   {
-    id: 'ecommerce', name: 'E-Commerce', color: '#9c27b0', count: 15,
-    tools: ['Description produit (IA)','Titre produit (IA)','Générateur SKU','Générateur code-barres','Générateur QR produit','Calculateur de marge','Prix fournisseur → client','Fiche produit','Comparateur de prix','Frais de port','Générateur EAN','Simulateur de remise','TVA inversé','Avis clients','Stock management']
+    id: 'ecommerce', name: 'E-Commerce', color: '#e91e63', count: 15,
+    tools: ['Générateur de nom de boutique','Calculateur de prix','Générateur de description produit','Analyseur de prix concurrent','Calculateur de frais de port','Générateur de code promo','Générateur de politique de retour','Générateur CGV','Générateur de politique de confidentialité','Calculateur de TVA','Générateur de facture','Suivi de commande','Générateur d\'étiquettes','Analyseur de tendance','Calculateur de marge bénéficiaire']
   },
   {
-    id: 'reseaux', name: 'Réseaux Sociaux', color: '#f06292', count: 15,
-    tools: ['Redimensionner Instagram','Redimensionner YouTube','Redimensionner TikTok','Redimensionner Facebook','Redimensionner LinkedIn','Redimensionner Twitter/X','Générateur de posts','Calendrier de publications','Générateur de bio','Hashtag generator','Story maker','Thumbnail maker','Cover photo maker','Post scheduler','Analytics dashboard']
+    id: 'reseaux', name: 'Réseaux Sociaux', color: '#2196f3', count: 14,
+    tools: ['Générateur de bio Instagram','Générateur de bio TikTok','Générateur de bio Twitter/X','Planificateur de posts','Générateur de hashtags','Analyseur de profil','Générateur de story','Générateur de caption','Calculateur d\'engagement','Extracteur de vidéos','Redimensionneur d\'image','Générateur de cover','Analyseur d\'audience','Générateur de lien bio']
   },
   {
-    id: 'emploi', name: 'Emploi', color: '#2196f3', count: 11,
-    tools: ['Générateur de CV','CV Builder','Lettre de motivation','CV en PDF','CV en Word','Profil LinkedIn Optimizer','Préparation entretien','Portfolio créatif','Emails professionnels','Calcul salaire net','Signature email']
+    id: 'emploi', name: 'Emploi', color: '#795548', count: 15,
+    tools: ['Générateur de CV','Générateur de lettre de motivation','Générateur de profil LinkedIn','Analyseur de CV','Préparation entretien','Générateur de questions d\'entretien','Calculateur de salaire','Convertisseur de salaire','Générateur d\'offre d\'emploi','Générateur de contrat','Générateur de fiche de poste','Évaluateur de compétences','Plan de carrière','Générateur d\'email professionnel','Générateur de rapport d\'activité']
   },
   {
-    id: 'maths', name: 'Maths & Études', color: '#ffc107', count: 14,
-    tools: ['Calculatrice scientifique','Équations','Matrice','Statistiques','Moyenne & Médiane','Probabilités','Conversion numérique','Fonctions mathématiques','Trigonométrie','Géométrie','Table de multiplication','Fraction','Nombre premier','PGCD / PPCM']
+    id: 'maths', name: 'Mathématiques', color: '#9c27b0', count: 14,
+    tools: ['Calculatrice scientifique','Résoudre équation','Grapheur de fonctions','Calculatrice matricielle','Convertisseur d\'angles','Table de multiplication','Calculatrice de fractions','Générateur de nombres aléatoires','Calculatrice de probabilités','Statistiques descriptives','Résoudre système d\'équations','Théorème de Pythagore','Calcul de PGCD/PPCM','Générateur de graphiques']
   },
   {
-    id: 'auto', name: 'Automobile', color: '#03a9f4', count: 20,
-    tools: ['Recherche par marque','Recherche par modèle','Recherche par année','Recherche par motorisation','Pièces détachées','Accessoires auto','Entretien / Batterie','Calcul pneus','Freins','Assurance auto','Consommation','Comparateur véhicules','Cote argus','Historique VIN','Crédit auto','Entretien préventif','Diagnostic OBD','Carte grise','Contrôle technique','Location voiture']
-  }
+    id: 'auto', name: 'Automobile', color: '#455a64', count: 12,
+    tools: ['Calculateur de coût de trajet','Calculateur de consommation','Convertisseur km/miles','Calculateur d\'assurance auto','Calculateur de péages','Estimation valeur véhicule','Calculateur d\'emprunt auto','Comparateur de carburants','Calculateur de CO2','Plan d\'entretien','Calculateur de vitesse moyenne','Calculateur d\'amortissement']
+  },
 ];
 
 /* ── 6 outils populaires ── */
 const popularTools = [
   { name: 'Compresser PDF', color: '#9b59b6' },
-  { name: 'JPG en PDF', color: '#27ae60' },
-  { name: "Supprimer arrière-plan", color: '#00bcd4' },
+  { name: 'JPG en PNG', color: '#27ae60' },
   { name: 'MP4 en MP3', color: '#e91e63' },
-  { name: 'Fusionner PDF', color: '#ff9800' },
-  { name: 'QR Code', color: '#3498db' },
+  { name: 'Mots de passe', color: '#f44336' },
+  { name: 'Minifier CSS', color: '#607d8b' },
+  { name: 'Calculatrice', color: '#ff5722' },
 ];
 
-/* ── Icônes SVG inline (pas d’emoji = pas de bug Turbopack) ── */
-const CatIcon = ({ id, color, size = 18 }: { id: string; color: string; size?: number }) => {
-  const s = size;
+/* ── Icônes SVG par catégorie ── */
+const CatIcon = ({ id, color, s = 20 }: { id: string; color: string; s?: number }) => {
   const icons: Record<string, JSX.Element> = {
     pdf: <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>,
     images: <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>,
@@ -222,7 +221,7 @@ export default function ToolsPage() {
                     type="text"
                     value={search}
                     onChange={e => setSearch(e.target.value)}
-                    placeholder="Que voulez-vous faire aujourd’hui ?"
+                    placeholder="Que voulez-vous faire aujourd'hui ?"
                     className="flex-1 bg-transparent text-black text-sm placeholder-gray-400 outline-none"
                   />
                 </div>
@@ -353,7 +352,7 @@ export default function ToolsPage() {
             {filteredCategories.length === 0 && search.trim() && (
               <div className="text-center py-16">
                 <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#333" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="mx-auto mb-4"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-                <p className="text-white/40 text-sm">Aucun outil trouvé pour &laquo; {search} &raquo;</p>
+                <p className="text-white/40 text-sm">Aucun outil trouvé pour « {search} »</p>
               </div>
             )}
 
@@ -422,7 +421,7 @@ export default function ToolsPage() {
                 <div className="space-y-2.5">
                   {[
                     'Rapide et stable',
-                    'Peut supporter des millions d’utilisateurs',
+                    'Peut supporter des millions d\'utilisateurs',
                     'Pas de bug même en forte charge',
                     'Solide et fiable',
                     'Entièrement sécurisé',
@@ -506,7 +505,7 @@ export default function ToolsPage() {
               onClick={() => showToast('Historique')}
               className="w-full py-2.5 rounded-lg border border-[#222] text-xs text-white/40 hover:text-white hover:border-[#333] transition-colors text-center"
             >
-              Voir tout l’historique
+              {"Voir tout l\'historique"}
             </button>
           </div>
         </aside>
