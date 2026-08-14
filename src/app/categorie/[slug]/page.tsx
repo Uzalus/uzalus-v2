@@ -1,3 +1,4 @@
+/* Category page — loads CJ products */
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
