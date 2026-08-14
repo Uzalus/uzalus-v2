@@ -222,6 +222,49 @@ export default function Home() {
         </div>
 
         {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  NOS CATÉGORIES — Category circles grid                       */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section id="categories" className="py-8 lg:py-10 bg-noir">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <Sparkles size={22} className="text-gold" />
+                <h2 className="font-display text-lg sm:text-xl lg:text-2xl font-bold gold-text">
+                  NOS CATÉGORIES
+                </h2>
+              </div>
+              <button className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
+                Voir toutes les catégories <ArrowRight size={14} />
+              </button>
+            </div>
+
+            {/* Categories grid */}
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-3 lg:gap-4">
+              {homeCategories.map((cat) => (
+                <button
+                  key={cat.slug}
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-category', { detail: cat.slug }))}
+                  className="group flex flex-col items-center gap-2"
+                >
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border-2 border-border group-hover:border-gold/40 transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.15)]">
+                    <img
+                      src={cat.image}
+                      alt={t(cat.key)}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      loading="lazy"
+                    />
+                  </div>
+                  <span className="text-[11px] font-medium text-foreground/70 group-hover:text-gold transition-colors text-center leading-tight">
+                    {t(cat.key)}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
         {/*  HERO SECTION                                               */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <section className="relative overflow-hidden bg-gradient-to-br from-noir via-noir to-noir-light">
@@ -583,49 +626,6 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e27] via-transparent to-transparent" />
                 </div>
               </div>
-            </div>
-          </div>
-        </section>
-
-        {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  NOS CATÉGORIES — Category circles grid                       */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <section id="categories" className="py-12 lg:py-16 bg-noir">
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-8">
-              <div className="flex items-center gap-3">
-                <Sparkles size={24} className="text-gold" />
-                <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold gold-text">
-                  NOS CATÉGORIES
-                </h2>
-              </div>
-              <button className="text-sm text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
-                Voir toutes les catégories <ArrowRight size={14} />
-              </button>
-            </div>
-
-            {/* Categories grid */}
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-4 lg:gap-5">
-              {homeCategories.map((cat) => (
-                <button
-                  key={cat.slug}
-                  onClick={() => window.dispatchEvent(new CustomEvent('open-category', { detail: cat.slug }))}
-                  className="group flex flex-col items-center gap-3"
-                >
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden border-2 border-border group-hover:border-gold/40 transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.15)]">
-                    <img
-                      src={cat.image}
-                      alt={t(cat.key)}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      loading="lazy"
-                    />
-                  </div>
-                  <span className="text-xs font-medium text-foreground/70 group-hover:text-gold transition-colors text-center leading-tight">
-                    {t(cat.key)}
-                  </span>
-                </button>
-              ))}
             </div>
           </div>
         </section>
