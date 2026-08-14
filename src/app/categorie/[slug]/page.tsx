@@ -63,6 +63,7 @@ const NAV_CATEGORIES = [
 interface CJProduct {
   pid: string;
   productName: string;
+  productNameEn?: string;
   productImage: string;
   sellPrice: number;
   originalPrice?: number;
@@ -119,7 +120,7 @@ function ProductCard({ product }: { product: CJProduct }) {
       <div className="relative aspect-[3/4] bg-gray-50 overflow-hidden">
         <img
           src={product.productImage || ''}
-          alt={product.productName}
+          alt={product.productNameEn || product.productName}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
         />
@@ -138,7 +139,7 @@ function ProductCard({ product }: { product: CJProduct }) {
       </div>
       <div className="p-4 flex flex-col flex-1 relative">
         <h3 className="text-sm text-gray-900 leading-snug line-clamp-2 mb-2 flex-1 font-normal">
-          {product.productName}
+          {product.productNameEn || product.productName}
         </h3>
         <Stars rating={product.rating || 0} count={product.commentCount} />
         <div className="mt-2.5 flex items-baseline gap-2">
