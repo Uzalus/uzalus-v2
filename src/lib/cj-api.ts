@@ -220,14 +220,24 @@ export class CJDropshippingAPI {
  * These are approximate — the user should verify on their CJ dashboard
  */
 export const UZALUS_TO_CJ_CATEGORIES: Record<string, { cjCatIds: string; keywords: string }> = {
- cosmetiques: { cjCatIds: '1711,1712', keywords: 'cosmetics makeup skincare' },
-  parfums: { cjCatIds: '1713', keywords: 'perfume fragrance' },
-  mode: { cjCatIds: '1001,1002,1003', keywords: 'fashion clothing dress' },
-  chaussures: { cjCatIds: '1013', keywords: 'shoes sneakers' },
-  electronique: { cjCatIds: '1501,1502', keywords: 'electronics gadgets' },
-  maison: { cjCatIds: '1201,1202', keywords: 'home decor candle' },
-  accessoires: { cjCatIds: '1015,1016,1017', keywords: 'bag jewelry watch' },
-  boutique: { cjCatIds: '', keywords: 'trending products' },
+  'mode-homme': { cjCatIds: '1001,1002', keywords: 'men fashion clothing shirt' },
+  'mode-femme': { cjCatIds: '1003,1004', keywords: 'women fashion dress clothing' },
+  'enfant': { cjCatIds: '1009,1010', keywords: 'kids children clothing baby' },
+  'chaussures': { cjCatIds: '1013', keywords: 'shoes sneakers boots' },
+  'maison': { cjCatIds: '1201,1202,1203', keywords: 'home decor garden' },
+  'accessoires': { cjCatIds: '1015,1016,1017', keywords: 'bag jewelry watch sunglasses' },
+  'telephones': { cjCatIds: '1501', keywords: 'phone case mobile accessories' },
+  'parfums-cosmetiques': { cjCatIds: '1711,1712,1713', keywords: 'perfume cosmetics makeup skincare' },
+  'auto-moto': { cjCatIds: '1300', keywords: 'car auto motorcycle accessories' },
+  'emballage': { cjCatIds: '1205', keywords: 'packaging box gift bag' },
+  'electronique': { cjCatIds: '1501,1502', keywords: 'electronics gadgets tech' },
+  'sport': { cjCatIds: '1101,1102', keywords: 'sport fitness outdoor' },
+  'bricolage': { cjCatIds: '1204', keywords: 'tools hardware DIY repair' },
+  'animaux': { cjCatIds: '1700', keywords: 'pet dog cat supplies' },
+  'jouets': { cjCatIds: '1011', keywords: 'toys kids games' },
+  'bureau': { cjCatIds: '1600', keywords: 'office stationery supplies' },
+  'bagagerie': { cjCatIds: '1015', keywords: 'luggage suitcase travel bag backpack' },
+  'alimentation': { cjCatIds: '1701', keywords: 'food kitchen accessories' },
 };
 
 /**

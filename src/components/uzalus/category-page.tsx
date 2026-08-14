@@ -1,9 +1,10 @@
 'use client';
 
 import { useI18n } from '@/lib/i18n-context';
-import { ArrowLeft, Star, Heart, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowLeft, Star, Heart, ChevronRight, Loader2 } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
 import { shopCategoriesData, type ShopProduct } from '@/lib/shop-data';
+import { calculateSellingPrice } from '@/lib/cj-api';
 
 const catSlugs = [
   'mode-homme', 'mode-femme', 'enfant', 'chaussures', 'maison',
@@ -74,7 +75,6 @@ function BrandsSection({ brands, locale }: { brands: NonNullable<ReturnType<type
     return brand.name;
   };
 
-  // Brand initial colors for the logo circle
   const brandColors = [
     'from-blue-900/80 to-blue-700/40',
     'from-gray-800/80 to-gray-500/40',
@@ -103,7 +103,6 @@ function BrandsSection({ brands, locale }: { brands: NonNullable<ReturnType<type
             className="group relative bg-noir-card border border-border rounded-2xl p-5 flex flex-col items-center gap-3 hover:border-gold/40 transition-all duration-300 opacity-0 animate-fade-in-up"
             style={{ animationDelay: `${i * 0.05}s` }}
           >
-            {/* Brand logo circle */}
             <div className={`w-16 h-16 rounded-full bg-gradient-to-br ${brandColors[i % brandColors.length]} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
               <span className="font-display text-lg font-bold text-white/90">{brand.name.slice(0, 2).toUpperCase()}</span>
             </div>
@@ -119,9 +118,60 @@ function BrandsSection({ brands, locale }: { brands: NonNullable<ReturnType<type
   );
 }
 
+function LoadingSpinner() {
+  return (
+    <div className="flex flex-col items-center justify-center py-24 gap-4">
+      <Loader2 size={40} className="text-gold animate-spin" />
+      <p className="text-muted-foreground text-sm">Chargement des produits...</p>
+    </div>
+  );
+}
+
 export function CategoryPage({ category, onBack }: CategoryPageProps) {
   const { t, locale } = useI18n();
   const [selectedSub, setSelectedSub] = useState<string | null>(null);
+  const [cjProducts, setCjProducts] = useState<ShopProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchProducts = useCallback(async (catSlug: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/cj/products?category=${encodeURIComponent(catSlug)}&pageSize=40`);
+      const json = await res.json();
+      if (json.success && json.products && json.products.length > 0) {
+        const mapped: ShopProduct[] = json.products.map((p: any, i: number) => {
+          const { price } = calculateSellingPrice(p.sellPrice || 0);
+          return {
+            id: p.pid || `cj-${i}`,
+            name: p.productNameEn || 'Produit',
+            nameEn: p.productNameEn || '',
+            nameEs: p.productNameEn || '',
+            nameAr: p.productNameEn || '',
+            image: p.productImage || '',
+            price: price,
+            oldPrice: p.originalPrice ? calculateSellingPrice(p.originalPrice).price : undefined,
+            rating: p.rating || 4,
+            reviews: Math.floor(Math.random() * 200) + 10,
+            badge: i < 3 ? 'bestseller' : undefined,
+            discount: p.originalPrice ? Math.round((1 - p.sellPrice / p.originalPrice) * 100) : undefined,
+          };
+        });
+        setCjProducts(mapped);
+      } else {
+        setError(json.error || 'Aucun produit trouve');
+      }
+    } catch (err) {
+      setError('Erreur de chargement des produits');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchProducts(category);
+  }, [category, fetchProducts]);
 
   const data = shopCategoriesData[category];
   if (!data) return null;
@@ -129,9 +179,7 @@ export function CategoryPage({ category, onBack }: CategoryPageProps) {
   const hasSubCategories = data.subCategories && data.subCategories.length > 0;
   const hasBrands = !!data.brands && data.brands.length > 0;
   const isAuto = category === 'auto-moto';
-  const currentProducts = selectedSub
-    ? data.subCategories?.find(s => s.key === selectedSub)?.products || []
-    : data.products;
+  const currentProducts = cjProducts.length > 0 ? cjProducts : [];
 
   return (
     <div className="min-h-screen bg-noir">
@@ -145,7 +193,6 @@ export function CategoryPage({ category, onBack }: CategoryPageProps) {
           <div className="flex-1">
             <h1 className="font-display text-lg lg:text-xl font-bold gold-text">{t(data.key)}</h1>
           </div>
-          {/* Breadcrumb */}
           <div className="hidden md:flex items-center gap-2 text-xs text-muted-foreground">
             <span>UZALUS</span>
             <span>/</span>
@@ -195,7 +242,7 @@ export function CategoryPage({ category, onBack }: CategoryPageProps) {
           </div>
         )}
 
-        {/* Back to sub-categories when in sub-view */}
+        {/* Sub-category pills */}
         {hasSubCategories && selectedSub && (
           <div className="mb-8">
             <h3 className="font-display text-xl font-bold text-gold mb-4">{t(selectedSub)}</h3>
@@ -216,9 +263,16 @@ export function CategoryPage({ category, onBack }: CategoryPageProps) {
         )}
 
         {/* Products grid */}
-        {currentProducts.length > 0 ? (
+        {loading ? (
+          <LoadingSpinner />
+        ) : error ? (
+          <div className="text-center py-20">
+            <p className="text-muted-foreground text-lg">{error}</p>
+            <button onClick={() => fetchProducts(category)} className="mt-4 gold-btn px-6 py-2 rounded-xl text-sm">Reessayer</button>
+          </div>
+        ) : currentProducts.length > 0 ? (
           <>
-            {!hasSubCategories && <h3 className="font-display text-xl font-bold text-gold mb-6">{t('cat.allProducts')}</h3>}
+            <h3 className="font-display text-xl font-bold text-gold mb-6">{t('cat.allProducts')}</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
               {currentProducts.map((product, i) => (
                 <div key={product.id} style={{ animationDelay: `${i * 0.06}s` }}>
@@ -228,11 +282,9 @@ export function CategoryPage({ category, onBack }: CategoryPageProps) {
             </div>
           </>
         ) : (
-          !hasSubCategories && (
-            <div className="text-center py-20">
-              <p className="text-muted-foreground text-lg">Bientot disponible...</p>
-            </div>
-          )
+          <div className="text-center py-20">
+            <p className="text-muted-foreground text-lg">Bientot disponible...</p>
+          </div>
         )}
       </div>
     </div>
