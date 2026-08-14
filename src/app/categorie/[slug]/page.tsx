@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Footer } from '@/components/uzalus/footer';
 import { ChatWidget } from '@/components/uzalus/chat-widget';
 import { shopCategoriesData } from '@/lib/shop-data';
@@ -219,6 +219,8 @@ export default function CategoriePage() {
   const params = useParams();
   const router = useRouter();
   const slug = (params.slug as string) || '';
+  const searchParams = useSearchParams();
+  const initialSub = searchParams.get('sub') || null;
 
   const catLabel = CATEGORY_LABELS[slug] || slug.replace(/-/g, ' ');
   const catData = shopCategoriesData[slug];
@@ -228,7 +230,7 @@ export default function CategoriePage() {
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeSub, setActiveSub] = useState<string | null>(null);
+  const [activeSub, setActiveSub] = useState<string | null>(initialSub);
   const [sortOpen, setSortOpen] = useState(false);
   const [sortBy, setSortBy] = useState('popular');
   const [filterOpen, setFilterOpen] = useState<string | null>(null);

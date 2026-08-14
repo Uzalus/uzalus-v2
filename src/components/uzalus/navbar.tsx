@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { useI18n } from '@/lib/i18n-context';
 import { type Locale, localeNames, localeFlags } from '@/lib/i18n';
 import { shopCategoriesData } from '@/lib/shop-data';
@@ -43,7 +44,7 @@ import {
 
 const navLinks = [
   { key: 'nav.home', href: '/' },
-  { key: 'nav.shop', href: '#shop-categories', megaMenu: true },
+  { key: 'nav.shop', href: '/categorie/mode-femme', megaMenu: true },
   { key: 'nav.categories', href: '#categories' },
   { key: 'nav.deals', href: '#promotions' },
   { key: 'nav.blog', href: '#' },
@@ -102,6 +103,7 @@ const profileItems = [
 ];
 
 export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => void; onProfileClick?: () => void }) {
+  const router = useRouter();
   const { t, locale, setLocale } = useI18n();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
@@ -128,7 +130,7 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
   const openCategory = (key: string) => {
     const slug = keyToSlug[key];
     if (slug) {
-      window.dispatchEvent(new CustomEvent('open-category', { detail: slug }));
+      router.push('/categorie/' + slug);
       setMegaOpen(false);
       setMobileOpen(false);
     }
@@ -367,7 +369,7 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
                           <button
                             key={sub.key}
                             onClick={() => {
-                              window.dispatchEvent(new CustomEvent('open-category', { detail: { slug: hoveredSlug, sub: sub.key } }));
+                              router.push('/categorie/' + hoveredSlug + '?sub=' + encodeURIComponent(sub.key));
                               setMegaOpen(false);
                             }}
                             className="text-start py-1.5 text-sm text-foreground/60 hover:text-gold transition-colors duration-150 truncate"
