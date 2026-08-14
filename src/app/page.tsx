@@ -225,7 +225,7 @@ export default function Home() {
                   NOS CATÉGORIES
                 </h2>
               </div>
-              <button onClick={() => router.push('/categorie/mode-femme')} className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
+              <button onClick={() => router.push('/categories')} className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
                 Voir toutes les catégories <ArrowRight size={14} />
               </button>
             </div>
@@ -368,7 +368,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Boutique */}
               <button
-                onClick={() => document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => router.push('/categories')}
                 className="group flex items-center gap-4 p-5 rounded-xl bg-noir-card border border-border hover:border-gold/30 transition-all duration-300 text-start"
               >
                 <div className="w-12 h-12 rounded-xl bg-gold/10 flex items-center justify-center shrink-0 group-hover:bg-gold/20 transition-colors">

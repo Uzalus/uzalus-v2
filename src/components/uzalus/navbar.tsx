@@ -44,7 +44,7 @@ import {
 
 const navLinks = [
   { key: 'nav.home', href: '/' },
-  { key: 'nav.shop', href: '/categorie/mode-femme', megaMenu: true },
+  { key: 'nav.shop', href: '/categories', megaMenu: true },
   { key: 'nav.categories', href: '#categories' },
   { key: 'nav.deals', href: '#promotions' },
   { key: 'nav.blog', href: '#' },
