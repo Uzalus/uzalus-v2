@@ -236,6 +236,7 @@ export default function CategoriePage() {
   const [searchQuery, setSearchQuery] = useState('');
 
   const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
 
   /* Sort types to cycle through for 'load more' — each gives different products */
   const SORT_CYCLE = ['salesVolume', 'newArrival', 'priceAsc', 'priceDesc'];
@@ -268,11 +269,16 @@ export default function CategoriePage() {
         const newProducts = data.products || [];
         if (resetPage) {
           setProducts(newProducts);
+          setHasMore(true);
         } else {
           /* Deduplicate by pid to avoid showing same product twice */
           setProducts(prev => {
             const existingIds = new Set(prev.map((p: CJProduct) => p.pid));
             const unique = newProducts.filter((p: CJProduct) => !existingIds.has(p.pid));
+            /* If no new unique products were added, stop showing the button */
+            if (unique.length === 0 && prev.length > 0) {
+              setHasMore(false);
+            }
             return [...prev, ...unique];
           });
         }
@@ -503,7 +509,7 @@ export default function CategoriePage() {
                 <ProductCard key={p.pid} product={p} />
               ))}
             </div>
-            {products.length < total && (
+            {hasMore && products.length > 0 && (
               <div className="flex justify-center mt-10">
                 <button onClick={() => fetchProducts(false)} disabled={loadingMore || loading} className="flex items-center gap-2 px-8 py-3 border-2 border-black text-sm font-semibold text-black rounded hover:bg-black hover:text-white transition-colors disabled:opacity-50">
                   {loadingMore && <Loader2 size={16} className="animate-spin" />}
