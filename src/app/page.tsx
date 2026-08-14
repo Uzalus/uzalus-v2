@@ -280,42 +280,42 @@ export default function Home() {
               {/* RIGHT — Product image montage */}
               <div className="relative hidden lg:block">
                 <div className="grid grid-cols-2 gap-3">
-                  {/* Main large image — sports car */}
-                  <div className="col-span-2 rounded-2xl overflow-hidden h-[200px] bg-noir-card">
+                  {/* Main large image — all categories */}
+                  <div className="col-span-2 rounded-2xl overflow-hidden h-[150px] bg-noir-card">
                     <img
-                      src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&h=300&fit=crop&q=80"
-                      alt="Voiture sport"
+                      src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=250&fit=crop&q=80"
+                      alt="Toutes les catégories"
                       className="w-full h-full object-cover"
                     />
                   </div>
                   {/* iPhone */}
-                  <div className="rounded-2xl overflow-hidden h-[160px] bg-noir-card">
+                  <div className="rounded-2xl overflow-hidden h-[110px] bg-noir-card">
                     <img
-                      src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&h=300&fit=crop&q=80"
+                      src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&h=200&fit=crop&q=80"
                       alt="Smartphone"
                       className="w-full h-full object-cover"
                     />
                   </div>
                   {/* Perfume */}
-                  <div className="rounded-2xl overflow-hidden h-[160px] bg-noir-card">
+                  <div className="rounded-2xl overflow-hidden h-[110px] bg-noir-card">
                     <img
-                      src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=300&h=300&fit=crop&q=80"
+                      src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=300&h=200&fit=crop&q=80"
                       alt="Parfum"
                       className="w-full h-full object-cover"
                     />
                   </div>
                   {/* Headphones */}
-                  <div className="rounded-2xl overflow-hidden h-[160px] bg-noir-card">
+                  <div className="rounded-2xl overflow-hidden h-[110px] bg-noir-card">
                     <img
-                      src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=300&h=300&fit=crop&q=80"
+                      src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=300&h=200&fit=crop&q=80"
                       alt="Casque audio"
                       className="w-full h-full object-cover"
                     />
                   </div>
                   {/* Power drill */}
-                  <div className="rounded-2xl overflow-hidden h-[160px] bg-noir-card">
+                  <div className="rounded-2xl overflow-hidden h-[110px] bg-noir-card">
                     <img
-                      src="https://images.unsplash.com/photo-1504148455328-c376907d081c?w=300&h=300&fit=crop&q=80"
+                      src="https://images.unsplash.com/photo-1504148455328-c376907d081c?w=300&h=200&fit=crop&q=80"
                       alt="Perceuse"
                       className="w-full h-full object-cover"
                     />
