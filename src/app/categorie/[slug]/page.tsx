@@ -237,6 +237,9 @@ export default function CategoriePage() {
 
   const [loadingMore, setLoadingMore] = useState(false);
 
+  /* Sort types to cycle through for 'load more' — each gives different products */
+  const SORT_CYCLE = ['salesVolume', 'newArrival', 'priceAsc', 'priceDesc'];
+
   const fetchProducts = useCallback(async (resetPage = true) => {
     if (resetPage) {
       setLoading(true);
@@ -248,7 +251,10 @@ export default function CategoriePage() {
     setError(null);
     try {
       const currentPage = resetPage ? 1 : page + 1;
-      let url = '/api/cj/products?category=' + slug + '&pageSize=60&page=' + currentPage;
+      /* Cycle sort type on each page to get different products from CJ API */
+      const sortIndex = resetPage ? 0 : (page % SORT_CYCLE.length);
+      const cjSortType = SORT_CYCLE[sortIndex];
+      let url = '/api/cj/products?category=' + slug + '&pageSize=100&page=' + currentPage + '&sortType=' + cjSortType;
       if (activeSub) {
         const kw = activeSub.split('.').pop() || activeSub;
         url = url + '&keyword=' + encodeURIComponent(kw);
@@ -263,7 +269,12 @@ export default function CategoriePage() {
         if (resetPage) {
           setProducts(newProducts);
         } else {
-          setProducts(prev => [...prev, ...newProducts]);
+          /* Deduplicate by pid to avoid showing same product twice */
+          setProducts(prev => {
+            const existingIds = new Set(prev.map((p: CJProduct) => p.pid));
+            const unique = newProducts.filter((p: CJProduct) => !existingIds.has(p.pid));
+            return [...prev, ...unique];
+          });
         }
         setTotal(data.total || 0);
         if (!resetPage) {

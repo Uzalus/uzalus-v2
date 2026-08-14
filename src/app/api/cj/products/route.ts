@@ -8,7 +8,8 @@ export async function GET(request: NextRequest) {
     const category = searchParams.get('category') || '';
     const keyword = searchParams.get('keyword') || '';
     const page = parseInt(searchParams.get('page') || '1');
-    const pageSize = parseInt(searchParams.get('pageSize') || '20');
+    const pageSize = parseInt(searchParams.get('pageSize') || '100');
+    const sortType = searchParams.get('sortType') || 'salesVolume';
 
     const cjEmail = process.env.CJ_EMAIL || '';
     const cjApiKey = process.env.CJ_API_KEY || '';
@@ -29,7 +30,7 @@ export async function GET(request: NextRequest) {
       pageSize,
       shipTo: 'FR',
       ePacket: true,
-      sortType: 'salesVolume',
+      sortType,
     };
 
     if (catMapping) {
