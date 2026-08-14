@@ -283,7 +283,7 @@ export default function Home() {
                   {/* Main large image — sports car */}
                   <div className="col-span-2 rounded-2xl overflow-hidden h-[200px] bg-noir-card">
                     <img
-                      src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&h=300&fit=crop&q=80"
+                      src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&h=300&fit=crop&q=80"
                       alt="Voiture sport"
                       className="w-full h-full object-cover"
                     />
@@ -574,7 +574,7 @@ export default function Home() {
                 <div className="relative">
                   <div className="w-[400px] h-[300px] rounded-2xl overflow-hidden">
                     <img
-                      src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=600&h=400&fit=crop&q=80"
+                      src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&h=400&fit=crop&q=80"
                       alt="Voiture"
                       className="w-full h-full object-cover opacity-60"
                     />
