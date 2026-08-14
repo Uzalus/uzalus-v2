@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 import { Navbar } from '@/components/uzalus/navbar';
 import { Footer } from '@/components/uzalus/footer';
 import { ChatWidget } from '@/components/uzalus/chat-widget';
@@ -129,7 +128,6 @@ interface ProductViewState {
 
 export default function Home() {
   const { t } = useI18n();
-  const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<CatSlug | null>(null);
   const [activeProduct, setActiveProduct] = useState<ProductViewState | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -207,7 +205,7 @@ export default function Home() {
               {navCatLinks.map((cat) => (
                 <button
                   key={cat.slug}
-                  onClick={() => router.push(`/categorie/${cat.slug}`)}
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-category', { detail: cat.slug }))}
                   className="text-xs font-medium text-foreground/70 hover:text-gold transition-colors tracking-wide whitespace-nowrap"
                 >
                   {t(cat.key)}
@@ -246,7 +244,7 @@ export default function Home() {
               {homeCategories.map((cat) => (
                 <button
                   key={cat.slug}
-                  onClick={() => router.push(`/categorie/${cat.slug}`)}
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-category', { detail: cat.slug }))}
                   className="group flex flex-col items-center gap-2"
                 >
                   <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border-2 border-border group-hover:border-gold/40 transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.15)]">
@@ -396,7 +394,7 @@ export default function Home() {
 
               {/* Auto & Moto */}
               <button
-                onClick={() => router.push('/categorie/auto-moto')}
+                onClick={() => window.dispatchEvent(new CustomEvent('open-category', { detail: 'auto-moto' }))}
                 className="group flex items-center gap-4 p-5 rounded-xl bg-noir-card border border-border hover:border-gold/30 transition-all duration-300 text-start"
               >
                 <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0 group-hover:bg-blue-500/20 transition-colors">
