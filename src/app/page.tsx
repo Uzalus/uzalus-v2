@@ -280,11 +280,11 @@ export default function Home() {
               {/* RIGHT — Product image montage */}
               <div className="relative hidden lg:block">
                 <div className="grid grid-cols-2 gap-3">
-                  {/* Main large image — all categories */}
+                  {/* Main large image — auto & pièces détachées */}
                   <div className="col-span-2 rounded-2xl overflow-hidden h-[150px] bg-noir-card">
                     <img
-                      src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=250&fit=crop&q=80"
-                      alt="Toutes les catégories"
+                      src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&h=250&fit=crop&q=80"
+                      alt="Auto & pièces détachées"
                       className="w-full h-full object-cover"
                     />
                   </div>
