@@ -145,47 +145,32 @@ function FilterPill({
   onChange: (v: string) => void;
 }) {
   const [open, setOpen] = useState(false);
+  const btnClass = value
+    ? 'flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium border border-gray-900 text-gray-900 bg-gray-50 transition-all duration-200 whitespace-nowrap'
+    : 'flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium border border-gray-300 text-gray-600 bg-white hover:border-gray-400 hover:text-gray-900 transition-all duration-200 whitespace-nowrap';
+  const chevClass = open ? 'transition-transform duration-200 rotate-180' : 'transition-transform duration-200';
+
   return (
     <div className="relative">
-      <button
-        onClick={() => setOpen(!open)}
-        className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium border transition-all duration-200 whitespace-nowrap ${
-          value
-            ? 'border-gray-900 text-gray-900 bg-gray-50'
-            : 'border-gray-300 text-gray-600 bg-white hover:border-gray-400 hover:text-gray-900'
-        }`
-      >
+      <button onClick={() => setOpen(!open)} className={btnClass}>
         {label}
-        <ChevronDown
-          size={14}
-          className={`transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
-        />
+        <ChevronDown size={14} className={chevClass} />
       </button>
       {open && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
           <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-xl z-50 min-w-[160px] py-1">
             <button
-              onClick={() => {
-                onChange('');
-                setOpen(false);
-              }}
-              className={`w-full text-left px-4 py-2 text-xs hover:bg-gray-50 transition-colors ${
-                !value ? 'text-gray-900 font-medium' : 'text-gray-600'
-              }`
+              onClick={() => { onChange(''); setOpen(false); }}
+              className={"w-full text-left px-4 py-2 text-xs hover:bg-gray-50 transition-colors " + (!value ? 'text-gray-900 font-medium' : 'text-gray-600')}
             >
               Tous
             </button>
             {options.map((opt) => (
               <button
                 key={opt}
-                onClick={() => {
-                  onChange(opt);
-                  setOpen(false);
-                }}
-                className={`w-full text-left px-4 py-2 text-xs hover:bg-gray-50 transition-colors ${
-                  value === opt ? 'text-gray-900 font-medium' : 'text-gray-600'
-                }`
+                onClick={() => { onChange(opt); setOpen(false); }}
+                className={"w-full text-left px-4 py-2 text-xs hover:bg-gray-50 transition-colors " + (value === opt ? 'text-gray-900 font-medium' : 'text-gray-600')}
               >
                 {opt}
               </button>

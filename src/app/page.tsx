@@ -396,7 +396,7 @@ export default function Home() {
 
               {/* Auto & Moto */}
               <button
-                onClick={() => router.push('/categorie/auto-moto')}}
+                onClick={() => router.push('/categorie/auto-moto')}
                 className="group flex items-center gap-4 p-5 rounded-xl bg-noir-card border border-border hover:border-gold/30 transition-all duration-300 text-start"
               >
                 <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center shrink-0 group-hover:bg-blue-500/20 transition-colors">
