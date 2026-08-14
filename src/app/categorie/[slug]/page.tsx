@@ -237,13 +237,18 @@ export default function CategoriePage() {
 
   const [loadingMore, setLoadingMore] = useState(false);
 
-  const fetchProducts = useCallback(async () => {
-    setLoading(true);
-    setProducts([]);
-    setPage(1);
+  const fetchProducts = useCallback(async (resetPage = true) => {
+    if (resetPage) {
+      setLoading(true);
+      setProducts([]);
+      setPage(1);
+    } else {
+      setLoadingMore(true);
+    }
     setError(null);
     try {
-      let url = '/api/cj/products?category=' + slug + '&pageSize=60&page=1';
+      const currentPage = resetPage ? 1 : page + 1;
+      let url = '/api/cj/products?category=' + slug + '&pageSize=60&page=' + currentPage;
       if (activeSub) {
         const kw = activeSub.split('.').pop() || activeSub;
         url = url + '&keyword=' + encodeURIComponent(kw);
@@ -254,45 +259,45 @@ export default function CategoriePage() {
       const res = await fetch(url);
       const data = await res.json();
       if (data.success) {
-        setProducts(data.products || []);
+        const newProducts = data.products || [];
+        if (resetPage) {
+          setProducts(newProducts);
+        } else {
+          setProducts(prev => [...prev, ...newProducts]);
+        }
         setTotal(data.total || 0);
+        if (!resetPage) {
+          setPage(currentPage);
+        }
       } else {
         setError(data.error || 'Erreur de chargement');
       }
     } catch {
       setError('Erreur réseau');
     } finally {
-      setLoading(false);
-    }
-  }, [slug, activeSub, searchQuery]);
-
-  const loadMore = useCallback(async () => {
-    const nextPage = page + 1;
-    setLoadingMore(true);
-    try {
-      let url = '/api/cj/products?category=' + slug + '&pageSize=60&page=' + nextPage;
-      if (activeSub) {
-        const kw = activeSub.split('.').pop() || activeSub;
-        url = url + '&keyword=' + encodeURIComponent(kw);
+      if (resetPage) {
+        setLoading(false);
+      } else {
+        setLoadingMore(false);
       }
-      const res = await fetch(url);
-      const data = await res.json();
-      if (data.success) {
-        const newProducts = data.products || [];
-        setProducts(prev => [...prev, ...newProducts]);
-        setTotal(data.total || 0);
-        setPage(nextPage);
-      }
-    } catch {
-      /* silent */
-    } finally {
-      setLoadingMore(false);
     }
-  }, [slug, activeSub, page]);
+  }, [slug, activeSub, searchQuery, page]);
 
+
+
+  /* Reset & fetch when slug / sub / search changes */
   useEffect(() => {
-    if (slug) fetchProducts();
-  }, [slug, fetchProducts]);
+    if (slug) fetchProducts(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug, activeSub]);
+
+  /* Debounced search */
+  useEffect(() => {
+    if (!slug) return;
+    const t = setTimeout(() => fetchProducts(true), 400);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery]);
 
   const sorted = [...products].sort((a, b) => {
     if (sortBy === 'price-asc') return a.sellPrice - b.sellPrice;
@@ -467,7 +472,7 @@ export default function CategoriePage() {
             <AlertCircle size={48} className="text-gray-300 mb-4" />
             <p className="text-gray-500 mb-1">Aucun produit disponible pour le moment</p>
             <p className="text-gray-400 text-xs mb-4">Les produits seront bientôt ajoutés</p>
-            <button onClick={() => fetchProducts(false)} className="px-6 py-2.5 bg-black text-white text-sm font-medium rounded hover:bg-gray-800 transition-colors">
+            <button onClick={() => fetchProducts(true)} className="px-6 py-2.5 bg-black text-white text-sm font-medium rounded hover:bg-gray-800 transition-colors">
               Réessayer
             </button>
           </div>
@@ -489,9 +494,9 @@ export default function CategoriePage() {
             </div>
             {products.length < total && (
               <div className="flex justify-center mt-10">
-                <button onClick={loadMore} disabled={loadingMore || loading} className="flex items-center gap-2 px-8 py-3 border-2 border-black text-sm font-semibold text-black rounded hover:bg-black hover:text-white transition-colors disabled:opacity-50">
-                  {loadingMore ? <Loader2 size={16} className="animate-spin" /> : null}
-                  Charger plus
+                <button onClick={() => fetchProducts(false)} disabled={loadingMore || loading} className="flex items-center gap-2 px-8 py-3 border-2 border-black text-sm font-semibold text-black rounded hover:bg-black hover:text-white transition-colors disabled:opacity-50">
+                  {loadingMore && <Loader2 size={16} className="animate-spin" />}
+                  {loadingMore ? 'Chargement...' : 'Charger plus'}
                 </button>
               </div>
             )}
