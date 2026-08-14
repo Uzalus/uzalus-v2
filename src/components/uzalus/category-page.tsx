@@ -20,8 +20,10 @@ interface CategoryPageProps {
   onProductClick?: (pid: string, name: string, image: string, price: number) => void;
 }
 
+/* ------------------------------------------------------------------ */
+/*  Product Card (compact Shein/Wish style)                           */
+/* ------------------------------------------------------------------ */
 function ProductCard({ product, locale, onClick }: { product: ShopProduct; locale: string; onClick: () => void }) {
-  const { t } = useI18n();
   const [liked, setLiked] = useState(false);
   const getName = () => {
     if (locale === 'ar') return product.nameAr;
@@ -47,12 +49,12 @@ function ProductCard({ product, locale, onClick }: { product: ShopProduct; local
           <span className={`absolute top-2 start-2 px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wide uppercase ${
             product.badge === 'new' ? 'bg-gold text-noir' : product.badge === 'bestseller' ? 'bg-gold text-noir' : 'bg-red-500 text-white'
           }`}>
-            {product.badge === 'new' ? t('products.new') : product.badge === 'bestseller' ? t('products.bestseller') : `-${product.discount}%`}
+            {product.badge === 'new' ? 'Nouveau' : product.badge === 'bestseller' ? 'BEST-SELLER' : `-${product.discount}%`}
           </span>
         )}
         <button
           onClick={(e) => { e.stopPropagation(); setLiked(!liked); }}
-          className="absolute top-2 end-2 w-7 h-7 rounded-full bg-noir/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-noir/80"
+          className="absolute top-2 end-2 w-7 h-7 rounded-full bg-noir/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
           aria-label="Favoris"
         >
           <Heart size={12} className={liked ? 'text-red-400 fill-red-400' : 'text-foreground/70'} />
@@ -71,6 +73,9 @@ function ProductCard({ product, locale, onClick }: { product: ShopProduct; local
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Loading Spinner                                                     */
+/* ------------------------------------------------------------------ */
 function LoadingSpinner() {
   return (
     <div className="flex flex-col items-center justify-center py-24 gap-4">
@@ -80,11 +85,20 @@ function LoadingSpinner() {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  Main Category Page                                                  */
+/* ------------------------------------------------------------------ */
 export function CategoryPage({ category, onBack, onProductClick }: CategoryPageProps) {
   const { t, locale } = useI18n();
+  const [selectedSub, setSelectedSub] = useState<string | null>(null);
   const [cjProducts, setCjProducts] = useState<ShopProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const data = shopCategoriesData[category];
+  if (!data) return null;
+
+  const hasSubCategories = !!(data.subCategories && data.subCategories.length > 0);
 
   const fetchProducts = useCallback(async (catSlug: string) => {
     setLoading(true);
@@ -121,65 +135,163 @@ export function CategoryPage({ category, onBack, onProductClick }: CategoryPageP
     }
   }, []);
 
+  // When a sub-category is selected, fetch products
   useEffect(() => {
-    fetchProducts(category);
-  }, [category, fetchProducts]);
+    if (selectedSub) {
+      fetchProducts(category);
+    } else if (!hasSubCategories) {
+      // No sub-categories → fetch products directly
+      fetchProducts(category);
+    } else {
+      setLoading(false);
+    }
+  }, [category, selectedSub, hasSubCategories, fetchProducts]);
 
-  const data = shopCategoriesData[category];
-  if (!data) return null;
+  // Reset when category changes
+  useEffect(() => {
+    setSelectedSub(null);
+    setCjProducts([]);
+    setLoading(hasSubCategories ? false : true);
+  }, [category]);
 
   return (
     <div className="min-h-screen bg-noir">
       {/* Header */}
       <div className="sticky top-0 z-40 bg-noir/95 backdrop-blur-xl border-b border-border">
         <div className="max-w-7xl mx-auto px-3 lg:px-6 h-14 flex items-center gap-3">
-          <button onClick={onBack} className="flex items-center gap-2 text-gold hover:text-gold-light transition-colors">
+          <button
+            onClick={() => selectedSub ? setSelectedSub(null) : onBack()}
+            className="flex items-center gap-2 text-gold hover:text-gold-light transition-colors"
+          >
             <ArrowLeft size={20} />
-            <span className="text-sm font-medium hidden sm:inline">Retour</span>
+            <span className="text-sm font-medium hidden sm:inline">
+              {selectedSub ? 'Retour' : t('cat.back')}
+            </span>
           </button>
           <div className="flex-1">
-            <h1 className="font-display text-base lg:text-lg font-bold gold-text truncate">{t(data.key)}</h1>
+            <h1 className="font-display text-base lg:text-lg font-bold gold-text truncate">
+              {selectedSub ? t(selectedSub) : t(data.key)}
+            </h1>
           </div>
-          <span className="text-xs text-muted-foreground hidden md:block">
-            {cjProducts.length} produits
-          </span>
+          {cjProducts.length > 0 && !selectedSub && (
+            <span className="text-xs text-muted-foreground hidden md:block">
+              {cjProducts.length} produits
+            </span>
+          )}
         </div>
       </div>
 
-      {/* Products grid - compact Shein/Wish style */}
-      <div className="max-w-7xl mx-auto px-3 lg:px-6 py-4">
-        {loading ? (
-          <LoadingSpinner />
-        ) : error ? (
-          <div className="text-center py-20">
-            <p className="text-muted-foreground text-lg mb-4">{error}</p>
-            <button onClick={() => fetchProducts(category)} className="gold-btn px-6 py-2.5 rounded-xl text-sm font-bold">
-              Réessayer
-            </button>
+      {/* ========== VIEW 1: Sub-categories with photos ========== */}
+      {!selectedSub && hasSubCategories && (
+        <>
+          {/* Hero banner */}
+          <div className="relative h-48 sm:h-64 lg:h-80 overflow-hidden">
+            <img src={data.image} alt={t(data.key)} className="w-full h-full object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-t from-noir via-noir/50 to-transparent" />
+            <div className="absolute bottom-6 start-6 lg:bottom-10 lg:start-10">
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-2">{t(data.key)}</h2>
+              <p className="text-white/70 text-sm sm:text-base">{t(data.key + 'Desc')}</p>
+            </div>
           </div>
-        ) : cjProducts.length > 0 ? (
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2.5 sm:gap-3">
-            {cjProducts.map((product, i) => (
-              <div key={product.id} style={{ animationDelay: `${i * 0.03}s` }}>
-                <ProductCard
-                  product={product}
-                  locale={locale}
-                  onClick={() => onProductClick?.(
-                    String(product.id),
-                    product.nameEn || product.name,
-                    product.image,
-                    product.price
-                  )}
-                />
+
+          <div className="max-w-7xl mx-auto px-3 lg:px-6 py-8">
+            <h3 className="font-display text-xl font-bold text-gold mb-6">Sous-catégories</h3>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 lg:gap-6">
+              {data.subCategories!.map((sub, i) => (
+                <button
+                  key={sub.key}
+                  onClick={() => setSelectedSub(sub.key)}
+                  className="group relative rounded-2xl overflow-hidden border border-border aspect-[3/4] sm:aspect-[4/3] min-h-[180px] opacity-0 animate-fade-in-up"
+                  style={{ animationDelay: `${i * 0.05}s` }}
+                >
+                  <img
+                    src={sub.image}
+                    alt={t(sub.key)}
+                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-noir via-noir/50 to-noir/10" />
+                  <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-gold/40 transition-colors duration-500 pointer-events-none" />
+                  <div className="relative z-10 h-full flex flex-col justify-end p-4 sm:p-5">
+                    <h4 className="font-display text-base sm:text-lg lg:text-xl font-bold text-white group-hover:text-gold transition-colors text-start">
+                      {t(sub.key)}
+                    </h4>
+                    <p className="text-[11px] text-white/60 mt-1 text-start">{t(sub.key + 'Desc')}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* ========== VIEW 2: Product grid (compact) ========== */}
+      {(selectedSub || !hasSubCategories) && (
+        <div className="max-w-7xl mx-auto px-3 lg:px-6 py-4">
+          {/* Sub-category pills (when coming from sub-categories) */}
+          {selectedSub && hasSubCategories && (
+            <div className="mb-4 flex gap-2 overflow-x-auto pb-2">
+              {data.subCategories!.map((sub) => (
+                <button
+                  key={sub.key}
+                  onClick={() => setSelectedSub(sub.key)}
+                  className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-medium tracking-wide transition-all duration-200 ${
+                    sub.key === selectedSub
+                      ? 'gold-btn'
+                      : 'bg-noir-card border border-border text-foreground/60 hover:text-gold hover:border-gold/30'
+                  }`}
+                >
+                  {t(sub.key)}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Hero banner for categories without sub-categories */}
+          {!selectedSub && !hasSubCategories && (
+            <div className="relative h-36 sm:h-48 overflow-hidden rounded-2xl mb-6">
+              <img src={data.image} alt={t(data.key)} className="w-full h-full object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-noir via-noir/50 to-transparent" />
+              <div className="absolute bottom-4 start-4 lg:bottom-6 lg:start-6">
+                <h2 className="font-display text-2xl sm:text-3xl font-bold text-white">{t(data.key)}</h2>
               </div>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-20">
-            <p className="text-muted-foreground">Bientôt disponible...</p>
-          </div>
-        )}
-      </div>
+            </div>
+          )}
+
+          {/* Products */}
+          {loading ? (
+            <LoadingSpinner />
+          ) : error ? (
+            <div className="text-center py-20">
+              <p className="text-muted-foreground text-lg mb-4">{error}</p>
+              <button onClick={() => fetchProducts(category)} className="gold-btn px-6 py-2.5 rounded-xl text-sm font-bold">
+                Réessayer
+              </button>
+            </div>
+          ) : cjProducts.length > 0 ? (
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-2.5 sm:gap-3">
+              {cjProducts.map((product, i) => (
+                <div key={product.id} style={{ animationDelay: `${i * 0.03}s` }}>
+                  <ProductCard
+                    product={product}
+                    locale={locale}
+                    onClick={() => onProductClick?.(
+                      String(product.id),
+                      product.nameEn || product.name,
+                      product.image,
+                      product.price
+                    )}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-20">
+              <p className="text-muted-foreground">Bientôt disponible...</p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
