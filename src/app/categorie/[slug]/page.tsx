@@ -2,22 +2,21 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Navbar } from '@/components/uzalus/navbar';
 import { Footer } from '@/components/uzalus/footer';
 import { ChatWidget } from '@/components/uzalus/chat-widget';
 import { shopCategoriesData } from '@/lib/shop-data';
 import { calculateSellingPrice, UZALUS_TO_CJ_CATEGORIES } from '@/lib/cj-api';
 import {
-  ChevronLeft,
-  ChevronRight,
+  Search,
   ChevronDown,
   Star,
   Heart,
   SlidersHorizontal,
   Truck,
+  Clock,
   ShieldCheck,
-  RotateCcw,
-  X,
+  User,
+  ShoppingBag,
   ArrowLeft,
   Loader2,
   AlertCircle,
@@ -29,11 +28,11 @@ import {
 const CATEGORY_LABELS: Record<string, string> = {
   'mode-homme': 'Mode Homme',
   'mode-femme': 'Mode Femme',
-  'enfant': 'Enfant',
+  'enfant': 'Enfants',
   'chaussures': 'Chaussures',
   'maison': 'Maison & D\u00e9co',
   'accessoires': 'Accessoires',
-  'telephones': 'T\u00e9l\u00e9phones & Accessoires',
+  'telephones': 'T\u00e9l\u00e9phones',
   'parfums-cosmetiques': 'Parfums & Cosm\u00e9tiques',
   'auto-moto': 'Auto & Moto',
   'emballage': 'Emballage',
@@ -42,10 +41,21 @@ const CATEGORY_LABELS: Record<string, string> = {
   'bricolage': 'Bricolage',
   'animaux': 'Animaux',
   'jouets': 'Jouets & Enfants',
-  'bureau': 'Bureau & Fournitures',
+  'bureau': 'Bureau',
   'bagagerie': 'Bagagerie',
   'alimentation': 'Alimentation',
 };
+
+/* Nav bar categories (uppercase) */
+const NAV_CATEGORIES = [
+  { slug: 'mode-femme', label: 'MODE FEMME' },
+  { slug: 'mode-homme', label: 'MODE HOMME' },
+  { slug: 'enfant', label: 'ENFANTS' },
+  { slug: 'parfums-cosmetiques', label: 'PARFUM' },
+  { slug: 'parfums-cosmetiques', label: 'COSM\u00c9TIQUE' },
+  { slug: 'accessoires', label: 'ACCESSOIRES' },
+  { slug: 'electronique', label: 'AUTRES' },
+];
 
 /* ================================================================== */
 /*  Types                                                               */
@@ -59,7 +69,13 @@ interface CJProduct {
   rating?: number;
   commentCount?: number;
   discount?: number;
-  variate?: string;
+}
+
+/* ================================================================== */
+/*  Format price in French style: 29,99 \u20ac                          */
+/* ================================================================== */
+function formatPrice(amount: number): string {
+  return amount.toFixed(2).replace('.', ',') + ' \u20ac';
 }
 
 /* ================================================================== */
@@ -76,7 +92,7 @@ function Stars({ rating, count }: { rating: number; count?: number }) {
       ))}
       {half === 1 && <Star size={12} className="fill-amber-400/50 text-amber-400" />}
       {Array.from({ length: empty }).map((_, i) => (
-        <Star key={'e' + i} size={12} className="text-gray-200" />
+        <Star key={'e' + i} size={12} className="text-gray-300" />
       ))}
       {count !== undefined && count > 0 && (
         <span className="text-[11px] text-gray-400 ml-1">({count})</span>
@@ -86,7 +102,7 @@ function Stars({ rating, count }: { rating: number; count?: number }) {
 }
 
 /* ================================================================== */
-/*  Product Card                                                        */
+/*  Product Card (matches reference photo)                               */
 /* ================================================================== */
 function ProductCard({ product }: { product: CJProduct }) {
   const [liked, setLiked] = useState(false);
@@ -98,58 +114,59 @@ function ProductCard({ product }: { product: CJProduct }) {
     ? Math.round(((oldPriceEur - sellEur) / oldPriceEur) * 100)
     : null;
 
-  const imgSrc = product.productImage || '';
-
   return (
-    <div className="group bg-white rounded-xl border border-gray-100 overflow-hidden hover:shadow-lg hover:border-gray-200 transition-all duration-300 flex flex-col">
+    <div className="group bg-white rounded-lg border border-[#eee] overflow-hidden hover:shadow-[0_10px_20px_rgba(0,0,0,0.1)] hover:-translate-y-0.5 transition-all duration-300 flex flex-col">
       {/* Image */}
       <div className="relative aspect-[3/4] bg-gray-50 overflow-hidden">
         <img
-          src={imgSrc}
+          src={product.productImage || ''}
           alt={product.productName}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
         />
-        {/* Badges */}
-        <div className="absolute top-2 left-2 flex flex-col gap-1">
+        {/* Badges top-left */}
+        <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5">
+          {!product.originalPrice && product.sellPrice < 15 && (
+            <span className="bg-black text-white text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">
+              Nouveau
+            </span>
+          )}
           {discountPct && discountPct >= 10 && (
-            <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-md">
+            <span className="bg-[#E63946] text-white text-[10px] font-bold px-2 py-1 rounded">
               -{discountPct}%
             </span>
           )}
-          {!product.originalPrice && product.sellPrice < 15 && (
-            <span className="bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-md">
-              NOUVEAU
-            </span>
-          )}
         </div>
-        {/* Heart button */}
-        <button
-          onClick={(e) => { e.stopPropagation(); setLiked(!liked); }}
-          className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-sm hover:bg-white transition-colors"
-        >
-          <Heart
-            size={16}
-            className={liked ? 'fill-red-500 text-red-500' : 'text-gray-400'}
-          />
-        </button>
       </div>
       {/* Info */}
-      <div className="p-3 flex flex-col flex-1">
-        <h3 className="text-xs text-gray-700 leading-tight line-clamp-2 mb-2 flex-1">
+      <div className="p-4 flex flex-col flex-1 relative">
+        <h3 className="text-sm text-gray-900 leading-snug line-clamp-2 mb-2 flex-1 font-normal">
           {product.productName}
         </h3>
         <Stars rating={product.rating || 0} count={product.commentCount} />
-        <div className="mt-2 flex items-baseline gap-2">
-          <span className="text-sm font-bold text-gray-900">
-            {sellEur.toFixed(2)} &euro;
+        <div className="mt-2.5 flex items-baseline gap-2">
+          <span className="text-lg font-bold text-black">
+            {formatPrice(sellEur)}
           </span>
           {oldPriceEur && oldPriceEur > sellEur && (
-            <span className="text-[11px] text-gray-400 line-through">
-              {oldPriceEur.toFixed(2)} &euro;
+            <span className="text-sm text-gray-400 line-through">
+              {formatPrice(oldPriceEur)}
             </span>
           )}
         </div>
+        {/* Heart bottom-right */}
+        <button
+          onClick={(e) => { e.stopPropagation(); setLiked(!liked); }}
+          className="absolute bottom-4 right-4"
+        >
+          <Heart
+            size={18}
+            className={liked
+              ? 'fill-red-500 text-red-500'
+              : 'text-gray-400 hover:text-red-400 transition-colors'
+            }
+          />
+        </button>
       </div>
     </div>
   );
@@ -160,14 +177,19 @@ function ProductCard({ product }: { product: CJProduct }) {
 /* ================================================================== */
 function SkeletonGrid() {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
       {Array.from({ length: 12 }).map((_, i) => (
-        <div key={i} className="bg-white rounded-xl border border-gray-100 overflow-hidden animate-pulse">
+        <div key={i} className="bg-white rounded-lg border border-[#eee] overflow-hidden animate-pulse">
           <div className="aspect-[3/4] bg-gray-100" />
-          <div className="p-3 space-y-2">
-            <div className="h-3 bg-gray-100 rounded w-full" />
-            <div className="h-3 bg-gray-100 rounded w-2/3" />
-            <div className="h-4 bg-gray-100 rounded w-1/2 mt-3" />
+          <div className="p-4 space-y-2.5">
+            <div className="h-3.5 bg-gray-100 rounded w-full" />
+            <div className="h-3.5 bg-gray-100 rounded w-3/4" />
+            <div className="flex gap-1 mt-2">
+              <div className="w-3 h-3 rounded-full bg-gray-100" />
+              <div className="w-3 h-3 rounded-full bg-gray-100" />
+              <div className="w-3 h-3 rounded-full bg-gray-100" />
+            </div>
+            <div className="h-5 bg-gray-100 rounded w-1/3 mt-2" />
           </div>
         </div>
       ))}
@@ -176,31 +198,19 @@ function SkeletonGrid() {
 }
 
 /* ================================================================== */
-/*  Filter Pill (no template literals in JSX attrs — Turbopack safe)    */
+/*  Filter Dropdown (bordered, matches reference)                         */
 /* ================================================================== */
-function FilterPill({
-  label,
-  icon: Icon,
-  open,
-  onToggle,
-}: {
-  label: string;
-  icon: React.ElementType;
-  open: boolean;
-  onToggle: () => void;
-}) {
-  const baseClass = 'flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors cursor-pointer select-none';
-  const chevClass = 'w-3.5 h-3.5 transition-transform duration-200';
-  const btnClass = open
-    ? baseClass + ' bg-gray-900 text-white border-gray-900'
-    : baseClass + ' bg-white text-gray-700 border-gray-200 hover:border-gray-300';
-  const rotatedChev = open ? chevClass + ' rotate-180' : chevClass;
+function FilterDropdown({ label, open, onToggle }: { label: string; open: boolean; onToggle: () => void }) {
+  const btnClass = 'flex items-center gap-2 px-4 py-2.5 rounded border text-xs text-gray-700 cursor-pointer select-none transition-colors ';
+  const activeClass = open
+    ? btnClass + 'border-gray-900 bg-gray-50'
+    : btnClass + 'border-[#ddd] bg-white hover:border-gray-400';
+  const chevClass = 'w-3.5 h-3.5 transition-transform duration-200' + (open ? ' rotate-180' : '');
 
   return (
-    <button className={btnClass} onClick={onToggle}>
-      <Icon size={14} />
+    <button className={activeClass} onClick={onToggle}>
       <span>{label}</span>
-      <ChevronDown size={12} className={rotatedChev} />
+      <ChevronDown size={14} className={chevClass} />
     </button>
   );
 }
@@ -227,6 +237,7 @@ export default function CategoriePage() {
   const [sortBy, setSortBy] = useState('popular');
   const [filterOpen, setFilterOpen] = useState<string | null>(null);
   const [page, setPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
 
   /* ---- Fetch products ---- */
   const fetchProducts = useCallback(async () => {
@@ -237,6 +248,9 @@ export default function CategoriePage() {
       if (activeSub) {
         const subKey = activeSub;
         url = url + '&keyword=' + encodeURIComponent(subKey.split('.').pop() || subKey);
+      }
+      if (searchQuery) {
+        url = url + '&keyword=' + encodeURIComponent(searchQuery);
       }
       const res = await fetch(url);
       const data = await res.json();
@@ -251,7 +265,7 @@ export default function CategoriePage() {
     } finally {
       setLoading(false);
     }
-  }, [slug, activeSub, page]);
+  }, [slug, activeSub, page, searchQuery]);
 
   useEffect(() => {
     if (slug) fetchProducts();
@@ -262,105 +276,134 @@ export default function CategoriePage() {
     if (sortBy === 'price-asc') return a.sellPrice - b.sellPrice;
     if (sortBy === 'price-desc') return b.sellPrice - a.sellPrice;
     if (sortBy === 'rating') return (b.rating || 0) - (a.rating || 0);
-    return 0; // popular = default order from API
+    return 0;
   });
 
   /* ---- Sort options ---- */
   const sortOptions = [
-    { value: 'popular', label: 'Populaires' },
+    { value: 'popular', label: 'Popularit\u00e9' },
     { value: 'price-asc', label: 'Prix croissant' },
     { value: 'price-desc', label: 'Prix d\u00e9croissant' },
     { value: 'rating', label: 'Meilleures notes' },
   ];
-  const currentSortLabel = sortOptions.find((o) => o.value === sortBy)?.label || 'Populaires';
+  const currentSortLabel = sortOptions.find((o) => o.value === sortBy)?.label || 'Popularit\u00e9';
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      <Navbar onCartClick={() => {}} onProfileClick={() => {}} />
+    <div className="min-h-screen flex flex-col bg-white">
 
-      {/* ---- Announcement bar ---- */}
-      <div className="bg-gray-900 text-white text-center py-2 text-xs tracking-wide">
-        <span className="inline-flex items-center gap-4 flex-wrap justify-center">
-          <span className="flex items-center gap-1"><Truck size={13} /> Livraison gratuite d\u00e8s 49&euro;</span>
-          <span className="text-gray-400">|</span>
-          <span className="font-semibold text-amber-400">UZALUS10</span> pour -10% suppl\u00e9mentaire
-          <span className="text-gray-400">|</span>
-          <span className="flex items-center gap-1"><ShieldCheck size={13} /> Service client 7j/7</span>
+      {/* ============================================================ */}
+      {/*  TOP ANNOUNCEMENT BAR — light gray #F9F9F9                      */}
+      {/* ============================================================ */}
+      <div className="bg-[#F9F9F9] border-b border-[#E5E5E5] py-2.5 text-center">
+        <span className="inline-flex items-center gap-4 flex-wrap justify-center text-xs text-gray-600">
+          <span className="flex items-center gap-1.5"><Truck size={14} /> Livraison gratuite d\u00e8s 49\u20ac d&rsquo;achat</span>
+          <span className="text-[#ccc]">|</span>
+          <span><b>-10%</b> sur votre premi\u00e8re commande | Code : <b>UZALUS10</b></span>
+          <span className="text-[#ccc]">|</span>
+          <span className="flex items-center gap-1.5"><Clock size={14} /> Service client 24/7</span>
         </span>
       </div>
 
-      <main className="flex-1 max-w-[1400px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {/* ---- Header: Back + Title + Count ---- */}
-        <div className="flex items-center gap-3 mb-6">
-          <button
-            onClick={() => router.back()}
-            className="w-9 h-9 rounded-full border border-gray-200 bg-white flex items-center justify-center hover:bg-gray-50 transition-colors"
-          >
-            <ArrowLeft size={18} className="text-gray-600" />
+      {/* ============================================================ */}
+      {/*  HEADER — Logo + Search + Icons                                */}
+      {/* ============================================================ */}
+      <header className="border-b border-[#E5E5E5]">
+        <div className="max-w-[1400px] mx-auto px-5 lg:px-8 py-5 flex items-center justify-between gap-6">
+          {/* Logo */}
+          <button onClick={() => router.push('/')} className="text-3xl font-bold text-black tracking-tight lowercase shrink-0">
+            uzalus
           </button>
-          <div className="flex-1 min-w-0">
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900 truncate">{catLabel}</h1>
-            {!loading && !error && (
-              <p className="text-xs text-gray-400 mt-0.5">{total} produit{total !== 1 ? 's' : ''} trouv\u00e9{total !== 1 ? 's' : ''}</p>
-            )}
-          </div>
-        </div>
 
-        {/* ---- Sub-category tabs (horizontal scroll) ---- */}
-        {subs.length > 0 && (
-          <div className="mb-6 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 overflow-x-auto no-scrollbar">
-            <div className="flex gap-2 pb-2">
+          {/* Search bar */}
+          <div className="hidden sm:flex flex-1 max-w-xl items-center">
+            <div className="flex w-full items-center bg-[#F2F2F2] rounded">
+              <input
+                type="text"
+                placeholder="Rechercher un produit, une marque..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => { if (e.key === 'Enter') fetchProducts(); }}
+                className="flex-1 bg-transparent px-4 py-3 text-sm text-gray-800 placeholder:text-gray-400 outline-none rounded-l"
+              />
               <button
-                onClick={() => setActiveSub(null)}
-                className={
-                  'shrink-0 px-4 py-2 rounded-full text-xs font-semibold border transition-colors ' +
-                  (!activeSub
-                    ? 'bg-gray-900 text-white border-gray-900'
-                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300')
-                }
+                onClick={fetchProducts}
+                className="bg-black text-white px-4 py-3 rounded-r hover:bg-gray-800 transition-colors"
               >
-                Tout
+                <Search size={18} />
               </button>
-              {subs.map((sub) => {
-                const subName = sub.key.split('.').pop()?.replace(/-/g, ' ') || sub.key;
-                const isActive = activeSub === sub.key;
-                const tabClass =
-                  'shrink-0 px-4 py-2 rounded-full text-xs font-semibold border transition-colors ' +
-                  (isActive
-                    ? 'bg-gray-900 text-white border-gray-900'
-                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300');
-                return (
-                  <button key={sub.key} onClick={() => setActiveSub(isActive ? null : sub.key)} className={tabClass}>
-                    {subName}
-                  </button>
-                );
-              })}
             </div>
           </div>
-        )}
 
-        {/* ---- Sub-category image grid (when no sub selected) ---- */
-        {subs.length > 0 && !activeSub && !loading && (
+          {/* User actions */}
+          <div className="flex items-center gap-5 shrink-0">
+            <button className="relative text-gray-700 hover:text-black transition-colors">
+              <User size={20} strokeWidth={1.5} />
+            </button>
+            <button className="relative text-gray-700 hover:text-black transition-colors">
+              <Heart size={20} strokeWidth={1.5} />
+              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-black text-white text-[9px] font-bold rounded-full flex items-center justify-center">0</span>
+            </button>
+            <button className="relative text-gray-700 hover:text-black transition-colors">
+              <ShoppingBag size={20} strokeWidth={1.5} />
+              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-black text-white text-[9px] font-bold rounded-full flex items-center justify-center">0</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* ============================================================ */}
+      {/*  NAVIGATION BAR — Uppercase category links                      */}
+      {/* ============================================================ */}
+      <nav className="border-b border-[#E5E5E5]">
+        <div className="max-w-[1400px] mx-auto px-5 lg:px-8 flex items-center gap-6 h-11 overflow-x-auto no-scrollbar">
+          {NAV_CATEGORIES.map((cat) => {
+            const isActive = cat.slug === slug;
+            const navLinkClass = 'text-[13px] font-bold uppercase tracking-wider whitespace-nowrap pb-0.5 transition-colors ';
+            const linkStyle = isActive
+              ? navLinkClass + 'text-black border-b-3 border-black'
+              : navLinkClass + 'text-gray-600 hover:text-black border-b-3 border-transparent';
+            return (
+              <button
+                key={cat.label + cat.slug}
+                onClick={() => router.push('/categorie/' + cat.slug)}
+                className={linkStyle}
+              >
+                {cat.label}
+              </button>
+            );
+          })}
+        </div>
+      </nav>
+
+      {/* ============================================================ */}
+      {/*  MAIN CONTENT                                                    */}
+      {/* ============================================================ */}
+      <main className="flex-1 max-w-[1400px] w-full mx-auto px-5 lg:px-8 py-6">
+
+        {/* ---- Sub-category hero grid ---- */}
+        {subs.length > 0 && !activeSub && (
           <div className="mb-8">
-            <h2 className="text-sm font-bold text-gray-800 mb-3">Sous-cat\u00e9gories</h2>
+            <h1 className="text-2xl font-bold text-black mb-5">{catLabel}</h1>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {subs.slice(0, 6).map((sub) => {
                 const subName = sub.key.split('.').pop()?.replace(/-/g, ' ') || sub.key;
+                const capName = subName.charAt(0).toUpperCase() + subName.slice(1);
                 return (
                   <button
                     key={sub.key}
                     onClick={() => setActiveSub(sub.key)}
-                    className="group relative aspect-[4/3] rounded-xl overflow-hidden border border-gray-100 hover:shadow-md transition-all"
+                    className="group relative aspect-[4/3] rounded-lg overflow-hidden"
                   >
                     <img
                       src={sub.image}
-                      alt={subName}
+                      alt={capName}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                    <span className="absolute bottom-2 left-2 right-2 text-xs font-semibold text-white truncate">
-                      {subName}
-                    </span>
+                    <div className="absolute bottom-3 left-3 right-3 text-center">
+                      <p className="text-white text-xs font-bold uppercase tracking-wider">{capName}</p>
+                      <p className="text-white/70 text-[11px] mt-0.5">Voir plus</p>
+                    </div>
                   </button>
                 );
               })}
@@ -368,77 +411,88 @@ export default function CategoriePage() {
           </div>
         )}
 
+        {/* ---- Back button + title (when sub-category active) ---- */}
+        {activeSub && (
+          <div className="flex items-center gap-3 mb-5">
+            <button
+              onClick={() => { setActiveSub(null); setPage(1); }}
+              className="w-8 h-8 rounded-full border border-[#ddd] bg-white flex items-center justify-center hover:bg-gray-50 transition-colors"
+            >
+              <ArrowLeft size={16} className="text-gray-600" />
+            </button>
+            <div>
+              <h1 className="text-xl font-bold text-black">
+                {(activeSub.split('.').pop() || '').replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+              </h1>
+              {!loading && !error && (
+                <p className="text-xs text-gray-400 mt-0.5">{total} produit{total !== 1 ? 's' : ''}</p>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ---- Category title (when no subs or subs showing) ---- */}
+        {(!subs.length || subs.length === 0) && (
+          <div className="mb-5">
+            <h1 className="text-2xl font-bold text-black">{catLabel}</h1>
+            {!loading && !error && (
+              <p className="text-xs text-gray-400 mt-1">{total} produit{total !== 1 ? 's' : ''}</p>
+            )}
+          </div>
+        )}
+
         {/* ---- Filter toolbar ---- */}
-        <div className="flex items-center justify-between mb-6 gap-3 flex-wrap">
+        <div className="flex items-center justify-between mb-7 gap-3 flex-wrap">
           <div className="flex items-center gap-2 flex-wrap">
             {/* Filtres button */}
-            <button className="flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold bg-gray-900 text-white hover:bg-gray-800 transition-colors">
+            <button className="flex items-center gap-2 px-4 py-2.5 rounded border border-[#ddd] bg-white text-xs font-medium text-gray-700 hover:border-gray-400 transition-colors">
               <SlidersHorizontal size={14} />
               Filtres
             </button>
-
-            <FilterPill
-              label="Cat\u00e9gorie"
-              icon={ChevronDown}
-              open={filterOpen === 'cat'}
-              onToggle={() => setFilterOpen(filterOpen === 'cat' ? null : 'cat')}
-            />
-            <FilterPill
-              label="Prix"
-              icon={ChevronDown}
-              open={filterOpen === 'price'}
-              onToggle={() => setFilterOpen(filterOpen === 'price' ? null : 'price')}
-            />
-            <FilterPill
-              label="Taille"
-              icon={ChevronDown}
-              open={filterOpen === 'size'}
-              onToggle={() => setFilterOpen(filterOpen === 'size' ? null : 'size')}
-            />
-            <FilterPill
-              label="Couleur"
-              icon={ChevronDown}
-              open={filterOpen === 'color'}
-              onToggle={() => setFilterOpen(filterOpen === 'color' ? null : 'color')}
-            />
+            <FilterDropdown label="Cat\u00e9gorie" open={filterOpen === 'cat'} onToggle={() => setFilterOpen(filterOpen === 'cat' ? null : 'cat')} />
+            <FilterDropdown label="Marque" open={filterOpen === 'brand'} onToggle={() => setFilterOpen(filterOpen === 'brand' ? null : 'brand')} />
+            <FilterDropdown label="Prix" open={filterOpen === 'price'} onToggle={() => setFilterOpen(filterOpen === 'price' ? null : 'price')} />
+            <FilterDropdown label="Taille" open={filterOpen === 'size'} onToggle={() => setFilterOpen(filterOpen === 'size' ? null : 'size')} />
+            <FilterDropdown label="Couleur" open={filterOpen === 'color'} onToggle={() => setFilterOpen(filterOpen === 'color' ? null : 'color')} />
           </div>
 
           {/* Sort dropdown */}
           <div className="relative">
             <button
               onClick={() => setSortOpen(!sortOpen)}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 bg-white text-xs text-gray-700 hover:border-gray-300 transition-colors"
+              className="flex items-center gap-2 px-4 py-2.5 rounded border border-[#ddd] bg-white text-xs text-gray-700 hover:border-gray-400 transition-colors"
             >
-              Trier: <span className="font-semibold">{currentSortLabel}</span>
-              <ChevronDown size={14} className={'transition-transform duration-200' + (sortOpen ? ' rotate-180' : '')} />
+              Trier par : <span className="font-semibold text-black">{currentSortLabel}</span>
+              <ChevronDown size={14} className={'w-3.5 h-3.5 transition-transform duration-200' + (sortOpen ? ' rotate-180' : '')} />
             </button>
             {sortOpen && (
-              <div className="absolute right-0 top-full mt-1 w-44 bg-white rounded-xl border border-gray-100 shadow-xl py-1 z-30">
-                {sortOptions.map((opt) => (
-                  <button
-                    key={opt.value}
-                    onClick={() => { setSortBy(opt.value); setSortOpen(false); }}
-                    className={'w-full text-left px-4 py-2 text-xs transition-colors ' +
-                      (sortBy === opt.value ? 'bg-gray-50 font-semibold text-gray-900' : 'text-gray-600 hover:bg-gray-50')}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
+              <div className="absolute right-0 top-full mt-1 w-44 bg-white rounded-lg border border-[#eee] shadow-xl py-1 z-30">
+                {sortOptions.map((opt) => {
+                  const itemClass = 'w-full text-left px-4 py-2.5 text-xs transition-colors ';
+                  const style = sortBy === opt.value
+                    ? itemClass + 'bg-gray-50 font-semibold text-black'
+                    : itemClass + 'text-gray-600 hover:bg-gray-50';
+                  return (
+                    <button key={opt.value} onClick={() => { setSortBy(opt.value); setSortOpen(false); }} className={style}>
+                      {opt.label}
+                    </button>
+                  );
+                })}
               </div>
             )}
           </div>
         </div>
 
-        {/* ---- Content area ---- */}
+        {/* ---- Content ---- */}
         {loading && <SkeletonGrid />}
 
         {error && (
           <div className="flex flex-col items-center justify-center py-20 text-center">
-            <AlertCircle size={48} className="text-red-300 mb-4" />
+            <AlertCircle size={48} className="text-gray-300 mb-4" />
             <p className="text-gray-500 mb-4">{error}</p>
             <button
               onClick={fetchProducts}
-              className="px-6 py-2.5 rounded-full bg-gray-900 text-white text-sm font-semibold hover:bg-gray-800 transition-colors"
+              className="px-6 py-2.5 bg-black text-white text-sm font-medium rounded hover:bg-gray-800 transition-colors"
             >
               R\u00e9essayer
             </button>
@@ -448,29 +502,26 @@ export default function CategoriePage() {
         {!loading && !error && products.length === 0 && (
           <div className="flex flex-col items-center justify-center py-20 text-center">
             <AlertCircle size={48} className="text-gray-200 mb-4" />
-            <p className="text-gray-400">Aucun produit trouv\u00e9 dans cette cat\u00e9gorie</p>
+            <p className="text-gray-400">Aucun produit trouv\u00e9</p>
           </div>
         )}
 
         {!loading && !error && products.length > 0 && (
           <>
-            {/* ---- Product grid (6 columns) ---- */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
               {sorted.map((p) => (
                 <ProductCard key={p.pid} product={p} />
               ))}
             </div>
-
-            {/* ---- Load more ---- */}
             {products.length < total && (
               <div className="flex justify-center mt-10">
                 <button
                   onClick={() => setPage((p) => p + 1)}
                   disabled={loading}
-                  className="flex items-center gap-2 px-8 py-3 rounded-full border-2 border-gray-900 text-sm font-semibold text-gray-900 hover:bg-gray-900 hover:text-white transition-colors disabled:opacity-50"
+                  className="flex items-center gap-2 px-8 py-3 border-2 border-black text-sm font-semibold text-black rounded hover:bg-black hover:text-white transition-colors disabled:opacity-50"
                 >
                   {loading ? <Loader2 size={16} className="animate-spin" /> : null}
-                  Charger plus de produits
+                  Charger plus
                 </button>
               </div>
             )}
@@ -478,34 +529,36 @@ export default function CategoriePage() {
         )}
       </main>
 
-      {/* ---- Trust bar ---- */}
-      <div className="bg-white border-t border-gray-100 py-8 mt-12">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-3 gap-6">
+      {/* ============================================================ */}
+      {/*  TRUST BAR                                                       */}
+      {/* ============================================================ */}
+      <div className="bg-white border-t border-[#E5E5E5] py-10 mt-8">
+        <div className="max-w-[1400px] mx-auto px-5 lg:px-8 grid grid-cols-1 sm:grid-cols-3 gap-8">
           <div className="flex items-center gap-3 justify-center sm:justify-start">
-            <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center">
-              <Truck size={20} className="text-blue-600" />
+            <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center">
+              <Truck size={22} className="text-blue-600" />
             </div>
             <div>
-              <p className="text-xs font-bold text-gray-900">Livraison Gratuite</p>
-              <p className="text-[11px] text-gray-400">D\u00e8s 49&euro; d&rsquo;achat</p>
+              <p className="text-sm font-bold text-black">Livraison Gratuite</p>
+              <p className="text-xs text-gray-400">D\u00e8s 49\u20ac d&rsquo;achat</p>
             </div>
           </div>
           <div className="flex items-center gap-3 justify-center">
-            <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center">
-              <ShieldCheck size={20} className="text-emerald-600" />
+            <div className="w-12 h-12 rounded-full bg-emerald-50 flex items-center justify-center">
+              <ShieldCheck size={22} className="text-emerald-600" />
             </div>
             <div>
-              <p className="text-xs font-bold text-gray-900">Paiement S\u00e9curis\u00e9</p>
-              <p className="text-[11px] text-gray-400">SSL & cryptage</p>
+              <p className="text-sm font-bold text-black">Paiement S\u00e9curis\u00e9</p>
+              <p className="text-xs text-gray-400">SSL & cryptage</p>
             </div>
           </div>
           <div className="flex items-center gap-3 justify-center sm:justify-end">
-            <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center">
-              <RotateCcw size={20} className="text-orange-600" />
+            <div className="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center">
+              <Clock size={22} className="text-orange-600" />
             </div>
             <div>
-              <p className="text-xs font-bold text-gray-900">Retours Faciles</p>
-              <p className="text-[11px] text-gray-400">30 jours pour changer d&rsquo;avis</p>
+              <p className="text-sm font-bold text-black">Service Client 24/7</p>
+              <p className="text-xs text-gray-400">Toujours disponible</p>
             </div>
           </div>
         </div>
