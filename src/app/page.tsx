@@ -60,18 +60,26 @@ function MarqueeBanner() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Inline AdSense placeholder                                         */
+/*  Google AdSense Block (real)                                        */
 /* ------------------------------------------------------------------ */
-function AdSenseBlock({ size = '728x90', className = '' }: { size?: string; className?: string }) {
-  const { t } = useI18n();
+function AdSenseBlock({ className = '' }: { className?: string }) {
+  useEffect(() => {
+    try {
+      // @ts-expect-error adsbygoogle is injected by the AdSense script
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch {}
+  }, []);
+
   return (
-    <div className={`ad-placeholder rounded-xl p-3 text-center my-8 max-w-4xl mx-auto ${className}`}>
-      <span className="text-[10px] text-muted-foreground/40 uppercase tracking-widest">
-        {t('ad.label')} — Google AdSense
-      </span>
-      <div className="h-20 flex items-center justify-center text-muted-foreground/20 text-xs">
-        {size} Leaderboard
-      </div>
+    <div className={`my-8 max-w-4xl mx-auto ${className}`}>
+      <ins
+        className="adsbygoogle"
+        style={{ display: 'block' }}
+        data-ad-client="ca-pub-8206165367445755"
+        data-ad-slot="auto"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
     </div>
   );
 }
@@ -160,17 +168,17 @@ export default function Home() {
       />
 
       <main className="flex-1 pb-20 md:pb-0">
-        {/* 1. Hero — SHEIN-style 3-column (side banners + carousel + brand cards) */}
+        {/* 1. Hero */}
         <HeroRedesigned />
 
-        {/* 2. Circular category quick-links (SHEIN-style) */}
+        {/* 2. Circular category quick-links */}
         <CategoryCircles />
 
         {/* 3. Marquee banner of brand names */}
         <MarqueeBanner />
 
-        {/* 4. AdSense Block #1 — leaderboard */}
-        <AdSenseBlock size="728x90" />
+        {/* 4. AdSense Block #1 */}
+        <AdSenseBlock />
 
         {/* 5. Flash sales / deals section */}
         <FlashSales />
@@ -179,7 +187,7 @@ export default function Home() {
         <ShopCategories />
 
         {/* 7. AdSense Block #2 */}
-        <AdSenseBlock size="970x90" />
+        <AdSenseBlock />
 
         {/* 8. Bestsellers / featured products */}
         <Products />
