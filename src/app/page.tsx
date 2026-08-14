@@ -225,7 +225,7 @@ export default function Home() {
                   NOS CATÉGORIES
                 </h2>
               </div>
-              <button className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
+              <button onClick={() => router.push('/categorie/mode-femme')} className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
                 Voir toutes les catégories <ArrowRight size={14} />
               </button>
             </div>
