@@ -69,7 +69,7 @@ const trendingProducts = [
   { id: 3, name: 'Écouteur Sans Fil Pro', price: 24.90, oldPrice: 38.00, discount: 34, rating: 4.6, reviews: 73, image: 'https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=400&h=400&fit=crop&q=80' },
   { id: 4, name: 'Enceinte Bluetooth X8', price: 19.90, oldPrice: 29.90, discount: 33, rating: 4.4, reviews: 58, image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop&q=80' },
   { id: 5, name: 'Sac à Dos Voyage', price: 34.90, oldPrice: 59.90, discount: 42, rating: 4.8, reviews: 112, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop&q=80' },
-  { id: 6, name: 'Friteuse à Air 6L', price: 69.90, oldPrice: 99.90, discount: 30, rating: 4.8, reviews: 91, image: 'https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=400&h=400&fit=crop&q=80' },
+  { id: 6, name: 'Friteuse à Air 6L', price: 69.90, oldPrice: 99.90, discount: 30, rating: 4.8, reviews: 91, image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/1d6034dc7e3c.jpeg' },
 ];
 
 /* ================================================================== */
