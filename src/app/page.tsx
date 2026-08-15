@@ -201,7 +201,7 @@ const heroBanners = [
   },
   {
     id: 8,
-    image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b5e8fcaaf042.jpg',
+    image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/91598a772487.jpg',
     title: 'BÉBÉ & ENFANT',
     subtitle: 'Tout pour les petits',
     cta: 'DÉCOUVRIR',
