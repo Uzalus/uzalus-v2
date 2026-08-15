@@ -300,6 +300,73 @@ export default function Home() {
             </div>
           </div>
         </section>
+        {/*  AUTO & MOTO — Vehicle part finder banner                    */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section className="relative overflow-hidden bg-gradient-to-br from-[#0a0e27] via-[#0f172a] to-noir">
+          {/* Subtle grid pattern overlay */}
+          <div className="absolute inset-0 opacity-5"
+            style={{ backgroundImage: 'radial-gradient(circle, rgba(212,175,55,0.3) 1px, transparent 1px)', backgroundSize: '24px 24px' }}
+          />
+          {/* Gold glow */}
+          <div className="absolute top-0 start-0 w-[500px] h-[500px] bg-gold/5 rounded-full blur-[150px]" />
+
+          <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+              {/* Left — Content */}
+              <div>
+                <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight mb-4">
+                  TROUVEZ LA PIÈCE COMPATIBLE
+                  <br />
+                  <span className="gold-text">AVEC VOTRE VÉHICULE</span>
+                </h2>
+                <p className="text-foreground/50 text-sm sm:text-base mb-8">
+                  Sélectionnez votre véhicule pour voir uniquement les pièces compatibles.
+                </p>
+
+                {/* Vehicle selection form */}
+                <div className="flex flex-wrap gap-3 mb-4">
+                  <select className="bg-white/10 border border-white/10 text-white/80 rounded-lg px-4 py-3 text-sm outline-none focus:border-gold/40 transition-colors min-w-[140px]">
+                    <option>Marque</option>
+                    <option>BMW</option>
+                    <option>Mercedes-Benz</option>
+                    <option>Audi</option>
+                    <option>Volkswagen</option>
+                    <option>Peugeot</option>
+                    <option>Renault</option>
+                    <option>Toyota</option>
+                  </select>
+                  <select className="bg-white/10 border border-white/10 text-white/80 rounded-lg px-4 py-3 text-sm outline-none focus:border-gold/40 transition-colors min-w-[140px]">
+                    <option>Modèle</option>
+                  </select>
+                  <select className="bg-white/10 border border-white/10 text-white/80 rounded-lg px-4 py-3 text-sm outline-none focus:border-gold/40 transition-colors min-w-[120px]">
+                    <option>Année</option>
+                  </select>
+                  <select className="bg-white/10 border border-white/10 text-white/80 rounded-lg px-4 py-3 text-sm outline-none focus:border-gold/40 transition-colors min-w-[140px]">
+                    <option>Motorisation</option>
+                  </select>
+                  <button className="gold-btn px-6 py-3 rounded-lg text-sm font-bold tracking-wider uppercase">
+                    Rechercher
+                  </button>
+                </div>
+              </div>
+
+              {/* Right — Car image */}
+              <div className="hidden lg:flex justify-end">
+                <div className="relative">
+                  <div className="w-[400px] h-[300px] rounded-2xl overflow-hidden">
+                    <img
+                      src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&h=400&fit=crop&q=80"
+                      alt="Voiture"
+                      className="w-full h-full object-cover opacity-60"
+                    />
+                  </div>
+                  {/* Gold overlay glow */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e27] via-transparent to-transparent" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  HERO SECTION                                               */}
@@ -552,73 +619,6 @@ export default function Home() {
         {/* AdSense #1 */}
         <AdSenseBlock />
 
-        {/*  AUTO & MOTO — Vehicle part finder banner                    */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#0a0e27] via-[#0f172a] to-noir">
-          {/* Subtle grid pattern overlay */}
-          <div className="absolute inset-0 opacity-5"
-            style={{ backgroundImage: 'radial-gradient(circle, rgba(212,175,55,0.3) 1px, transparent 1px)', backgroundSize: '24px 24px' }}
-          />
-          {/* Gold glow */}
-          <div className="absolute top-0 start-0 w-[500px] h-[500px] bg-gold/5 rounded-full blur-[150px]" />
-
-          <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-              {/* Left — Content */}
-              <div>
-                <h2 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-tight mb-4">
-                  TROUVEZ LA PIÈCE COMPATIBLE
-                  <br />
-                  <span className="gold-text">AVEC VOTRE VÉHICULE</span>
-                </h2>
-                <p className="text-foreground/50 text-sm sm:text-base mb-8">
-                  Sélectionnez votre véhicule pour voir uniquement les pièces compatibles.
-                </p>
-
-                {/* Vehicle selection form */}
-                <div className="flex flex-wrap gap-3 mb-4">
-                  <select className="bg-white/10 border border-white/10 text-white/80 rounded-lg px-4 py-3 text-sm outline-none focus:border-gold/40 transition-colors min-w-[140px]">
-                    <option>Marque</option>
-                    <option>BMW</option>
-                    <option>Mercedes-Benz</option>
-                    <option>Audi</option>
-                    <option>Volkswagen</option>
-                    <option>Peugeot</option>
-                    <option>Renault</option>
-                    <option>Toyota</option>
-                  </select>
-                  <select className="bg-white/10 border border-white/10 text-white/80 rounded-lg px-4 py-3 text-sm outline-none focus:border-gold/40 transition-colors min-w-[140px]">
-                    <option>Modèle</option>
-                  </select>
-                  <select className="bg-white/10 border border-white/10 text-white/80 rounded-lg px-4 py-3 text-sm outline-none focus:border-gold/40 transition-colors min-w-[120px]">
-                    <option>Année</option>
-                  </select>
-                  <select className="bg-white/10 border border-white/10 text-white/80 rounded-lg px-4 py-3 text-sm outline-none focus:border-gold/40 transition-colors min-w-[140px]">
-                    <option>Motorisation</option>
-                  </select>
-                  <button className="gold-btn px-6 py-3 rounded-lg text-sm font-bold tracking-wider uppercase">
-                    Rechercher
-                  </button>
-                </div>
-              </div>
-
-              {/* Right — Car image */}
-              <div className="hidden lg:flex justify-end">
-                <div className="relative">
-                  <div className="w-[400px] h-[300px] rounded-2xl overflow-hidden">
-                    <img
-                      src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&h=400&fit=crop&q=80"
-                      alt="Voiture"
-                      className="w-full h-full object-cover opacity-60"
-                    />
-                  </div>
-                  {/* Gold overlay glow */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0e27] via-transparent to-transparent" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  TRUST BAR — 4 features                                       */}
