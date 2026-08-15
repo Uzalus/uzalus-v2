@@ -105,6 +105,24 @@ const homeCategories = [
   { key: 'shop.modeHomme', image: 'https://images.unsplash.com/photo-1617137968427-85924c800a22?w=200&h=200&fit=crop&q=80', slug: 'mode-homme' },
 ];
 
+/* ================================================================== */
+/*  Data: Auto Parts Products (for carousel)                           */
+/* ================================================================== */
+const autoPartsProducts = [
+  { id: 'ap1', name: 'Phare LED Avant Universel', price: '24,99 €', oldPrice: '44,99 €', discount: 44, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&h=300&fit=crop&q=80', url: '/categorie/auto-moto' },
+  { id: 'ap2', name: 'Kit Embrayage Complet Valeo', price: '89,99 €', oldPrice: '149,99 €', discount: 40, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&h=300&fit=crop&q=80', url: '/categorie/auto-moto' },
+  { id: 'ap3', name: 'Roulement de Roue Conique', price: '12,49 €', oldPrice: null, discount: null, shipping: '+ 3,99 €', image: 'https://images.unsplash.com/photo-1600712242805-5f78671b24da?w=400&h=300&fit=crop&q=80', url: '/categorie/auto-moto' },
+  { id: 'ap4', name: 'Injecteur Diesel Bosch 4pcs', price: '179,99 €', oldPrice: '289,99 €', discount: 38, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=400&h=300&fit=crop&q=80', url: '/categorie/auto-moto' },
+  { id: 'ap5', name: 'Filtre à Huile Premium', price: '8,99 €', oldPrice: '14,99 €', discount: 40, shipping: '+ 2,49 €', image: 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=400&h=300&fit=crop&q=80', url: '/categorie/auto-moto' },
+  { id: 'ap6', name: 'Plaquette de Frein Avant', price: '34,99 €', oldPrice: '54,99 €', discount: 36, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop&q=80', url: '/categorie/auto-moto' },
+  { id: 'ap7', name: 'Amortisseur Arrière Gamme', price: '49,99 €', oldPrice: '79,99 €', discount: 37, shipping: '+ 4,99 €', image: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=300&fit=crop&q=80', url: '/categorie/auto-moto' },
+  { id: 'ap8', name: 'Batterie Voiture 12V 60Ah', price: '69,99 €', oldPrice: '109,99 €', discount: 36, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=400&h=300&fit=crop&q=80', url: '/categorie/auto-moto' },
+  { id: 'ap9', name: 'Démarreur Auto Universel', price: '119,99 €', oldPrice: '189,99 €', discount: 37, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=400&h=300&fit=crop&q=80', url: '/categorie/auto-moto' },
+  { id: 'ap10', name: 'Alternateur Puissance 120A', price: '134,99 €', oldPrice: '219,99 €', discount: 39, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&h=300&fit=crop&q=80', url: '/categorie/auto-moto' },
+  { id: 'ap11', name: 'Joint de Culasse Moteur', price: '18,44 €', oldPrice: null, discount: null, shipping: '+ 3,49 €', image: 'https://images.unsplash.com/photo-1530046339160-ce3e530c7d2f?w=400&h=300&fit=crop&q=80', url: '/categorie/auto-moto' },
+  { id: 'ap12', name: 'Essuie-glace Silicone Pair', price: '14,99 €', oldPrice: '24,99 €', discount: 40, shipping: '+ 2,49 €', image: 'https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&h=300&fit=crop&q=80', url: '/categorie/auto-moto' },
+];
+
 /* Secondary nav category links */
 const navCatLinks = [
   { key: 'shop.auto', slug: 'auto-moto' },
@@ -133,6 +151,13 @@ export default function Home() {
   const [activeCategory, setActiveCategory] = useState<CatSlug | null>(null);
   const [activeProduct, setActiveProduct] = useState<ProductViewState | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const scrollCarousel = (direction: number) => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: direction * 400, behavior: 'smooth' });
+    }
+  };
 
   /* router.push used for category navigation — no more custom events */
 
@@ -300,6 +325,80 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  PIÈCES DÉTACHÉES — Product carousel                            */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section className="bg-noir py-8 lg:py-10 overflow-hidden">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-gold/10 flex items-center justify-center">
+                  <Car size={18} className="text-gold" />
+                </div>
+                <div>
+                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">Pièces détachées <span className="gold-text">Auto & Moto</span></h2>
+                  <p className="text-[11px] text-muted-foreground">Prix imbattables — Livraison en Europe</p>
+                </div>
+              </div>
+              <button onClick={() => router.push('/categories')}
+                className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
+                Voir tout <ArrowRight size={12} />
+              </button>
+            </div>
+
+            {/* Horizontal scroll carousel */}
+            <div className="relative group/carousel">
+              <div className="flex gap-3 overflow-x-auto pb-3 snap-x snap-mandatory scrollbar-hide scroll-smooth"
+                ref={carouselRef}
+              >
+                {autoPartsProducts.map((p) => (
+                  <div key={p.id}
+                    className="snap-start shrink-0 w-[170px] sm:w-[185px] bg-noir-card border border-border rounded-xl overflow-hidden hover:border-gold/30 transition-all duration-300 hover:-translate-y-1 cursor-pointer group"
+                    onClick={() => window.open(p.url || '#', '_blank')}
+                  >
+                    {/* Image */}
+                    <div className="relative h-[130px] bg-white/5 flex items-center justify-center overflow-hidden">
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      {p.discount && (
+                        <span className="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">-{p.discount}%</span>
+                      )}
+                    </div>
+                    {/* Info */}
+                    <div className="p-2.5">
+                      <p className="text-[11px] text-foreground/70 leading-tight line-clamp-2 mb-2 min-h-[28px]">{p.name}</p>
+                      <div className="flex items-end justify-between">
+                        <div>
+                          {p.oldPrice && (
+                            <span className="text-[10px] text-muted-foreground line-through mr-1">{p.oldPrice}</span>
+                          )}
+                          <span className="text-sm font-bold text-gold">{p.price}</span>
+                        </div>
+                        <span className="text-[10px] text-emerald-400">{p.shipping}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {/* Scroll arrows */}
+              <button onClick={() => scrollCarousel(-1)}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 w-8 h-8 rounded-full bg-noir-card border border-border flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity hover:border-gold/40 z-10">
+                <ArrowRight size={14} className="text-foreground rotate-180" />
+              </button>
+              <button onClick={() => scrollCarousel(1)}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 w-8 h-8 rounded-full bg-noir-card border border-border flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity hover:border-gold/40 z-10">
+                <ArrowRight size={14} className="text-foreground" />
+              </button>
+            </div>
+          </div>
+        </section>
+
         {/*  AUTO & MOTO — Vehicle part finder banner (compact)             */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <section className="relative overflow-hidden bg-gradient-to-br from-[#0a0e27] via-[#0f172a] to-noir">
