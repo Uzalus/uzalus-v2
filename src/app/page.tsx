@@ -377,13 +377,13 @@ export default function Home() {
         <section className="relative w-full bg-noir py-1">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 flex items-center gap-3 lg:gap-4">
             {/* Left AdSense */}
-            <div className="hidden lg:flex flex-1 h-[200px] items-center justify-center">
+            <div className="hidden lg:flex flex-1 h-[400px] items-center justify-center">
               <AdSenseBlock className="!my-0 w-full h-full max-w-full" />
             </div>
 
             {/* Center — Video banner */}
-            <div className="w-full lg:w-[900px] shrink-0">
-              <div className="relative w-full h-[180px] sm:h-[200px] lg:h-[200px] rounded-2xl overflow-hidden">
+            <div className="w-full lg:w-[1000px] shrink-0">
+              <div className="relative w-full h-[280px] sm:h-[350px] lg:h-[400px] rounded-2xl overflow-hidden">
                 {/* Video background */}
                 <video
                   autoPlay
@@ -402,11 +402,11 @@ export default function Home() {
                 {/* Rotating text */}
                 <div className="absolute inset-0 flex items-center z-20">
                   <div className="px-5 sm:px-8 lg:px-10 w-full">
-                    <p className="text-white/70 text-[10px] sm:text-xs mb-0.5 sm:mb-1 tracking-widest uppercase transition-all duration-500">{heroBanners[bannerIndex].subtitle}</p>
-                    <h2 className="font-display text-lg sm:text-xl lg:text-2xl font-bold gold-text mb-2 sm:mb-3 leading-tight transition-all duration-500">{heroBanners[bannerIndex].title}</h2>
+                    <p className="text-white/70 text-xs sm:text-sm mb-1 sm:mb-2 tracking-widest uppercase transition-all duration-500">{heroBanners[bannerIndex].subtitle}</p>
+                    <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold gold-text mb-3 sm:mb-4 leading-tight transition-all duration-500">{heroBanners[bannerIndex].title}</h2>
                     <button
                       onClick={() => router.push('/categorie/' + heroBanners[bannerIndex].slug)}
-                      className="gold-btn px-4 sm:px-5 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs font-bold tracking-wider uppercase"
+                      className="gold-btn px-5 sm:px-6 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-bold tracking-wider uppercase"
                     >
                       {heroBanners[bannerIndex].cta}
                     </button>
@@ -441,7 +441,7 @@ export default function Home() {
             </div>
 
             {/* Right AdSense */}
-            <div className="hidden lg:flex flex-1 h-[200px] items-center justify-center">
+            <div className="hidden lg:flex flex-1 h-[400px] items-center justify-center">
               <AdSenseBlock className="!my-0 w-full h-full max-w-full" />
             </div>
           </div>
