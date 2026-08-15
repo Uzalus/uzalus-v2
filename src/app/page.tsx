@@ -559,7 +559,7 @@ export default function Home() {
                   <p className="text-xs text-muted-foreground mt-1">Des outils gratuits et puissants</p>
                 </div>
               </div>
-              <button className="text-sm text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
+              <button onClick={() => router.push('/tools')} className="text-sm text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
                 Voir tous les outils <ArrowRight size={14} />
               </button>
             </div>
@@ -571,6 +571,7 @@ export default function Home() {
                 return (
                   <button
                     key={tool.name}
+                    onClick={() => router.push('/tools')}
                     className="group flex flex-col items-center p-4 rounded-xl bg-noir-card border border-border hover:border-gold/30 transition-all duration-300 hover:-translate-y-1"
                   >
                     <div className={`w-10 h-10 rounded-lg ${tool.bg} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
@@ -651,7 +652,7 @@ export default function Home() {
 
               {/* UZALUS Tools */}
               <button
-                onClick={() => document.getElementById('uzalus-tools')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => router.push('/tools')}
                 className="group flex items-center gap-4 p-5 rounded-xl bg-noir-card border border-border hover:border-gold/30 transition-all duration-300 text-start"
               >
                 <div className="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center shrink-0 group-hover:bg-teal-500/20 transition-colors">
