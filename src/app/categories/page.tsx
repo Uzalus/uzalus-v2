@@ -12,6 +12,7 @@ import {
   Search,
   ChevronRight,
   ArrowLeft,
+  ArrowRight,
   Star,
   Heart,
   Loader2,
@@ -20,7 +21,29 @@ import {
   RotateCcw,
   Package,
   Flame,
+  Wrench,
+  FileText,
+  Scissors,
+  ImageIcon,
+  Languages,
+  Music,
+  QrCode,
 } from 'lucide-react';
+
+/* UZALUS Tools data */
+const uzalusTools = [
+  { name: 'PDF \u2192 Word', desc: 'Convertir', icon: FileText, color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
+  { name: 'Word \u2192 PDF', desc: 'Convertir', icon: FileText, color: 'text-green-400', bg: 'bg-green-500/10', border: 'border-green-500/20' },
+  { name: 'Compresser PDF', desc: 'R\u00e9duire la taille', icon: FileText, color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20' },
+  { name: 'Fusionner PDF', desc: 'Assembler', icon: Scissors, color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20' },
+  { name: 'Diviser PDF', desc: 'Extraire des pages', icon: Scissors, color: 'text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/20' },
+  { name: 'JPG \u2192 PDF', desc: 'Images en PDF', icon: ImageIcon, color: 'text-teal-400', bg: 'bg-teal-500/10', border: 'border-teal-500/20' },
+  { name: 'PDF \u2192 JPG', desc: 'PDF en images', icon: ImageIcon, color: 'text-pink-400', bg: 'bg-pink-500/10', border: 'border-pink-500/20' },
+  { name: 'Traduction', desc: 'Traduire texte', icon: Languages, color: 'text-cyan-400', bg: 'bg-cyan-500/10', border: 'border-cyan-500/20' },
+  { name: 'MP4 \u2192 MP3', desc: "Extraire l'audio", icon: Music, color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
+  { name: "Supprimer arri\u00e8re-plan", desc: 'Images propres', icon: ImageIcon, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
+  { name: 'G\u00e9n\u00e9rer QR Code', desc: 'QR Code', icon: QrCode, color: 'text-indigo-400', bg: 'bg-indigo-500/10', border: 'border-indigo-500/20' },
+];
 
 /* All 18 categories */
 const ALL_CATS = [
@@ -338,6 +361,43 @@ export default function CategoriesPage() {
             })}
           </div>
         )}
+
+        {/* UZALUS TOOLS */}
+        <div className="mt-14 pt-10 border-t border-border">
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <Wrench size={24} className="text-gold" />
+              <div>
+                <h2 className="font-display text-xl sm:text-2xl font-bold gold-text">UZALUS TOOLS</h2>
+                <p className="text-xs text-muted-foreground mt-1">Des outils gratuits et puissants</p>
+              </div>
+            </div>
+            <button className="text-sm text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
+              Voir tous les outils <ArrowRight size={14} />
+            </button>
+          </div>
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-11 gap-3">
+            {uzalusTools.map((tool) => {
+              const Icon = tool.icon;
+              return (
+                <button
+                  key={tool.name}
+                  className="group flex flex-col items-center p-4 rounded-xl bg-noir-card border border-border hover:border-gold/30 transition-all duration-300 hover:-translate-y-1"
+                >
+                  <div className={`w-10 h-10 rounded-lg ${tool.bg} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
+                    <Icon size={20} className={tool.color} />
+                  </div>
+                  <span className="text-xs font-semibold text-foreground/90 text-center leading-tight">
+                    {tool.name}
+                  </span>
+                  <span className="text-[10px] text-muted-foreground mt-0.5">
+                    {tool.desc}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
         {/* Products section */}
         <div className="mt-14">
