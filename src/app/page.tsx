@@ -349,7 +349,7 @@ export default function Home() {
                   <Car size={18} className="text-gold" />
                 </div>
                 <div>
-                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">Pièces détachées <span className="gold-text">Auto & Moto</span></h2>
+                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">Automobile & <span className="gold-text">Moto</span></h2>
                   <p className="text-[11px] text-muted-foreground">Prix imbattables — Livraison en Europe</p>
                 </div>
               </div>
