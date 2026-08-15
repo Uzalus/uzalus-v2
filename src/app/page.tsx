@@ -210,6 +210,15 @@ const heroBanners = [
   },
   {
     id: 10,
+    image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/dd6b265b892d.jpg',
+    title: 'CHAUSSURES DE SPORT',
+    subtitle: 'Nike, Adidas, Puma & plus',
+    cta: 'DÉCOUVRIR',
+    slug: 'chaussures',
+    gradient: 'from-black/70 via-black/40 to-transparent',
+  },
+  {
+    id: 11,
     image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/721aaf9e0072.jpeg',
     title: 'ÉLECTRONIQUE',
     subtitle: 'Gadgets & high-tech à prix mini',
