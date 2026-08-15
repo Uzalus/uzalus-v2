@@ -183,7 +183,7 @@ const heroBanners = [
   },
   {
     id: 6,
-    image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/3e2f334b221e.jpg',
+    image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b61836580cc0.jpg',
     title: 'SPORT & FITNESS',
     subtitle: 'Équipez-vous pour performer',
     cta: 'DÉCOUVRIR',
