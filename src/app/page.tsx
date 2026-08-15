@@ -374,7 +374,7 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  NOS CATÉGORIES — Category circles grid                       */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section id="categories" className="py-4 lg:py-5 bg-noir">
+        <section id="categories" className="py-3 bg-noir">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
             <div className="flex items-center justify-between mb-3">
@@ -417,7 +417,7 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  HERO BANNER — Auto-rotating carousel                          */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="relative w-full bg-noir py-2 lg:py-3">
+        <section className="relative w-full bg-noir py-1">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 flex items-center gap-3 lg:gap-4">
             {/* Left AdSense */}
             <div className="hidden lg:flex flex-1 h-[280px] items-center justify-center">
@@ -491,7 +491,7 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  UZALUS TOOLS — Grid of free tools                            */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section id="uzalus-tools" className="py-4 lg:py-5 bg-noir">
+        <section id="uzalus-tools" className="py-3 bg-noir">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
             <div className="flex items-center justify-between mb-3">
@@ -537,7 +537,7 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  PIÈCES DÉTACHÉES — Product carousel                            */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="bg-noir py-4 lg:py-5 overflow-hidden">
+        <section className="bg-noir py-3 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
             <div className="flex items-center justify-between mb-3">
@@ -610,7 +610,7 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  FEATURE CARDS — 4 columns                                    */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="bg-noir">
+        <section className="bg-noir pt-2">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Trust badges */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pb-4 border-b border-border mb-4">
@@ -707,7 +707,7 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  TENDANCES DU JOUR — Horizontal scrollable products          */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section id="tendances" className="py-4 lg:py-5 bg-noir-light/30">
+        <section id="tendances" className="py-3 bg-noir-light/30">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
             <div className="flex items-center justify-between mb-3">
