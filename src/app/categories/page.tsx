@@ -1,22 +1,25 @@
-/* Toutes les catégories — same dark/gold theme as homepage, CJ product images */
+/* Toutes les categories — dark/gold theme, CJ real products */
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useI18n } from '@/lib/i18n-context';
 import { shopCategoriesData } from '@/lib/shop-data';
+import { calculateSellingPrice } from '@/lib/cj-api';
 import { Footer } from '@/components/uzalus/footer';
 import { ChatWidget } from '@/components/uzalus/chat-widget';
 import {
   Search,
   ChevronRight,
-  Sparkles,
   ArrowLeft,
+  Star,
+  Heart,
   Loader2,
   Truck,
   Shield,
   RotateCcw,
   Package,
+  Flame,
 } from 'lucide-react';
 
 /* All 18 categories */
@@ -41,21 +44,104 @@ const ALL_CATS = [
   { key: 'shop.alimentation', slug: 'alimentation', fallbackImg: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&h=500&fit=crop&q=80' },
 ];
 
-interface CatImage {
-  slug: string;
-  image: string;
+interface CJProduct {
+  pid: string;
+  productName: string;
+  productNameEn?: string;
+  productImage: string;
+  sellPrice: number;
+  originalPrice?: number;
+  rating?: number;
+  commentCount?: number;
+}
+
+function formatPrice(amount: number): string {
+  return amount.toFixed(2).replace('.', ',') + ' \u20AC';
+}
+
+/* Product card — dark theme */
+function ProductCard({ product }: { product: CJProduct }) {
+  const [liked, setLiked] = useState(false);
+  const { price: sellEur } = calculateSellingPrice(product.sellPrice);
+  const oldPriceEur = product.originalPrice
+    ? calculateSellingPrice(product.originalPrice).price
+    : null;
+  const discountPct = oldPriceEur && oldPriceEur > sellEur
+    ? Math.round(((oldPriceEur - sellEur) / oldPriceEur) * 100)
+    : null;
+
+  return (
+    <div className="group bg-noir-card rounded-xl border border-border overflow-hidden hover:border-gold/30 hover:-translate-y-1 hover:shadow-[0_0_20px_rgba(212,175,55,0.08)] transition-all duration-300 flex flex-col">
+      <div className="relative aspect-[3/4] bg-noir-lighter overflow-hidden">
+        <img
+          src={product.productImage}
+          alt={product.productNameEn || product.productName}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
+        />
+        <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5">
+          {!product.originalPrice && product.sellPrice < 15 && (
+            <span className="bg-gold text-noir text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">Nouveau</span>
+          )}
+          {discountPct && discountPct >= 10 && (
+            <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded">-{discountPct}%</span>
+          )}
+        </div>
+      </div>
+      <div className="p-3.5 flex flex-col flex-1 relative">
+        <h3 className="text-xs text-foreground/80 leading-snug line-clamp-2 mb-2 flex-1 font-medium group-hover:text-gold transition-colors">
+          {product.productNameEn || product.productName}
+        </h3>
+        <div className="flex items-center gap-0.5 mb-2">
+          <Star size={11} className="text-gold fill-gold" />
+          <span className="text-[11px] text-muted-foreground">{product.rating || 0}{product.commentCount ? ' (' + product.commentCount + ')' : ''}</span>
+        </div>
+        <div className="flex items-baseline gap-2">
+          <span className="text-sm font-bold text-gold">{formatPrice(sellEur)}</span>
+          {oldPriceEur && oldPriceEur > sellEur && (
+            <span className="text-[11px] text-muted-foreground line-through">{formatPrice(oldPriceEur)}</span>
+          )}
+        </div>
+        <button
+          onClick={(e) => { e.stopPropagation(); setLiked(!liked); }}
+          className="absolute bottom-3.5 right-3.5"
+        >
+          <Heart size={16} className={liked ? 'fill-red-500 text-red-500' : 'text-foreground/30 hover:text-red-400 transition-colors'} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/* Skeleton for products */
+function ProductSkeleton() {
+  return (
+    <div className="bg-noir-card rounded-xl border border-border overflow-hidden animate-pulse">
+      <div className="aspect-[3/4] bg-noir-lighter" />
+      <div className="p-3.5 space-y-2">
+        <div className="h-3 bg-noir-lighter rounded w-full" />
+        <div className="h-3 bg-noir-lighter rounded w-2/3" />
+        <div className="h-4 bg-noir-lighter rounded w-1/3 mt-2" />
+      </div>
+    </div>
+  );
 }
 
 export default function CategoriesPage() {
   const router = useRouter();
   const { t } = useI18n();
   const [catImages, setCatImages] = useState<Record<string, string>>({});
-  const [loading, setLoading] = useState(true);
+  const [catLoading, setCatLoading] = useState(true);
+  const [products, setProducts] = useState<CJProduct[]>([]);
+  const [productsLoading, setProductsLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
 
-  /* Fetch one product image per category from CJ API */
+  /* Fetch category images */
   useEffect(() => {
     async function fetchImages() {
-      setLoading(true);
+      setCatLoading(true);
       const images: Record<string, string> = {};
       const promises = ALL_CATS.map(async (cat) => {
         try {
@@ -64,16 +150,56 @@ export default function CategoriesPage() {
           if (data.success && data.products && data.products.length > 0) {
             images[cat.slug] = data.products[0].productImage;
           }
-        } catch {
-          /* use fallback */
-        }
+        } catch { /* fallback */ }
       });
       await Promise.all(promises);
       setCatImages(images);
-      setLoading(false);
+      setCatLoading(false);
     }
     fetchImages();
   }, []);
+
+  /* Sort cycle for load more */
+  const SORT_CYCLE = ['salesVolume', 'newArrival', 'priceAsc', 'priceDesc'];
+
+  /* Fetch products */
+  const fetchProducts = useCallback(async (resetPage = true) => {
+    if (resetPage) {
+      setProductsLoading(true);
+      setProducts([]);
+      setPage(1);
+    } else {
+      setLoadingMore(true);
+    }
+    try {
+      const currentPage = resetPage ? 1 : page + 1;
+      const sortIndex = resetPage ? 0 : (page % SORT_CYCLE.length);
+      const sortType = SORT_CYCLE[sortIndex];
+      const res = await fetch('/api/cj/products?category=mode-femme&pageSize=100&page=' + currentPage + '&sortType=' + sortType);
+      const data = await res.json();
+      if (data.success) {
+        const newProds = data.products || [];
+        if (resetPage) {
+          setProducts(newProds);
+          setHasMore(true);
+        } else {
+          setProducts(prev => {
+            const ids = new Set(prev.map((p: CJProduct) => p.pid));
+            const unique = newProds.filter((p: CJProduct) => !ids.has(p.pid));
+            if (unique.length === 0 && prev.length > 0) setHasMore(false);
+            return [...prev, ...unique];
+          });
+        }
+        if (!resetPage) setPage(currentPage);
+      }
+    } catch { /* silent */ }
+    finally {
+      if (resetPage) setProductsLoading(false);
+      else setLoadingMore(false);
+    }
+  }, [page]);
+
+  useEffect(() => { fetchProducts(true); }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-noir">
@@ -81,29 +207,18 @@ export default function CategoriesPage() {
       {/* Promo bar */}
       <div className="bg-noir-lighter/80 border-b border-border text-xs text-muted-foreground hidden md:block">
         <div className="max-w-[1400px] mx-auto px-4 flex justify-center items-center h-9 gap-8">
-          <span className="flex items-center gap-1.5">
-            <Truck size={13} className="text-gold" />
-            Livraison rapide dans toute l'Europe
-          </span>
+          <span className="flex items-center gap-1.5"><Truck size={13} className="text-gold" /> Livraison rapide dans toute l'Europe</span>
           <span className="w-px h-3.5 bg-border" />
-          <span className="flex items-center gap-1.5">
-            <RotateCcw size={13} className="text-gold" />
-            Retour facile sous 14 jours
-          </span>
+          <span className="flex items-center gap-1.5"><RotateCcw size={13} className="text-gold" /> Retour facile sous 14 jours</span>
           <span className="w-px h-3.5 bg-border" />
-          <span className="flex items-center gap-1.5">
-            <Shield size={13} className="text-gold" />
-            Paiement 100% securise
-          </span>
+          <span className="flex items-center gap-1.5"><Shield size={13} className="text-gold" /> Paiement 100% securise</span>
         </div>
       </div>
 
-      {/* Header bar */}
+      {/* Header */}
       <header className="border-b border-border">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-5 flex items-center justify-between gap-6">
-          <button onClick={() => router.push('/')} className="font-display text-xl lg:text-2xl font-bold gold-shimmer tracking-wider">
-            UZALUS
-          </button>
+          <button onClick={() => router.push('/')} className="font-display text-xl lg:text-2xl font-bold gold-shimmer tracking-wider">UZALUS</button>
           <div className="hidden sm:flex flex-1 max-w-xl items-center bg-noir-lighter border border-border rounded-full px-5 py-2.5 gap-2 focus-within:border-gold/50 transition-colors">
             <Search size={16} className="text-muted-foreground shrink-0" />
             <input
@@ -121,23 +236,22 @@ export default function CategoriesPage() {
         </div>
       </header>
 
-      {/* Page title */}
       <main className="flex-1 max-w-[1400px] w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
-        <div className="flex items-center gap-3 mb-2">
+
+        {/* Page title */}
+        <div className="flex items-center gap-3 mb-8">
           <button onClick={() => router.push('/')} className="w-9 h-9 rounded-full border border-border bg-noir-card flex items-center justify-center hover:border-gold/30 transition-colors">
             <ArrowLeft size={16} className="text-foreground/70" />
           </button>
           <div>
-            <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold gold-text">
-              Toutes les categories
-            </h1>
+            <h1 className="font-display text-2xl sm:text-3xl lg:text-4xl font-bold gold-text">Toutes les categories</h1>
             <p className="text-sm text-muted-foreground mt-1">Explorez nos {ALL_CATS.length} categories et trouvez ce que vous cherchez</p>
           </div>
         </div>
 
-        {/* Loading skeleton */}
-        {loading && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5 mt-8">
+        {/* Categories grid */}
+        {catLoading && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
             {Array.from({ length: 18 }).map((_, i) => (
               <div key={i} className="animate-pulse">
                 <div className="aspect-[3/4] rounded-xl bg-noir-card border border-border" />
@@ -146,13 +260,10 @@ export default function CategoriesPage() {
             ))}
           </div>
         )}
-
-        {/* Categories grid */}
-        {!loading && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5 mt-8">
+        {!catLoading && (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
             {ALL_CATS.map((cat) => {
-              const cjImg = catImages[cat.slug];
-              const imgSrc = cjImg || cat.fallbackImg;
+              const imgSrc = catImages[cat.slug] || cat.fallbackImg;
               const subCount = shopCategoriesData[cat.slug]?.subCategories?.length || 0;
               return (
                 <button
@@ -160,32 +271,14 @@ export default function CategoriesPage() {
                   onClick={() => router.push('/categorie/' + cat.slug)}
                   className="group relative rounded-xl overflow-hidden border border-border hover:border-gold/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_24px_rgba(212,175,55,0.1)]"
                 >
-                  {/* Image */}
                   <div className="aspect-[3/4] bg-noir-card overflow-hidden">
-                    <img
-                      src={imgSrc}
-                      alt={t(cat.key)}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      loading="lazy"
-                    />
-                    {/* Gradient overlay */}
+                    <img src={imgSrc} alt={t(cat.key)} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                   </div>
-                  {/* Text overlay at bottom */}
                   <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider mb-1">
-                      {t(cat.key)}
-                    </h3>
-                    {subCount > 0 && (
-                      <p className="text-[11px] text-white/50">{subCount} sous-categories</p>
-                    )}
-                    <span className="inline-flex items-center gap-1 text-[11px] text-gold font-semibold mt-2 group-hover:gap-2 transition-all">
-                      Explorer <ChevronRight size={12} />
-                    </span>
-                  </div>
-                  {/* Gold corner accent on hover */}
-                  <div className="absolute top-0 right-0 w-12 h-12 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute top-3 right-3 w-2 h-2 rounded-full bg-gold" />
+                    <h3 className="font-display text-sm font-bold text-white uppercase tracking-wider mb-1">{t(cat.key)}</h3>
+                    {subCount > 0 && <p className="text-[11px] text-white/50">{subCount} sous-categories</p>}
+                    <span className="inline-flex items-center gap-1 text-[11px] text-gold font-semibold mt-2 group-hover:gap-2 transition-all">Explorer <ChevronRight size={12} /></span>
                   </div>
                 </button>
               );
@@ -193,43 +286,57 @@ export default function CategoriesPage() {
           </div>
         )}
 
+        {/* Products section */}
+        <div className="mt-14">
+          <div className="flex items-center gap-3 mb-8">
+            <Flame size={24} className="text-gold" />
+            <h2 className="font-display text-xl sm:text-2xl font-bold gold-text">Produits populaires</h2>
+          </div>
+
+          {productsLoading && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
+              {Array.from({ length: 12 }).map((_, i) => <ProductSkeleton key={i} />)}
+            </div>
+          )}
+
+          {!productsLoading && products.length > 0 && (
+            <>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
+                {products.map((p) => <ProductCard key={p.pid} product={p} />)}
+              </div>
+              {hasMore && products.length > 0 && (
+                <div className="flex justify-center mt-10">
+                  <button
+                    onClick={() => fetchProducts(false)}
+                    disabled={loadingMore}
+                    className="flex items-center gap-2 px-8 py-3 border-2 border-gold/50 text-sm font-semibold text-gold rounded-xl hover:bg-gold hover:text-noir transition-colors disabled:opacity-50"
+                  >
+                    {loadingMore && <Loader2 size={16} className="animate-spin" />}
+                    {loadingMore ? 'Chargement...' : 'Charger plus'}
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
         {/* Trust section */}
         <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="flex items-center gap-3 bg-noir-card border border-border rounded-xl p-4">
-            <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center shrink-0">
-              <Truck size={20} className="text-gold" />
-            </div>
-            <div>
-              <p className="text-sm font-bold text-foreground">Livraison Gratuite</p>
-              <p className="text-xs text-muted-foreground">Des 49 euros d'achat</p>
-            </div>
+            <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center shrink-0"><Truck size={20} className="text-gold" /></div>
+            <div><p className="text-sm font-bold text-foreground">Livraison Gratuite</p><p className="text-xs text-muted-foreground">Des 49 euros d'achat</p></div>
           </div>
           <div className="flex items-center gap-3 bg-noir-card border border-border rounded-xl p-4">
-            <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center shrink-0">
-              <Shield size={20} className="text-gold" />
-            </div>
-            <div>
-              <p className="text-sm font-bold text-foreground">Paiement Securise</p>
-              <p className="text-xs text-muted-foreground">SSL & cryptage</p>
-            </div>
+            <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center shrink-0"><Shield size={20} className="text-gold" /></div>
+            <div><p className="text-sm font-bold text-foreground">Paiement Securise</p><p className="text-xs text-muted-foreground">SSL & cryptage</p></div>
           </div>
           <div className="flex items-center gap-3 bg-noir-card border border-border rounded-xl p-4">
-            <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center shrink-0">
-              <RotateCcw size={20} className="text-gold" />
-            </div>
-            <div>
-              <p className="text-sm font-bold text-foreground">Retour 14 Jours</p>
-              <p className="text-xs text-muted-foreground">Satisfait ou rembourse</p>
-            </div>
+            <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center shrink-0"><RotateCcw size={20} className="text-gold" /></div>
+            <div><p className="text-sm font-bold text-foreground">Retour 14 Jours</p><p className="text-xs text-muted-foreground">Satisfait ou rembourse</p></div>
           </div>
           <div className="flex items-center gap-3 bg-noir-card border border-border rounded-xl p-4">
-            <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center shrink-0">
-              <Package size={20} className="text-gold" />
-            </div>
-            <div>
-              <p className="text-sm font-bold text-foreground">+50 000 Produits</p>
-              <p className="text-xs text-muted-foreground">Catalogue en expansion</p>
-            </div>
+            <div className="w-10 h-10 rounded-lg bg-gold/10 flex items-center justify-center shrink-0"><Package size={20} className="text-gold" /></div>
+            <div><p className="text-sm font-bold text-foreground">+50 000 Produits</p><p className="text-xs text-muted-foreground">Catalogue en expansion</p></div>
           </div>
         </div>
       </main>
