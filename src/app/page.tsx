@@ -448,79 +448,6 @@ export default function Home() {
         </section>
 
         {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  PIÈCES DÉTACHÉES — Product carousel                            */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="bg-noir py-1 overflow-hidden">
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-gold/10 flex items-center justify-center">
-                  <Car size={18} className="text-gold" />
-                </div>
-                <div>
-                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">Automobile & <span className="gold-text">Moto</span></h2>
-                  <p className="text-[11px] text-muted-foreground">Prix imbattables — Livraison en Europe</p>
-                </div>
-              </div>
-              <button onClick={() => router.push('/categories')}
-                className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
-                Voir tout <ArrowRight size={12} />
-              </button>
-            </div>
-
-            {/* Horizontal scroll carousel */}
-            <div className="relative group/carousel">
-              <div className="flex gap-3 overflow-x-auto pb-3 snap-x snap-mandatory scrollbar-hide scroll-smooth"
-                ref={carouselRef}
-              >
-                {autoPartsProducts.map((p) => (
-                  <div key={p.id}
-                    className="snap-start shrink-0 w-[170px] sm:w-[185px] bg-noir-card border border-border rounded-xl overflow-hidden hover:border-gold/30 transition-all duration-300 hover:-translate-y-1 cursor-pointer group"
-                    onClick={() => router.push('/categorie/auto-moto')}
-                  >
-                    {/* Image */}
-                    <div className="relative h-[130px] bg-white/5 flex items-center justify-center overflow-hidden">
-                      <img
-                        src={p.image}
-                        alt={p.name}
-                        className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500"
-                        loading="lazy"
-                      />
-                      {p.discount && (
-                        <span className="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">-{p.discount}%</span>
-                      )}
-                    </div>
-                    {/* Info */}
-                    <div className="p-2.5">
-                      <p className="text-[11px] text-foreground/70 leading-tight line-clamp-2 mb-2 min-h-[28px]">{p.name}</p>
-                      <div className="flex items-end justify-between">
-                        <div>
-                          {p.oldPrice && (
-                            <span className="text-[10px] text-muted-foreground line-through mr-1">{p.oldPrice}</span>
-                          )}
-                          <span className="text-sm font-bold text-gold">{p.price}</span>
-                        </div>
-                        <span className="text-[10px] text-emerald-400">{p.shipping}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              {/* Scroll arrows */}
-              <button onClick={() => scrollCarousel(-1)}
-                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 w-8 h-8 rounded-full bg-noir-card border border-border flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity hover:border-gold/40 z-10">
-                <ArrowRight size={14} className="text-foreground rotate-180" />
-              </button>
-              <button onClick={() => scrollCarousel(1)}
-                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 w-8 h-8 rounded-full bg-noir-card border border-border flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity hover:border-gold/40 z-10">
-                <ArrowRight size={14} className="text-foreground" />
-              </button>
-            </div>
-          </div>
-        </section>
-
-        {/* ═══════════════════════════════════════════════════════════ */}
         {/*  UZALUS TOOLS — Grid of free tools                            */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <section id="uzalus-tools" className="py-1 bg-noir">
@@ -729,6 +656,80 @@ export default function Home() {
           </div>
         </section>
 
+
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  CJ DROPSHIPPING — Pièces détachées Auto & Moto              */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section className="bg-noir py-1 overflow-hidden">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-gold/10 flex items-center justify-center">
+                  <Car size={18} className="text-gold" />
+                </div>
+                <div>
+                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">Automobile & <span className="gold-text">Moto</span></h2>
+                  <p className="text-[11px] text-muted-foreground">Prix imbattables — Livraison en Europe</p>
+                </div>
+              </div>
+              <button onClick={() => router.push('/categories')}
+                className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
+                Voir tout <ArrowRight size={12} />
+              </button>
+            </div>
+
+            {/* Horizontal scroll carousel */}
+            <div className="relative group/carousel">
+              <div className="flex gap-3 overflow-x-auto pb-3 snap-x snap-mandatory scrollbar-hide scroll-smooth"
+                ref={carouselRef}
+              >
+                {autoPartsProducts.map((p) => (
+                  <div key={p.id}
+                    className="snap-start shrink-0 w-[170px] sm:w-[185px] bg-noir-card border border-border rounded-xl overflow-hidden hover:border-gold/30 transition-all duration-300 hover:-translate-y-1 cursor-pointer group"
+                    onClick={() => router.push('/categorie/auto-moto')}
+                  >
+                    {/* Image */}
+                    <div className="relative h-[130px] bg-white/5 flex items-center justify-center overflow-hidden">
+                      <img
+                        src={p.image}
+                        alt={p.name}
+                        className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      {p.discount && (
+                        <span className="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">-{p.discount}%</span>
+                      )}
+                    </div>
+                    {/* Info */}
+                    <div className="p-2.5">
+                      <p className="text-[11px] text-foreground/70 leading-tight line-clamp-2 mb-2 min-h-[28px]">{p.name}</p>
+                      <div className="flex items-end justify-between">
+                        <div>
+                          {p.oldPrice && (
+                            <span className="text-[10px] text-muted-foreground line-through mr-1">{p.oldPrice}</span>
+                          )}
+                          <span className="text-sm font-bold text-gold">{p.price}</span>
+                        </div>
+                        <span className="text-[10px] text-emerald-400">{p.shipping}</span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {/* Scroll arrows */}
+              <button onClick={() => scrollCarousel(-1)}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-3 w-8 h-8 rounded-full bg-noir-card border border-border flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity hover:border-gold/40 z-10">
+                <ArrowRight size={14} className="text-foreground rotate-180" />
+              </button>
+              <button onClick={() => scrollCarousel(1)}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 w-8 h-8 rounded-full bg-noir-card border border-border flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity hover:border-gold/40 z-10">
+                <ArrowRight size={14} className="text-foreground" />
+              </button>
+            </div>
+          </div>
+        </section>
 
 
         {/* ═══════════════════════════════════════════════════════════ */}
