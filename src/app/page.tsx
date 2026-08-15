@@ -463,6 +463,85 @@ export default function Home() {
         </section>
 
         {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  BANDE PROMO — 4 catégories avec produits et prix              */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section className="bg-gradient-to-br from-[#0f172a] via-noir to-noir py-2">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+
+              {/* MODE FEMME */}
+              <div className="group cursor-pointer" onClick={() => router.push('/categorie/mode-femme')}>
+                <div className="relative aspect-[4/3] rounded-xl overflow-hidden mb-2 border border-border group-hover:border-gold/40 transition-all">
+                  <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&h=300&fit=crop&q=80" alt="Mode Femme" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-2.5">
+                    <span className="bg-gold text-noir text-[9px] font-bold px-2 py-0.5 rounded">MODE FEMME</span>
+                    <p className="text-white text-[11px] font-semibold mt-1 line-clamp-1">Robe Élégante Soie</p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="text-gold text-xs font-bold">29,99 €</span>
+                      <span className="text-white/40 text-[10px] line-through">59,99 €</span>
+                      <span className="bg-red-500 text-white text-[9px] font-bold px-1 rounded">-50%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* PARFUMS & BEAUTÉ */}
+              <div className="group cursor-pointer" onClick={() => router.push('/categorie/parfums-cosmetiques')}>
+                <div className="relative aspect-[4/3] rounded-xl overflow-hidden mb-2 border border-border group-hover:border-gold/40 transition-all">
+                  <img src="https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/c9847eddf48c.jpg" alt="Parfums & Beauté" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-2.5">
+                    <span className="bg-gold text-noir text-[9px] font-bold px-2 py-0.5 rounded">BEAUTÉ</span>
+                    <p className="text-white text-[11px] font-semibold mt-1 line-clamp-1">Sérum Vitamine C</p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="text-gold text-xs font-bold">12,99 €</span>
+                      <span className="text-white/40 text-[10px] line-through">29,99 €</span>
+                      <span className="bg-red-500 text-white text-[9px] font-bold px-1 rounded">-57%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* ÉLECTRONIQUE */}
+              <div className="group cursor-pointer" onClick={() => router.push('/categorie/telephones')}>
+                <div className="relative aspect-[4/3] rounded-xl overflow-hidden mb-2 border border-border group-hover:border-gold/40 transition-all">
+                  <img src="https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/208981e1bfa6.jpg" alt="Électronique" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-2.5">
+                    <span className="bg-gold text-noir text-[9px] font-bold px-2 py-0.5 rounded">HIGH-TECH</span>
+                    <p className="text-white text-[11px] font-semibold mt-1 line-clamp-1">Écouteurs Bluetooth TWS</p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="text-gold text-xs font-bold">19,99 €</span>
+                      <span className="text-white/40 text-[10px] line-through">39,99 €</span>
+                      <span className="bg-red-500 text-white text-[9px] font-bold px-1 rounded">-50%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* MAISON & DÉCO */}
+              <div className="group cursor-pointer" onClick={() => router.push('/categorie/maison')}>
+                <div className="relative aspect-[4/3] rounded-xl overflow-hidden mb-2 border border-border group-hover:border-gold/40 transition-all">
+                  <img src="https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b5e8fcaaf042.jpg" alt="Maison" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-2.5">
+                    <span className="bg-gold text-noir text-[9px] font-bold px-2 py-0.5 rounded">MAISON</span>
+                    <p className="text-white text-[11px] font-semibold mt-1 line-clamp-1">Diffuseur Essentielles</p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="text-gold text-xs font-bold">16,99 €</span>
+                      <span className="text-white/40 text-[10px] line-through">34,99 €</span>
+                      <span className="bg-red-500 text-white text-[9px] font-bold px-1 rounded">-51%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
         {/*  UZALUS TOOLS — Grid of free tools                            */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <section id="uzalus-tools" className="py-1 bg-noir">
@@ -806,82 +885,6 @@ export default function Home() {
         </section>
 
 
-        {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  PROMOTIONAL FOOTER BAND — 4 columns                        */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <section id="promotions" className="bg-gradient-to-br from-[#0f172a] via-noir to-noir">
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {/* Nouveautés */}
-              <div className="group">
-                <div className="flex items-center gap-2 mb-1">
-                  <Smartphone size={16} className="text-gold" />
-                  <h3 className="font-display text-xs font-bold text-white">NOUVEAUTÉS</h3>
-                </div>
-                <p className="text-[10px] text-foreground/50 mb-1">
-                  Découvrez les derniers produits ajoutés à notre catalogue en permanente expansion.
-                </p>
-                <button
-                  onClick={() => document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors"
-                >
-                  Voir les nouveautés <ArrowRight size={12} />
-                </button>
-              </div>
-
-              {/* Offres du jour */}
-              <div className="group">
-                <div className="flex items-center gap-2 mb-1">
-                  <Gift size={16} className="text-gold" />
-                  <h3 className="font-display text-xs font-bold text-white">OFFRES DU JOUR</h3>
-                </div>
-                <p className="text-[10px] text-foreground/50 mb-1">
-                  Des réductions chaque jour sur des produits sélectionnés pour vous.
-                </p>
-                <button
-                  onClick={() => document.getElementById('tendances')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors"
-                >
-                  Voir les offres <ArrowRight size={12} />
-                </button>
-              </div>
-
-              {/* Meilleures ventes */}
-              <div className="group">
-                <div className="flex items-center gap-2 mb-1">
-                  <Trophy size={16} className="text-gold" />
-                  <h3 className="font-display text-xs font-bold text-white">MEILLEURES VENTES</h3>
-                </div>
-                <p className="text-[10px] text-foreground/50 mb-1">
-                  Les produits les plus populaires, choisis par des milliers de clients.
-                </p>
-                <button
-                  onClick={() => document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors"
-                >
-                  Voir les meilleures ventes <ArrowRight size={12} />
-                </button>
-              </div>
-
-              {/* UZALUS Essentials */}
-              <div className="group">
-                <div className="flex items-center gap-2 mb-1">
-                  <Globe size={16} className="text-gold" />
-                  <h3 className="font-display text-xs font-bold text-white">UZALUS ESSENTIALS</h3>
-                </div>
-                <p className="text-[10px] text-foreground/50 mb-1">
-                  Des services web utiles : outils PDF, convertisseurs, et bien plus.
-                </p>
-                <button
-                  onClick={() => document.getElementById('uzalus-tools')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors"
-                >
-                  Voir les services <ArrowRight size={12} />
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
 
       <Footer />
