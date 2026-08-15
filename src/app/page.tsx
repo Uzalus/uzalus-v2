@@ -489,52 +489,6 @@ export default function Home() {
         </section>
 
         {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  UZALUS TOOLS — Grid of free tools                            */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <section id="uzalus-tools" className="py-3 bg-noir">
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-3">
-                <Wrench size={24} className="text-gold" />
-                <div>
-                  <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold gold-text">
-                    UZALUS TOOLS
-                  </h2>
-                  <p className="text-xs text-muted-foreground mt-1">Des outils gratuits et puissants</p>
-                </div>
-              </div>
-              <button className="text-sm text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
-                Voir tous les outils <ArrowRight size={14} />
-              </button>
-            </div>
-
-            {/* Tools grid */}
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-11 gap-3">
-              {uzalusTools.map((tool) => {
-                const Icon = tool.icon;
-                return (
-                  <button
-                    key={tool.name}
-                    className="group flex flex-col items-center p-4 rounded-xl bg-noir-card border border-border hover:border-gold/30 transition-all duration-300 hover:-translate-y-1"
-                  >
-                    <div className={`w-10 h-10 rounded-lg ${tool.bg} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
-                      <Icon size={20} className={tool.color} />
-                    </div>
-                    <span className="text-xs font-semibold text-foreground/90 text-center leading-tight">
-                      {tool.name}
-                    </span>
-                    <span className="text-[10px] text-muted-foreground mt-0.5">
-                      {tool.desc}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-
-        {/* ═══════════════════════════════════════════════════════════ */}
         {/*  PIÈCES DÉTACHÉES — Product carousel                            */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <section className="bg-noir py-3 overflow-hidden">
@@ -603,6 +557,52 @@ export default function Home() {
                 className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 w-8 h-8 rounded-full bg-noir-card border border-border flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity hover:border-gold/40 z-10">
                 <ArrowRight size={14} className="text-foreground" />
               </button>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  UZALUS TOOLS — Grid of free tools                            */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section id="uzalus-tools" className="py-3 bg-noir">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <Wrench size={24} className="text-gold" />
+                <div>
+                  <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold gold-text">
+                    UZALUS TOOLS
+                  </h2>
+                  <p className="text-xs text-muted-foreground mt-1">Des outils gratuits et puissants</p>
+                </div>
+              </div>
+              <button className="text-sm text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
+                Voir tous les outils <ArrowRight size={14} />
+              </button>
+            </div>
+
+            {/* Tools grid */}
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-11 gap-3">
+              {uzalusTools.map((tool) => {
+                const Icon = tool.icon;
+                return (
+                  <button
+                    key={tool.name}
+                    className="group flex flex-col items-center p-4 rounded-xl bg-noir-card border border-border hover:border-gold/30 transition-all duration-300 hover:-translate-y-1"
+                  >
+                    <div className={`w-10 h-10 rounded-lg ${tool.bg} flex items-center justify-center mb-3 group-hover:scale-110 transition-transform`}>
+                      <Icon size={20} className={tool.color} />
+                    </div>
+                    <span className="text-xs font-semibold text-foreground/90 text-center leading-tight">
+                      {tool.name}
+                    </span>
+                    <span className="text-[10px] text-muted-foreground mt-0.5">
+                      {tool.desc}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </section>
