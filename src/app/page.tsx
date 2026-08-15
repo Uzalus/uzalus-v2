@@ -190,6 +190,42 @@ const heroBanners = [
     slug: 'sport',
     gradient: 'from-black/70 via-black/40 to-transparent',
   },
+  {
+    id: 7,
+    image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/208981e1bfa6.jpg',
+    title: 'MODE HOMME',
+    subtitle: 'Style & élégance au masculin',
+    cta: 'DÉCOUVRIR',
+    slug: 'mode-homme',
+    gradient: 'from-black/70 via-black/40 to-transparent',
+  },
+  {
+    id: 8,
+    image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/ecf1d9e0dc22.jpg',
+    title: 'BÉBÉ & ENFANT',
+    subtitle: 'Tout pour les petits',
+    cta: 'DÉCOUVRIR',
+    slug: 'bebe-enfant',
+    gradient: 'from-black/70 via-black/40 to-transparent',
+  },
+  {
+    id: 9,
+    image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/5218019ca751.jpg',
+    title: 'ACCESSOIRES',
+    subtitle: 'Montres, bagues, lunettes & plus',
+    cta: 'DÉCOUVRIR',
+    slug: 'accessoires',
+    gradient: 'from-black/70 via-black/40 to-transparent',
+  },
+  {
+    id: 10,
+    image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/721aaf9e0072.jpeg',
+    title: 'ÉLECTRONIQUE',
+    subtitle: 'Gadgets & high-tech à prix mini',
+    cta: 'DÉCOUVRIR',
+    slug: 'electronique',
+    gradient: 'from-black/70 via-black/40 to-transparent',
+  },
 ];
 
 /* Secondary nav category links */
