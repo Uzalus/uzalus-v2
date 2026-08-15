@@ -19,10 +19,14 @@ const I18nContext = createContext<I18nContextType>({
 
 function getInitialLocale(): Locale {
   if (typeof window !== 'undefined') {
+    // 1. Check localStorage (user's explicit choice)
     const saved = localStorage.getItem('uzalus-locale') as Locale | null;
     if (saved && ['fr', 'en', 'es', 'ar'].includes(saved)) {
       return saved;
     }
+    // 2. Check browser language — default to French for fr/es/ca/pt/be/ch users,
+    //    otherwise also default to French (primary language of UZALUS)
+    return 'fr';
   }
   return 'fr';
 }

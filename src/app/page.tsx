@@ -83,17 +83,17 @@ function getLocalName(p: { name: string; nameEn?: string; nameEs?: string; nameA
 /*  Data: UZALUS Tools                                                 */
 /* ================================================================== */
 const uzalusTools = [
-  { name: 'PDF → Word', descKey: 'tools.convert', icon: FileText, color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
-  { name: 'Word → PDF', descKey: 'tools.convert', icon: FileText, color: 'text-green-400', bg: 'bg-green-500/10', border: 'border-green-500/20' },
-  { name: 'Compresser PDF', descKey: 'tools.reduce', icon: FileText, color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20' },
-  { name: 'Fusionner PDF', descKey: 'tools.assemble', icon: Scissors, color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20' },
-  { name: 'Diviser PDF', descKey: 'tools.extractPages', icon: Scissors, color: 'text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/20' },
-  { name: 'JPG → PDF', descKey: 'tools.imagesToPdf', icon: ImageIcon, color: 'text-teal-400', bg: 'bg-teal-500/10', border: 'border-teal-500/20' },
-  { name: 'PDF → JPG', descKey: 'tools.pdfToImages', icon: ImageIcon, color: 'text-pink-400', bg: 'bg-pink-500/10', border: 'border-pink-500/20' },
-  { name: 'Traduction', descKey: 'tools.translateText', icon: Languages, color: 'text-cyan-400', bg: 'bg-cyan-500/10', border: 'border-cyan-500/20' },
-  { name: 'MP4 → MP3', descKey: 'tools.extractAudio', icon: Music, color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
-  { name: 'Supprimer arrière-plan', descKey: 'tools.cleanImages', icon: ImageIcon, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
-  { name: 'Générer QR Code', descKey: 'tools.qrCode', icon: QrCode, color: 'text-indigo-400', bg: 'bg-indigo-500/10', border: 'border-indigo-500/20' },
+  { nameKey: 'tools.namePdfToWord', descKey: 'tools.convert', icon: FileText, color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
+  { nameKey: 'tools.nameWordToPdf', descKey: 'tools.convert', icon: FileText, color: 'text-green-400', bg: 'bg-green-500/10', border: 'border-green-500/20' },
+  { nameKey: 'tools.nameCompressPdf', descKey: 'tools.reduce', icon: FileText, color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20' },
+  { nameKey: 'tools.nameMergePdf', descKey: 'tools.assemble', icon: Scissors, color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20' },
+  { nameKey: 'tools.nameSplitPdf', descKey: 'tools.extractPages', icon: Scissors, color: 'text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/20' },
+  { nameKey: 'tools.nameJpgToPdf', descKey: 'tools.imagesToPdf', icon: ImageIcon, color: 'text-teal-400', bg: 'bg-teal-500/10', border: 'border-teal-500/20' },
+  { nameKey: 'tools.namePdfToJpg', descKey: 'tools.pdfToImages', icon: ImageIcon, color: 'text-pink-400', bg: 'bg-pink-500/10', border: 'border-pink-500/20' },
+  { nameKey: 'tools.nameTranslate', descKey: 'tools.translateText', icon: Languages, color: 'text-cyan-400', bg: 'bg-cyan-500/10', border: 'border-cyan-500/20' },
+  { nameKey: 'tools.nameMp4ToMp3', descKey: 'tools.extractAudio', icon: Music, color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
+  { nameKey: 'tools.nameRemoveBg', descKey: 'tools.cleanImages', icon: ImageIcon, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
+  { nameKey: 'tools.nameQrCode', descKey: 'tools.qrCode', icon: QrCode, color: 'text-indigo-400', bg: 'bg-indigo-500/10', border: 'border-indigo-500/20' },
 ];
 
 /* ================================================================== */
@@ -118,58 +118,63 @@ const homeCategories = [
 interface CarouselProduct {
   id: string;
   name: string;
+  nameEn?: string;
+  nameEs?: string;
+  nameAr?: string;
   price: string;
   oldPrice: string | null;
   discount: number | null;
   shipping: string;
+  shippingKey?: string;
   image: string;
   url: string;
   category?: string;
+  catKey?: string;
 }
 
 const autoPartsProducts: CarouselProduct[] = [
-  { id: 'ap1', name: 'Phare LED Avant Universel', price: '24,99 €', oldPrice: '44,99 €', discount: 44, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/8d304e804c8a.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap2', name: 'Kit Embrayage Complet Valeo', price: '89,99 €', oldPrice: '149,99 €', discount: 40, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/50555b3dfd5d.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap3', name: 'Roulement de Roue Conique', price: '12,49 €', oldPrice: null, discount: null, shipping: '+ 3,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/8cddb3376b0f.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap4', name: 'Injecteur Diesel Bosch 4pcs', price: '179,99 €', oldPrice: '289,99 €', discount: 38, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/26f2545dd54b.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap5', name: 'Filtre à Huile Premium', price: '8,99 €', oldPrice: '14,99 €', discount: 40, shipping: '+ 2,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/9b533e2e4a54.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap6', name: 'Plaquette de Frein Avant', price: '34,99 €', oldPrice: '54,99 €', discount: 36, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/3099fef29c12.jpeg', url: '/categorie/auto-moto' },
-  { id: 'ap7', name: 'Amortisseur Arrière Gamme', price: '49,99 €', oldPrice: '79,99 €', discount: 37, shipping: '+ 4,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/86414fb711b8.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap8', name: 'Batterie Voiture 12V 60Ah', price: '69,99 €', oldPrice: '109,99 €', discount: 36, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/d03ca6a5c417.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap9', name: 'Démarreur Auto Universel', price: '119,99 €', oldPrice: '189,99 €', discount: 37, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/aa98aa55d25d.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap10', name: 'Alternateur Puissance 120A', price: '134,99 €', oldPrice: '219,99 €', discount: 39, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/5932d8a5b2a1.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap11', name: 'Joint de Culasse Moteur', price: '18,44 €', oldPrice: null, discount: null, shipping: '+ 3,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/e9cbdf178553.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap12', name: 'Essuie-glace Silicone Pair', price: '14,99 €', oldPrice: '24,99 €', discount: 40, shipping: '+ 2,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/1986e27855dd.jpg', url: '/categorie/auto-moto' },
+  { id: 'ap1', name: 'Phare LED Avant Universel', nameEn: 'Universal LED Headlight', nameEs: 'Faro LED Delantero Universal', nameAr: 'مصباح LED أمامي عالمي', price: '24,99 €', oldPrice: '44,99 €', discount: 44, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/8d304e804c8a.jpg', url: '/categorie/auto-moto' },
+  { id: 'ap2', name: 'Kit Embrayage Complet Valeo', nameEn: 'Complete Clutch Kit Valeo', nameEs: 'Kit de Embrague Completo Valeo', nameAr: 'طقم قابض كامل فاليو', price: '89,99 €', oldPrice: '149,99 €', discount: 40, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/50555b3dfd5d.jpg', url: '/categorie/auto-moto' },
+  { id: 'ap3', name: 'Roulement de Roue Conique', nameEn: 'Tapered Wheel Bearing', nameEs: 'Rodamiento de Rueda Cónico', nameAr: 'محمل عجلة مخروطي', price: '12,49 €', oldPrice: null, discount: null, shipping: '+ 3,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/8cddb3376b0f.jpg', url: '/categorie/auto-moto' },
+  { id: 'ap4', name: 'Injecteur Diesel Bosch 4pcs', nameEn: 'Bosch Diesel Injector 4pcs', nameEs: 'Inyector Diésel Bosch 4pz', nameAr: 'حقن ديزل بوش 4 قطع', price: '179,99 €', oldPrice: '289,99 €', discount: 38, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/26f2545dd54b.jpg', url: '/categorie/auto-moto' },
+  { id: 'ap5', name: 'Filtre à Huile Premium', nameEn: 'Premium Oil Filter', nameEs: 'Filtro de Aceite Premium', nameAr: 'فلتر زيت عالي الجودة', price: '8,99 €', oldPrice: '14,99 €', discount: 40, shipping: '+ 2,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/9b533e2e4a54.jpg', url: '/categorie/auto-moto' },
+  { id: 'ap6', name: 'Plaquette de Frein Avant', nameEn: 'Front Brake Pads', nameEs: 'Pastillas de Freno Delanteras', nameAr: 'وسادات فرامل أمامية', price: '34,99 €', oldPrice: '54,99 €', discount: 36, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/3099fef29c12.jpeg', url: '/categorie/auto-moto' },
+  { id: 'ap7', name: 'Amortisseur Arrière Gamme', nameEn: 'Rear Shock Absorber', nameEs: 'Amortiguador Trasero', nameAr: 'ممتص صدمات خلفي', price: '49,99 €', oldPrice: '79,99 €', discount: 37, shipping: '+ 4,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/86414fb711b8.jpg', url: '/categorie/auto-moto' },
+  { id: 'ap8', name: 'Batterie Voiture 12V 60Ah', nameEn: '12V 60Ah Car Battery', nameEs: 'Batería de Coche 12V 60Ah', nameAr: 'بطارية سيارة 12V 60Ah', price: '69,99 €', oldPrice: '109,99 €', discount: 36, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/d03ca6a5c417.jpg', url: '/categorie/auto-moto' },
+  { id: 'ap9', name: 'Démarreur Auto Universel', nameEn: 'Universal Car Starter', nameEs: 'Motor de Arranque Universal', nameAr: 'مارك سيارة عالمي', price: '119,99 €', oldPrice: '189,99 €', discount: 37, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/aa98aa55d25d.jpg', url: '/categorie/auto-moto' },
+  { id: 'ap10', name: 'Alternateur Puissance 120A', nameEn: '120A Power Alternator', nameEs: 'Alternador 120A', nameAr: 'دينامو 120A', price: '134,99 €', oldPrice: '219,99 €', discount: 39, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/5932d8a5b2a1.jpg', url: '/categorie/auto-moto' },
+  { id: 'ap11', name: 'Joint de Culasse Moteur', nameEn: 'Engine Head Gasket', nameEs: 'Junta de Cabeza de Motor', nameAr: 'جوناس كولة المحرك', price: '18,44 €', oldPrice: null, discount: null, shipping: '+ 3,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/e9cbdf178553.jpg', url: '/categorie/auto-moto' },
+  { id: 'ap12', name: 'Essuie-glace Silicone Pair', nameEn: 'Silicone Wiper Blades (Pair)', nameEs: 'Limpiaparabrisas Silicona (Par)', nameAr: 'مساحات زجاج سيليكون (زوج)', price: '14,99 €', oldPrice: '24,99 €', discount: 40, shipping: '+ 2,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/1986e27855dd.jpg', url: '/categorie/auto-moto' },
 ];
 
 const uzalusBestSellers: CarouselProduct[] = [
-  { id: 'bs1', name: 'Sérum Vitamine C Anti-âge', price: '12,99 €', oldPrice: '29,99 €', discount: 57, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/5c4da9f2def7.jpg', url: '/categorie/parfums-cosmetiques', category: 'PARFUMS & BEAUTÉ' },
-  { id: 'bs2', name: 'Parfum Femme 50ml', price: '18,99 €', oldPrice: '45,99 €', discount: 59, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/ada89db6df3a.jpg', url: '/categorie/parfums-cosmetiques', category: 'PARFUMS & BEAUTÉ' },
-  { id: 'bs3', name: 'Organiseur Maquillage', price: '11,99 €', oldPrice: '24,99 €', discount: 52, shipping: '+ 2,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/f7affe6971ca.jpeg', url: '/categorie/parfums-cosmetiques', category: 'PARFUMS & BEAUTÉ' },
-  { id: 'bs4', name: 'Écouteurs Bluetooth TWS', price: '19,99 €', oldPrice: '39,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/9cba3492c73b.jpg', url: '/categorie/telephones', category: 'HIGH-TECH' },
-  { id: 'bs5', name: 'Chargeur Magnétique 15W', price: '14,99 €', oldPrice: '27,99 €', discount: 46, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=300&h=300&fit=crop', url: '/categorie/telephones', category: 'HIGH-TECH' },
-  { id: 'bs6', name: 'Coque iPhone Premium', price: '8,99 €', oldPrice: '19,99 €', discount: 55, shipping: '+ 1,99 €', image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=300&h=300&fit=crop', url: '/categorie/telephones', category: 'HIGH-TECH' },
-  { id: 'bs7', name: 'Robe Élégante Soie', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=300&h=300&fit=crop', url: '/categorie/mode-femme', category: 'MODE FEMME' },
-  { id: 'bs8', name: 'Sac à Main Cuir', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300&h=300&fit=crop', url: '/categorie/mode-femme', category: 'MODE FEMME' },
-  { id: 'bs9', name: 'Montre Homme Luxe', price: '34,99 €', oldPrice: '69,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop', url: '/categorie/mode-homme', category: 'MODE HOMME' },
-  { id: 'bs10', name: 'Bracelet Homme Acier', price: '9,99 €', oldPrice: '22,99 €', discount: 57, shipping: '+ 1,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/afbfc85420d7.jpg', url: '/categorie/accessoires', category: 'ACCESSOIRES' },
-  { id: 'bs11', name: 'Baskets Sport Femme', price: '32,99 €', oldPrice: '64,99 €', discount: 49, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop', url: '/categorie/chaussures', category: 'CHAUSSURES' },
-  { id: 'bs12', name: 'Haltère Réglable 20kg', price: '39,99 €', oldPrice: '74,99 €', discount: 47, shipping: '+ 4,99 €', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&h=300&fit=crop', url: '/categorie/sport', category: 'SPORT' },
+  { id: 'bs1', name: 'Sérum Vitamine C Anti-âge', nameEn: 'Vitamin C Anti-Aging Serum', nameEs: 'Sérum Vitamina C Anti-arrugas', nameAr: 'سيروم فيتامين سي مضاد للتجاعيد', price: '12,99 €', oldPrice: '29,99 €', discount: 57, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/5c4da9f2def7.jpg', url: '/categorie/parfums-cosmetiques', category: 'PARFUMS & BEAUTÉ', catKey: 'catLabel.parfumsBeaute' },
+  { id: 'bs2', name: 'Parfum Femme 50ml', nameEn: 'Women\'s Perfume 50ml', nameEs: 'Perfume Mujer 50ml', nameAr: 'عطر نسائي 50مل', price: '18,99 €', oldPrice: '45,99 €', discount: 59, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/ada89db6df3a.jpg', url: '/categorie/parfums-cosmetiques', category: 'PARFUMS & BEAUTÉ', catKey: 'catLabel.parfumsBeaute' },
+  { id: 'bs3', name: 'Organiseur Maquillage', nameEn: 'Makeup Organizer', nameEs: 'Organizador de Maquillaje', nameAr: 'منظم مكياج', price: '11,99 €', oldPrice: '24,99 €', discount: 52, shipping: '+ 2,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/f7affe6971ca.jpeg', url: '/categorie/parfums-cosmetiques', category: 'PARFUMS & BEAUTÉ', catKey: 'catLabel.parfumsBeaute' },
+  { id: 'bs4', name: 'Écouteurs Bluetooth TWS', nameEn: 'TWS Bluetooth Earbuds', nameEs: 'Auriculares Bluetooth TWS', nameAr: 'سماعات بلوتوث TWS', price: '19,99 €', oldPrice: '39,99 €', discount: 50, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/9cba3492c73b.jpg', url: '/categorie/telephones', category: 'HIGH-TECH', catKey: 'catLabel.highTech' },
+  { id: 'bs5', name: 'Chargeur Magnétique 15W', nameEn: '15W Magnetic Charger', nameEs: 'Cargador Magnético 15W', nameAr: 'شاحن مغناطيسي 15W', price: '14,99 €', oldPrice: '27,99 €', discount: 46, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=300&h=300&fit=crop', url: '/categorie/telephones', category: 'HIGH-TECH', catKey: 'catLabel.highTech' },
+  { id: 'bs6', name: 'Coque iPhone Premium', nameEn: 'Premium iPhone Case', nameEs: 'Funda iPhone Premium', nameAr: 'كفر آيفون بريميوم', price: '8,99 €', oldPrice: '19,99 €', discount: 55, shipping: '+ 1,99 €', image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=300&h=300&fit=crop', url: '/categorie/telephones', category: 'HIGH-TECH', catKey: 'catLabel.highTech' },
+  { id: 'bs7', name: 'Robe Élégante Soie', nameEn: 'Elegant Silk Dress', nameEs: 'Vestido Elegante de Seda', nameAr: 'فستان حرير أنيق', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=300&h=300&fit=crop', url: '/categorie/mode-femme', category: 'MODE FEMME', catKey: 'catLabel.modeFemme' },
+  { id: 'bs8', name: 'Sac à Main Cuir', nameEn: 'Leather Handbag', nameEs: 'Bolso de Cuero', nameAr: 'حقيبة يد جلدية', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300&h=300&fit=crop', url: '/categorie/mode-femme', category: 'MODE FEMME', catKey: 'catLabel.modeFemme' },
+  { id: 'bs9', name: 'Montre Homme Luxe', nameEn: 'Luxury Men\'s Watch', nameEs: 'Reloj Hombre de Lujo', nameAr: 'ساعة رجالية فاخرة', price: '34,99 €', oldPrice: '69,99 €', discount: 50, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop', url: '/categorie/mode-homme', category: 'MODE HOMME', catKey: 'catLabel.modeHomme' },
+  { id: 'bs10', name: 'Bracelet Homme Acier', nameEn: 'Men\'s Steel Bracelet', nameEs: 'Pulsera Hombre Acero', nameAr: 'سوار رجالي فولاذي', price: '9,99 €', oldPrice: '22,99 €', discount: 57, shipping: '+ 1,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/afbfc85420d7.jpg', url: '/categorie/accessoires', category: 'ACCESSOIRES', catKey: 'catLabel.accessoires' },
+  { id: 'bs11', name: 'Baskets Sport Femme', nameEn: 'Women\'s Sports Sneakers', nameEs: 'Zapatillas Deportivas Mujer', nameAr: 'حذاء رياضي نسائي', price: '32,99 €', oldPrice: '64,99 €', discount: 49, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop', url: '/categorie/chaussures', category: 'CHAUSSURES', catKey: 'catLabel.chaussures' },
+  { id: 'bs12', name: 'Haltère Réglable 20kg', nameEn: 'Adjustable Dumbbell 20kg', nameEs: 'Mancuerna Ajustable 20kg', nameAr: 'دمبل قابل للتعديل 20 كجم', price: '39,99 €', oldPrice: '74,99 €', discount: 47, shipping: '+ 4,99 €', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&h=300&fit=crop', url: '/categorie/sport', category: 'SPORT', catKey: 'catLabel.sport' },
 ];
 
 const promoFlashProducts: CarouselProduct[] = [
-  { id: 'pf1', name: 'Robe Élégante Soie', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=300&h=300&fit=crop', url: '/categorie/mode-femme', category: 'MODE FEMME' },
-  { id: 'pf2', name: 'Sac à Main Cuir', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300&h=300&fit=crop', url: '/categorie/mode-femme', category: 'MODE FEMME' },
-  { id: 'pf3', name: 'Sérum Vitamine C', price: '12,99 €', oldPrice: '29,99 €', discount: 57, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/5c4da9f2def7.jpg', url: '/categorie/parfums-cosmetiques', category: 'SOINS BEAUTÉ' },
-  { id: 'pf4', name: 'Parfum Femme 50ml', price: '18,99 €', oldPrice: '45,99 €', discount: 59, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/ada89db6df3a.jpg', url: '/categorie/parfums-cosmetiques', category: 'SOINS BEAUTÉ' },
-  { id: 'pf5', name: 'Écouteurs Bluetooth TWS', price: '19,99 €', oldPrice: '39,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/9cba3492c73b.jpg', url: '/categorie/telephones', category: 'HIGH-TECH' },
-  { id: 'pf6', name: 'Chargeur Magnétique 15W', price: '14,99 €', oldPrice: '27,99 €', discount: 46, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=300&h=300&fit=crop', url: '/categorie/telephones', category: 'HIGH-TECH' },
-  { id: 'pf7', name: 'Montre Homme Luxe', price: '34,99 €', oldPrice: '69,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop', url: '/categorie/mode-homme', category: 'MODE HOMME' },
-  { id: 'pf8', name: 'Baskets Sport Femme', price: '32,99 €', oldPrice: '64,99 €', discount: 49, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop', url: '/categorie/chaussures', category: 'CHAUSSURES' },
-  { id: 'pf9', name: 'Diffuseur Essentielles', price: '16,99 €', oldPrice: '34,99 €', discount: 51, shipping: '+ 2,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/57b8afc94886.jpg', url: '/categorie/maison', category: 'MAISON' },
-  { id: 'pf10', name: 'Lampe LED Décorative', price: '15,99 €', oldPrice: '29,99 €', discount: 47, shipping: '+ 2,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/71df90dbeb8d.webp', url: '/categorie/maison', category: 'MAISON' },
-  { id: 'pf11', name: 'Haltère Réglable 20kg', price: '39,99 €', oldPrice: '74,99 €', discount: 47, shipping: '+ 4,99 €', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&h=300&fit=crop', url: '/categorie/sport', category: 'SPORT' },
-  { id: 'pf12', name: 'Bracelet Homme Acier', price: '9,99 €', oldPrice: '22,99 €', discount: 57, shipping: '+ 1,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/afbfc85420d7.jpg', url: '/categorie/accessoires', category: 'ACCESSOIRES' },
+  { id: 'pf1', name: 'Robe Élégante Soie', nameEn: 'Elegant Silk Dress', nameEs: 'Vestido Elegante de Seda', nameAr: 'فستان حرير أنيق', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=300&h=300&fit=crop', url: '/categorie/mode-femme', category: 'MODE FEMME', catKey: 'catLabel.modeFemme' },
+  { id: 'pf2', name: 'Sac à Main Cuir', nameEn: 'Leather Handbag', nameEs: 'Bolso de Cuero', nameAr: 'حقيبة يد جلدية', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300&h=300&fit=crop', url: '/categorie/mode-femme', category: 'MODE FEMME', catKey: 'catLabel.modeFemme' },
+  { id: 'pf3', name: 'Sérum Vitamine C', nameEn: 'Vitamin C Serum', nameEs: 'Sérum Vitamina C', nameAr: 'سيروم فيتامين سي', price: '12,99 €', oldPrice: '29,99 €', discount: 57, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/5c4da9f2def7.jpg', url: '/categorie/parfums-cosmetiques', category: 'SOINS BEAUTÉ', catKey: 'catLabel.soinsBeaute' },
+  { id: 'pf4', name: 'Parfum Femme 50ml', nameEn: 'Women\'s Perfume 50ml', nameEs: 'Perfume Mujer 50ml', nameAr: 'عطر نسائي 50مل', price: '18,99 €', oldPrice: '45,99 €', discount: 59, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/ada89db6df3a.jpg', url: '/categorie/parfums-cosmetiques', category: 'SOINS BEAUTÉ', catKey: 'catLabel.soinsBeaute' },
+  { id: 'pf5', name: 'Écouteurs Bluetooth TWS', nameEn: 'TWS Bluetooth Earbuds', nameEs: 'Auriculares Bluetooth TWS', nameAr: 'سماعات بلوتوث TWS', price: '19,99 €', oldPrice: '39,99 €', discount: 50, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/9cba3492c73b.jpg', url: '/categorie/telephones', category: 'HIGH-TECH', catKey: 'catLabel.highTech' },
+  { id: 'pf6', name: 'Chargeur Magnétique 15W', nameEn: '15W Magnetic Charger', nameEs: 'Cargador Magnético 15W', nameAr: 'شاحن مغناطيسي 15W', price: '14,99 €', oldPrice: '27,99 €', discount: 46, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=300&h=300&fit=crop', url: '/categorie/telephones', category: 'HIGH-TECH', catKey: 'catLabel.highTech' },
+  { id: 'pf7', name: 'Montre Homme Luxe', nameEn: 'Luxury Men\'s Watch', nameEs: 'Reloj Hombre de Lujo', nameAr: 'ساعة رجالية فاخرة', price: '34,99 €', oldPrice: '69,99 €', discount: 50, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop', url: '/categorie/mode-homme', category: 'MODE HOMME', catKey: 'catLabel.modeHomme' },
+  { id: 'pf8', name: 'Baskets Sport Femme', nameEn: 'Women\'s Sports Sneakers', nameEs: 'Zapatillas Deportivas Mujer', nameAr: 'حذاء رياضي نسائي', price: '32,99 €', oldPrice: '64,99 €', discount: 49, shipping: 'Livraison gratuite', shippingKey: 'detail.freeShipping', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop', url: '/categorie/chaussures', category: 'CHAUSSURES', catKey: 'catLabel.chaussures' },
+  { id: 'pf9', name: 'Diffuseur Essentielles', nameEn: 'Essential Oil Diffuser', nameEs: 'Difusor de Aceites Esenciales', nameAr: 'ناشر زيوت عطرية', price: '16,99 €', oldPrice: '34,99 €', discount: 51, shipping: '+ 2,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/57b8afc94886.jpg', url: '/categorie/maison', category: 'MAISON', catKey: 'catLabel.maison' },
+  { id: 'pf10', name: 'Lampe LED Décorative', nameEn: 'Decorative LED Lamp', nameEs: 'Lámpara LED Decorativa', nameAr: 'مصباح LED ديكوري', price: '15,99 €', oldPrice: '29,99 €', discount: 47, shipping: '+ 2,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/71df90dbeb8d.webp', url: '/categorie/maison', category: 'MAISON', catKey: 'catLabel.maison' },
+  { id: 'pf11', name: 'Haltère Réglable 20kg', nameEn: 'Adjustable Dumbbell 20kg', nameEs: 'Mancuerna Ajustable 20kg', nameAr: 'دمبل قابل للتعديل 20 كجم', price: '39,99 €', oldPrice: '74,99 €', discount: 47, shipping: '+ 4,99 €', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&h=300&fit=crop', url: '/categorie/sport', category: 'SPORT', catKey: 'catLabel.sport' },
+  { id: 'pf12', name: 'Bracelet Homme Acier', nameEn: 'Men\'s Steel Bracelet', nameEs: 'Pulsera Hombre Acero', nameAr: 'سوار رجالي فولاذي', price: '9,99 €', oldPrice: '22,99 €', discount: 57, shipping: '+ 1,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/afbfc85420d7.jpg', url: '/categorie/accessoires', category: 'ACCESSOIRES', catKey: 'catLabel.accessoires' },
 ];
 
 /* Hero banner slides — auto-rotating carousel */
@@ -177,99 +182,88 @@ const heroBanners = [
   {
     id: 1,
     image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1400&h=500&fit=crop&q=80',
-    title: 'MODE FEMME',
-    subtitle: 'Nouvelles collections tendances',
-    cta: 'DÉCOUVRIR',
+    titleKey: 'banner.modeFemmeTitle',
+    subKey: 'banner.modeFemmeSub',
     slug: 'mode-femme',
     gradient: 'from-black/70 via-black/40 to-transparent',
   },
   {
     id: 2,
     image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/f2b721c82f06.jpg',
-    title: 'AUTO & MOTO',
-    subtitle: 'Pièces détachées & accessoires',
-    cta: 'DÉCOUVRIR',
+    titleKey: 'banner.autoMotoTitle',
+    subKey: 'banner.autoMotoSub',
     slug: 'auto-moto',
     gradient: 'from-black/70 via-black/40 to-transparent',
   },
   {
     id: 3,
     image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=1400&h=500&fit=crop&q=80',
-    title: 'PARFUMS & COSMÉTIQUES',
-    subtitle: 'Les meilleures marques à prix mini',
-    cta: 'DÉCOUVRIR',
+    titleKey: 'banner.parfumsTitle',
+    subKey: 'banner.parfumsSub',
     slug: 'parfums-cosmetiques',
     gradient: 'from-black/70 via-black/40 to-transparent',
   },
   {
     id: 4,
     image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=1400&h=500&fit=crop&q=80',
-    title: 'TÉLÉPHONES & HIGH-TECH',
-    subtitle: 'Smartphones, écouteurs, accessoires',
-    cta: 'DÉCOUVRIR',
+    titleKey: 'banner.phonesTitle',
+    subKey: 'banner.phonesSub',
     slug: 'telephones',
     gradient: 'from-black/70 via-black/40 to-transparent',
   },
   {
     id: 5,
     image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/c9847eddf48c.jpg',
-    title: 'MAISON & DÉCO',
-    subtitle: 'Amezangez votre espace de vie',
-    cta: 'DÉCOUVRIR',
+    titleKey: 'banner.maisonTitle',
+    subKey: 'banner.maisonSub',
     slug: 'maison',
     gradient: 'from-black/70 via-black/40 to-transparent',
   },
   {
     id: 6,
     image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b61836580cc0.jpg',
-    title: 'SPORT & FITNESS',
-    subtitle: 'Équipez-vous pour performer',
-    cta: 'DÉCOUVRIR',
+    titleKey: 'banner.sportTitle',
+    subKey: 'banner.sportSub',
     slug: 'sport',
     gradient: 'from-black/70 via-black/40 to-transparent',
   },
   {
     id: 7,
     image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/208981e1bfa6.jpg',
-    title: 'MODE HOMME',
-    subtitle: 'Style & élégance au masculin',
-    cta: 'DÉCOUVRIR',
+    titleKey: 'banner.modeHommeTitle',
+    subKey: 'banner.modeHommeSub',
     slug: 'mode-homme',
     gradient: 'from-black/70 via-black/40 to-transparent',
   },
   {
     id: 8,
     image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/91598a772487.jpg',
-    title: 'BÉBÉ & ENFANT',
-    subtitle: 'Tout pour les petits',
-    cta: 'DÉCOUVRIR',
+    titleKey: 'banner.bebeTitle',
+    subKey: 'banner.bebeSub',
     slug: 'bebe-enfant',
     gradient: 'from-black/70 via-black/40 to-transparent',
   },
   {
     id: 10,
     image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/dd6b265b892d.jpg',
-    title: 'CHAUSSURES DE SPORT',
-    subtitle: 'Nike, Adidas, Puma & plus',
-    cta: 'DÉCOUVRIR',
+    titleKey: 'banner.chaussuresTitle',
+    subKey: 'banner.chaussuresSub',
     slug: 'chaussures',
     gradient: 'from-black/70 via-black/40 to-transparent',
   },
   {                                                                                   
     id: 11,
     image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/3ec023da81b0.jpg',
-    title: 'SOINS BEAUTÉ',
-    subtitle: 'Anti-âge, points noirs & soins visage',
-    cta: 'DÉCOUVRIR',
+    titleKey: 'banner.beauteTitle',
+    subKey: 'banner.beauteSub',
     slug: 'parfums-cosmetiques',
     gradient: 'from-black/70 via-black/40 to-transparent',
   },
   {                                                                                   
     id: 12,
     image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/721aaf9e0072.jpeg',
-    title: 'ÉLECTRONIQUE',
-    subtitle: 'Gadgets & high-tech à prix mini',
-    cta: 'DÉCOUVRIR',
+    titleKey: 'banner.electroniqueTitle',
+    subKey: 'banner.electroniqueSub',
     slug: 'electronique',
     gradient: 'from-black/70 via-black/40 to-transparent',
   },
@@ -440,13 +434,13 @@ export default function Home() {
                 {/* Rotating text */}
                 <div className="absolute inset-0 flex items-center z-20">
                   <div className="px-5 sm:px-8 lg:px-10 w-full">
-                    <p className="text-white/70 text-xs sm:text-sm mb-1 sm:mb-2 tracking-widest uppercase transition-all duration-500">{heroBanners[bannerIndex].subtitle}</p>
-                    <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold gold-text mb-3 sm:mb-4 leading-tight transition-all duration-500">{heroBanners[bannerIndex].title}</h2>
+                    <p className="text-white/70 text-xs sm:text-sm mb-1 sm:mb-2 tracking-widest uppercase transition-all duration-500">{t(heroBanners[bannerIndex].subKey)}</p>
+                    <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold gold-text mb-3 sm:mb-4 leading-tight transition-all duration-500">{t(heroBanners[bannerIndex].titleKey)}</h2>
                     <button
                       onClick={() => router.push('/categorie/' + heroBanners[bannerIndex].slug)}
                       className="gold-btn px-5 sm:px-6 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm font-bold tracking-wider uppercase"
                     >
-                      {heroBanners[bannerIndex].cta}
+                      {t('banner.discover')}
                     </button>
                   </div>
                 </div>
@@ -494,13 +488,13 @@ export default function Home() {
                   <Flame size={18} className="text-red-400" />
                 </div>
                 <div>
-                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">PROMOTIONS <span className="text-red-400">FLASH</span></h2>
-                  <p className="text-[11px] text-muted-foreground">Offres limitées — Prix cassés</p>
+                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">{t('home.promoFlash')}</h2>
+                  <p className="text-[11px] text-muted-foreground">{t('home.promoFlashSub')}</p>
                 </div>
               </div>
               <button onClick={() => router.push('/categories')}
                 className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
-                Toutes les promos <ArrowRight size={12} />
+                {t('home.allPromos')} <ArrowRight size={12} />
               </button>
             </div>
 
@@ -523,7 +517,7 @@ export default function Home() {
                     />
                     {/* Category badge — top left */}
                     <span className="absolute top-1.5 left-1.5 bg-gold text-noir text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded leading-tight">
-                      {p.category}
+                      {p.catKey ? t(p.catKey) : p.category}
                     </span>
                     {/* Discount badge — top right */}
                     {p.discount && (
@@ -534,7 +528,7 @@ export default function Home() {
                   </div>
                   {/* Info */}
                   <div className="p-2 sm:p-2.5">
-                    <p className="text-[10px] sm:text-[11px] text-foreground/70 leading-tight line-clamp-2 mb-1.5 min-h-[24px] sm:min-h-[28px] group-hover:text-gold transition-colors">{p.name}</p>
+                    <p className="text-[10px] sm:text-[11px] text-foreground/70 leading-tight line-clamp-2 mb-1.5 min-h-[24px] sm:min-h-[28px] group-hover:text-gold transition-colors">{getLocalName(p, locale)}</p>
                     <div className="flex items-end justify-between gap-1">
                       <div className="flex items-baseline gap-1">
                         <span className="text-xs sm:text-sm font-bold text-gold">{p.price}</span>
@@ -561,13 +555,13 @@ export default function Home() {
                 <Wrench size={24} className="text-gold" />
                 <div>
                   <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold gold-text">
-                    UZALUS TOOLS
+                    {t('home.uzalusTools')}
                   </h2>
-                  <p className="text-xs text-muted-foreground mt-1">Des outils gratuits et puissants</p>
+                  <p className="text-xs text-muted-foreground mt-1">{t('home.toolsSub')}</p>
                 </div>
               </div>
               <button onClick={() => router.push('/tools')} className="text-sm text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
-                Voir tous les outils <ArrowRight size={14} />
+                {t('home.seeAllTools')} <ArrowRight size={14} />
               </button>
             </div>
 
@@ -577,7 +571,7 @@ export default function Home() {
                 const Icon = tool.icon;
                 return (
                   <button
-                    key={tool.name}
+                    key={tool.nameKey}
                     onClick={() => router.push('/tools')}
                     className="group flex flex-col items-center p-4 rounded-xl bg-noir-card border border-border hover:border-gold/30 transition-all duration-300 hover:-translate-y-1"
                   >
@@ -585,7 +579,7 @@ export default function Home() {
                       <Icon size={20} className={tool.color} />
                     </div>
                     <span className="text-xs font-semibold text-foreground/90 text-center leading-tight">
-                      {tool.name}
+                      {t(tool.nameKey)}
                     </span>
                     <span className="text-[10px] text-muted-foreground mt-0.5">
                       {t(tool.descKey)}
@@ -606,19 +600,19 @@ export default function Home() {
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pb-4 border-b border-border mb-4">
               <div className="flex items-center gap-2">
                 <Truck size={16} className="text-gold shrink-0" />
-                <span className="text-[11px] text-foreground/60">Livraison rapide en Europe</span>
+                <span className="text-[11px] text-foreground/60">{t('trust.fastDelivery')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Shield size={16} className="text-gold shrink-0" />
-                <span className="text-[11px] text-foreground/60">Paiement 100% sécurisé</span>
+                <span className="text-[11px] text-foreground/60">{t('trust.securePay')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <RotateCcw size={16} className="text-gold shrink-0" />
-                <span className="text-[11px] text-foreground/60">Retour facile sous 14 jours</span>
+                <span className="text-[11px] text-foreground/60">{t('trust.easyReturn')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Package size={16} className="text-gold shrink-0" />
-                <span className="text-[11px] text-foreground/60">+100 000 produits disponibles</span>
+                <span className="text-[11px] text-foreground/60">{t('trust.manyProducts')}</span>
               </div>
             </div>
 
@@ -632,10 +626,10 @@ export default function Home() {
                   <ShoppingBag size={22} className="text-gold" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-sm font-bold text-foreground mb-0.5">BOUTIQUE</h3>
-                  <p className="text-xs text-muted-foreground truncate">Des milliers de produits pour vous</p>
+                  <h3 className="text-sm font-bold text-foreground mb-0.5">{t('home.boutique')}</h3>
+                  <p className="text-xs text-muted-foreground truncate">{t('home.boutiqueDesc')}</p>
                   <span className="text-xs text-gold font-semibold mt-1 inline-flex items-center gap-1">
-                    Découvrir <ArrowRight size={12} />
+                    {t('home.discover')} <ArrowRight size={12} />
                   </span>
                 </div>
               </button>
@@ -649,10 +643,10 @@ export default function Home() {
                   <Car size={22} className="text-blue-400" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-sm font-bold text-foreground mb-0.5">AUTO & MOTO</h3>
-                  <p className="text-xs text-muted-foreground truncate">Trouvez la pièce compatible</p>
+                  <h3 className="text-sm font-bold text-foreground mb-0.5">{t('home.autoMoto')}</h3>
+                  <p className="text-xs text-muted-foreground truncate">{t('home.autoMotoDesc')}</p>
                   <span className="text-xs text-gold font-semibold mt-1 inline-flex items-center gap-1">
-                    Rechercher <ArrowRight size={12} />
+                    {t('home.search')} <ArrowRight size={12} />
                   </span>
                 </div>
               </button>
@@ -666,10 +660,10 @@ export default function Home() {
                   <Wrench size={22} className="text-teal-400" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-sm font-bold text-foreground mb-0.5">UZALUS TOOLS</h3>
-                  <p className="text-xs text-muted-foreground truncate">Outils gratuits pour simplifier votre quotidien</p>
+                  <h3 className="text-sm font-bold text-foreground mb-0.5">{t('home.toolsCard')}</h3>
+                  <p className="text-xs text-muted-foreground truncate">{t('home.toolsCardDesc')}</p>
                   <span className="text-xs text-gold font-semibold mt-1 inline-flex items-center gap-1">
-                    Utiliser <ArrowRight size={12} />
+                    {t('home.use')} <ArrowRight size={12} />
                   </span>
                 </div>
               </button>
@@ -683,10 +677,10 @@ export default function Home() {
                   <Flame size={22} className="text-orange-400" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="text-sm font-bold text-foreground mb-0.5">TENDANCES</h3>
-                  <p className="text-xs text-muted-foreground truncate">Les produits tendance du moment</p>
+                  <h3 className="text-sm font-bold text-foreground mb-0.5">{t('home.tendancesCard')}</h3>
+                  <p className="text-xs text-muted-foreground truncate">{t('home.tendancesCardDesc')}</p>
                   <span className="text-xs text-gold font-semibold mt-1 inline-flex items-center gap-1">
-                    Voir les tendances <ArrowRight size={12} />
+                    {t('home.seeTrends')} <ArrowRight size={12} />
                   </span>
                 </div>
               </button>
@@ -695,7 +689,7 @@ export default function Home() {
         </section>
 
         {/* ----------------------------------------------------------- */}
-        {/*  TENDANCES DU JOUR — Horizontal scrollable products          */}
+        {/*  {t('home.tendances')} — Horizontal scrollable products          */}
         {/* ----------------------------------------------------------- */}
         <section id="tendances" className="py-1 bg-noir-light/30">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -704,14 +698,14 @@ export default function Home() {
               <div className="flex items-center gap-3">
                 <Flame size={24} className="text-orange-400" />
                 <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold gold-text">
-                  TENDANCES DU JOUR
+                  {t('home.tendances')}
                 </h2>
               </div>
               <button
                 onClick={() => document.getElementById('categories')?.scrollIntoView({ behavior: 'smooth' })}
                 className="text-sm text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors"
               >
-                Voir tout <ArrowRight size={14} />
+                {t('home.seeAll')} <ArrowRight size={14} />
               </button>
             </div>
 
@@ -775,13 +769,13 @@ export default function Home() {
                   <Car size={18} className="text-gold" />
                 </div>
                 <div>
-                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">Automobile & <span className="gold-text">Moto</span></h2>
-                  <p className="text-[11px] text-muted-foreground">Prix imbattables — Livraison en Europe</p>
+                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">{t('home.autoTitle')}</h2>
+                  <p className="text-[11px] text-muted-foreground">{t('home.autoSub')}</p>
                 </div>
               </div>
               <button onClick={() => router.push('/categories')}
                 className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
-                Voir tout <ArrowRight size={12} />
+                {t('home.seeAll')} <ArrowRight size={12} />
               </button>
             </div>
 
@@ -809,7 +803,7 @@ export default function Home() {
                     </div>
                     {/* Info */}
                     <div className="p-2.5">
-                      <p className="text-[11px] text-foreground/70 leading-tight line-clamp-2 mb-2 min-h-[28px]">{p.name}</p>
+                      <p className="text-[11px] text-foreground/70 leading-tight line-clamp-2 mb-2 min-h-[28px]">{getLocalName(p, locale)}</p>
                       <div className="flex items-end justify-between">
                         <div>
                           {p.oldPrice && (
@@ -817,7 +811,7 @@ export default function Home() {
                           )}
                           <span className="text-sm font-bold text-gold">{p.price}</span>
                         </div>
-                        <span className="text-[10px] text-emerald-400">{p.shipping}</span>
+                        <span className="text-[10px] text-emerald-400">{p.shippingKey ? t(p.shippingKey) : p.shipping}</span>
                       </div>
                     </div>
                   </div>
@@ -849,13 +843,13 @@ export default function Home() {
                   <Package size={18} className="text-gold" />
                 </div>
                 <div>
-                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">MEILLEURES <span className="gold-text">VENTES</span></h2>
-                  <p className="text-[11px] text-muted-foreground">Toutes catégories — Prix imbattables</p>
+                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">{t('home.bestSellers')}</h2>
+                  <p className="text-[11px] text-muted-foreground">{t('home.bestSellersSub')}</p>
                 </div>
               </div>
               <button onClick={() => router.push('/categories')}
                 className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
-                Voir tout <ArrowRight size={12} />
+                {t('home.seeAll')} <ArrowRight size={12} />
               </button>
             </div>
 
@@ -869,19 +863,19 @@ export default function Home() {
                   <div className="relative aspect-square bg-white/5 flex items-center justify-center overflow-hidden">
                     <img
                       src={p.image}
-                      alt={p.name}
+                      alt={getLocalName(p, locale)}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                     />
                     {p.category && (
-                      <span className="absolute top-2 left-2 bg-gold text-noir text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded leading-tight">{p.category}</span>
+                      <span className="absolute top-2 left-2 bg-gold text-noir text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded leading-tight">{p.catKey ? t(p.catKey) : p.category}</span>
                     )}
                     {p.discount && (
                       <span className="absolute top-2 right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">-{p.discount}%</span>
                     )}
                   </div>
                   <div className="p-2.5">
-                    <p className="text-[11px] text-foreground/70 leading-tight line-clamp-2 mb-2 min-h-[28px]">{p.name}</p>
+                    <p className="text-[11px] text-foreground/70 leading-tight line-clamp-2 mb-2 min-h-[28px]">{getLocalName(p, locale)}</p>
                     <div className="flex items-end justify-between">
                       <div>
                         {p.oldPrice && (
@@ -889,7 +883,7 @@ export default function Home() {
                         )}
                         <span className="text-sm font-bold text-gold">{p.price}</span>
                       </div>
-                      <span className="text-[10px] text-emerald-400">{p.shipping}</span>
+                      <span className="text-[10px] text-emerald-400">{p.shippingKey ? t(p.shippingKey) : p.shipping}</span>
                     </div>
                   </div>
                 </div>

@@ -49,3 +49,33 @@ Stage Summary:
 - PROMOTIONS FLASH section: compact horizontal scroll with small photos, category badges, discount badges
 - MEILLEURES VENTES section: 6-col grid with category + discount badges
 - Need GitHub token to deploy
+
+---
+Task ID: 2
+Agent: Super Z (main)
+Task: Fix product translation bug + make French the primary default language
+
+Work Log:
+- Investigated the full i18n system: custom client-side React Context in i18n-context.tsx, all translations in i18n.ts (4 languages: fr/en/es/ar, ~2575 lines)
+- Confirmed default locale IS 'fr' in code — user saw Spanish because localStorage had 'es' saved from previous testing
+- Identified ~50+ hardcoded French strings in page.tsx that bypassed the i18n system
+- Replaced ALL hardcoded French section headers with t() calls (home.*, trust.*, banner.* keys)
+- Converted heroBanners array from hardcoded title/subtitle/cta to titleKey/subKey (uses banner.* translation keys)
+- Added multilingual product names (nameEn, nameEs, nameAr) to all 36 products in autoPartsProducts, uzalusBestSellers, promoFlashProducts
+- Added catKey and shippingKey fields to CarouselProduct interface and all product data
+- Updated all 3 product rendering sections to use getLocalName(p, locale) for names, t(p.catKey) for categories, t(p.shippingKey) for shipping
+- Added 11 tool name translation keys (tools.namePdfToWord etc.) to all 4 languages in i18n.ts
+- Updated uzalusTools array to use nameKey instead of hardcoded French names
+- Updated tool rendering to use t(tool.nameKey)
+- Fixed unescaped apostrophes (Women's → Women\'s, Men's → Men\'s)
+- Verified navbar already has Tools + Catégories buttons (added in previous session)
+- Build: SUCCESS, Deploy: SUCCESS to Vercel
+
+Stage Summary:
+- All visible text on homepage now translates correctly when switching languages
+- Product names translate in FR/EN/ES/AR for all 3 product sections + trending
+- Section headers (Promotions Flash, Tendances, Meilleures Ventes, Auto & Moto, Tools) all translate
+- Trust badges, feature cards, hero banners all translate
+- Category badges on products translate (PARFUMS & BEAUTÉ → FRAGRANCES & BEAUTY etc.)
+- Shipping text 'Livraison gratuite' translates to 'Free shipping' / 'Envío gratis' / 'شحن مجاني'
+- French remains the default locale for all new visitors
