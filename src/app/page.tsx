@@ -410,54 +410,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/*  AUTO & MOTO — Vehicle part finder banner (compact)             */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-[#0a0e27] via-[#0f172a] to-noir">
-          <div className="absolute top-0 start-0 w-[300px] h-[200px] bg-gold/5 rounded-full blur-[120px]" />
-
-          <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              {/* Left — Icon + Title */}
-              <div className="flex items-center gap-3 shrink-0">
-                <div className="w-10 h-10 rounded-xl bg-gold/10 flex items-center justify-center">
-                  <Car size={20} className="text-gold" />
-                </div>
-                <div>
-                  <h2 className="font-display text-base sm:text-lg font-bold text-white leading-tight">
-                    Auto & Moto — <span className="gold-text">Pièces détachées</span>
-                  </h2>
-                  <p className="text-foreground/40 text-xs">Trouvez la pièce compatible avec votre véhicule</p>
-                </div>
-              </div>
-
-              {/* Right — Compact selects + button */}
-              <div className="flex flex-wrap items-center gap-2 sm:ml-auto">
-                <select className="bg-white/10 border border-white/10 text-white/80 rounded-lg px-3 py-2 text-xs outline-none focus:border-gold/40 transition-colors">
-                  <option>Marque</option>
-                  <option>BMW</option>
-                  <option>Mercedes-Benz</option>
-                  <option>Audi</option>
-                  <option>Volkswagen</option>
-                  <option>Peugeot</option>
-                  <option>Renault</option>
-                  <option>Toyota</option>
-                </select>
-                <select className="bg-white/10 border border-white/10 text-white/80 rounded-lg px-3 py-2 text-xs outline-none focus:border-gold/40 transition-colors">
-                  <option>Modèle</option>
-                </select>
-                <select className="bg-white/10 border border-white/10 text-white/80 rounded-lg px-3 py-2 text-xs outline-none focus:border-gold/40 transition-colors">
-                  <option>Année</option>
-                </select>
-                <select className="bg-white/10 border border-white/10 text-white/80 rounded-lg px-3 py-2 text-xs outline-none focus:border-gold/40 transition-colors">
-                  <option>Motorisation</option>
-                </select>
-                <button className="gold-btn px-4 py-2 rounded-lg text-xs font-bold tracking-wider uppercase">
-                  Rechercher
-                </button>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  HERO SECTION                                               */}
