@@ -147,7 +147,7 @@ const heroBanners = [
   },
   {
     id: 2,
-    image: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=1400&h=500&fit=crop&q=80',
+    image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/f2b721c82f06.jpg',
     title: 'AUTO & MOTO',
     subtitle: 'Pièces détachées & accessoires',
     cta: 'DÉCOUVRIR',
