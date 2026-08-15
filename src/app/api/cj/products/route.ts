@@ -1,3 +1,6 @@
+// Allow Vercel to wait up to 30s for CJ API response
+export const maxDuration = 30;
+
 import { NextRequest, NextResponse } from 'next/server';
 import { CJDropshippingAPI, UZALUS_TO_CJ_CATEGORIES } from '@/lib/cj-api';
 

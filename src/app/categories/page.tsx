@@ -1,7 +1,7 @@
 /* Toutes les categories — dark/gold theme, CJ real products */
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useI18n } from '@/lib/i18n-context';
 import { shopCategoriesData } from '@/lib/shop-data';
@@ -137,53 +137,100 @@ export default function CategoriesPage() {
   const [productsError, setProductsError] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
-  const [page, setPage] = useState(1);
 
-  /* Fetch category images */
-  useEffect(() => {
-    async function fetchImages() {
-      setCatLoading(true);
-      const images: Record<string, string> = {};
-      const promises = ALL_CATS.map(async (cat) => {
-        try {
-          const res = await fetch('/api/cj/products?category=' + cat.slug + '&pageSize=1&page=1');
-          const data = await res.json();
-          if (data.success && data.products && data.products.length > 0) {
-            images[cat.slug] = data.products[0].productImage;
-          }
-        } catch { /* fallback */ }
-      });
-      await Promise.all(promises);
-      setCatImages(images);
-      setCatLoading(false);
-    }
-    fetchImages();
-  }, []);
-
-  /* Sort cycle for load more */
+  const pageRef = useRef(1);
   const SORT_CYCLE = ['salesVolume', 'newArrival', 'priceAsc', 'priceDesc'];
 
-  /* Fetch products */
-  const fetchProducts = useCallback(async (resetPage = true) => {
+  /* Helper: fetch with timeout */
+  const fetchWithTimeout = async (url: string, timeoutMs = 25000): Promise<Response> => {
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      const res = await fetch(url, { signal: controller.signal });
+      return res;
+    } finally {
+      clearTimeout(id);
+    }
+  };
+
+  /* Fetch category images first, then products */
+  useEffect(() => {
+    let cancelled = false;
+    async function loadAll() {
+      /* Step 1: fetch category images (batched in groups of 6) */
+      setCatLoading(true);
+      const images: Record<string, string> = {};
+      for (let i = 0; i < ALL_CATS.length; i += 6) {
+        const batch = ALL_CATS.slice(i, i + 6);
+        await Promise.all(batch.map(async (cat) => {
+          try {
+            const res = await fetchWithTimeout('/api/cj/products?category=' + cat.slug + '&pageSize=1&page=1', 15000);
+            const data = await res.json();
+            if (data.success && data.products?.length > 0 && !cancelled) {
+              images[cat.slug] = data.products[0].productImage;
+            }
+          } catch { /* fallback */ }
+        }));
+      }
+      if (cancelled) return;
+      setCatImages(images);
+      setCatLoading(false);
+
+      /* Step 2: now fetch popular products (after category images are done) */
+      await fetchProductsBatch(true);
+    }
+    loadAll();
+    return () => { cancelled = true; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /* Fetch products with fallback pageSize */
+  const fetchProductsBatch = async (resetPage = true) => {
     if (resetPage) {
       setProductsLoading(true);
+      setProductsError(false);
       setProducts([]);
-      setPage(1);
+      pageRef.current = 1;
     } else {
       setLoadingMore(true);
     }
-    try {
-      const currentPage = resetPage ? 1 : page + 1;
-      const sortIndex = resetPage ? 0 : (page % SORT_CYCLE.length);
-      const sortType = SORT_CYCLE[sortIndex];
-      const res = await fetch('/api/cj/products?category=mode-femme&pageSize=100&page=' + currentPage + '&sortType=' + sortType);
-      const data = await res.json();
-      if (data.success) {
-        const newProds = data.products || [];
+
+    const currentPage = resetPage ? 1 : pageRef.current + 1;
+    const sortIndex = resetPage ? 0 : ((pageRef.current - 1) % SORT_CYCLE.length);
+    const sortType = SORT_CYCLE[sortIndex];
+
+    /* Try with pageSize=60 first, fallback to 20 if it fails */
+    for (const pageSize of [60, 20]) {
+      try {
+        const url = '/api/cj/products?category=mode-femme&pageSize=' + pageSize + '&page=' + currentPage + '&sortType=' + sortType;
+        console.log('[categories] Fetching:', { pageSize, currentPage, sortType });
+        const res = await fetchWithTimeout(url, 25000);
+        if (!res.ok) {
+          console.error('[categories] HTTP', res.status);
+          continue; // try smaller pageSize
+        }
+        const data = await res.json();
+        if (!data.success) {
+          console.error('[categories] API error:', data.error);
+          continue;
+        }
+        const newProds: CJProduct[] = (data.products || []).map((p: Record<string, unknown>) => ({
+          pid: String(p.pid || ''),
+          productName: String(p.productNameEn || p.productName || ''),
+          productNameEn: p.productNameEn ? String(p.productNameEn) : undefined,
+          productImage: String(p.productImage || ''),
+          sellPrice: Number(p.sellPrice) || 0,
+          originalPrice: p.originalPrice ? Number(p.originalPrice) : undefined,
+          rating: p.rating ? Number(p.rating) : undefined,
+          commentCount: p.commentCount ? Number(p.commentCount) : undefined,
+        }));
+        console.log('[categories] Got', newProds.length, 'products');
+
         if (resetPage) {
           setProducts(newProds);
-          setHasMore(true);
+          setHasMore(newProds.length >= 40);
           setProductsError(false);
+          setProductsLoading(false);
         } else {
           setProducts(prev => {
             const ids = new Set(prev.map((p: CJProduct) => p.pid));
@@ -191,21 +238,21 @@ export default function CategoriesPage() {
             if (unique.length === 0 && prev.length > 0) setHasMore(false);
             return [...prev, ...unique];
           });
+          pageRef.current = currentPage;
+          setLoadingMore(false);
         }
-        if (!resetPage) setPage(currentPage);
-      } else {
-        if (resetPage) setProductsError(true);
+        return; // success, exit the loop
+      } catch (err) {
+        console.error('[categories] Fetch error (pageSize=' + pageSize + '):', err);
+        // try next smaller pageSize
       }
-    } catch {
-      if (resetPage) setProductsError(true);
     }
-    finally {
-      if (resetPage) setProductsLoading(false);
-      else setLoadingMore(false);
-    }
-  }, [page]);
+    /* All attempts failed */
+    if (resetPage) setProductsError(true);
+    if (resetPage) setProductsLoading(false);
+    else setLoadingMore(false);
+  };
 
-  useEffect(() => { fetchProducts(true); }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-noir">
@@ -308,7 +355,7 @@ export default function CategoriesPage() {
           {!productsLoading && productsError && (
             <div className="flex flex-col items-center justify-center py-16 text-center">
               <p className="text-muted-foreground mb-4">Erreur de chargement des produits</p>
-              <button onClick={() => fetchProducts(true)} className="px-6 py-2.5 bg-gold text-noir text-sm font-bold rounded-xl hover:bg-gold-light transition-colors">
+              <button onClick={() => fetchProductsBatch(true)} className="px-6 py-2.5 bg-gold text-noir text-sm font-bold rounded-xl hover:bg-gold-light transition-colors">
                 Reessayer
               </button>
             </div>
@@ -322,7 +369,7 @@ export default function CategoriesPage() {
               {hasMore && products.length > 0 && (
                 <div className="flex justify-center mt-10">
                   <button
-                    onClick={() => fetchProducts(false)}
+                    onClick={() => fetchProductsBatch(false)}
                     disabled={loadingMore}
                     className="flex items-center gap-2 px-8 py-3 border-2 border-gold/50 text-sm font-semibold text-gold rounded-xl hover:bg-gold hover:text-noir transition-colors disabled:opacity-50"
                   >
