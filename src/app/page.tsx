@@ -47,7 +47,7 @@ function AdSenseBlock({ className = '' }: { className?: string }) {
   }, []);
 
   return (
-    <div className={`my-8 max-w-4xl mx-auto ${className}`}>
+    <div className={`my-2 max-w-4xl mx-auto ${className}`}>
       <ins
         className="adsbygoogle"
         style={{ display: 'block' }}
@@ -707,7 +707,7 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  TENDANCES DU JOUR — Horizontal scrollable products          */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section id="tendances" className="py-3 bg-noir-light/30">
+        <section id="tendances" className="py-1 bg-noir-light/30">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
             <div className="flex items-center justify-between mb-3">
@@ -770,64 +770,21 @@ export default function Home() {
           </div>
         </section>
 
-        {/* AdSense #1 */}
-        <AdSenseBlock />
 
-
-        {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  TRUST BAR — 4 features                                       */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="py-12 lg:py-14 bg-noir-light/30">
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="flex items-center gap-3">
-                <Truck size={24} className="text-gold shrink-0" />
-                <div>
-                  <h3 className="text-sm font-bold text-foreground">LIVRAISON RAPIDE</h3>
-                  <p className="text-xs text-muted-foreground">Partout en Europe</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <Shield size={24} className="text-gold shrink-0" />
-                <div>
-                  <h3 className="text-sm font-bold text-foreground">PAIEMENT 100% SÉCURISÉ</h3>
-                  <p className="text-xs text-muted-foreground">CB, PayPal, et plus</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <RotateCcw size={24} className="text-gold shrink-0" />
-                <div>
-                  <h3 className="text-sm font-bold text-foreground">RETOUR FACILE</h3>
-                  <p className="text-xs text-muted-foreground">Sous 14 jours</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <Headset size={24} className="text-gold shrink-0" />
-                <div>
-                  <h3 className="text-sm font-bold text-foreground">SUPPORT 7/7</h3>
-                  <p className="text-xs text-muted-foreground">À votre écoute</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* AdSense #2 */}
-        <AdSenseBlock />
 
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  PROMOTIONAL FOOTER BAND — 4 columns                        */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <section id="promotions" className="bg-gradient-to-br from-[#0f172a] via-noir to-noir">
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-14 lg:py-16">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Nouveautés */}
               <div className="group">
-                <div className="flex items-center gap-3 mb-3">
-                  <Smartphone size={22} className="text-gold" />
-                  <h3 className="font-display text-base font-bold text-white">NOUVEAUTÉS</h3>
+                <div className="flex items-center gap-2 mb-1">
+                  <Smartphone size={16} className="text-gold" />
+                  <h3 className="font-display text-xs font-bold text-white">NOUVEAUTÉS</h3>
                 </div>
-                <p className="text-xs text-foreground/50 mb-3 leading-relaxed">
+                <p className="text-[10px] text-foreground/50 mb-1">
                   Découvrez les derniers produits ajoutés à notre catalogue en permanente expansion.
                 </p>
                 <button
@@ -840,11 +797,11 @@ export default function Home() {
 
               {/* Offres du jour */}
               <div className="group">
-                <div className="flex items-center gap-3 mb-3">
-                  <Gift size={22} className="text-gold" />
-                  <h3 className="font-display text-base font-bold text-white">OFFRES DU JOUR</h3>
+                <div className="flex items-center gap-2 mb-1">
+                  <Gift size={16} className="text-gold" />
+                  <h3 className="font-display text-xs font-bold text-white">OFFRES DU JOUR</h3>
                 </div>
-                <p className="text-xs text-foreground/50 mb-3 leading-relaxed">
+                <p className="text-[10px] text-foreground/50 mb-1">
                   Des réductions chaque jour sur des produits sélectionnés pour vous.
                 </p>
                 <button
@@ -857,11 +814,11 @@ export default function Home() {
 
               {/* Meilleures ventes */}
               <div className="group">
-                <div className="flex items-center gap-3 mb-3">
-                  <Trophy size={22} className="text-gold" />
-                  <h3 className="font-display text-base font-bold text-white">MEILLEURES VENTES</h3>
+                <div className="flex items-center gap-2 mb-1">
+                  <Trophy size={16} className="text-gold" />
+                  <h3 className="font-display text-xs font-bold text-white">MEILLEURES VENTES</h3>
                 </div>
-                <p className="text-xs text-foreground/50 mb-3 leading-relaxed">
+                <p className="text-[10px] text-foreground/50 mb-1">
                   Les produits les plus populaires, choisis par des milliers de clients.
                 </p>
                 <button
@@ -874,11 +831,11 @@ export default function Home() {
 
               {/* UZALUS Essentials */}
               <div className="group">
-                <div className="flex items-center gap-3 mb-3">
-                  <Globe size={22} className="text-gold" />
-                  <h3 className="font-display text-base font-bold text-white">UZALUS ESSENTIALS</h3>
+                <div className="flex items-center gap-2 mb-1">
+                  <Globe size={16} className="text-gold" />
+                  <h3 className="font-display text-xs font-bold text-white">UZALUS ESSENTIALS</h3>
                 </div>
-                <p className="text-xs text-foreground/50 mb-3 leading-relaxed">
+                <p className="text-[10px] text-foreground/50 mb-1">
                   Des services web utiles : outils PDF, convertisseurs, et bien plus.
                 </p>
                 <button
