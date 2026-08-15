@@ -51,7 +51,7 @@ function AdSenseBlock({ className = '' }: { className?: string }) {
       <ins
         className="adsbygoogle"
         style={{ display: 'block' }}
-        data-ad-client="ca-pub-8206165367445755"
+        data-ad-client="ca-pub-4372638722629302"
         data-ad-slot="auto"
         data-ad-format="auto"
         data-full-width-responsive="true"
