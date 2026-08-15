@@ -134,6 +134,21 @@ const autoPartsProducts: CarouselProduct[] = [
   { id: 'ap12', name: 'Essuie-glace Silicone Pair', price: '14,99 €', oldPrice: '24,99 €', discount: 40, shipping: '+ 2,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/1986e27855dd.jpg', url: '/categorie/auto-moto' },
 ];
 
+const cjDropshippingProducts: CarouselProduct[] = [
+  { id: 'cj1', name: 'Sérum Vitamine C Anti-âge', price: '12,99 €', oldPrice: '29,99 €', discount: 57, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/c9847eddf48c.jpg', url: '/categorie/parfums-cosmetiques' },
+  { id: 'cj2', name: 'Écouteurs Bluetooth TWS', price: '19,99 €', oldPrice: '39,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/208981e1bfa6.jpg', url: '/categorie/telephones' },
+  { id: 'cj3', name: 'Montre Homme Luxe', price: '34,99 €', oldPrice: '69,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop', url: '/categorie/mode-homme' },
+  { id: 'cj4', name: 'Lampe LED Décorative', price: '15,99 €', oldPrice: '29,99 €', discount: 47, shipping: '+ 2,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b61836580cc0.jpg', url: '/categorie/maison' },
+  { id: 'cj5', name: 'Parfum Femme 50ml', price: '18,99 €', oldPrice: '45,99 €', discount: 59, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/f2b721c82f06.jpg', url: '/categorie/parfums-cosmetiques' },
+  { id: 'cj6', name: 'Coque iPhone Premium', price: '8,99 €', oldPrice: '19,99 €', discount: 55, shipping: '+ 1,99 €', image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=300&h=300&fit=crop', url: '/categorie/telephones' },
+  { id: 'cj7', name: 'Sac à Main Cuir', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300&h=300&fit=crop', url: '/categorie/mode-femme' },
+  { id: 'cj8', name: 'Organiseur Maquillage', price: '11,99 €', oldPrice: '24,99 €', discount: 52, shipping: '+ 2,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/91598a772487.jpg', url: '/categorie/parfums-cosmetiques' },
+  { id: 'cj9', name: 'Chargeur Magnétique 15W', price: '14,99 €', oldPrice: '27,99 €', discount: 46, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=300&h=300&fit=crop', url: '/categorie/telephones' },
+  { id: 'cj10', name: 'Baskets Sport Femme', price: '32,99 €', oldPrice: '64,99 €', discount: 49, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop', url: '/categorie/chaussures' },
+  { id: 'cj11', name: 'Diffuseur Huiles Essentielles', price: '16,99 €', oldPrice: '34,99 €', discount: 51, shipping: '+ 2,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b5e8fcaaf042.jpg', url: '/categorie/maison' },
+  { id: 'cj12', name: 'Bracelet Homme Acier', price: '9,99 €', oldPrice: '22,99 €', discount: 57, shipping: '+ 1,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/3e2f334b221e.jpg', url: '/categorie/accessoires' },
+];
+
 /* Hero banner slides — auto-rotating carousel */
 const heroBanners = [
   {
@@ -727,6 +742,65 @@ export default function Home() {
                 className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-3 w-8 h-8 rounded-full bg-noir-card border border-border flex items-center justify-center opacity-0 group-hover/carousel:opacity-100 transition-opacity hover:border-gold/40 z-10">
                 <ArrowRight size={14} className="text-foreground" />
               </button>
+            </div>
+          </div>
+        </section>
+
+
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  CJ DROPSHIPPING — Meilleures ventes toutes catégories          */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        <section className="bg-noir py-1 overflow-hidden">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-gold/10 flex items-center justify-center">
+                  <Package size={18} className="text-gold" />
+                </div>
+                <div>
+                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">CJ <span className="gold-text">Dropshipping</span></h2>
+                  <p className="text-[11px] text-muted-foreground">Meilleures ventes — Toutes catégories</p>
+                </div>
+              </div>
+              <button onClick={() => router.push('/categories')}
+                className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
+                Voir tout <ArrowRight size={12} />
+              </button>
+            </div>
+
+            {/* Grid 4 colonnes */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+              {cjDropshippingProducts.map((p) => (
+                <div key={p.id}
+                  className="bg-noir-card border border-border rounded-xl overflow-hidden hover:border-gold/30 transition-all duration-300 hover:-translate-y-1 cursor-pointer group"
+                  onClick={() => router.push(p.url)}
+                >
+                  <div className="relative aspect-square bg-white/5 flex items-center justify-center overflow-hidden">
+                    <img
+                      src={p.image}
+                      alt={p.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                    {p.discount && (
+                      <span className="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">-{p.discount}%</span>
+                    )}
+                  </div>
+                  <div className="p-2.5">
+                    <p className="text-[11px] text-foreground/70 leading-tight line-clamp-2 mb-2 min-h-[28px]">{p.name}</p>
+                    <div className="flex items-end justify-between">
+                      <div>
+                        {p.oldPrice && (
+                          <span className="text-[10px] text-muted-foreground line-through mr-1">{p.oldPrice}</span>
+                        )}
+                        <span className="text-sm font-bold text-gold">{p.price}</span>
+                      </div>
+                      <span className="text-[10px] text-emerald-400">{p.shipping}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
