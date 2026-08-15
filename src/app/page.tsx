@@ -125,26 +125,38 @@ function fetchWithTimeout(url: string, ms: number, opts?: RequestInit) {
 
 async function loadAutoParts(): Promise<CarouselProduct[]> {
   try {
-    const res = await fetchWithTimeout('/api/cj/products?category=auto-moto&pageSize=20&sortType=salesVolume', 25000);
-    const data = await res.json();
-    const list: Array<{ pid: string; productNameEn: string; productImage: string; sellPrice: number; originalPrice?: number }> = data?.products || [];
-    if (!list.length) return [];
-    return list.slice(0, 16).map((p) => {
-      const priceEur = +(p.sellPrice / 1.08 * 2.5).toFixed(2);
-      const origEur = p.originalPrice ? +(p.originalPrice / 1.08 * 2.5).toFixed(2) : null;
-      const discount = origEur && origEur > priceEur ? Math.round((1 - priceEur / origEur) * 100) : null;
-      const fmt = (n: number) => n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
-      return {
-        id: p.pid,
-        name: p.productNameEn?.length > 55 ? p.productNameEn.slice(0, 55) + '…' : (p.productNameEn || 'Pièce auto'),
-        price: fmt(priceEur),
-        oldPrice: origEur && origEur > priceEur ? fmt(origEur) : null,
-        discount,
-        shipping: priceEur >= 25 ? 'Livraison gratuite' : '+ 4,99 €',
-        image: p.productImage,
-        url: `/categorie/auto-moto`,
-      };
-    });
+    /* Fetch with specific auto part keywords to avoid wrong products */
+    const keywords = ['car+brake+pad', 'car+oil+filter', 'car+headlight+LED', 'car+shock+absorber', 'car+clutch+kit', 'car+wheel+bearing', 'car+battery+12V', 'car+alternator', 'car+starter+motor', 'wiper+blade+car'];
+    const results: CarouselProduct[] = [];
+    const seen = new Set<string>();
+
+    /* Fetch 2 keywords to get ~10-16 unique products */
+    for (const kw of keywords.slice(0, 3)) {
+      try {
+        const res = await fetchWithTimeout(`/api/cj/products?keyword=${kw}&pageSize=8&sortType=salesVolume`, 20000);
+        const data = await res.json();
+        const list: Array<{ pid: string; productNameEn: string; productImage: string; sellPrice: number; originalPrice?: number }> = data?.products || [];
+        for (const p of list) {
+          if (seen.has(p.pid) || results.length >= 16) continue;
+          seen.add(p.pid);
+          const priceEur = +(p.sellPrice / 1.08 * 2.5).toFixed(2);
+          const origEur = p.originalPrice ? +(p.originalPrice / 1.08 * 2.5).toFixed(2) : null;
+          const discount = origEur && origEur > priceEur ? Math.round((1 - priceEur / origEur) * 100) : null;
+          const fmt = (n: number) => n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+          results.push({
+            id: p.pid,
+            name: p.productNameEn?.length > 55 ? p.productNameEn.slice(0, 55) + '…' : (p.productNameEn || 'Pièce auto'),
+            price: fmt(priceEur),
+            oldPrice: origEur && origEur > priceEur ? fmt(origEur) : null,
+            discount,
+            shipping: priceEur >= 25 ? 'Livraison gratuite' : '+ 4,99 €',
+            image: p.productImage,
+            url: '/categorie/auto-moto',
+          });
+        }
+      } catch { /* skip failed keyword */ }
+    }
+    return results;
   } catch {
     return [];
   }
