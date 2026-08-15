@@ -125,7 +125,7 @@ function fetchWithTimeout(url: string, ms: number, opts?: RequestInit) {
 
 async function loadAutoParts(): Promise<CarouselProduct[]> {
   try {
-    /* Fetch with specific auto part keywords to avoid wrong products */
+    /* Fetch with specific auto-part keywords to avoid wrong products */
     const keywords = ['car+brake+pad', 'car+oil+filter', 'car+headlight+LED', 'car+shock+absorber', 'car+clutch+kit', 'car+wheel+bearing', 'car+battery+12V', 'car+alternator', 'car+starter+motor', 'wiper+blade+car'];
     const results: CarouselProduct[] = [];
     const seen = new Set<string>();
