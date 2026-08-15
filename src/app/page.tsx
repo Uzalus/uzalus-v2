@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Navbar } from '@/components/uzalus/navbar';
 import { Footer } from '@/components/uzalus/footer';
 import { ChatWidget } from '@/components/uzalus/chat-widget';
-import { MobileNav } from '@/components/uzalus/mobile-nav';
+import MobileNav from '@/components/uzalus/mobile-nav';
 import { CategoryPage, type CatSlug } from '@/components/uzalus/category-page';
 import { ProductDetail } from '@/components/uzalus/product-detail';
 import { useI18n } from '@/lib/i18n-context';
