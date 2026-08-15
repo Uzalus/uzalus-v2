@@ -432,19 +432,6 @@ export default function Home() {
                   Achetez, créez, réparez, simplifiez.
                 </p>
 
-                {/* Search bar */}
-                <div className="flex items-center bg-noir-card border border-border rounded-xl overflow-hidden mb-10 focus-within:border-gold/40 transition-colors">
-                  <Search size={20} className="text-muted-foreground ml-4 shrink-0" />
-                  <input
-                    type="text"
-                    placeholder="Rechercher un produit, une catégorie, un outil..."
-                    className="flex-1 bg-transparent px-4 py-3.5 text-sm text-foreground placeholder-muted-foreground outline-none"
-                  />
-                  <button className="bg-gold hover:bg-gold-light text-noir px-5 py-3.5 font-bold text-sm transition-colors shrink-0">
-                    <Search size={18} />
-                  </button>
-                </div>
-
                 {/* Trust badges */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex items-center gap-3">
