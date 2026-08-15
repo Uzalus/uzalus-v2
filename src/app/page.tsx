@@ -374,10 +374,10 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  NOS CATÉGORIES — Category circles grid                       */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section id="categories" className="py-8 lg:py-10 bg-noir">
+        <section id="categories" className="py-4 lg:py-5 bg-noir">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
                 <Sparkles size={22} className="text-gold" />
                 <h2 className="font-display text-lg sm:text-xl lg:text-2xl font-bold gold-text">
@@ -417,7 +417,7 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  HERO BANNER — Auto-rotating carousel                          */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="relative w-full bg-noir py-4 lg:py-6">
+        <section className="relative w-full bg-noir py-2 lg:py-3">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 flex items-center gap-3 lg:gap-4">
             {/* Left AdSense */}
             <div className="hidden lg:flex flex-1 h-[280px] items-center justify-center">
@@ -491,10 +491,10 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  UZALUS TOOLS — Grid of free tools                            */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section id="uzalus-tools" className="py-12 lg:py-16 bg-noir">
+        <section id="uzalus-tools" className="py-4 lg:py-5 bg-noir">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
                 <Wrench size={24} className="text-gold" />
                 <div>
@@ -537,10 +537,10 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  PIÈCES DÉTACHÉES — Product carousel                            */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="bg-noir py-8 lg:py-10 overflow-hidden">
+        <section className="bg-noir py-4 lg:py-5 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
-            <div className="flex items-center justify-between mb-5">
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-gold/10 flex items-center justify-center">
                   <Car size={18} className="text-gold" />
@@ -707,10 +707,10 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  TENDANCES DU JOUR — Horizontal scrollable products          */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section id="tendances" className="py-12 lg:py-16 bg-noir-light/30">
+        <section id="tendances" className="py-4 lg:py-5 bg-noir-light/30">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-3">
                 <Flame size={24} className="text-orange-400" />
                 <h2 className="font-display text-xl sm:text-2xl lg:text-3xl font-bold gold-text">
