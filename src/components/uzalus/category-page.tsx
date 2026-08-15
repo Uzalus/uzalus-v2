@@ -39,10 +39,12 @@ function StarRating({ rating, reviews }: { rating: number; reviews: number }) {
 /* ------------------------------------------------------------------ */
 /*  Product Card (white theme, matching reference photo)                */
 /* ------------------------------------------------------------------ */
-function ProductCard({ product, onClick }: { product: ShopProduct; onClick: () => void }) {
+function ProductCard({ product, onClick, locale, t }: { product: ShopProduct; onClick: () => void; locale: string; t: (key: string) => string }) {
   const [liked, setLiked] = useState(false);
   const getName = () => {
-    if (product.nameEn) return product.nameEn;
+    if (locale === 'ar' && product.nameAr) return product.nameAr;
+    if (locale === 'es' && product.nameEs) return product.nameEs;
+    if (locale === 'en' && product.nameEn) return product.nameEn;
     return product.name;
   };
   const heartClass = liked ? 'text-red-500 fill-red-500' : 'text-gray-700';
@@ -58,7 +60,7 @@ function ProductCard({ product, onClick }: { product: ShopProduct; onClick: () =
           onError={(e) => { (e.target as HTMLImageElement).src = 'https://placehold.co/300x400/f5f5f5/999?text=UZALUS'; }}
         />
         {product.badge === 'new' && (
-          <span className="absolute top-3 left-3 px-2.5 py-1 rounded text-[10px] font-bold tracking-wider uppercase bg-black text-white">NOUVEAU</span>
+          <span className="absolute top-3 left-3 px-2.5 py-1 rounded text-[10px] font-bold tracking-wider uppercase bg-black text-white">{t('catPage.new')}</span>
         )}
         {product.discount && product.discount > 0 && product.badge !== 'new' && (
           <span className="absolute top-3 left-3 px-2.5 py-1 rounded text-[10px] font-bold tracking-wider uppercase bg-red-500 text-white">-{product.discount}%</span>
@@ -88,8 +90,8 @@ function ProductCard({ product, onClick }: { product: ShopProduct; onClick: () =
 /* ------------------------------------------------------------------ */
 /*  Filter Dropdown                                                    */
 /* ------------------------------------------------------------------ */
-function FilterPill({ label, options, value, onChange }: {
-  label: string; options: string[]; value: string; onChange: (v: string) => void;
+function FilterPill({ label, options, value, onChange, allLabel }: {
+  label: string; options: string[]; value: string; onChange: (v: string) => void; allLabel?: string;
 }) {
   const [open, setOpen] = useState(false);
   const btnClass = value
@@ -107,7 +109,10 @@ function FilterPill({ label, options, value, onChange }: {
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
           <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-xl z-50 min-w-[160px] py-1">
-            <button onClick={() => { onChange(''); setOpen(false); }} className={"w-full text-left px-4 py-2 text-xs hover:bg-gray-50 transition-colors " + (!value ? 'text-gray-900 font-medium' : 'text-gray-600')}>Tous</button>
+            <button
+              onClick={() => { onChange(''); setOpen(false); }}
+              className={"w-full text-left px-4 py-2 text-xs hover:bg-gray-50 transition-colors " + (!value ? 'text-gray-900 font-medium' : 'text-gray-600')}
+            >{allLabel || 'Tous'}</button>
             {options.map((opt) => (
               <button key={opt} onClick={() => { onChange(opt); setOpen(false); }} className={"w-full text-left px-4 py-2 text-xs hover:bg-gray-50 transition-colors " + (value === opt ? 'text-gray-900 font-medium' : 'text-gray-600')}>{opt}</button>
             ))}
@@ -178,7 +183,7 @@ export function CategoryPage({ category, onBack, onProductClick }: CategoryPageP
         });
         setCjProducts(mapped);
       } else {
-        setError(json.error || 'Aucun produit trouvé');
+        setError(json.error || t('catPage.noProducts'));
       }
     } catch {
       setError('Erreur de chargement des produits');
@@ -218,12 +223,12 @@ export function CategoryPage({ category, onBack, onProductClick }: CategoryPageP
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-between text-xs text-gray-600">
           <div className="hidden sm:flex items-center gap-2">
             <Truck size={14} />
-            <span>Livraison gratuite dès 49€ d&apos;achat</span>
+            <span>{t('catPage.freeShip')}</span>
           </div>
           <span className="font-medium">-10% sur votre première commande | Code : <span className="font-bold text-gray-900">UZALUS10</span></span>
           <div className="hidden sm:flex items-center gap-2">
             <MessageCircle size={14} />
-            <span>Service client 24/7</span>
+            <span>{t('catPage.support24')}</span>
           </div>
         </div>
       </div>
@@ -233,13 +238,13 @@ export function CategoryPage({ category, onBack, onProductClick }: CategoryPageP
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center gap-3">
           <button onClick={() => selectedSub ? setSelectedSub(null) : onBack()} className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors">
             <ArrowLeft size={20} />
-            <span className="text-sm font-medium hidden sm:inline">{selectedSub ? 'Retour' : 'Accueil'}</span>
+            <span className="text-sm font-medium hidden sm:inline">{selectedSub ? t('catPage.back') : t('catPage.homeLabel')}</span>
           </button>
           <div className="flex-1">
             <h1 className="text-lg lg:text-xl font-bold text-gray-900 truncate">{selectedSub ? t(selectedSub) : t(data.key)}</h1>
           </div>
           {cjProducts.length > 0 && (
-            <span className="text-xs text-gray-500 hidden md:block">{cjProducts.length} produits</span>
+            <span className="text-xs text-gray-500 hidden md:block">{t('catPage.productsCount', { count: cjProducts.length })}</span>
           )}
         </div>
 
@@ -279,7 +284,7 @@ export function CategoryPage({ category, onBack, onProductClick }: CategoryPageP
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                   <div className="relative z-10 h-full flex flex-col justify-end p-3 sm:p-4">
                     <h4 className="text-sm sm:text-base font-bold text-white uppercase tracking-wide">{t(sub.key)}</h4>
-                    <p className="text-[11px] text-white/70 mt-1">Voir plus</p>
+                    <p className="text-[11px] text-white/70 mt-1">{t('catPage.seeMore')}</p>
                   </div>
                 </button>
               ))}
@@ -296,18 +301,18 @@ export function CategoryPage({ category, onBack, onProductClick }: CategoryPageP
             <div className="flex items-center gap-2 overflow-x-auto" style={{ scrollbarWidth: 'none' }}>
               <button className="flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-medium border border-gray-300 text-gray-600 bg-white hover:border-gray-400 transition-all whitespace-nowrap">
                 <SlidersHorizontal size={14} />
-                Filtres
+                {t('filter.filters')}
               </button>
-              <FilterPill label="Prix" options={['Moins de 10€', '10€ - 25€', '25€ - 50€', 'Plus de 50€']} value={''} onChange={() => {}} />
-              <FilterPill label="Note" options={['4 étoiles et plus', '3 étoiles et plus']} value={''} onChange={() => {}} />
+              <FilterPill label={t('filter.price')} options={[t('filter.priceRange1'), t('filter.priceRange2'), t('filter.priceRange3'), t('filter.priceRange4')]} value={''} onChange={() => {}} allLabel={t('filter.all')} />
+              <FilterPill label={t('filter.rating')} options={[t('filter.rating4'), t('filter.rating3')]} value={''} onChange={() => {}} allLabel={t('filter.all')} />
             </div>
             <div className="relative shrink-0">
               <select value={sortBy} onChange={(e) => setSortBy(e.target.value)} className="appearance-none bg-white border border-gray-300 text-gray-600 rounded-lg pl-4 pr-10 py-2.5 text-xs font-medium outline-none focus:border-gray-400 transition-colors cursor-pointer">
-                <option value="popularite">Trier par : Popularité</option>
-                <option value="nouveautes">Nouveautés</option>
-                <option value="prix-asc">Prix croissant</option>
-                <option value="prix-desc">Prix décroissant</option>
-                <option value="note">Meilleures notes</option>
+                <option value="popularite">{t('sort.popularity')}</option>
+                <option value="nouveautes">{t('sort.newest')}</option>
+                <option value="prix-asc">{t('sort.priceAsc')}</option>
+                <option value="prix-desc">{t('sort.priceDesc')}</option>
+                <option value="note">{t('sort.rating')}</option>
               </select>
               <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
             </div>
@@ -318,8 +323,8 @@ export function CategoryPage({ category, onBack, onProductClick }: CategoryPageP
             <LoadingGrid />
           ) : error ? (
             <div className="text-center py-24">
-              <p className="text-gray-500 text-lg mb-4">{error}</p>
-              <button onClick={() => fetchProducts(category)} className="px-6 py-2.5 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors">Réessayer</button>
+              <p className="text-gray-500 text-lg mb-4">{t('catPage.noProducts')}</p>
+              <button onClick={() => fetchProducts(category)} className="px-6 py-2.5 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors">{t('catPage.retry')}</button>
             </div>
           ) : sortedProducts.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-5">
@@ -327,6 +332,8 @@ export function CategoryPage({ category, onBack, onProductClick }: CategoryPageP
                 <div key={product.id} style={{ animationDelay: (i * 0.03) + 's' }}>
                   <ProductCard
                     product={product}
+                    locale={locale}
+                    t={t}
                     onClick={() => onProductClick?.(String(product.id), product.nameEn || product.name, product.image, product.price)}
                   />
                 </div>
@@ -334,7 +341,7 @@ export function CategoryPage({ category, onBack, onProductClick }: CategoryPageP
             </div>
           ) : (
             <div className="text-center py-24">
-              <p className="text-gray-400">Bientôt disponible...</p>
+              <p className="text-gray-400">{t('catPage.comingSoon')}</p>
             </div>
           )}
         </div>

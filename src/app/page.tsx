@@ -64,29 +64,36 @@ function AdSenseBlock({ className = '' }: { className?: string }) {
 /*  Data: Trending Products                                            */
 /* ================================================================== */
 const trendingProducts = [
-  { id: 1, name: 'Montre Connectée X6', price: 39.90, oldPrice: 69.90, discount: 43, rating: 4.6, reviews: 126, image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop&q=80' },
-  { id: 2, name: 'Parfum Élite Intense', price: 29.90, oldPrice: 49.90, discount: 40, rating: 4.7, reviews: 98, image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&h=400&fit=crop&q=80' },
-  { id: 3, name: 'Écouteur Sans Fil Pro', price: 24.90, oldPrice: 38.00, discount: 34, rating: 4.6, reviews: 73, image: 'https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=400&h=400&fit=crop&q=80' },
-  { id: 4, name: 'Enceinte Bluetooth X8', price: 19.90, oldPrice: 29.90, discount: 33, rating: 4.4, reviews: 58, image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop&q=80' },
-  { id: 5, name: 'Sac à Dos Voyage', price: 34.90, oldPrice: 59.90, discount: 42, rating: 4.8, reviews: 112, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop&q=80' },
-  { id: 6, name: 'Friteuse à Air 6L', price: 69.90, oldPrice: 99.90, discount: 30, rating: 4.8, reviews: 91, image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/1d6034dc7e3c.jpeg' },
+  { id: 1, name: 'Montre Connectée X6', nameEn: 'Smart Watch X6', nameEs: 'Reloj Inteligente X6', nameAr: 'ساعة ذذية X6', price: 39.90, oldPrice: 69.90, discount: 43, rating: 4.6, reviews: 126, image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&h=400&fit=crop&q=80' },
+  { id: 2, name: 'Parfum Élite Intense', nameEn: 'Elite Intense Perfume', nameEs: 'Perfume Élite Intenso', nameAr: 'عطر إليت إنتس', price: 29.90, oldPrice: 49.90, discount: 40, rating: 4.7, reviews: 98, image: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&h=400&fit=crop&q=80' },
+  { id: 3, name: 'Écouteur Sans Fil Pro', nameEn: 'Wireless Earbuds Pro', nameEs: 'Auriculares Inalámbricos Pro', nameAr: 'سماعات لاسك بر', price: 24.90, oldPrice: 38.00, discount: 34, rating: 4.6, reviews: 73, image: 'https://images.unsplash.com/photo-1606220588913-b3aacb4d2f46?w=400&h=400&fit=crop&q=80' },
+  { id: 4, name: 'Enceinte Bluetooth X8', nameEn: 'Bluetooth Speaker X8', nameEs: 'Altavoz Bluetooth X8', nameAr: 'مكبر بلوو X8', price: 19.90, oldPrice: 29.90, discount: 33, rating: 4.4, reviews: 58, image: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=400&h=400&fit=crop&q=80' },
+  { id: 5, name: 'Sac à Dos Voyage', nameEn: 'Travel Backpack', nameEs: 'Mochila de Viaje', nameAr: 'حقيبة لله', price: 34.90, oldPrice: 59.90, discount: 42, rating: 4.8, reviews: 112, image: 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop&q=80' },
+  { id: 6, name: 'Friteuse à Air 6L', nameEn: '6L Air Fryer', nameEs: 'Freidora de Aire 6L', nameAr: 'قايي هويي 6 لتر', price: 69.90, oldPrice: 99.90, discount: 30, rating: 4.8, reviews: 91, image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/1d6034dc7e3c.jpeg' },
 ];
+
+function getLocalName(p: { name: string; nameEn?: string; nameEs?: string; nameAr?: string }, loc: string): string {
+  if (loc === 'ar' && p.nameAr) return p.nameAr;
+  if (loc === 'es' && p.nameEs) return p.nameEs;
+  if (loc === 'en' && p.nameEn) return p.nameEn;
+  return p.name;
+}
 
 /* ================================================================== */
 /*  Data: UZALUS Tools                                                 */
 /* ================================================================== */
 const uzalusTools = [
-  { name: 'PDF → Word', desc: 'Convertir', icon: FileText, color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
-  { name: 'Word → PDF', desc: 'Convertir', icon: FileText, color: 'text-green-400', bg: 'bg-green-500/10', border: 'border-green-500/20' },
-  { name: 'Compresser PDF', desc: 'Réduire la taille', icon: FileText, color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20' },
-  { name: 'Fusionner PDF', desc: 'Assembler', icon: Scissors, color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20' },
-  { name: 'Diviser PDF', desc: 'Extraire des pages', icon: Scissors, color: 'text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/20' },
-  { name: 'JPG → PDF', desc: 'Images en PDF', icon: ImageIcon, color: 'text-teal-400', bg: 'bg-teal-500/10', border: 'border-teal-500/20' },
-  { name: 'PDF → JPG', desc: 'PDF en images', icon: ImageIcon, color: 'text-pink-400', bg: 'bg-pink-500/10', border: 'border-pink-500/20' },
-  { name: 'Traduction', desc: 'Traduire texte', icon: Languages, color: 'text-cyan-400', bg: 'bg-cyan-500/10', border: 'border-cyan-500/20' },
-  { name: 'MP4 → MP3', desc: "Extraire l'audio", icon: Music, color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
-  { name: 'Supprimer arrière-plan', desc: 'Images propres', icon: ImageIcon, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
-  { name: 'Générer QR Code', desc: 'QR Code', icon: QrCode, color: 'text-indigo-400', bg: 'bg-indigo-500/10', border: 'border-indigo-500/20' },
+  { name: 'PDF → Word', descKey: 'tools.convert', icon: FileText, color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20' },
+  { name: 'Word → PDF', descKey: 'tools.convert', icon: FileText, color: 'text-green-400', bg: 'bg-green-500/10', border: 'border-green-500/20' },
+  { name: 'Compresser PDF', descKey: 'tools.reduce', icon: FileText, color: 'text-red-400', bg: 'bg-red-500/10', border: 'border-red-500/20' },
+  { name: 'Fusionner PDF', descKey: 'tools.assemble', icon: Scissors, color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'border-purple-500/20' },
+  { name: 'Diviser PDF', descKey: 'tools.extractPages', icon: Scissors, color: 'text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/20' },
+  { name: 'JPG → PDF', descKey: 'tools.imagesToPdf', icon: ImageIcon, color: 'text-teal-400', bg: 'bg-teal-500/10', border: 'border-teal-500/20' },
+  { name: 'PDF → JPG', descKey: 'tools.pdfToImages', icon: ImageIcon, color: 'text-pink-400', bg: 'bg-pink-500/10', border: 'border-pink-500/20' },
+  { name: 'Traduction', descKey: 'tools.translateText', icon: Languages, color: 'text-cyan-400', bg: 'bg-cyan-500/10', border: 'border-cyan-500/20' },
+  { name: 'MP4 → MP3', descKey: 'tools.extractAudio', icon: Music, color: 'text-yellow-400', bg: 'bg-yellow-500/10', border: 'border-yellow-500/20' },
+  { name: 'Supprimer arrière-plan', descKey: 'tools.cleanImages', icon: ImageIcon, color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'border-emerald-500/20' },
+  { name: 'Générer QR Code', descKey: 'tools.qrCode', icon: QrCode, color: 'text-indigo-400', bg: 'bg-indigo-500/10', border: 'border-indigo-500/20' },
 ];
 
 /* ================================================================== */
@@ -291,7 +298,7 @@ interface ProductViewState {
 }
 
 export default function Home() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<CatSlug | null>(null);
   const [activeProduct, setActiveProduct] = useState<ProductViewState | null>(null);
@@ -581,7 +588,7 @@ export default function Home() {
                       {tool.name}
                     </span>
                     <span className="text-[10px] text-muted-foreground mt-0.5">
-                      {tool.desc}
+                      {t(tool.descKey)}
                     </span>
                   </button>
                 );
@@ -733,7 +740,7 @@ export default function Home() {
                   </div>
                   <div className="p-3">
                     <h3 className="text-xs font-semibold text-foreground/90 mb-2 line-clamp-2 group-hover:text-gold transition-colors leading-snug">
-                      {product.name}
+                      {getLocalName(product, locale)}
                     </h3>
                     <div className="flex items-center gap-1.5 mb-1.5">
                       <span className="text-sm font-bold text-gold">{product.price.toFixed(2)} €</span>

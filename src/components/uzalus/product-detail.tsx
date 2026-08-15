@@ -86,7 +86,7 @@ function colorToCSS(name: string): string {
 /*  Main Component                                                     */
 /* ------------------------------------------------------------------ */
 export function ProductDetail({ pid, onBack, productName, productImage, productPrice }: ProductDetailProps) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
 
   const [product, setProduct] = useState<CJProductDetail | null>(null);
   const [loading, setLoading] = useState(true);
@@ -112,7 +112,7 @@ export function ProductDetail({ pid, onBack, productName, productImage, productP
         if (json.success && json.product) {
           setProduct(json.product);
         } else {
-          setError(json.error || 'Produit introuvable');
+          setError(json.error || t('detail.notFound'));
         }
       } catch {
         setError('Erreur de chargement');
@@ -142,7 +142,9 @@ export function ProductDetail({ pid, onBack, productName, productImage, productP
       ? [productImage]
       : [];
 
-  const displayName = product?.productNameFr || product?.productNameEn || productName || 'Produit';
+  const displayName = locale === 'fr' && product?.productNameFr
+    ? product.productNameFr
+    : product?.productNameEn || productName || t('detail.notFound');
 
   const handleAddToCart = () => {
     // Find matching variant
@@ -176,7 +178,7 @@ export function ProductDetail({ pid, onBack, productName, productImage, productP
       <div className="min-h-screen bg-noir flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <Loader2 size={40} className="text-gold animate-spin" />
-          <p className="text-muted-foreground text-sm">Chargement du produit...</p>
+          <p className="text-muted-foreground text-sm">{t('detail.loading')}</p>
         </div>
       </div>
     );
@@ -188,9 +190,9 @@ export function ProductDetail({ pid, onBack, productName, productImage, productP
       <div className="min-h-screen bg-noir flex items-center justify-center">
         <div className="text-center">
           <AlertCircle size={48} className="text-red-400 mx-auto mb-4" />
-          <p className="text-foreground/80 text-lg mb-6">{error || 'Produit introuvable'}</p>
+          <p className="text-foreground/80 text-lg mb-6">{error || t('detail.notFound')}</p>
           <button onClick={onBack} className="gold-btn px-6 py-3 rounded-xl text-sm font-bold">
-            Retour
+            {t('detail.back')}
           </button>
         </div>
       </div>
@@ -205,7 +207,7 @@ export function ProductDetail({ pid, onBack, productName, productImage, productP
         <div className="max-w-7xl mx-auto px-4 lg:px-6 h-14 flex items-center gap-4">
           <button onClick={onBack} className="flex items-center gap-2 text-gold hover:text-gold-light transition-colors">
             <ArrowLeft size={20} />
-            <span className="text-sm font-medium hidden sm:inline">Retour</span>
+            <span className="text-sm font-medium hidden sm:inline">{t('detail.back')}</span>
           </button>
           <div className="flex-1">
             <h1 className="text-sm font-medium text-foreground/70 truncate max-w-md">{displayName}</h1>
@@ -326,7 +328,7 @@ export function ProductDetail({ pid, onBack, productName, productImage, productP
             {product.colors && product.colors.length > 0 && (
               <div className="mb-5">
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-sm font-semibold text-foreground/80">Couleur :</span>
+                  <span className="text-sm font-semibold text-foreground/80">{t('detail.color')}</span>
                   <span className="text-sm text-gold font-medium">{product.colors[selectedColor]?.name}</span>
                 </div>
                 <div className="flex flex-wrap gap-2.5">
@@ -380,13 +382,13 @@ export function ProductDetail({ pid, onBack, productName, productImage, productP
               <div className="mb-5">
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-semibold text-foreground/80">Taille :</span>
+                    <span className="text-sm font-semibold text-foreground/80">{t('detail.size')}</span>
                     {selectedSize !== null && (
                       <span className="text-sm text-gold font-medium">{product.sizes[selectedSize]}</span>
                     )}
                   </div>
                   <button className="text-xs text-gold/70 hover:text-gold transition-colors underline underline-offset-2">
-                    Guide des tailles
+                    {t('detail.sizeGuide')}
                   </button>
                 </div>
                 <div className="flex flex-wrap gap-2">
@@ -409,7 +411,7 @@ export function ProductDetail({ pid, onBack, productName, productImage, productP
 
             {/* Quantity */}
             <div className="mb-6">
-              <span className="text-sm font-semibold text-foreground/80 mb-3 block">Quantité :</span>
+              <span className="text-sm font-semibold text-foreground/80 mb-3 block">{t('detail.quantity')}</span>
               <div className="flex items-center gap-0 w-fit rounded-xl border border-border overflow-hidden">
                 <button
                   onClick={() => setQuantity(q => Math.max(1, q - 1))}
@@ -436,13 +438,13 @@ export function ProductDetail({ pid, onBack, productName, productImage, productP
                 className="gold-btn flex-1 h-12 sm:h-14 rounded-xl text-sm sm:text-base font-bold tracking-wider uppercase flex items-center justify-center gap-2"
               >
                 <Package size={18} />
-                Ajouter au panier
+                {t('detail.addToCart')}
               </button>
               <button
                 onClick={handleAddToCart}
                 className="flex-1 h-12 sm:h-14 rounded-xl bg-foreground text-noir text-sm sm:text-base font-bold tracking-wider uppercase hover:bg-foreground/90 transition-colors flex items-center justify-center gap-2"
               >
-                Acheter maintenant
+                {t('detail.buyNow')}
               </button>
             </div>
 
@@ -450,15 +452,15 @@ export function ProductDetail({ pid, onBack, productName, productImage, productP
             <div className="grid grid-cols-3 gap-3 p-4 rounded-2xl bg-noir-card border border-border">
               <div className="flex flex-col items-center gap-2 text-center">
                 <Truck size={20} className="text-gold" />
-                <span className="text-[11px] text-foreground/60 leading-tight">Livraison gratuite</span>
+                <span className="text-[11px] text-foreground/60 leading-tight">{t('detail.freeShipping')}</span>
               </div>
               <div className="flex flex-col items-center gap-2 text-center">
                 <Shield size={20} className="text-gold" />
-                <span className="text-[11px] text-foreground/60 leading-tight">Paiement sécurisé</span>
+                <span className="text-[11px] text-foreground/60 leading-tight">{t('detail.securePayment')}</span>
               </div>
               <div className="flex flex-col items-center gap-2 text-center">
                 <RotateCcw size={20} className="text-gold" />
-                <span className="text-[11px] text-foreground/60 leading-tight">Retour 30 jours</span>
+                <span className="text-[11px] text-foreground/60 leading-tight">{t('detail.return30')}</span>
               </div>
             </div>
           </div>
@@ -468,9 +470,9 @@ export function ProductDetail({ pid, onBack, productName, productImage, productP
         <div className="mt-10 border-t border-border pt-8">
           <div className="flex gap-1 border-b border-border mb-6">
             {([
-              ['description', 'Description'],
-              ['info', 'Informations'],
-              ['shipping', 'Livraison'],
+              ['description', t('detail.description')],
+              ['info', t('detail.info')],
+              ['shipping', t('detail.shippingTab')],
             ] as const).map(([key, label]) => (
               <button
                 key={key}
@@ -496,7 +498,7 @@ export function ProductDetail({ pid, onBack, productName, productImage, productP
                 />
               ) : (
                 <p className="text-muted-foreground text-sm">
-                  {displayName} - Produit de haute qualité disponible sur UZALUS. Découvrez notre sélection soigneusement choisie pour vous offrir le meilleur rapport qualité-prix.
+                  {displayName} - {t('detail.descFallback')}
                 </p>
               )}
             </div>
@@ -508,21 +510,21 @@ export function ProductDetail({ pid, onBack, productName, productImage, productP
               <table className="w-full text-sm">
                 <tbody>
                   <tr className="border-b border-border">
-                    <td className="py-3 text-muted-foreground w-40">Référence</td>
+                    <td className="py-3 text-muted-foreground w-40">{t('detail.reference')}</td>
                     <td className="py-3 text-foreground/80">{product.pid}</td>
                   </tr>
                   {product.category && (
                     <tr className="border-b border-border">
-                      <td className="py-3 text-muted-foreground">Catégorie</td>
+                      <td className="py-3 text-muted-foreground">{t('detail.categoryLabel')}</td>
                       <td className="py-3 text-foreground/80">{product.category.catName}</td>
                     </tr>
                   )}
                   <tr className="border-b border-border">
-                    <td className="py-3 text-muted-foreground">Poids</td>
-                    <td className="py-3 text-foreground/80">{product.weight ? `${product.weight}g` : 'Non spécifié'}</td>
+                    <td className="py-3 text-muted-foreground">{t('detail.weight')}</td>
+                    <td className="py-3 text-foreground/80">{product.weight ? `${product.weight}g` : t('detail.notSpecified')}</td>
                   </tr>
                   <tr className="border-b border-border">
-                    <td className="py-3 text-muted-foreground">Note</td>
+                    <td className="py-3 text-muted-foreground">{t('detail.ratingLabel')}</td>
                     <td className="py-3 text-foreground/80 flex items-center gap-1">
                       {[...Array(5)].map((_, i) => (
                         <Star key={i} size={14} className={i < Math.floor(product.rating || 4) ? 'text-gold fill-gold' : 'text-foreground/20'} />
@@ -531,12 +533,12 @@ export function ProductDetail({ pid, onBack, productName, productImage, productP
                     </td>
                   </tr>
                   <tr className="border-b border-border">
-                    <td className="py-3 text-muted-foreground">Expédition ePacket</td>
-                    <td className="py-3 text-foreground/80">{product.ePacketAvailable ? 'Oui' : 'Non'}</td>
+                    <td className="py-3 text-muted-foreground">{t('detail.ePacket')}</td>
+                    <td className="py-3 text-foreground/80">{product.ePacketAvailable ? t('detail.yes') : t('detail.no')}</td>
                   </tr>
                   <tr>
-                    <td className="py-3 text-muted-foreground">Variantes</td>
-                    <td className="py-3 text-foreground/80">{product.variants?.length || 1} disponible(s)</td>
+                    <td className="py-3 text-muted-foreground">{t('detail.variants')}</td>
+                    <td className="py-3 text-foreground/80">{product.variants?.length || 1} {t('detail.available')}</td>
                   </tr>
                 </tbody>
               </table>
@@ -549,22 +551,22 @@ export function ProductDetail({ pid, onBack, productName, productImage, productP
               <div className="flex items-start gap-4 p-4 rounded-xl bg-noir-card border border-border">
                 <Truck size={24} className="text-gold flex-shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="font-semibold text-foreground/90 mb-1">Livraison standard</h4>
-                  <p className="text-sm text-muted-foreground">Délai estimé : 7 à 20 jours ouvrables. Livraison suivie incluse.</p>
+                  <h4 className="font-semibold text-foreground/90 mb-1">{t('detail.stdShip')}</h4>
+                  <p className="text-sm text-muted-foreground">{t('detail.stdShipDesc')}</p>
                 </div>
               </div>
               <div className="flex items-start gap-4 p-4 rounded-xl bg-noir-card border border-border">
                 <Package size={24} className="text-gold flex-shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="font-semibold text-foreground/90 mb-1">Livraison express (ePacket)</h4>
-                  <p className="text-sm text-muted-foreground">Délai estimé : 5 à 12 jours ouvrables. Disponible pour certains produits.</p>
+                  <h4 className="font-semibold text-foreground/90 mb-1">{t('detail.expressShip')}</h4>
+                  <p className="text-sm text-muted-foreground">{t('detail.expressShipDesc')}</p>
                 </div>
               </div>
               <div className="flex items-start gap-4 p-4 rounded-xl bg-noir-card border border-border">
                 <Shield size={24} className="text-gold flex-shrink-0 mt-0.5" />
                 <div>
-                  <h4 className="font-semibold text-foreground/90 mb-1">Politique de retour</h4>
-                  <p className="text-sm text-muted-foreground">Retour gratuit sous 30 jours si le produit ne correspond pas à la description. Contactez notre service client pour toute demande.</p>
+                  <h4 className="font-semibold text-foreground/90 mb-1">{t('detail.returnPolicy')}</h4>
+                  <p className="text-sm text-muted-foreground">{t('detail.returnPolicyDesc')}</p>
                 </div>
               </div>
             </div>
