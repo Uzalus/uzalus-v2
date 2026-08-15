@@ -201,7 +201,7 @@ const heroBanners = [
   },
   {
     id: 8,
-    image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/ecf1d9e0dc22.jpg',
+    image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b5e8fcaaf042.jpg',
     title: 'BÉBÉ & ENFANT',
     subtitle: 'Tout pour les petits',
     cta: 'DÉCOUVRIR',
@@ -371,50 +371,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  NOS CATÉGORIES — Category circles grid                       */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <section id="categories" className="py-3 bg-noir">
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Header */}
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-3">
-                <Sparkles size={22} className="text-gold" />
-                <h2 className="font-display text-lg sm:text-xl lg:text-2xl font-bold gold-text">
-                  NOS CATÉGORIES
-                </h2>
-              </div>
-              <button onClick={() => router.push('/categories')} className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
-                Voir toutes les catégories <ArrowRight size={14} />
-              </button>
-            </div>
-
-            {/* Categories grid */}
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-10 gap-3 lg:gap-4">
-              {homeCategories.map((cat) => (
-                <button
-                  key={cat.slug}
-                  onClick={() => router.push('/categorie/' + cat.slug)}
-                  className="group flex flex-col items-center gap-2"
-                >
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden border-2 border-border group-hover:border-gold/40 transition-all duration-300 group-hover:shadow-[0_0_20px_rgba(212,175,55,0.15)]">
-                    <img
-                      src={cat.image}
-                      alt={t(cat.key)}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                      loading="lazy"
-                    />
-                  </div>
-                  <span className="text-[11px] font-medium text-foreground/70 group-hover:text-gold transition-colors text-center leading-tight">
-                    {t(cat.key)}
-                  </span>
-                </button>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ═══════════════════════════════════════════════════════════ */}
+{/* ═══════════════════════════════════════════════════════════ */}
         {/*  HERO BANNER — Auto-rotating carousel                          */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <section className="relative w-full bg-noir py-1">
@@ -491,7 +448,7 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  PIÈCES DÉTACHÉES — Product carousel                            */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="bg-noir py-3 overflow-hidden">
+        <section className="bg-noir py-1 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
             <div className="flex items-center justify-between mb-3">
@@ -564,7 +521,7 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  UZALUS TOOLS — Grid of free tools                            */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section id="uzalus-tools" className="py-3 bg-noir">
+        <section id="uzalus-tools" className="py-1 bg-noir">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
             <div className="flex items-center justify-between mb-3">
