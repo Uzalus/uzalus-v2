@@ -420,9 +420,8 @@ export default function Home() {
           <div className="absolute bottom-0 start-0 w-[400px] h-[400px] bg-gold/3 rounded-full blur-[100px]" />
 
           <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-              {/* LEFT — Text content */}
-              <div className="max-w-xl">
+            <div className="max-w-2xl mx-auto text-center lg:text-left lg:mx-0">
+              <div className="max-w-xl lg:mx-0 mx-auto">
                 <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl xl:text-[3.4rem] font-bold text-white leading-tight mb-2">
                   TOUT CE DONT VOUS AVEZ BESOIN,
                 </h1>
@@ -463,52 +462,6 @@ export default function Home() {
                   <div className="flex items-center gap-3">
                     <Package size={18} className="text-gold shrink-0" />
                     <span className="text-xs text-foreground/60">+100 000 produits disponibles</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* RIGHT — Product image montage */}
-              <div className="relative hidden lg:block">
-                <div className="grid grid-cols-2 gap-3">
-                  {/* Main large image — auto & pièces détachées */}
-                  <div className="col-span-2 rounded-2xl overflow-hidden h-[150px] bg-noir-card">
-                    <img
-                      src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&h=250&fit=crop&q=80"
-                      alt="Auto & pièces détachées"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  {/* iPhone */}
-                  <div className="rounded-2xl overflow-hidden h-[110px] bg-noir-card">
-                    <img
-                      src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=300&h=200&fit=crop&q=80"
-                      alt="Smartphone"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  {/* Perfume */}
-                  <div className="rounded-2xl overflow-hidden h-[110px] bg-noir-card">
-                    <img
-                      src="https://images.unsplash.com/photo-1541643600914-78b084683601?w=300&h=200&fit=crop&q=80"
-                      alt="Parfum"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  {/* Headphones */}
-                  <div className="rounded-2xl overflow-hidden h-[110px] bg-noir-card">
-                    <img
-                      src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=300&h=200&fit=crop&q=80"
-                      alt="Casque audio"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  {/* Power drill */}
-                  <div className="rounded-2xl overflow-hidden h-[110px] bg-noir-card">
-                    <img
-                      src="https://images.unsplash.com/photo-1504148455328-c376907d081c?w=300&h=200&fit=crop&q=80"
-                      alt="Perceuse"
-                      className="w-full h-full object-cover"
-                    />
                   </div>
                 </div>
               </div>
