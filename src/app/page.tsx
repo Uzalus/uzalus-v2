@@ -106,22 +106,49 @@ const homeCategories = [
 ];
 
 /* ================================================================== */
-/*  Data: Auto Parts Products (for carousel)                           */
+/*  Helper: fetch CJ auto parts for homepage carousel                   */
 /* ================================================================== */
-const autoPartsProducts = [
-  { id: 'ap1', name: 'Phare LED Avant Universel', price: '24,99 €', oldPrice: '44,99 €', discount: 44, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/8d304e804c8a.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap2', name: 'Kit Embrayage Complet Valeo', price: '89,99 €', oldPrice: '149,99 €', discount: 40, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/50555b3dfd5d.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap3', name: 'Roulement de Roue Conique', price: '12,49 €', oldPrice: null, discount: null, shipping: '+ 3,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/8cddb3376b0f.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap4', name: 'Injecteur Diesel Bosch 4pcs', price: '179,99 €', oldPrice: '289,99 €', discount: 38, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/26f2545dd54b.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap5', name: 'Filtre à Huile Premium', price: '8,99 €', oldPrice: '14,99 €', discount: 40, shipping: '+ 2,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/9b533e2e4a54.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap6', name: 'Plaquette de Frein Avant', price: '34,99 €', oldPrice: '54,99 €', discount: 36, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/3099fef29c12.jpeg', url: '/categorie/auto-moto' },
-  { id: 'ap7', name: 'Amortisseur Arrière Gamme', price: '49,99 €', oldPrice: '79,99 €', discount: 37, shipping: '+ 4,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/86414fb711b8.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap8', name: 'Batterie Voiture 12V 60Ah', price: '69,99 €', oldPrice: '109,99 €', discount: 36, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/d03ca6a5c417.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap9', name: 'Démarreur Auto Universel', price: '119,99 €', oldPrice: '189,99 €', discount: 37, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/aa98aa55d25d.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap10', name: 'Alternateur Puissance 120A', price: '134,99 €', oldPrice: '219,99 €', discount: 39, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/5932d8a5b2a1.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap11', name: 'Joint de Culasse Moteur', price: '18,44 €', oldPrice: null, discount: null, shipping: '+ 3,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/e9cbdf178553.jpg', url: '/categorie/auto-moto' },
-  { id: 'ap12', name: 'Essuie-glace Silicone Pair', price: '14,99 €', oldPrice: '24,99 €', discount: 40, shipping: '+ 2,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/1986e27855dd.jpg', url: '/categorie/auto-moto' },
-];
+interface CarouselProduct {
+  id: string;
+  name: string;
+  price: string;
+  oldPrice: string | null;
+  discount: number | null;
+  shipping: string;
+  image: string;
+  url: string;
+}
+
+function fetchWithTimeout(url: string, ms: number, opts?: RequestInit) {
+  return fetch(url, { ...opts, signal: AbortSignal.timeout(ms) });
+}
+
+async function loadAutoParts(): Promise<CarouselProduct[]> {
+  try {
+    const res = await fetchWithTimeout('/api/cj/products?category=auto-moto&pageSize=20&sortType=salesVolume', 25000);
+    const data = await res.json();
+    const list: Array<{ pid: string; productNameEn: string; productImage: string; sellPrice: number; originalPrice?: number }> = data?.products || [];
+    if (!list.length) return [];
+    return list.slice(0, 16).map((p) => {
+      const priceEur = +(p.sellPrice / 1.08 * 2.5).toFixed(2);
+      const origEur = p.originalPrice ? +(p.originalPrice / 1.08 * 2.5).toFixed(2) : null;
+      const discount = origEur && origEur > priceEur ? Math.round((1 - priceEur / origEur) * 100) : null;
+      const fmt = (n: number) => n.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+      return {
+        id: p.pid,
+        name: p.productNameEn?.length > 55 ? p.productNameEn.slice(0, 55) + '…' : (p.productNameEn || 'Pièce auto'),
+        price: fmt(priceEur),
+        oldPrice: origEur && origEur > priceEur ? fmt(origEur) : null,
+        discount,
+        shipping: priceEur >= 25 ? 'Livraison gratuite' : '+ 4,99 €',
+        image: p.productImage,
+        url: `/categorie/auto-moto`,
+      };
+    });
+  } catch {
+    return [];
+  }
+}
 
 /* Secondary nav category links */
 const navCatLinks = [
@@ -150,8 +177,14 @@ export default function Home() {
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState<CatSlug | null>(null);
   const [activeProduct, setActiveProduct] = useState<ProductViewState | null>(null);
+  const [autoParts, setAutoParts] = useState<CarouselProduct[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
+
+  /* Load real CJ products for auto parts carousel */
+  useEffect(() => {
+    loadAutoParts().then(setAutoParts);
+  }, []);
 
   const scrollCarousel = (direction: number) => {
     if (carouselRef.current) {
@@ -353,17 +386,17 @@ export default function Home() {
               <div className="flex gap-3 overflow-x-auto pb-3 snap-x snap-mandatory scrollbar-hide scroll-smooth"
                 ref={carouselRef}
               >
-                {autoPartsProducts.map((p) => (
+                {autoParts.length > 0 ? autoParts.map((p) => (
                   <div key={p.id}
                     className="snap-start shrink-0 w-[170px] sm:w-[185px] bg-noir-card border border-border rounded-xl overflow-hidden hover:border-gold/30 transition-all duration-300 hover:-translate-y-1 cursor-pointer group"
-                    onClick={() => window.open(p.url || '#', '_blank')}
+                    onClick={() => router.push('/categorie/auto-moto')}
                   >
                     {/* Image */}
                     <div className="relative h-[130px] bg-white/5 flex items-center justify-center overflow-hidden">
                       <img
                         src={p.image}
                         alt={p.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-500"
                         loading="lazy"
                       />
                       {p.discount && (
@@ -384,7 +417,22 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                ))}
+                )) : (
+                  /* Skeleton loading */
+                  Array.from({ length: 8 }).map((_, i) => (
+                    <div key={`sk-${i}`} className="snap-start shrink-0 w-[170px] sm:w-[185px] bg-noir-card border border-border rounded-xl overflow-hidden animate-pulse">
+                      <div className="h-[130px] bg-white/5" />
+                      <div className="p-2.5 space-y-2">
+                        <div className="h-3 bg-white/5 rounded w-full" />
+                        <div className="h-3 bg-white/5 rounded w-2/3" />
+                        <div className="flex justify-between">
+                          <div className="h-4 bg-white/5 rounded w-16" />
+                          <div className="h-3 bg-white/5 rounded w-20" />
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
               {/* Scroll arrows */}
               <button onClick={() => scrollCarousel(-1)}
