@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Navbar } from '@/components/uzalus/navbar';
 import { Footer } from '@/components/uzalus/footer';
 import { ChatWidget } from '@/components/uzalus/chat-widget';
-import MobileNav from '@/components/uzalus/mobile-nav';
+import { MobileNav } from '@/components/uzalus/mobile-nav';
 import { CategoryPage, type CatSlug } from '@/components/uzalus/category-page';
 import { ProductDetail } from '@/components/uzalus/product-detail';
 import { useI18n } from '@/lib/i18n-context';
@@ -117,6 +117,7 @@ interface CarouselProduct {
   shipping: string;
   image: string;
   url: string;
+  category?: string;
 }
 
 const autoPartsProducts: CarouselProduct[] = [
@@ -147,6 +148,21 @@ const cjDropshippingProducts: CarouselProduct[] = [
   { id: 'cj10', name: 'Baskets Sport Femme', price: '32,99 €', oldPrice: '64,99 €', discount: 49, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop', url: '/categorie/chaussures' },
   { id: 'cj11', name: 'Diffuseur Huiles Essentielles', price: '16,99 €', oldPrice: '34,99 €', discount: 51, shipping: '+ 2,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b5e8fcaaf042.jpg', url: '/categorie/maison' },
   { id: 'cj12', name: 'Bracelet Homme Acier', price: '9,99 €', oldPrice: '22,99 €', discount: 57, shipping: '+ 1,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/3e2f334b221e.jpg', url: '/categorie/accessoires' },
+];
+
+const promoFlashProducts: CarouselProduct[] = [
+  { id: 'pf1', name: 'Robe Élégante Soie', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=300&h=300&fit=crop', url: '/categorie/mode-femme', category: 'MODE FEMME' },
+  { id: 'pf2', name: 'Sérum Vitamine C', price: '12,99 €', oldPrice: '29,99 €', discount: 57, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/c9847eddf48c.jpg', url: '/categorie/parfums-cosmetiques', category: 'BEAUTÉ' },
+  { id: 'pf3', name: 'Écouteurs Bluetooth TWS', price: '19,99 €', oldPrice: '39,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/208981e1bfa6.jpg', url: '/categorie/telephones', category: 'HIGH-TECH' },
+  { id: 'pf4', name: 'Diffuseur Essentielles', price: '16,99 €', oldPrice: '34,99 €', discount: 51, shipping: '+ 2,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b5e8fcaaf042.jpg', url: '/categorie/maison', category: 'MAISON' },
+  { id: 'pf5', name: 'Baskets Sport Femme', price: '32,99 €', oldPrice: '64,99 €', discount: 49, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop', url: '/categorie/chaussures', category: 'CHAUSSURES' },
+  { id: 'pf6', name: 'Montre Homme Luxe', price: '34,99 €', oldPrice: '69,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop', url: '/categorie/mode-homme', category: 'MODE HOMME' },
+  { id: 'pf7', name: 'Parfum Femme 50ml', price: '18,99 €', oldPrice: '45,99 €', discount: 59, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/f2b721c82f06.jpg', url: '/categorie/parfums-cosmetiques', category: 'PARFUMS' },
+  { id: 'pf8', name: 'Haltère Réglable 20kg', price: '39,99 €', oldPrice: '74,99 €', discount: 47, shipping: '+ 4,99 €', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&h=300&fit=crop', url: '/categorie/sport', category: 'SPORT' },
+  { id: 'pf9', name: 'Sac à Main Cuir', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300&h=300&fit=crop', url: '/categorie/mode-femme', category: 'MODE FEMME' },
+  { id: 'pf10', name: 'Chargeur Magnétique 15W', price: '14,99 €', oldPrice: '27,99 €', discount: 46, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=300&h=300&fit=crop', url: '/categorie/telephones', category: 'HIGH-TECH' },
+  { id: 'pf11', name: 'Lampe LED Décorative', price: '15,99 €', oldPrice: '29,99 €', discount: 47, shipping: '+ 2,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b61836580cc0.jpg', url: '/categorie/maison', category: 'MAISON' },
+  { id: 'pf12', name: 'Bracelet Homme Acier', price: '9,99 €', oldPrice: '22,99 €', discount: 57, shipping: '+ 1,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/3e2f334b221e.jpg', url: '/categorie/accessoires', category: 'ACCESSOIRES' },
 ];
 
 /* Hero banner slides — auto-rotating carousel */
@@ -361,9 +377,9 @@ export default function Home() {
       <Navbar onCartClick={() => {}} onProfileClick={() => {}} />
 
       <main className="flex-1 pb-20 md:pb-0">
-        {/* ═══════════════════════════════════════════════════════════ */}
+        {/* ----------------------------------------------------------- */}
         {/*  SECONDARY NAVIGATION — Horizontal category links          */}
-        {/* ═══════════════════════════════════════════════════════════ */}
+        {/* ----------------------------------------------------------- */}
         <div className="bg-noir border-b border-border hidden md:block">
           <div className="max-w-[1400px] mx-auto px-4 lg:px-6 flex items-center justify-between h-11">
             <div className="flex items-center gap-6">
@@ -386,9 +402,9 @@ export default function Home() {
           </div>
         </div>
 
-        {/* ═══════════════════════════════════════════════════════════ */}
+        {/* ----------------------------------------------------------- */}
         {/*  HERO BANNER — Video background + rotating text                   */}
-        {/* ═══════════════════════════════════════════════════════════ */}
+        {/* ----------------------------------------------------------- */}
         <section className="relative w-full bg-noir py-1">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 flex items-center gap-3 lg:gap-4">
             {/* Left AdSense */}
@@ -462,88 +478,74 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  BANDE PROMO — 4 catégories avec produits et prix              */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="bg-gradient-to-br from-[#0f172a] via-noir to-noir py-2">
+        <section id="promotions" className="bg-noir py-3 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4">
+            {/* Header */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-red-500/15 flex items-center justify-center">
+                  <Flame size={18} className="text-red-400" />
+                </div>
+                <div>
+                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">PROMOTIONS <span className="text-red-400">FLASH</span></h2>
+                  <p className="text-[11px] text-muted-foreground">Offres limitées — Prix cassés</p>
+                </div>
+              </div>
+              <button onClick={() => router.push('/categories')}
+                className="text-xs text-gold hover:text-gold-light font-semibold flex items-center gap-1 transition-colors">
+                Toutes les promos <ArrowRight size={12} />
+              </button>
+            </div>
 
-              {/* MODE FEMME */}
-              <div className="group cursor-pointer" onClick={() => router.push('/categorie/mode-femme')}>
-                <div className="relative aspect-[4/3] rounded-xl overflow-hidden mb-2 border border-border group-hover:border-gold/40 transition-all">
-                  <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=400&h=300&fit=crop&q=80" alt="Mode Femme" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-2.5">
-                    <span className="bg-gold text-noir text-[9px] font-bold px-2 py-0.5 rounded">MODE FEMME</span>
-                    <p className="text-white text-[11px] font-semibold mt-1 line-clamp-1">Robe Élégante Soie</p>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-gold text-xs font-bold">29,99 €</span>
-                      <span className="text-white/40 text-[10px] line-through">59,99 €</span>
-                      <span className="bg-red-500 text-white text-[9px] font-bold px-1 rounded">-50%</span>
+            {/* Horizontal scroll row of compact product cards */}
+            <div className="flex gap-3 overflow-x-auto pb-3 snap-x snap-mandatory"
+              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            >
+              {promoFlashProducts.map((p) => (
+                <div key={p.id}
+                  className="snap-start shrink-0 w-[140px] sm:w-[155px] bg-noir-card border border-border rounded-xl overflow-hidden hover:border-red-500/30 transition-all duration-300 hover:-translate-y-1 cursor-pointer group"
+                  onClick={() => router.push(p.url)}
+                >
+                  {/* Small product photo */}
+                  <div className="relative h-[100px] sm:h-[110px] bg-white/5 flex items-center justify-center overflow-hidden">
+                    <img
+                      src={p.image}
+                      alt={p.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      loading="lazy"
+                    />
+                    {/* Category badge — top left */}
+                    <span className="absolute top-1.5 left-1.5 bg-gold text-noir text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded leading-tight">
+                      {p.category}
+                    </span>
+                    {/* Discount badge — top right */}
+                    {p.discount && (
+                      <span className="absolute top-1.5 right-1.5 bg-red-500 text-white text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded leading-tight">
+                        -{p.discount}%
+                      </span>
+                    )}
+                  </div>
+                  {/* Info */}
+                  <div className="p-2 sm:p-2.5">
+                    <p className="text-[10px] sm:text-[11px] text-foreground/70 leading-tight line-clamp-2 mb-1.5 min-h-[24px] sm:min-h-[28px] group-hover:text-gold transition-colors">{p.name}</p>
+                    <div className="flex items-end justify-between gap-1">
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-xs sm:text-sm font-bold text-gold">{p.price}</span>
+                        {p.oldPrice && (
+                          <span className="text-[9px] sm:text-[10px] text-muted-foreground line-through">{p.oldPrice}</span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-
-              {/* PARFUMS & BEAUTÉ */}
-              <div className="group cursor-pointer" onClick={() => router.push('/categorie/parfums-cosmetiques')}>
-                <div className="relative aspect-[4/3] rounded-xl overflow-hidden mb-2 border border-border group-hover:border-gold/40 transition-all">
-                  <img src="https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/c9847eddf48c.jpg" alt="Parfums & Beauté" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-2.5">
-                    <span className="bg-gold text-noir text-[9px] font-bold px-2 py-0.5 rounded">BEAUTÉ</span>
-                    <p className="text-white text-[11px] font-semibold mt-1 line-clamp-1">Sérum Vitamine C</p>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-gold text-xs font-bold">12,99 €</span>
-                      <span className="text-white/40 text-[10px] line-through">29,99 €</span>
-                      <span className="bg-red-500 text-white text-[9px] font-bold px-1 rounded">-57%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* ÉLECTRONIQUE */}
-              <div className="group cursor-pointer" onClick={() => router.push('/categorie/telephones')}>
-                <div className="relative aspect-[4/3] rounded-xl overflow-hidden mb-2 border border-border group-hover:border-gold/40 transition-all">
-                  <img src="https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/208981e1bfa6.jpg" alt="Électronique" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-2.5">
-                    <span className="bg-gold text-noir text-[9px] font-bold px-2 py-0.5 rounded">HIGH-TECH</span>
-                    <p className="text-white text-[11px] font-semibold mt-1 line-clamp-1">Écouteurs Bluetooth TWS</p>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-gold text-xs font-bold">19,99 €</span>
-                      <span className="text-white/40 text-[10px] line-through">39,99 €</span>
-                      <span className="bg-red-500 text-white text-[9px] font-bold px-1 rounded">-50%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* MAISON & DÉCO */}
-              <div className="group cursor-pointer" onClick={() => router.push('/categorie/maison')}>
-                <div className="relative aspect-[4/3] rounded-xl overflow-hidden mb-2 border border-border group-hover:border-gold/40 transition-all">
-                  <img src="https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b5e8fcaaf042.jpg" alt="Maison" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-2.5">
-                    <span className="bg-gold text-noir text-[9px] font-bold px-2 py-0.5 rounded">MAISON</span>
-                    <p className="text-white text-[11px] font-semibold mt-1 line-clamp-1">Diffuseur Essentielles</p>
-                    <div className="flex items-center gap-2 mt-0.5">
-                      <span className="text-gold text-xs font-bold">16,99 €</span>
-                      <span className="text-white/40 text-[10px] line-through">34,99 €</span>
-                      <span className="bg-red-500 text-white text-[9px] font-bold px-1 rounded">-51%</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
+              ))}
             </div>
           </div>
         </section>
 
-        {/* ═══════════════════════════════════════════════════════════ */}
+        {/* ----------------------------------------------------------- */}
         {/*  UZALUS TOOLS — Grid of free tools                            */}
-        {/* ═══════════════════════════════════════════════════════════ */}
+        {/* ----------------------------------------------------------- */}
         <section id="uzalus-tools" className="py-1 bg-noir">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
@@ -587,9 +589,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ═══════════════════════════════════════════════════════════ */}
+        {/* ----------------------------------------------------------- */}
         {/*  FEATURE CARDS — 4 columns                                    */}
-        {/* ═══════════════════════════════════════════════════════════ */}
+        {/* ----------------------------------------------------------- */}
         <section className="bg-noir pt-2">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Trust badges */}
@@ -684,9 +686,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ═══════════════════════════════════════════════════════════ */}
+        {/* ----------------------------------------------------------- */}
         {/*  TENDANCES DU JOUR — Horizontal scrollable products          */}
-        {/* ═══════════════════════════════════════════════════════════ */}
+        {/* ----------------------------------------------------------- */}
         <section id="tendances" className="py-1 bg-noir-light/30">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
@@ -752,9 +754,9 @@ export default function Home() {
 
 
 
-        {/* ═══════════════════════════════════════════════════════════ */}
+        {/* ----------------------------------------------------------- */}
         {/*  CJ DROPSHIPPING — Pièces détachées Auto & Moto              */}
-        {/* ═══════════════════════════════════════════════════════════ */}
+        {/* ----------------------------------------------------------- */}
         <section className="bg-noir py-1 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
@@ -826,9 +828,9 @@ export default function Home() {
         </section>
 
 
-        {/* ═══════════════════════════════════════════════════════════ */}
+        {/* ----------------------------------------------------------- */}
         {/*  CJ DROPSHIPPING — Meilleures ventes toutes catégories          */}
-        {/* ═══════════════════════════════════════════════════════════ */}
+        {/* ----------------------------------------------------------- */}
         <section className="bg-noir py-1 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
