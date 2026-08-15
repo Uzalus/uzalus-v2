@@ -371,75 +371,77 @@ export default function Home() {
           </div>
         </div>
 
-{/* ═══════════════════════════════════════════════════════════ */}
-        {/*  HERO BANNER — Auto-rotating carousel                          */}
+        {/* ═══════════════════════════════════════════════════════════ */}
+        {/*  HERO BANNER — Video background + rotating text                   */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <section className="relative w-full bg-noir py-1">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 flex items-center gap-3 lg:gap-4">
             {/* Left AdSense */}
-            <div className="hidden lg:flex flex-1 h-[280px] items-center justify-center">
+            <div className="hidden lg:flex flex-1 h-[200px] items-center justify-center">
               <AdSenseBlock className="!my-0 w-full h-full max-w-full" />
             </div>
 
-            {/* Center — Banner carousel */}
+            {/* Center — Video banner */}
             <div className="w-full lg:w-[900px] shrink-0">
-              <div className="relative w-full h-[180px] sm:h-[220px] lg:h-[280px] rounded-2xl overflow-hidden">
-          {/* Slides */}
-          {heroBanners.map((slide, i) => (
-            <div
-              key={slide.id}
-              className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${i === bannerIndex ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
-            >
-              <img
-                src={slide.image}
-                alt={slide.title}
-                className="w-full h-full object-cover"
-              />
-              <div className={`absolute inset-0 bg-gradient-to-r ${slide.gradient}`} />
-              <div className="absolute inset-0 flex items-center z-20">
-                <div className="px-5 sm:px-8 lg:px-10 w-full">
-                  <p className="text-white/70 text-[10px] sm:text-xs mb-0.5 sm:mb-1 tracking-widest uppercase">{slide.subtitle}</p>
-                  <h2 className="font-display text-lg sm:text-xl lg:text-2xl font-bold gold-text mb-2 sm:mb-3 leading-tight">{slide.title}</h2>
-                  <button
-                    onClick={() => router.push('/categorie/' + slide.slug)}
-                    className="gold-btn px-4 sm:px-5 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs font-bold tracking-wider uppercase"
-                  >
-                    {slide.cta}
-                  </button>
+              <div className="relative w-full h-[180px] sm:h-[200px] lg:h-[200px] rounded-2xl overflow-hidden">
+                {/* Video background */}
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="absolute inset-0 w-full h-full object-cover"
+                  src="/videos/hero.mp4"
+                  poster="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=900&h=400&fit=crop&q=80"
+                />
+                {/* Dark overlay */}
+                <div className="absolute inset-0 bg-black/50 z-10" />
+                {/* Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10" />
+
+                {/* Rotating text */}
+                <div className="absolute inset-0 flex items-center z-20">
+                  <div className="px-5 sm:px-8 lg:px-10 w-full">
+                    <p className="text-white/70 text-[10px] sm:text-xs mb-0.5 sm:mb-1 tracking-widest uppercase transition-all duration-500">{heroBanners[bannerIndex].subtitle}</p>
+                    <h2 className="font-display text-lg sm:text-xl lg:text-2xl font-bold gold-text mb-2 sm:mb-3 leading-tight transition-all duration-500">{heroBanners[bannerIndex].title}</h2>
+                    <button
+                      onClick={() => router.push('/categorie/' + heroBanners[bannerIndex].slug)}
+                      className="gold-btn px-4 sm:px-5 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs font-bold tracking-wider uppercase"
+                    >
+                      {heroBanners[bannerIndex].cta}
+                    </button>
+                  </div>
+                </div>
+
+                {/* Left/Right arrows */}
+                <button
+                  onClick={() => goBanner((bannerIndex - 1 + heroBanners.length) % heroBanners.length)}
+                  className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 flex items-center justify-center text-white/80 hover:text-white transition-all"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+                </button>
+                <button
+                  onClick={() => goBanner((bannerIndex + 1) % heroBanners.length)}
+                  className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 flex items-center justify-center text-white/80 hover:text-white transition-all"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+                </button>
+
+                {/* Dots */}
+                <div className="absolute bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2">
+                  {heroBanners.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => goBanner(i)}
+                      className={`rounded-full transition-all duration-300 ${i === bannerIndex ? 'w-7 h-2.5 bg-gold' : 'w-2.5 h-2.5 bg-white/40 hover:bg-white/60'}`}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
-          ))}
-
-          {/* Left/Right arrows */}
-          <button
-            onClick={() => goBanner((bannerIndex - 1 + heroBanners.length) % heroBanners.length)}
-            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 flex items-center justify-center text-white/80 hover:text-white transition-all"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-          </button>
-          <button
-            onClick={() => goBanner((bannerIndex + 1) % heroBanners.length)}
-            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-black/40 hover:bg-black/60 border border-white/10 flex items-center justify-center text-white/80 hover:text-white transition-all"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
-          </button>
-
-          {/* Dots */}
-          <div className="absolute bottom-3 sm:bottom-5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2">
-            {heroBanners.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => goBanner(i)}
-                className={`rounded-full transition-all duration-300 ${i === bannerIndex ? 'w-7 h-2.5 bg-gold' : 'w-2.5 h-2.5 bg-white/40 hover:bg-white/60'}`}
-              />
-            ))}
-          </div>
-          </div>
-            </div>
 
             {/* Right AdSense */}
-            <div className="hidden lg:flex flex-1 h-[280px] items-center justify-center">
+            <div className="hidden lg:flex flex-1 h-[200px] items-center justify-center">
               <AdSenseBlock className="!my-0 w-full h-full max-w-full" />
             </div>
           </div>
