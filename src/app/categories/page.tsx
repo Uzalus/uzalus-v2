@@ -134,6 +134,7 @@ export default function CategoriesPage() {
   const [catLoading, setCatLoading] = useState(true);
   const [products, setProducts] = useState<CJProduct[]>([]);
   const [productsLoading, setProductsLoading] = useState(true);
+  const [productsError, setProductsError] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [page, setPage] = useState(1);
@@ -182,6 +183,7 @@ export default function CategoriesPage() {
         if (resetPage) {
           setProducts(newProds);
           setHasMore(true);
+          setProductsError(false);
         } else {
           setProducts(prev => {
             const ids = new Set(prev.map((p: CJProduct) => p.pid));
@@ -191,8 +193,12 @@ export default function CategoriesPage() {
           });
         }
         if (!resetPage) setPage(currentPage);
+      } else {
+        if (resetPage) setProductsError(true);
       }
-    } catch { /* silent */ }
+    } catch {
+      if (resetPage) setProductsError(true);
+    }
     finally {
       if (resetPage) setProductsLoading(false);
       else setLoadingMore(false);
@@ -299,7 +305,16 @@ export default function CategoriesPage() {
             </div>
           )}
 
-          {!productsLoading && products.length > 0 && (
+          {!productsLoading && productsError && (
+            <div className="flex flex-col items-center justify-center py-16 text-center">
+              <p className="text-muted-foreground mb-4">Erreur de chargement des produits</p>
+              <button onClick={() => fetchProducts(true)} className="px-6 py-2.5 bg-gold text-noir text-sm font-bold rounded-xl hover:bg-gold-light transition-colors">
+                Reessayer
+              </button>
+            </div>
+          )}
+
+          {!productsLoading && !productsError && products.length > 0 && (
             <>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-5">
                 {products.map((p) => <ProductCard key={p.pid} product={p} />)}
