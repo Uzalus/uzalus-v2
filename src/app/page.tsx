@@ -174,7 +174,7 @@ const heroBanners = [
   },
   {
     id: 5,
-    image: 'https://images.unsplash.com/photo-1586023492125-27bfdc403348?w=1400&h=500&fit=crop&q=80',
+    image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/c9847eddf48c.jpg',
     title: 'MAISON & DÉCO',
     subtitle: 'Amezangez votre espace de vie',
     cta: 'DÉCOUVRIR',
@@ -183,7 +183,7 @@ const heroBanners = [
   },
   {
     id: 6,
-    image: 'https://images.unsplash.com/photo-1461896836934-bd45ba8fcf9b?w=1400&h=500&fit=crop&q=80',
+    image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/3e2f334b221e.jpg',
     title: 'SPORT & FITNESS',
     subtitle: 'Équipez-vous pour performer',
     cta: 'DÉCOUVRIR',
@@ -372,7 +372,9 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  HERO BANNER — Auto-rotating carousel                          */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="relative w-full h-[220px] sm:h-[280px] lg:h-[380px] overflow-hidden bg-noir">
+        <section className="relative w-full bg-noir py-4 lg:py-6">
+          <div className="max-w-[900px] mx-auto px-4 sm:px-6">
+            <div className="relative w-full h-[180px] sm:h-[220px] lg:h-[280px] rounded-2xl overflow-hidden">
           {/* Slides */}
           {heroBanners.map((slide, i) => (
             <div
@@ -386,12 +388,12 @@ export default function Home() {
               />
               <div className={`absolute inset-0 bg-gradient-to-r ${slide.gradient}`} />
               <div className="absolute inset-0 flex items-center z-20">
-                <div className="max-w-[1400px] mx-auto px-6 sm:px-10 lg:px-16 w-full">
-                  <p className="text-white/70 text-xs sm:text-sm mb-1 sm:mb-2 tracking-widest uppercase">{slide.subtitle}</p>
-                  <h2 className="font-display text-2xl sm:text-3xl lg:text-5xl font-bold gold-text mb-3 sm:mb-5 leading-tight">{slide.title}</h2>
+                <div className="px-5 sm:px-8 lg:px-10 w-full">
+                  <p className="text-white/70 text-[10px] sm:text-xs mb-0.5 sm:mb-1 tracking-widest uppercase">{slide.subtitle}</p>
+                  <h2 className="font-display text-lg sm:text-xl lg:text-2xl font-bold gold-text mb-2 sm:mb-3 leading-tight">{slide.title}</h2>
                   <button
                     onClick={() => router.push('/categorie/' + slide.slug)}
-                    className="gold-btn px-5 sm:px-7 py-2 sm:py-3 rounded-lg text-xs sm:text-sm font-bold tracking-wider uppercase"
+                    className="gold-btn px-4 sm:px-5 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs font-bold tracking-wider uppercase"
                   >
                     {slide.cta}
                   </button>
@@ -423,6 +425,8 @@ export default function Home() {
                 className={`rounded-full transition-all duration-300 ${i === bannerIndex ? 'w-7 h-2.5 bg-gold' : 'w-2.5 h-2.5 bg-white/40 hover:bg-white/60'}`}
               />
             ))}
+          </div>
+          </div>
           </div>
         </section>
 
