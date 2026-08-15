@@ -607,47 +607,31 @@ export default function Home() {
           </div>
         </section>
 
-
-        {/* ═══════════════════════════════════════════════════════════ */}
-        {/*  HERO SECTION                                               */}
-        {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="relative overflow-hidden bg-gradient-to-br from-noir via-noir to-noir-light">
-          {/* Subtle gold glow effects */}
-          <div className="absolute top-0 end-0 w-[600px] h-[600px] bg-gold/5 rounded-full blur-[120px]" />
-          <div className="absolute bottom-0 start-0 w-[400px] h-[400px] bg-gold/3 rounded-full blur-[100px]" />
-
-          <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
-            <div className="max-w-2xl mx-auto text-center lg:text-left lg:mx-0">
-              <div className="max-w-xl lg:mx-0 mx-auto">
-                {/* Trust badges */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex items-center gap-3">
-                    <Truck size={18} className="text-gold shrink-0" />
-                    <span className="text-xs text-foreground/60">Livraison rapide dans toute l'Europe</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Shield size={18} className="text-gold shrink-0" />
-                    <span className="text-xs text-foreground/60">Paiement 100% sécurisé</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <RotateCcw size={18} className="text-gold shrink-0" />
-                    <span className="text-xs text-foreground/60">Retour facile sous 14 jours</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <Package size={18} className="text-gold shrink-0" />
-                    <span className="text-xs text-foreground/60">+100 000 produits disponibles</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  FEATURE CARDS — 4 columns                                    */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="py-4 lg:py-6 bg-noir">
+        <section className="bg-noir">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Trust badges */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pb-4 border-b border-border mb-4">
+              <div className="flex items-center gap-2">
+                <Truck size={16} className="text-gold shrink-0" />
+                <span className="text-[11px] text-foreground/60">Livraison rapide en Europe</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Shield size={16} className="text-gold shrink-0" />
+                <span className="text-[11px] text-foreground/60">Paiement 100% sécurisé</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <RotateCcw size={16} className="text-gold shrink-0" />
+                <span className="text-[11px] text-foreground/60">Retour facile sous 14 jours</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Package size={16} className="text-gold shrink-0" />
+                <span className="text-[11px] text-foreground/60">+100 000 produits disponibles</span>
+              </div>
+            </div>
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Boutique */}
               <button
