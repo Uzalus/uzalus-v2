@@ -409,8 +409,15 @@ export default function Home() {
         {/*  HERO BANNER — Auto-rotating carousel                          */}
         {/* ═══════════════════════════════════════════════════════════ */}
         <section className="relative w-full bg-noir py-4 lg:py-6">
-          <div className="max-w-[900px] mx-auto px-4 sm:px-6">
-            <div className="relative w-full h-[180px] sm:h-[220px] lg:h-[280px] rounded-2xl overflow-hidden">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 flex items-center gap-3 lg:gap-4">
+            {/* Left AdSense */}
+            <div className="hidden lg:flex flex-1 h-[280px] items-center justify-center">
+              <AdSenseBlock className="!my-0 w-full h-full max-w-full" />
+            </div>
+
+            {/* Center — Banner carousel */}
+            <div className="w-full lg:w-[900px] shrink-0">
+              <div className="relative w-full h-[180px] sm:h-[220px] lg:h-[280px] rounded-2xl overflow-hidden">
           {/* Slides */}
           {heroBanners.map((slide, i) => (
             <div
@@ -463,6 +470,12 @@ export default function Home() {
             ))}
           </div>
           </div>
+            </div>
+
+            {/* Right AdSense */}
+            <div className="hidden lg:flex flex-1 h-[280px] items-center justify-center">
+              <AdSenseBlock className="!my-0 w-full h-full max-w-full" />
+            </div>
           </div>
         </section>
 
