@@ -15,11 +15,11 @@ const tabs: TabItem[] = [
   { id: 'home', icon: Home, labelKey: 'mob.home' },
   { id: 'categories', icon: Grid3X3, labelKey: 'mob.categories' },
   { id: 'favorites', icon: Heart, labelKey: 'mob.favorites' },
-  { id: 'cart', icon: ShoppingCart, labelKey: 'mob.cart', badge: 4 },
+  { id: 'cart', icon: ShoppingCart, labelKey: 'mob.cart' },
   { id: 'account', icon: User, labelKey: 'mob.account' },
 ];
 
-export function MobileNav() {
+export default function MobileNav() {
   const { t } = useI18n();
   const [activeTab, setActiveTab] = useState<string>('home');
 

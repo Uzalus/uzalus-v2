@@ -47,7 +47,6 @@ const navLinks = [
   { key: 'nav.shop', href: '/categories', megaMenu: true },
   { key: 'nav.categories', href: '#categories' },
   { key: 'nav.deals', href: '#promotions' },
-  { key: 'nav.blog', href: '#' },
 ];
 
 const shopCats = [

@@ -3,6 +3,21 @@
 import { useI18n } from '@/lib/i18n-context';
 import { MapPin, Phone, Mail, Instagram, Twitter, Facebook, Youtube } from 'lucide-react';
 
+const quickLinks = [
+  { key: 'nav.home', href: '/' },
+  { key: 'nav.shop', href: '/categories' },
+  { key: 'nav.categories', href: '#categories' },
+  { key: 'nav.deals', href: '#promotions' },
+];
+
+const serviceLinks = [
+  { key: 'footer.faq', href: '/categories' },
+  { key: 'footer.shipping', href: '/categories' },
+  { key: 'footer.returns', href: '/categories' },
+  { key: 'footer.privacy', href: '/categories' },
+  { key: 'footer.terms', href: '/categories' },
+];
+
 export function Footer() {
   const { t } = useI18n();
   const year = new Date().getFullYear();
@@ -34,7 +49,9 @@ export function Footer() {
               {[Instagram, Twitter, Facebook, Youtube].map((Icon, i) => (
                 <a
                   key={i}
-                  href="#"
+                  href="https://instagram.com/uzalus"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full bg-noir-card border border-border flex items-center justify-center text-muted-foreground hover:text-gold hover:border-gold/40 transition-all duration-300"
                   aria-label="Social media"
                 >
@@ -50,10 +67,10 @@ export function Footer() {
               {t('footer.quickLinks')}
             </h4>
             <ul className="space-y-3">
-              {['nav.home', 'nav.shop', 'nav.categories', 'nav.deals', 'nav.blog', 'nav.about'].map((key) => (
-                <li key={key}>
-                  <a href="#" className="text-sm text-muted-foreground hover:text-gold transition-colors">
-                    {t(key)}
+              {quickLinks.map((link) => (
+                <li key={link.key}>
+                  <a href={link.href} className="text-sm text-muted-foreground hover:text-gold transition-colors">
+                    {t(link.key)}
                   </a>
                 </li>
               ))}
@@ -66,10 +83,10 @@ export function Footer() {
               {t('footer.customerService')}
             </h4>
             <ul className="space-y-3">
-              {['footer.faq', 'footer.shipping', 'footer.returns', 'footer.privacy', 'footer.terms'].map((key) => (
-                <li key={key}>
-                  <a href="#" className="text-sm text-muted-foreground hover:text-gold transition-colors">
-                    {t(key)}
+              {serviceLinks.map((link) => (
+                <li key={link.key}>
+                  <a href={link.href} className="text-sm text-muted-foreground hover:text-gold transition-colors">
+                    {t(link.key)}
                   </a>
                 </li>
               ))}

@@ -717,7 +717,8 @@ export default function Home() {
               {trendingProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="flex-none w-48 sm:w-52 snap-start group bg-noir-card rounded-xl border border-border overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-[0_0_20px_rgba(212,175,55,0.08)]"
+                  className="flex-none w-48 sm:w-52 snap-start group bg-noir-card rounded-xl border border-border overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-[0_0_20px_rgba(212,175,55,0.08)] cursor-pointer"
+                  onClick={() => router.push('/categories')}
                 >
                   <div className="relative aspect-square overflow-hidden bg-noir-lighter">
                     <img
@@ -832,7 +833,7 @@ export default function Home() {
         {/* ----------------------------------------------------------- */}
         {/*  UZALUS — Meilleures ventes toutes catégories                    */}
         {/* ----------------------------------------------------------- */}
-        <section className="bg-noir py-1 overflow-hidden">
+        <section id="categories" className="bg-noir py-1 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
             <div className="flex items-center justify-between mb-3">
