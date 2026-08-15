@@ -209,15 +209,6 @@ const heroBanners = [
     gradient: 'from-black/70 via-black/40 to-transparent',
   },
   {
-    id: 9,
-    image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/5218019ca751.jpg',
-    title: 'ACCESSOIRES',
-    subtitle: 'Montres, bagues, lunettes & plus',
-    cta: 'DÉCOUVRIR',
-    slug: 'accessoires',
-    gradient: 'from-black/70 via-black/40 to-transparent',
-  },
-  {
     id: 10,
     image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/721aaf9e0072.jpeg',
     title: 'ÉLECTRONIQUE',
