@@ -29,3 +29,23 @@ Stage Summary:
 - Only page.tsx was modified — all other pages/components untouched
 - Build: SUCCESS
 - Commits: 506e3f1d0f43, 8c61bc1cc648
+---
+Task ID: 1
+Agent: Main
+Task: Remove CJ Dropshipping branding, reorganize categories, redesign promo section
+
+Work Log:
+- Renamed cjDropshippingProducts → uzalusBestSellers
+- Changed 'CJ Dropshipping' header → 'MEILLEURES VENTES' with UZALUS branding
+- Reorganized promo products by proper UZALUS categories (MODE FEMME, SOINS BEAUTÉ, HIGH-TECH, MODE HOMME, CHAUSSURES, MAISON, SPORT, ACCESSOIRES)
+- Added category badges (gold) to Meilleures Ventes grid section
+- Reorganized best sellers products grouped by category
+- Fixed import MobileNav (default → named export)
+- Build passes, zero CJ/Dropshipping mentions remain
+
+Stage Summary:
+- All CJ Dropshipping branding removed from homepage
+- Categories properly organized: MODE FEMME, SOINS BEAUTÉ, HIGH-TECH, MODE HOMME, CHAUSSURES, MAISON, SPORT, ACCESSOIRES
+- PROMOTIONS FLASH section: compact horizontal scroll with small photos, category badges, discount badges
+- MEILLEURES VENTES section: 6-col grid with category + discount badges
+- Need GitHub token to deploy

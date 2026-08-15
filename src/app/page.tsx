@@ -135,33 +135,33 @@ const autoPartsProducts: CarouselProduct[] = [
   { id: 'ap12', name: 'Essuie-glace Silicone Pair', price: '14,99 €', oldPrice: '24,99 €', discount: 40, shipping: '+ 2,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/1986e27855dd.jpg', url: '/categorie/auto-moto' },
 ];
 
-const cjDropshippingProducts: CarouselProduct[] = [
-  { id: 'cj1', name: 'Sérum Vitamine C Anti-âge', price: '12,99 €', oldPrice: '29,99 €', discount: 57, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/c9847eddf48c.jpg', url: '/categorie/parfums-cosmetiques' },
-  { id: 'cj2', name: 'Écouteurs Bluetooth TWS', price: '19,99 €', oldPrice: '39,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/208981e1bfa6.jpg', url: '/categorie/telephones' },
-  { id: 'cj3', name: 'Montre Homme Luxe', price: '34,99 €', oldPrice: '69,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop', url: '/categorie/mode-homme' },
-  { id: 'cj4', name: 'Lampe LED Décorative', price: '15,99 €', oldPrice: '29,99 €', discount: 47, shipping: '+ 2,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b61836580cc0.jpg', url: '/categorie/maison' },
-  { id: 'cj5', name: 'Parfum Femme 50ml', price: '18,99 €', oldPrice: '45,99 €', discount: 59, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/f2b721c82f06.jpg', url: '/categorie/parfums-cosmetiques' },
-  { id: 'cj6', name: 'Coque iPhone Premium', price: '8,99 €', oldPrice: '19,99 €', discount: 55, shipping: '+ 1,99 €', image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=300&h=300&fit=crop', url: '/categorie/telephones' },
-  { id: 'cj7', name: 'Sac à Main Cuir', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300&h=300&fit=crop', url: '/categorie/mode-femme' },
-  { id: 'cj8', name: 'Organiseur Maquillage', price: '11,99 €', oldPrice: '24,99 €', discount: 52, shipping: '+ 2,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/91598a772487.jpg', url: '/categorie/parfums-cosmetiques' },
-  { id: 'cj9', name: 'Chargeur Magnétique 15W', price: '14,99 €', oldPrice: '27,99 €', discount: 46, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=300&h=300&fit=crop', url: '/categorie/telephones' },
-  { id: 'cj10', name: 'Baskets Sport Femme', price: '32,99 €', oldPrice: '64,99 €', discount: 49, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop', url: '/categorie/chaussures' },
-  { id: 'cj11', name: 'Diffuseur Huiles Essentielles', price: '16,99 €', oldPrice: '34,99 €', discount: 51, shipping: '+ 2,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b5e8fcaaf042.jpg', url: '/categorie/maison' },
-  { id: 'cj12', name: 'Bracelet Homme Acier', price: '9,99 €', oldPrice: '22,99 €', discount: 57, shipping: '+ 1,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/3e2f334b221e.jpg', url: '/categorie/accessoires' },
+const uzalusBestSellers: CarouselProduct[] = [
+  { id: 'bs1', name: 'Sérum Vitamine C Anti-âge', price: '12,99 €', oldPrice: '29,99 €', discount: 57, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/c9847eddf48c.jpg', url: '/categorie/parfums-cosmetiques', category: 'PARFUMS & BEAUTÉ' },
+  { id: 'bs2', name: 'Parfum Femme 50ml', price: '18,99 €', oldPrice: '45,99 €', discount: 59, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/f2b721c82f06.jpg', url: '/categorie/parfums-cosmetiques', category: 'PARFUMS & BEAUTÉ' },
+  { id: 'bs3', name: 'Organiseur Maquillage', price: '11,99 €', oldPrice: '24,99 €', discount: 52, shipping: '+ 2,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/91598a772487.jpg', url: '/categorie/parfums-cosmetiques', category: 'PARFUMS & BEAUTÉ' },
+  { id: 'bs4', name: 'Écouteurs Bluetooth TWS', price: '19,99 €', oldPrice: '39,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/208981e1bfa6.jpg', url: '/categorie/telephones', category: 'HIGH-TECH' },
+  { id: 'bs5', name: 'Chargeur Magnétique 15W', price: '14,99 €', oldPrice: '27,99 €', discount: 46, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=300&h=300&fit=crop', url: '/categorie/telephones', category: 'HIGH-TECH' },
+  { id: 'bs6', name: 'Coque iPhone Premium', price: '8,99 €', oldPrice: '19,99 €', discount: 55, shipping: '+ 1,99 €', image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=300&h=300&fit=crop', url: '/categorie/telephones', category: 'HIGH-TECH' },
+  { id: 'bs7', name: 'Robe Élégante Soie', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=300&h=300&fit=crop', url: '/categorie/mode-femme', category: 'MODE FEMME' },
+  { id: 'bs8', name: 'Sac à Main Cuir', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300&h=300&fit=crop', url: '/categorie/mode-femme', category: 'MODE FEMME' },
+  { id: 'bs9', name: 'Montre Homme Luxe', price: '34,99 €', oldPrice: '69,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop', url: '/categorie/mode-homme', category: 'MODE HOMME' },
+  { id: 'bs10', name: 'Bracelet Homme Acier', price: '9,99 €', oldPrice: '22,99 €', discount: 57, shipping: '+ 1,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/3e2f334b221e.jpg', url: '/categorie/accessoires', category: 'ACCESSOIRES' },
+  { id: 'bs11', name: 'Baskets Sport Femme', price: '32,99 €', oldPrice: '64,99 €', discount: 49, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop', url: '/categorie/chaussures', category: 'CHAUSSURES' },
+  { id: 'bs12', name: 'Haltère Réglable 20kg', price: '39,99 €', oldPrice: '74,99 €', discount: 47, shipping: '+ 4,99 €', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&h=300&fit=crop', url: '/categorie/sport', category: 'SPORT' },
 ];
 
 const promoFlashProducts: CarouselProduct[] = [
   { id: 'pf1', name: 'Robe Élégante Soie', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1483985988355-763728e1935b?w=300&h=300&fit=crop', url: '/categorie/mode-femme', category: 'MODE FEMME' },
-  { id: 'pf2', name: 'Sérum Vitamine C', price: '12,99 €', oldPrice: '29,99 €', discount: 57, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/c9847eddf48c.jpg', url: '/categorie/parfums-cosmetiques', category: 'BEAUTÉ' },
-  { id: 'pf3', name: 'Écouteurs Bluetooth TWS', price: '19,99 €', oldPrice: '39,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/208981e1bfa6.jpg', url: '/categorie/telephones', category: 'HIGH-TECH' },
-  { id: 'pf4', name: 'Diffuseur Essentielles', price: '16,99 €', oldPrice: '34,99 €', discount: 51, shipping: '+ 2,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b5e8fcaaf042.jpg', url: '/categorie/maison', category: 'MAISON' },
-  { id: 'pf5', name: 'Baskets Sport Femme', price: '32,99 €', oldPrice: '64,99 €', discount: 49, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop', url: '/categorie/chaussures', category: 'CHAUSSURES' },
-  { id: 'pf6', name: 'Montre Homme Luxe', price: '34,99 €', oldPrice: '69,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop', url: '/categorie/mode-homme', category: 'MODE HOMME' },
-  { id: 'pf7', name: 'Parfum Femme 50ml', price: '18,99 €', oldPrice: '45,99 €', discount: 59, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/f2b721c82f06.jpg', url: '/categorie/parfums-cosmetiques', category: 'PARFUMS' },
-  { id: 'pf8', name: 'Haltère Réglable 20kg', price: '39,99 €', oldPrice: '74,99 €', discount: 47, shipping: '+ 4,99 €', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&h=300&fit=crop', url: '/categorie/sport', category: 'SPORT' },
-  { id: 'pf9', name: 'Sac à Main Cuir', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300&h=300&fit=crop', url: '/categorie/mode-femme', category: 'MODE FEMME' },
-  { id: 'pf10', name: 'Chargeur Magnétique 15W', price: '14,99 €', oldPrice: '27,99 €', discount: 46, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=300&h=300&fit=crop', url: '/categorie/telephones', category: 'HIGH-TECH' },
-  { id: 'pf11', name: 'Lampe LED Décorative', price: '15,99 €', oldPrice: '29,99 €', discount: 47, shipping: '+ 2,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b61836580cc0.jpg', url: '/categorie/maison', category: 'MAISON' },
+  { id: 'pf2', name: 'Sac à Main Cuir', price: '29,99 €', oldPrice: '59,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=300&h=300&fit=crop', url: '/categorie/mode-femme', category: 'MODE FEMME' },
+  { id: 'pf3', name: 'Sérum Vitamine C', price: '12,99 €', oldPrice: '29,99 €', discount: 57, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/c9847eddf48c.jpg', url: '/categorie/parfums-cosmetiques', category: 'SOINS BEAUTÉ' },
+  { id: 'pf4', name: 'Parfum Femme 50ml', price: '18,99 €', oldPrice: '45,99 €', discount: 59, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/f2b721c82f06.jpg', url: '/categorie/parfums-cosmetiques', category: 'SOINS BEAUTÉ' },
+  { id: 'pf5', name: 'Écouteurs Bluetooth TWS', price: '19,99 €', oldPrice: '39,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/208981e1bfa6.jpg', url: '/categorie/telephones', category: 'HIGH-TECH' },
+  { id: 'pf6', name: 'Chargeur Magnétique 15W', price: '14,99 €', oldPrice: '27,99 €', discount: 46, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=300&h=300&fit=crop', url: '/categorie/telephones', category: 'HIGH-TECH' },
+  { id: 'pf7', name: 'Montre Homme Luxe', price: '34,99 €', oldPrice: '69,99 €', discount: 50, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=300&h=300&fit=crop', url: '/categorie/mode-homme', category: 'MODE HOMME' },
+  { id: 'pf8', name: 'Baskets Sport Femme', price: '32,99 €', oldPrice: '64,99 €', discount: 49, shipping: 'Livraison gratuite', image: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop', url: '/categorie/chaussures', category: 'CHAUSSURES' },
+  { id: 'pf9', name: 'Diffuseur Essentielles', price: '16,99 €', oldPrice: '34,99 €', discount: 51, shipping: '+ 2,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b5e8fcaaf042.jpg', url: '/categorie/maison', category: 'MAISON' },
+  { id: 'pf10', name: 'Lampe LED Décorative', price: '15,99 €', oldPrice: '29,99 €', discount: 47, shipping: '+ 2,99 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/b61836580cc0.jpg', url: '/categorie/maison', category: 'MAISON' },
+  { id: 'pf11', name: 'Haltère Réglable 20kg', price: '39,99 €', oldPrice: '74,99 €', discount: 47, shipping: '+ 4,99 €', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=300&h=300&fit=crop', url: '/categorie/sport', category: 'SPORT' },
   { id: 'pf12', name: 'Bracelet Homme Acier', price: '9,99 €', oldPrice: '22,99 €', discount: 57, shipping: '+ 1,49 €', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/3e2f334b221e.jpg', url: '/categorie/accessoires', category: 'ACCESSOIRES' },
 ];
 
@@ -755,7 +755,7 @@ export default function Home() {
 
 
         {/* ----------------------------------------------------------- */}
-        {/*  CJ DROPSHIPPING — Pièces détachées Auto & Moto              */}
+        {/*  UZALUS — Pièces détachées Auto & Moto                        */}
         {/* ----------------------------------------------------------- */}
         <section className="bg-noir py-1 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -829,7 +829,7 @@ export default function Home() {
 
 
         {/* ----------------------------------------------------------- */}
-        {/*  CJ DROPSHIPPING — Meilleures ventes toutes catégories          */}
+        {/*  UZALUS — Meilleures ventes toutes catégories                    */}
         {/* ----------------------------------------------------------- */}
         <section className="bg-noir py-1 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
@@ -840,8 +840,8 @@ export default function Home() {
                   <Package size={18} className="text-gold" />
                 </div>
                 <div>
-                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">CJ <span className="gold-text">Dropshipping</span></h2>
-                  <p className="text-[11px] text-muted-foreground">Meilleures ventes — Toutes catégories</p>
+                  <h2 className="font-display text-lg sm:text-xl font-bold text-white">MEILLEURES <span className="gold-text">VENTES</span></h2>
+                  <p className="text-[11px] text-muted-foreground">Toutes catégories — Prix imbattables</p>
                 </div>
               </div>
               <button onClick={() => router.push('/categories')}
@@ -852,7 +852,7 @@ export default function Home() {
 
             {/* Grid 4 colonnes */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
-              {cjDropshippingProducts.map((p) => (
+              {uzalusBestSellers.map((p) => (
                 <div key={p.id}
                   className="bg-noir-card border border-border rounded-xl overflow-hidden hover:border-gold/30 transition-all duration-300 hover:-translate-y-1 cursor-pointer group"
                   onClick={() => router.push(p.url)}
@@ -864,8 +864,11 @@ export default function Home() {
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       loading="lazy"
                     />
+                    {p.category && (
+                      <span className="absolute top-2 left-2 bg-gold text-noir text-[8px] sm:text-[9px] font-bold px-1.5 py-0.5 rounded leading-tight">{p.category}</span>
+                    )}
                     {p.discount && (
-                      <span className="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">-{p.discount}%</span>
+                      <span className="absolute top-2 right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">-{p.discount}%</span>
                     )}
                   </div>
                   <div className="p-2.5">
