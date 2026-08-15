@@ -422,16 +422,6 @@ export default function Home() {
           <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
             <div className="max-w-2xl mx-auto text-center lg:text-left lg:mx-0">
               <div className="max-w-xl lg:mx-0 mx-auto">
-                <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl xl:text-[3.4rem] font-bold text-white leading-tight mb-2">
-                  TOUT CE DONT VOUS AVEZ BESOIN,
-                </h1>
-                <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl xl:text-[3.4rem] font-bold gold-text leading-tight mb-6">
-                  EN UN SEUL ENDROIT.
-                </h1>
-                <p className="text-foreground/60 text-base sm:text-lg mb-8">
-                  Achetez, créez, réparez, simplifiez.
-                </p>
-
                 {/* Trust badges */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="flex items-center gap-3">
