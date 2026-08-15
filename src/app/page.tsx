@@ -217,8 +217,17 @@ const heroBanners = [
     slug: 'chaussures',
     gradient: 'from-black/70 via-black/40 to-transparent',
   },
-  {
+  {                                                                                   
     id: 11,
+    image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/3ec023da81b0.jpg',
+    title: 'SOINS BEAUTÉ',
+    subtitle: 'Anti-âge, points noirs & soins visage',
+    cta: 'DÉCOUVRIR',
+    slug: 'parfums-cosmetiques',
+    gradient: 'from-black/70 via-black/40 to-transparent',
+  },
+  {                                                                                   
+    id: 12,
     image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/721aaf9e0072.jpeg',
     title: 'ÉLECTRONIQUE',
     subtitle: 'Gadgets & high-tech à prix mini',
