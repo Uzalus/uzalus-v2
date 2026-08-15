@@ -616,7 +616,7 @@ export default function Home() {
           <div className="absolute top-0 end-0 w-[600px] h-[600px] bg-gold/5 rounded-full blur-[120px]" />
           <div className="absolute bottom-0 start-0 w-[400px] h-[400px] bg-gold/3 rounded-full blur-[100px]" />
 
-          <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+          <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-6 lg:py-8">
             <div className="max-w-2xl mx-auto text-center lg:text-left lg:mx-0">
               <div className="max-w-xl lg:mx-0 mx-auto">
                 {/* Trust badges */}
@@ -646,7 +646,7 @@ export default function Home() {
         {/* ═══════════════════════════════════════════════════════════ */}
         {/*  FEATURE CARDS — 4 columns                                    */}
         {/* ═══════════════════════════════════════════════════════════ */}
-        <section className="py-12 lg:py-16 bg-noir">
+        <section className="py-4 lg:py-6 bg-noir">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {/* Boutique */}
