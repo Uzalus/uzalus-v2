@@ -143,6 +143,7 @@ export function PopularGrid() {
             if (seenPids.has(pid)) continue; // skip duplicates
             seenPids.add(pid);
             const { price: sellEur } = calculateSellingPrice(p.sellPrice);
+            if (sellEur <= 0) continue; // skip products with unparseable price
             const oldEur = p.originalPrice ? calculateSellingPrice(p.originalPrice).price : null;
             const disc = oldEur && oldEur > sellEur ? Math.round(((oldEur - sellEur) / oldEur) * 100) : null;
             newProducts.push({
@@ -168,10 +169,12 @@ export function PopularGrid() {
         setUsingFallback(true);
         setHasMore(false);
       } else {
-        // Also deduplicate against existing products when loading more
+        // Final dedup — ensure absolutely no duplicates
         const existingPids = new Set((reset ? [] : products).map(p => p.pid));
         const unique = newProducts.filter(p => !existingPids.has(p.pid));
-        setProducts(prev => reset ? shuffle(unique) : shuffle([...prev, ...unique]));
+        // Extra safety: remove any duplicates within unique itself
+        const finalUnique = unique.filter((p, i, arr) => arr.findIndex(x => x.pid === p.pid) === i);
+        setProducts(prev => reset ? shuffle(finalUnique) : shuffle([...prev, ...finalUnique]));
         const nextStart = startSlugIdx + BATCH_SIZE;
         setHasMore(nextStart < ALL_SLUGS.length * 3);
         setPage(nextStart);

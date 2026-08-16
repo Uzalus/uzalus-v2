@@ -293,11 +293,29 @@ export const PRICE_SETTINGS = {
 };
 
 /**
- * Calculate UZALUS selling price from CJ cost price
+ * Parse a CJ price value which can be:
+ *  - a number (already parsed)
+ *  - a string like "12.49"
+ *  - a range string like "4.48 -- 5.91" or "4.48 - 5.91"
+ * Returns the lowest price as a number, or 0 if unparseable.
  */
-export function calculateSellingPrice(cjPriceUsd: number): { price: number; cost: number } {
+function parseCjPrice(raw: number | string): number {
+  if (typeof raw === 'number') return raw > 0 ? raw : 0;
+  if (typeof raw !== 'string') return 0;
+  // Take the first number found (lower bound of range)
+  const match = raw.match(/([\d.]+)/);
+  return match ? parseFloat(match[1]) : 0;
+}
+
+/**
+ * Calculate UZALUS selling price from CJ cost price
+ * Handles string prices and price ranges like "4.48 -- 5.91"
+ */
+export function calculateSellingPrice(cjPriceUsd: number | string): { price: number; cost: number } {
   const { marginMultiplier, eurToUsd, shippingMarkup } = PRICE_SETTINGS;
-  const costEur = (cjPriceUsd / eurToUsd) + shippingMarkup;
+  const usd = parseCjPrice(cjPriceUsd);
+  if (usd <= 0) return { price: 0, cost: 0 };
+  const costEur = (usd / eurToUsd) + shippingMarkup;
   const sellingPrice = costEur * marginMultiplier;
   
   return {
