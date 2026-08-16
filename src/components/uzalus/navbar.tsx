@@ -181,7 +181,7 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
             </a>
 
             {/* Center search bar (SHEIN-style: prominent search in the middle) */}
-            <div className="hidden md:flex flex-1 max-w-xl mx-6 items-center bg-noir-lighter border border-border rounded-full px-5 py-2.5 gap-2 focus-within:border-gold/50 transition-colors">
+            <div className="hidden lg:flex flex-1 max-w-xl mx-6 items-center bg-noir-lighter border border-border rounded-full px-5 py-2.5 gap-2 focus-within:border-gold/50 transition-colors">
               <Search size={16} className="text-muted-foreground shrink-0" />
               <input
                 type="text"
@@ -191,7 +191,7 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
             </div>
 
             {/* Desktop nav links */}
-            <div className="hidden lg:flex items-center gap-6">
+            <div className="hidden md:flex items-center gap-4">
               {navLinks.map((link) => (
                 <div
                   key={link.key}
