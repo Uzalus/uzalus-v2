@@ -9,6 +9,7 @@ import MobileNav from '@/components/uzalus/mobile-nav';
 import { CategoryPage, type CatSlug } from '@/components/uzalus/category-page';
 import { ProductDetail } from '@/components/uzalus/product-detail';
 import { useI18n } from '@/lib/i18n-context';
+import { PopularGrid } from '@/components/uzalus/popular-grid';
 import {
   Search,
   ShoppingBag,
@@ -478,6 +479,11 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* ----------------------------------------------------------- */}
+        {/*  POPULAR PRODUCTS GRID — 100+ products from all niches       */}
+        {/* ----------------------------------------------------------- */}
+        <PopularGrid />
 
         <section id="promotions" className="bg-noir py-3 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
