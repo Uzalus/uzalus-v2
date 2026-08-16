@@ -127,6 +127,7 @@ export function PopularGrid() {
     const BATCH_SIZE = startSlugIdx === 0 && reset ? ALL_SLUGS.length : 6;
     const PER_CAT = 6;
     const newProducts: GridProduct[] = [];
+    const seenPids = new Set<string>();
     let gotResults = false;
 
     for (let i = 0; i < BATCH_SIZE; i++) {
@@ -138,11 +139,14 @@ export function PopularGrid() {
         if (data.success && data.products?.length > 0 && !cancelledRef.current) {
           gotResults = true;
           for (const p of data.products) {
+            const pid = String(p.pid);
+            if (seenPids.has(pid)) continue; // skip duplicates
+            seenPids.add(pid);
             const { price: sellEur } = calculateSellingPrice(p.sellPrice);
             const oldEur = p.originalPrice ? calculateSellingPrice(p.originalPrice).price : null;
             const disc = oldEur && oldEur > sellEur ? Math.round(((oldEur - sellEur) / oldEur) * 100) : null;
             newProducts.push({
-              pid: String(p.pid),
+              pid,
               name: p.productNameEn || p.productName || '',
               image: p.productImage,
               price: sellEur,
@@ -164,7 +168,10 @@ export function PopularGrid() {
         setUsingFallback(true);
         setHasMore(false);
       } else {
-        setProducts(prev => reset ? shuffle(newProducts) : shuffle([...prev, ...newProducts]));
+        // Also deduplicate against existing products when loading more
+        const existingPids = new Set((reset ? [] : products).map(p => p.pid));
+        const unique = newProducts.filter(p => !existingPids.has(p.pid));
+        setProducts(prev => reset ? shuffle(unique) : shuffle([...prev, ...unique]));
         const nextStart = startSlugIdx + BATCH_SIZE;
         setHasMore(nextStart < ALL_SLUGS.length * 3);
         setPage(nextStart);
