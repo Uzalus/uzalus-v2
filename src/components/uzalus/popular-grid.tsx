@@ -1,29 +1,12 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useI18n } from '@/lib/i18n-context';
-import { calculateSellingPrice } from '@/lib/cj-api';
 import { fallbackProducts, type FallbackProduct } from '@/lib/fallback-products';
 import { Flame, ArrowRight, Sparkles } from 'lucide-react';
+import cjProductsFr from '@/lib/cj-products-fr.json';
 
-// Category mapping based on CJ product names
-function guessSlug(name: string): string {
-  const n = name.toLowerCase();
-  if (/women|dress|skirt|bikini|ladies|womens|jeans|blouse|camisole|top and pants|coat|hoodies|jacket|short sleeve/i.test(n)) return 'mode-femme';
-  if (/men's|mens|men\s|cargo|sweatshirt|trousers|shoulder bag/i.test(n)) return 'mode-homme';
-  if (/shoes|sneakers|boots|flip-flops|sandals/i.test(n)) return 'chaussures';
-  if (/power bank|earbuds|bluetooth|led|electronic|phone/i.test(n)) return 'electronique';
-  if (/cream|serum|toner|sunscreen|moisturiz|toothpaste|deodorant|mask|oil|balm|shampoo|nail|hair/i.test(n)) return 'parfums-cosmetiques';
-  if (/necklace|bracelet|earring|jewel|pendant|ring/i.test(n)) return 'accessoires';
-  if (/bag|backpack|crossbody/i.test(n)) return 'bagagerie';
-  if (/sport|yoga|gym|shorts|shaper|underwear/i.test(n)) return 'sport';
-  if (/toy|doll|halloween|sticker|coin/i.test(n)) return 'jouets';
-  if (/dog|pet|animal/i.test(n)) return 'animaux';
-  if (/car|auto|bike|vehicle/i.test(n)) return 'auto-moto';
-  if (/home|wall|storage|desk|lamp|kettle|kitchen/i.test(n)) return 'maison';
-  return 'mode-femme';
-}
 
 interface GridProduct {
   pid: string;
@@ -112,70 +95,20 @@ export function PopularGrid() {
   const router = useRouter();
   const [products, setProducts] = useState<GridProduct[]>([]);
   const [loading, setLoading] = useState(true);
-  const [usingFallback, setUsingFallback] = useState(false);
-  const cancelledRef = useRef(false);
 
   useEffect(() => {
-    cancelledRef.current = false;
-
-    async function fetchTop100() {
-      try {
-        // Single request: top 100 products sorted by sales volume
-        const res = await fetch('/api/cj/products?pageSize=100&sortType=salesVolume', {
-          signal: AbortSignal.timeout(30000),
-        });
-        const data = await res.json();
-
-        if (data.success && data.products?.length > 0 && !cancelledRef.current) {
-          const seen = new Set<string>();
-          const grid: GridProduct[] = [];
-
-          for (const p of data.products) {
-            const pid = String(p.pid);
-            if (seen.has(pid)) continue;
-            seen.add(pid);
-
-            const { price: sellEur } = calculateSellingPrice(p.sellPrice);
-            if (sellEur <= 0) continue;
-
-            const oldEur = p.originalPrice ? calculateSellingPrice(p.originalPrice).price : null;
-            const disc = oldEur && oldEur > sellEur ? Math.round(((oldEur - sellEur) / oldEur) * 100) : null;
-
-            const name = p.productNameEn || p.productName || '';
-            grid.push({
-              pid,
-              name,
-              image: p.productImage,
-              price: sellEur,
-              oldPrice: oldEur,
-              discount: disc,
-              slug: guessSlug(name),
-            });
-          }
-
-          if (grid.length > 0 && !cancelledRef.current) {
-            setProducts(shuffle(grid));
-          } else {
-            // No valid products — fallback
-            setProducts(shuffle(fallbackProducts.map(fallbackToGrid)));
-            setUsingFallback(true);
-          }
-        } else if (!cancelledRef.current) {
-          setProducts(shuffle(fallbackProducts.map(fallbackToGrid)));
-          setUsingFallback(true);
-        }
-      } catch {
-        if (!cancelledRef.current) {
-          setProducts(shuffle(fallbackProducts.map(fallbackToGrid)));
-          setUsingFallback(true);
-        }
-      } finally {
-        if (!cancelledRef.current) setLoading(false);
-      }
-    }
-
-    fetchTop100();
-    return () => { cancelledRef.current = true; };
+    // Load pre-translated French products from static JSON (instant, no API call)
+    const grid: GridProduct[] = (cjProductsFr as Array<{pid:string;nameFr:string;image:string;priceEur:number;slug:string}>).map(p => ({
+      pid: p.pid,
+      name: p.nameFr,
+      image: p.image,
+      price: p.priceEur,
+      oldPrice: null,
+      discount: null,
+      slug: p.slug,
+    }));
+    setProducts(shuffle(grid));
+    setLoading(false);
   }, []);
 
   return (
