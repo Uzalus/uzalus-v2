@@ -1,12 +1,4 @@
-skills/
-download/
-upload/
-*.zip
-*.png
-*.jpg
-*.jpeg
-tool-results/
-worklog.md
-.agent-bash-history
-python3
-.z-ai
+node_modules
+.next
+tools_output
+*.log
