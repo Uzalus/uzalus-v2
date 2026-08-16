@@ -283,11 +283,11 @@ export const UZALUS_TO_CJ_CATEGORIES: Record<string, { cjCatIds: string; keyword
  */
 export const PRICE_SETTINGS = {
   /** Multiplier applied to CJ cost price */
-  marginMultiplier: 2.5,
+  marginMultiplier: 1.8,
   /** EUR to USD conversion rate */
   eurToUsd: 1.08,
   /** Fixed shipping cost added (EUR) */
-  shippingMarkup: 4.99,
+  shippingMarkup: 1.49,
   /** VAT rate for EU */
   vatRate: 0.20,
 };
