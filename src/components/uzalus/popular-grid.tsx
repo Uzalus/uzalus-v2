@@ -1,45 +1,29 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useI18n } from '@/lib/i18n-context';
 import { calculateSellingPrice } from '@/lib/cj-api';
 import { fallbackProducts, type FallbackProduct } from '@/lib/fallback-products';
-import { Loader2, Flame, ArrowRight, Sparkles } from 'lucide-react';
+import { Flame, ArrowRight, Sparkles } from 'lucide-react';
 
-// Each slug fetches with UNIQUE trending keywords to get different popular products
-const SEARCH_QUERIES = [
-  { slug: 'mode-femme', kw: 'women cargo pants summer dress' },
-  { slug: 'mode-femme', kw: 'women trendy tops blouse' },
-  { slug: 'mode-homme', kw: 'men cargo pants streetwear' },
-  { slug: 'mode-homme', kw: 'men casual shirt oversized' },
-  { slug: 'chaussures', kw: 'sneakers casual shoes' },
-  { slug: 'chaussures', kw: 'boots ankle women' },
-  { slug: 'telephones', kw: 'wireless earbuds bluetooth' },
-  { slug: 'telephones', kw: 'phone case iphone magnetic' },
-  { slug: 'electronique', kw: 'led strip lights smart' },
-  { slug: 'electronique', kw: 'portable blender usb' },
-  { slug: 'parfums-cosmetiques', kw: 'perfume men luxury' },
-  { slug: 'parfums-cosmetiques', kw: 'skincare serum vitamin c' },
-  { slug: 'maison', kw: 'led night light sunset lamp' },
-  { slug: 'maison', kw: 'storage organizer desk' },
-  { slug: 'accessoires', kw: 'sunglasses men women' },
-  { slug: 'accessoires', kw: 'watch smart band fitness' },
-  { slug: 'sport', kw: 'resistance bands yoga mat' },
-  { slug: 'sport', kw: 'water bottle gym shaker' },
-  { slug: 'enfant', kw: 'kids toys educational' },
-  { slug: 'enfant', kw: 'baby clothes cute' },
-  { slug: 'auto-moto', kw: 'car phone holder wireless charger' },
-  { slug: 'auto-moto', kw: 'car led interior lights' },
-  { slug: 'bagagerie', kw: 'crossbody bag women fashion' },
-  { slug: 'bagagerie', kw: 'backpack travel laptop' },
-  { slug: 'jouets', kw: 'fidget toys stress relief' },
-  { slug: 'animaux', kw: 'pet automatic feeder water' },
-  { slug: 'bricolage', kw: 'electric screwdriver set' },
-  { slug: 'bureau', kw: 'desk lamp wireless charger' },
-  { slug: 'alimentation', kw: 'electric kettle kitchen' },
-  { slug: 'emballage', kw: 'gift box packaging' },
-];
+// Category mapping based on CJ product names
+function guessSlug(name: string): string {
+  const n = name.toLowerCase();
+  if (/women|dress|skirt|bikini|ladies|womens|jeans|blouse|camisole|top and pants|coat|hoodies|jacket|short sleeve/i.test(n)) return 'mode-femme';
+  if (/men's|mens|men\s|cargo|sweatshirt|trousers|shoulder bag/i.test(n)) return 'mode-homme';
+  if (/shoes|sneakers|boots|flip-flops|sandals/i.test(n)) return 'chaussures';
+  if (/power bank|earbuds|bluetooth|led|electronic|phone/i.test(n)) return 'electronique';
+  if (/cream|serum|toner|sunscreen|moisturiz|toothpaste|deodorant|mask|oil|balm|shampoo|nail|hair/i.test(n)) return 'parfums-cosmetiques';
+  if (/necklace|bracelet|earring|jewel|pendant|ring/i.test(n)) return 'accessoires';
+  if (/bag|backpack|crossbody/i.test(n)) return 'bagagerie';
+  if (/sport|yoga|gym|shorts|shaper|underwear/i.test(n)) return 'sport';
+  if (/toy|doll|halloween|sticker|coin/i.test(n)) return 'jouets';
+  if (/dog|pet|animal/i.test(n)) return 'animaux';
+  if (/car|auto|bike|vehicle/i.test(n)) return 'auto-moto';
+  if (/home|wall|storage|desk|lamp|kettle|kitchen/i.test(n)) return 'maison';
+  return 'mode-femme';
+}
 
 interface GridProduct {
   pid: string;
@@ -48,8 +32,6 @@ interface GridProduct {
   price: number;
   oldPrice: number | null;
   discount: number | null;
-  rating: number;
-  comments: number;
   slug: string;
 }
 
@@ -81,7 +63,6 @@ function fallbackToGrid(p: FallbackProduct): GridProduct {
 }
 
 function ProductCard({ p }: { p: GridProduct }) {
-  const [liked, setLiked] = useState(false);
   const router = useRouter();
   return (
     <div
@@ -131,82 +112,71 @@ export function PopularGrid() {
   const router = useRouter();
   const [products, setProducts] = useState<GridProduct[]>([]);
   const [loading, setLoading] = useState(true);
-  const [loadingMore, setLoadingMore] = useState(false);
-  const [page, setPage] = useState(0);
-  const [hasMore, setHasMore] = useState(true);
   const [usingFallback, setUsingFallback] = useState(false);
   const cancelledRef = useRef(false);
 
-  const fetchBatch = useCallback(async (startSlugIdx: number, reset = false) => {
-    if (reset) { setLoading(true); setProducts([]); setPage(0); }
-    else setLoadingMore(true);
+  useEffect(() => {
+    cancelledRef.current = false;
 
-    const BATCH_SIZE = startSlugIdx === 0 && reset ? SEARCH_QUERIES.length : 10;
-    const PER_CAT = 8;
-    const newProducts: GridProduct[] = [];
-    const seenPids = new Set<string>();
-    let gotResults = false;
-
-    for (let i = 0; i < BATCH_SIZE; i++) {
-      const qIdx = (startSlugIdx + i) % SEARCH_QUERIES.length;
-      const q = SEARCH_QUERIES[qIdx];
-      const pageNum = Math.floor((startSlugIdx + i) / SEARCH_QUERIES.length) + 1;
+    async function fetchTop100() {
       try {
-        const res = await fetch(`/api/cj/products?category=${q.slug}&keyword=${encodeURIComponent(q.kw)}&pageSize=${PER_CAT}&page=${pageNum}&sortType=salesVolume`, { signal: AbortSignal.timeout(15000) });
+        // Single request: top 100 products sorted by sales volume
+        const res = await fetch('/api/cj/products?pageSize=100&sortType=salesVolume', {
+          signal: AbortSignal.timeout(30000),
+        });
         const data = await res.json();
+
         if (data.success && data.products?.length > 0 && !cancelledRef.current) {
-          gotResults = true;
+          const seen = new Set<string>();
+          const grid: GridProduct[] = [];
+
           for (const p of data.products) {
             const pid = String(p.pid);
-            if (seenPids.has(pid)) continue; // skip duplicates
-            seenPids.add(pid);
+            if (seen.has(pid)) continue;
+            seen.add(pid);
+
             const { price: sellEur } = calculateSellingPrice(p.sellPrice);
-            if (sellEur <= 0) continue; // skip products with unparseable price
+            if (sellEur <= 0) continue;
+
             const oldEur = p.originalPrice ? calculateSellingPrice(p.originalPrice).price : null;
             const disc = oldEur && oldEur > sellEur ? Math.round(((oldEur - sellEur) / oldEur) * 100) : null;
-            newProducts.push({
+
+            const name = p.productNameEn || p.productName || '';
+            grid.push({
               pid,
-              name: p.productNameEn || p.productName || '',
+              name,
               image: p.productImage,
               price: sellEur,
               oldPrice: oldEur,
               discount: disc,
-              rating: p.rating || 0,
-              comments: p.commentCount || 0,
-              slug: q.slug,
+              slug: guessSlug(name),
             });
           }
+
+          if (grid.length > 0 && !cancelledRef.current) {
+            setProducts(shuffle(grid));
+          } else {
+            // No valid products — fallback
+            setProducts(shuffle(fallbackProducts.map(fallbackToGrid)));
+            setUsingFallback(true);
+          }
+        } else if (!cancelledRef.current) {
+          setProducts(shuffle(fallbackProducts.map(fallbackToGrid)));
+          setUsingFallback(true);
         }
-      } catch { /* skip failed category */ }
-    }
-
-    if (!cancelledRef.current) {
-      if (reset && newProducts.length === 0) {
-        // API returned nothing — use fallback products
-        setProducts(shuffle(fallbackProducts.map(fallbackToGrid)));
-        setUsingFallback(true);
-        setHasMore(false);
-      } else {
-        // Final dedup — ensure absolutely no duplicates
-        const existingPids = new Set((reset ? [] : products).map(p => p.pid));
-        const unique = newProducts.filter(p => !existingPids.has(p.pid));
-        // Extra safety: remove any duplicates within unique itself
-        const finalUnique = unique.filter((p, i, arr) => arr.findIndex(x => x.pid === p.pid) === i);
-        setProducts(prev => reset ? shuffle(finalUnique) : shuffle([...prev, ...finalUnique]));
-        const nextStart = startSlugIdx + BATCH_SIZE;
-        setHasMore(nextStart < SEARCH_QUERIES.length * 4);
-        setPage(nextStart);
+      } catch {
+        if (!cancelledRef.current) {
+          setProducts(shuffle(fallbackProducts.map(fallbackToGrid)));
+          setUsingFallback(true);
+        }
+      } finally {
+        if (!cancelledRef.current) setLoading(false);
       }
-      setLoading(false);
-      setLoadingMore(false);
     }
-  }, []);
 
-  useEffect(() => {
-    cancelledRef.current = false;
-    fetchBatch(0, true);
+    fetchTop100();
     return () => { cancelledRef.current = true; };
-  }, [fetchBatch]);
+  }, []);
 
   return (
     <section className="bg-noir py-4 overflow-hidden">
@@ -239,25 +209,9 @@ export function PopularGrid() {
             {Array.from({ length: 48 }).map((_, i) => <Skeleton key={i} />)}
           </div>
         ) : (
-          <>
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2">
-              {products.map((p) => <ProductCard key={p.pid} p={p} />)}
-            </div>
-
-            {/* Load More — only when using CJ API (not fallback) */}
-            {hasMore && !usingFallback && products.length > 0 && (
-              <div className="flex justify-center mt-8">
-                <button
-                  onClick={() => fetchBatch(page, false)}
-                  disabled={loadingMore}
-                  className="flex items-center gap-2 px-8 py-3 border-2 border-gold/50 text-sm font-semibold text-gold rounded-xl hover:bg-gold hover:text-noir transition-colors disabled:opacity-50"
-                >
-                  {loadingMore && <Loader2 size={16} className="animate-spin" />}
-                  {loadingMore ? t('home.loading') : t('home.loadMore')}
-                </button>
-              </div>
-            )}
-          </>
+          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 xl:grid-cols-8 gap-2">
+            {products.map((p) => <ProductCard key={p.pid} p={p} />)}
+          </div>
         )}
       </div>
     </section>

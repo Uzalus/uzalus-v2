@@ -30,19 +30,16 @@ export async function GET(request: NextRequest) {
     const catMapping = UZALUS_TO_CJ_CATEGORIES[category];
     const params: Parameters<typeof cj.listProducts>[0] = {
       page,
-      pageSize,
+      pageSize: Math.min(pageSize, 100),
       shipTo: 'FR',
-      ePacket: true,
       sortType,
     };
 
+    // Only add category/keyword filters when category is specified
+    // Without category, we get the top products sorted by salesVolume
     if (catMapping) {
       if (catMapping.cjCatIds) params.categoryIds = catMapping.cjCatIds;
-      if (keyword) {
-        params.keywords = keyword;
-      } else if (catMapping.keywords) {
-        params.keywords = catMapping.keywords;
-      }
+      if (catMapping.keywords) params.keywords = catMapping.keywords;
     } else if (keyword) {
       params.keywords = keyword;
     }
