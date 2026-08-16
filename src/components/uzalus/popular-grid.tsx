@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useI18n } from '@/lib/i18n-context';
 import { calculateSellingPrice } from '@/lib/cj-api';
+import { fallbackProducts, type FallbackProduct } from '@/lib/fallback-products';
 import { Star, Heart, Loader2, Flame, ArrowRight, Sparkles } from 'lucide-react';
 
 const ALL_SLUGS = [
@@ -35,6 +36,20 @@ function shuffle<T>(arr: T[]): T[] {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+}
+
+function fallbackToGrid(p: FallbackProduct): GridProduct {
+  return {
+    pid: p.pid,
+    name: p.name,
+    image: p.image,
+    price: p.price,
+    oldPrice: p.oldPrice,
+    discount: p.discount,
+    rating: p.rating,
+    comments: p.comments,
+    slug: p.slug,
+  };
 }
 
 function ProductCard({ p }: { p: GridProduct }) {
@@ -102,6 +117,7 @@ export function PopularGrid() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [page, setPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const [usingFallback, setUsingFallback] = useState(false);
   const cancelledRef = useRef(false);
 
   const fetchBatch = useCallback(async (startSlugIdx: number, reset = false) => {
@@ -111,6 +127,7 @@ export function PopularGrid() {
     const BATCH_SIZE = startSlugIdx === 0 && reset ? ALL_SLUGS.length : 6;
     const PER_CAT = 6;
     const newProducts: GridProduct[] = [];
+    let gotResults = false;
 
     for (let i = 0; i < BATCH_SIZE; i++) {
       const slugIdx = (startSlugIdx + i) % ALL_SLUGS.length;
@@ -119,6 +136,7 @@ export function PopularGrid() {
         const res = await fetch(`/api/cj/products?category=${slug}&pageSize=${PER_CAT}&page=1&sortType=salesVolume`, { signal: AbortSignal.timeout(15000) });
         const data = await res.json();
         if (data.success && data.products?.length > 0 && !cancelledRef.current) {
+          gotResults = true;
           for (const p of data.products) {
             const { price: sellEur } = calculateSellingPrice(p.sellPrice);
             const oldEur = p.originalPrice ? calculateSellingPrice(p.originalPrice).price : null;
@@ -140,10 +158,17 @@ export function PopularGrid() {
     }
 
     if (!cancelledRef.current) {
-      setProducts(prev => reset ? shuffle(newProducts) : shuffle([...prev, ...newProducts]));
-      const nextStart = startSlugIdx + BATCH_SIZE;
-      setHasMore(nextStart < ALL_SLUGS.length * 3);
-      setPage(nextStart);
+      if (reset && newProducts.length === 0) {
+        // API returned nothing — use fallback products
+        setProducts(shuffle(fallbackProducts.map(fallbackToGrid)));
+        setUsingFallback(true);
+        setHasMore(false);
+      } else {
+        setProducts(prev => reset ? shuffle(newProducts) : shuffle([...prev, ...newProducts]));
+        const nextStart = startSlugIdx + BATCH_SIZE;
+        setHasMore(nextStart < ALL_SLUGS.length * 3);
+        setPage(nextStart);
+      }
       setLoading(false);
       setLoadingMore(false);
     }
@@ -191,8 +216,8 @@ export function PopularGrid() {
               {products.map((p) => <ProductCard key={p.pid} p={p} />)}
             </div>
 
-            {/* Load More */}
-            {hasMore && products.length > 0 && (
+            {/* Load More — only when using CJ API (not fallback) */}
+            {hasMore && !usingFallback && products.length > 0 && (
               <div className="flex justify-center mt-8">
                 <button
                   onClick={() => fetchBatch(page, false)}
