@@ -108,7 +108,7 @@ export function PopularGrid() {
     if (reset) { setLoading(true); setProducts([]); setPage(0); }
     else setLoadingMore(true);
 
-    const BATCH_SIZE = 6;
+    const BATCH_SIZE = startSlugIdx === 0 && reset ? ALL_SLUGS.length : 6;
     const PER_CAT = 6;
     const newProducts: GridProduct[] = [];
 
@@ -166,7 +166,9 @@ export function PopularGrid() {
             </div>
             <div>
               <h2 className="font-display text-lg sm:text-xl font-bold text-white">{t('home.popularTitle')}</h2>
-              <p className="text-[11px] text-muted-foreground">{t('home.popularSub')}</p>
+              {products.length > 0 && (
+                <p className="text-[11px] text-muted-foreground">{t('home.popularCount')} {products.length}</p>
+              )}
             </div>
             <Flame size={20} className="text-orange-400 ml-1 hidden sm:block" />
           </div>
@@ -181,7 +183,7 @@ export function PopularGrid() {
         {/* Grid */}
         {loading ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-            {Array.from({ length: 18 }).map((_, i) => <Skeleton key={i} />)}
+            {Array.from({ length: 30 }).map((_, i) => <Skeleton key={i} />)}
           </div>
         ) : (
           <>
