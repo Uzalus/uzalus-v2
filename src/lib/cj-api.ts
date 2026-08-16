@@ -49,6 +49,10 @@ export interface CJCategory {
 
 const CJ_BASE_URL = 'https://developers.cjdropshipping.com/api2.0/v1';
 
+// In-memory token cache (server-side only)
+let cachedAccessToken: string | null = null;
+let tokenExpiry = 0;
+
 export class CJDropshippingAPI {
   private email: string;
   private apiKey: string;
@@ -58,10 +62,37 @@ export class CJDropshippingAPI {
     this.apiKey = apiKey;
   }
 
-  private getHeaders(): HeadersInit {
+  /**
+   * Get a valid access token — uses cache, refreshes when expired
+   */
+  private async getAccessToken(): Promise<string> {
+    // Return cached token if still valid (refresh 1 hour before expiry)
+    if (cachedAccessToken && Date.now() < tokenExpiry) {
+      return cachedAccessToken;
+    }
+
+    const res = await fetch(`${CJ_BASE_URL}/authentication/getAccessToken`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ apiKey: this.apiKey }),
+    });
+    const data = await res.json();
+
+    if (data.code !== 200 || !data.data?.accessToken) {
+      throw new Error(`CJ auth failed: ${data.message || 'Unknown error'}`);
+    }
+
+    cachedAccessToken = data.data.accessToken;
+    // Token valid for 180 days, but we refresh after 23 hours to be safe
+    tokenExpiry = Date.now() + (23 * 60 * 60 * 1000);
+    return cachedAccessToken;
+  }
+
+  private async getHeaders(): Promise<HeadersInit> {
+    const token = await this.getAccessToken();
     return {
       'Content-Type': 'application/json',
-      'CJ-Access-Token': this.apiKey,
+      'CJ-Access-Token': token,
     };
   }
 
@@ -95,9 +126,10 @@ export class CJDropshippingAPI {
 
     const url = `${CJ_BASE_URL}/product/list?${searchParams.toString()}`;
     
+    const headers = await this.getHeaders();
     const res = await fetch(url, {
       method: 'GET',
-      headers: this.getHeaders(),
+      headers,
     });
 
     if (!res.ok) {
@@ -112,10 +144,11 @@ export class CJDropshippingAPI {
    */
   async getProduct(pid: string): Promise<{ code: number; data: CJProduct }> {
     const url = `${CJ_BASE_URL}/product/query?email=${encodeURIComponent(this.email)}&pid=${pid}`;
+    const headers = await this.getHeaders();
     
     const res = await fetch(url, {
       method: 'GET',
-      headers: this.getHeaders(),
+      headers,
     });
 
     if (!res.ok) {
@@ -130,10 +163,11 @@ export class CJDropshippingAPI {
    */
   async getCategories(): Promise<{ code: number; data: { categories: CJCategory[] } }> {
     const url = `${CJ_BASE_URL}/product/category?email=${encodeURIComponent(this.email)}`;
+    const headers = await this.getHeaders();
     
     const res = await fetch(url, {
       method: 'GET',
-      headers: this.getHeaders(),
+      headers,
     });
 
     if (!res.ok) {
@@ -149,7 +183,7 @@ export class CJDropshippingAPI {
   async getShippingCost(params: {
     pid: string;
     quantity?: number;
-    shipTo: string;  // Country code, e.g. 'FR'
+    shipTo: string;
   }): Promise<{ code: number; data: { shippingCost: number; methods: Array<{ name: string; cost: number; days: number }> } }> {
     const searchParams = new URLSearchParams();
     searchParams.set('email', this.email);
@@ -158,10 +192,11 @@ export class CJDropshippingAPI {
     searchParams.set('shipTo', params.shipTo);
 
     const url = `${CJ_BASE_URL}/product/shipping?${searchParams.toString()}`;
+    const headers = await this.getHeaders();
     
     const res = await fetch(url, {
       method: 'GET',
-      headers: this.getHeaders(),
+      headers,
     });
 
     if (!res.ok) {
@@ -197,10 +232,11 @@ export class CJDropshippingAPI {
     };
   }): Promise<{ code: number; data: { orderId: string; trackingNumber?: string } }> {
     const url = `${CJ_BASE_URL}/order/createOrder`;
+    const headers = await this.getHeaders();
     
     const res = await fetch(url, {
       method: 'POST',
-      headers: this.getHeaders(),
+      headers,
       body: JSON.stringify({
         email: this.email,
         ...params,
