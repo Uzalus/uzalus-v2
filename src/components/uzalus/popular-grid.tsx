@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useI18n } from '@/lib/i18n-context';
 import { fallbackProducts, type FallbackProduct } from '@/lib/fallback-products';
-import { Flame, ArrowRight, Sparkles } from 'lucide-react';
+import { Flame, ArrowRight, Sparkles, Truck } from 'lucide-react';
 import cjProductsFr from '@/lib/cj-products-fr.json';
 
 
@@ -73,6 +73,9 @@ function ProductCard({ p }: { p: GridProduct }) {
             <span className="text-[8px] sm:text-[9px] text-muted-foreground line-through">{formatEur(p.oldPrice)}</span>
           )}
         </div>
+        <span className="flex items-center gap-0.5 text-[7px] sm:text-[8px] text-emerald-400/80 mt-0.5">
+          <Truck size={7} /> Livraison gratuite
+        </span>
       </div>
     </div>
   );
