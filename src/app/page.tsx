@@ -480,11 +480,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ----------------------------------------------------------- */}
-        {/*  POPULAR PRODUCTS GRID — 100+ products from all niches       */}
-        {/* ----------------------------------------------------------- */}
-        <PopularGrid />
-
         <section id="promotions" className="bg-noir py-3 overflow-hidden">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
             {/* Header */}
@@ -898,6 +893,11 @@ export default function Home() {
           </div>
         </section>
 
+
+        {/* ----------------------------------------------------------- */}
+        {/*  POPULAR PRODUCTS GRID — 100+ real CJ products               */}
+        {/* ----------------------------------------------------------- */}
+        <PopularGrid />
 
       </main>
 
