@@ -298,13 +298,16 @@ export function Navbar({ onProfileClick }: { onCartClick?: () => void; onProfile
               {/* Cart */}
               <button
                 onClick={cartOpen}
-                className="p-2 text-foreground/80 hover:text-gold transition-colors relative"
+                className="flex items-center gap-2 px-4 py-2 bg-noir-lighter border border-border rounded-lg hover:border-gold/40 transition-colors relative"
                 aria-label={t('nav.cart')}
               >
-                <ShoppingBag size={20} />
-                {cartTotalItems() > 0 && (
-                  <span className="absolute -top-0.5 -end-0.5 w-4 h-4 bg-gold text-noir text-[10px] font-bold rounded-full flex items-center justify-center">{cartTotalItems()}</span>
-                )}
+                <div className="relative">
+                  <ShoppingBag size={18} className="text-foreground/80" />
+                  {cartTotalItems() > 0 && (
+                    <span className="absolute -top-1.5 -right-2 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">{cartTotalItems()}</span>
+                  )}
+                </div>
+                <span className="text-sm font-medium text-foreground/90">Mon panier</span>
               </button>
             </div>
           </div>
