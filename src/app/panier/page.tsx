@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 function formatPrice(amount: number): string {
-  return amount.toFixed(2).replace('.', ',') + ' \u20ac';
+  return amount.toFixed(2).replace('.', ',') + ' €';
 }
 
 export default function PanierPage() {
@@ -33,7 +33,7 @@ export default function PanierPage() {
         <h1 className="text-2xl font-bold text-foreground mb-2">Votre panier est vide</h1>
         <p className="text-muted-foreground text-sm mb-6">Ajoutez des articles avant de passer commande</p>
         <Link href="/" className="px-8 py-3 bg-gold text-noir text-sm font-bold rounded-full uppercase tracking-wider hover:bg-gold-light transition-colors">
-          Retour \u00e0 la boutique
+          Retour à la boutique
         </Link>
       </div>
     );
@@ -65,7 +65,7 @@ export default function PanierPage() {
             {/* Column headers */}
             <div className="hidden sm:grid grid-cols-12 gap-4 px-5 py-3 mb-2">
               <div className="col-span-6 text-xs font-semibold text-muted-foreground uppercase tracking-wider">Produit</div>
-              <div className="col-span-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider text-center">Quantit\u00e9</div>
+              <div className="col-span-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider text-center">Quantité</div>
               <div className="col-span-3 text-xs font-semibold text-muted-foreground uppercase tracking-wider text-right">Total</div>
             </div>
 
@@ -147,7 +147,7 @@ export default function PanierPage() {
               <div className="bg-noir-card border border-border rounded-2xl p-6">
                 <div className="flex items-center gap-2.5 mb-5">
                   <Ticket size={20} className="text-gold" />
-                  <h2 className="text-sm font-bold text-foreground uppercase tracking-wider">R\u00e9sum\u00e9 de la commande</h2>
+                  <h2 className="text-sm font-bold text-foreground uppercase tracking-wider">Résumé de la commande</h2>
                 </div>
 
                 <div className="space-y-3 mb-5">
@@ -180,7 +180,7 @@ export default function PanierPage() {
 
                 <div className="flex items-center justify-center gap-2 mt-3">
                   <ShieldCheck size={14} className="text-muted-foreground/60" />
-                  <span className="text-xs text-muted-foreground/60">Paiement 100% s\u00e9curis\u00e9</span>
+                  <span className="text-xs text-muted-foreground/60">Paiement 100% sécurisé</span>
                 </div>
               </div>
 
@@ -216,7 +216,7 @@ export default function PanierPage() {
                 </div>
                 <div className="bg-noir-card border border-border rounded-xl p-4 flex flex-col items-center text-center">
                   <ShieldCheck size={22} className="text-gold mb-2" />
-                  <span className="text-[11px] text-foreground/80 font-medium leading-tight">Paiement s\u00e9curis\u00e9</span>
+                  <span className="text-[11px] text-foreground/80 font-medium leading-tight">Paiement sécurisé</span>
                 </div>
               </div>
             </div>

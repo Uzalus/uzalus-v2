@@ -7,7 +7,7 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 function formatPrice(amount: number): string {
-  return amount.toFixed(2).replace('.', ',') + ' \u20ac';
+  return amount.toFixed(2).replace('.', ',') + ' €';
 }
 
 /* ------------------------------------------------------------------ */
@@ -25,7 +25,7 @@ function OrderSummary() {
       <div className="flex items-center gap-2 mb-4">
         <ShoppingBag size={18} className="text-gold" />
         <h3 className="text-sm font-bold text-foreground uppercase tracking-wider">
-          R\u00e9sum\u00e9 ({totalItems()} article{totalItems() > 1 ? 's' : ''})
+          Résumé ({totalItems()} article{totalItems() > 1 ? 's' : ''})
         </h3>
       </div>
 
@@ -75,7 +75,7 @@ function OrderSummary() {
 
       <div className="flex items-center gap-2 mt-4 pt-4 border-t border-border">
         <Lock size={14} className="text-muted-foreground/50" />
-        <span className="text-xs text-muted-foreground/50">Paiement 100% s\u00e9curis\u00e9</span>
+        <span className="text-xs text-muted-foreground/50">Paiement 100% sécurisé</span>
       </div>
       <div className="grid grid-cols-3 gap-3 mt-4">
         <div className="flex flex-col items-center gap-1">
@@ -84,7 +84,7 @@ function OrderSummary() {
         </div>
         <div className="flex flex-col items-center gap-1">
           <Shield size={18} className="text-muted-foreground/50" />
-          <span className="text-[10px] text-muted-foreground/50">Paiement s\u00e9curis\u00e9</span>
+          <span className="text-[10px] text-muted-foreground/50">Paiement sécurisé</span>
         </div>
         <div className="flex flex-col items-center gap-1">
           <Package size={18} className="text-muted-foreground/50" />
@@ -140,7 +140,7 @@ function InformationsContent() {
         <h1 className="text-2xl font-bold text-foreground mb-2">Votre panier est vide</h1>
         <p className="text-muted-foreground text-sm mb-6">Ajoutez des articles avant de passer commande</p>
         <Link href="/" className="px-8 py-3 bg-gold text-noir text-sm font-bold rounded-full uppercase tracking-wider hover:bg-gold-light transition-colors">
-          Retour \u00e0 la boutique
+          Retour à la boutique
         </Link>
       </div>
     );
@@ -154,7 +154,7 @@ function InformationsContent() {
           <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
             <div className="flex items-center gap-2">
               <Truck size={16} className="text-gold" />
-              <span className="text-xs text-foreground/80">Livraison gratuite d\u00e8s 39\u20ac</span>
+              <span className="text-xs text-foreground/80">Livraison gratuite dès 39€</span>
             </div>
             <div className="flex items-center gap-2">
               <RotateCcw size={16} className="text-gold" />
@@ -162,7 +162,7 @@ function InformationsContent() {
             </div>
             <div className="flex items-center gap-2">
               <Shield size={16} className="text-gold" />
-              <span className="text-xs text-foreground/80">Paiement 100% s\u00e9curis\u00e9</span>
+              <span className="text-xs text-foreground/80">Paiement 100% sécurisé</span>
             </div>
           </div>
         </div>
@@ -183,7 +183,7 @@ function InformationsContent() {
               <div className="flex items-center gap-2.5 mb-6">
                 <User size={22} className="text-gold" />
                 <h2 className="text-lg font-bold text-foreground uppercase tracking-wider">
-                  {mode === 'register' ? 'Cr\u00e9er votre compte' : 'Vos informations'}
+                  {mode === 'register' ? 'Créer votre compte' : 'Vos informations'}
                 </h2>
               </div>
 
@@ -191,7 +191,7 @@ function InformationsContent() {
                 {/* Name row */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className={labelClass()}>Pr\u00e9nom <span className="text-red-500">*</span></label>
+                    <label className={labelClass()}>Prénom <span className="text-red-500">*</span></label>
                     <input type="text" className={inputClass()} placeholder="Jean" value={form.firstName} onChange={function (e) { updateField('firstName', e.target.value); }} />
                   </div>
                   <div>
@@ -207,7 +207,7 @@ function InformationsContent() {
                     <input type="email" className={inputClass()} placeholder="jean@email.com" value={form.email} onChange={function (e) { updateField('email', e.target.value); }} />
                   </div>
                   <div>
-                    <label className={labelClass()}>T\u00e9l\u00e9phone <span className="text-red-500">*</span></label>
+                    <label className={labelClass()}>Téléphone <span className="text-red-500">*</span></label>
                     <input type="tel" className={inputClass()} placeholder="+33 6 12 34 56 78" value={form.phone} onChange={function (e) { updateField('phone', e.target.value); }} />
                   </div>
                 </div>
@@ -217,11 +217,11 @@ function InformationsContent() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className={labelClass()}>Mot de passe <span className="text-red-500">*</span></label>
-                      <input type="password" className={inputClass()} placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" value={form.password} onChange={function (e) { updateField('password', e.target.value); }} />
+                      <input type="password" className={inputClass()} placeholder="••••••••" value={form.password} onChange={function (e) { updateField('password', e.target.value); }} />
                     </div>
                     <div>
                       <label className={labelClass()}>Confirmer le mot de passe <span className="text-red-500">*</span></label>
-                      <input type="password" className={inputClass()} placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" value={form.confirmPassword} onChange={function (e) { updateField('confirmPassword', e.target.value); }} />
+                      <input type="password" className={inputClass()} placeholder="••••••••" value={form.confirmPassword} onChange={function (e) { updateField('confirmPassword', e.target.value); }} />
                     </div>
                   </div>
                 )}
@@ -238,7 +238,7 @@ function InformationsContent() {
                   <button
                     onClick={function () {
                       if (mode === 'register') {
-                        alert('Compte cr\u00e9\u00e9 avec succ\u00e8s ! Bienvenue sur UZALUS.');
+                        alert('Compte créé avec succès ! Bienvenue sur UZALUS.');
                       } else {
                         window.location.href = '/checkout/livraison';
                       }

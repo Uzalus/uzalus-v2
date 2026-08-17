@@ -6,7 +6,7 @@ import {
 } from 'lucide-react';
 
 function formatPrice(amount: number): string {
-  return amount.toFixed(2).replace('.', ',') + ' \u20ac';
+  return amount.toFixed(2).replace('.', ',') + ' €';
 }
 
 export function CartSidebar() {

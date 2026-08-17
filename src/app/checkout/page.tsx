@@ -5,7 +5,7 @@ import { User, UserPlus, Shield, Truck, Package, Lock, ShoppingBag, ArrowLeft, A
 import Link from 'next/link';
 
 function formatPrice(amount: number): string {
-  return amount.toFixed(2).replace('.', ',') + ' \u20ac';
+  return amount.toFixed(2).replace('.', ',') + ' €';
 }
 
 /* ------------------------------------------------------------------ */
@@ -23,7 +23,7 @@ function OrderSummary() {
       <div className="flex items-center gap-2 mb-4">
         <ShoppingBag size={18} className="text-gold" />
         <h3 className="text-sm font-bold text-foreground uppercase tracking-wider">
-          R\u00e9sum\u00e9 ({totalItems()} article{totalItems() > 1 ? 's' : ''})
+          Résumé ({totalItems()} article{totalItems() > 1 ? 's' : ''})
         </h3>
       </div>
 
@@ -76,7 +76,7 @@ function OrderSummary() {
       {/* Security + service icons */}
       <div className="flex items-center gap-2 mt-4 pt-4 border-t border-border">
         <Lock size={14} className="text-muted-foreground/50" />
-        <span className="text-xs text-muted-foreground/50">Paiement 100% s\u00e9curis\u00e9</span>
+        <span className="text-xs text-muted-foreground/50">Paiement 100% sécurisé</span>
       </div>
       <div className="flex items-center justify-center gap-6 mt-4">
         <div className="flex flex-col items-center gap-1">
@@ -85,7 +85,7 @@ function OrderSummary() {
         </div>
         <div className="flex flex-col items-center gap-1">
           <Shield size={18} className="text-muted-foreground/50" />
-          <span className="text-[10px] text-muted-foreground/50">Paiement s\u00e9curis\u00e9</span>
+          <span className="text-[10px] text-muted-foreground/50">Paiement sécurisé</span>
         </div>
         <div className="flex flex-col items-center gap-1">
           <Package size={18} className="text-muted-foreground/50" />
@@ -112,7 +112,7 @@ export default function CheckoutPage() {
         <h1 className="text-2xl font-bold text-foreground mb-2">Votre panier est vide</h1>
         <p className="text-muted-foreground text-sm mb-6">Ajoutez des articles avant de passer commande</p>
         <Link href="/" className="px-8 py-3 bg-gold text-noir text-sm font-bold rounded-full uppercase tracking-wider hover:bg-gold-light transition-colors">
-          Retour \u00e0 la boutique
+          Retour à la boutique
         </Link>
       </div>
     );
@@ -126,7 +126,7 @@ export default function CheckoutPage() {
           <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10">
             <div className="flex items-center gap-2">
               <Truck size={16} className="text-gold" />
-              <span className="text-xs text-foreground/80">Livraison gratuite d\u00e8s 39\u20ac</span>
+              <span className="text-xs text-foreground/80">Livraison gratuite dès 39€</span>
             </div>
             <div className="flex items-center gap-2">
               <RotateCcw size={16} className="text-gold" />
@@ -134,7 +134,7 @@ export default function CheckoutPage() {
             </div>
             <div className="flex items-center gap-2">
               <Shield size={16} className="text-gold" />
-              <span className="text-xs text-foreground/80">Paiement 100% s\u00e9curis\u00e9</span>
+              <span className="text-xs text-foreground/80">Paiement 100% sécurisé</span>
             </div>
           </div>
         </div>
@@ -168,7 +168,7 @@ export default function CheckoutPage() {
                   Commander sans inscription
                 </h2>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Paiement rapide, aucune cr\u00e9ation de compte n\u00e9cessaire. Recevez votre confirmation par email.
+                  Paiement rapide, aucune création de compte nécessaire. Recevez votre confirmation par email.
                 </p>
                 <div className="flex items-center gap-1.5 text-gold text-sm font-bold mt-5 group-hover:gap-2.5 transition-all">
                   Continuer
@@ -180,17 +180,17 @@ export default function CheckoutPage() {
               <Link href="/checkout/informations?mode=register" className="block bg-noir-card border border-border rounded-xl p-6 hover:border-gold/40 transition-all group relative">
                 <div className="absolute top-4 right-4">
                   <span className="bg-gold text-noir text-[10px] font-bold px-3 py-1 rounded uppercase tracking-wider">
-                    Recommand\u00e9
+                    Recommandé
                   </span>
                 </div>
                 <div className="w-14 h-14 rounded-full bg-noir-lighter border border-border flex items-center justify-center mb-4 group-hover:border-gold/40 transition-colors">
                   <UserPlus size={24} className="text-muted-foreground group-hover:text-gold transition-colors" />
                 </div>
                 <h2 className="text-base font-bold text-foreground uppercase tracking-wider mb-3">
-                  Cr\u00e9er un compte
+                  Créer un compte
                 </h2>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Suivez vos commandes, cr\u00e9ez une wishlist et profitez d&apos;offres exclusives.
+                  Suivez vos commandes, créez une wishlist et profitez d&apos;offres exclusives.
                 </p>
                 <div className="flex items-center gap-1.5 text-gold text-sm font-bold mt-5 group-hover:gap-2.5 transition-all">
                   Continuer
