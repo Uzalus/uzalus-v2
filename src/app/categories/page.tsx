@@ -8,6 +8,8 @@ import { shopCategoriesData } from '@/lib/shop-data';
 import { calculateSellingPrice } from '@/lib/cj-api';
 import { Footer } from '@/components/uzalus/footer';
 import { ChatWidget } from '@/components/uzalus/chat-widget';
+import { CartSidebar } from '@/components/uzalus/cart-sidebar';
+import { Navbar } from '@/components/uzalus/navbar';
 import {
   Search,
   ChevronRight,
@@ -465,6 +467,7 @@ export default function CategoriesPage() {
 
       <Footer />
       <ChatWidget />
+      <CartSidebar />
     </div>
   );
 }

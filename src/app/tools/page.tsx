@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Navbar } from '@/components/uzalus/navbar';
 import { Footer } from '@/components/uzalus/footer';
 import { ChatWidget } from '@/components/uzalus/chat-widget';
+import { CartSidebar } from '@/components/uzalus/cart-sidebar';
 import MobileNav from '@/components/uzalus/mobile-nav';
 import {
   Search,
@@ -262,6 +263,7 @@ export default function ToolsPage() {
       <Footer />
       <ChatWidget />
       <MobileNav />
+      <CartSidebar />
     </div>
   );
 }

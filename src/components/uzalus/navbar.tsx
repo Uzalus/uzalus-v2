@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useI18n } from '@/lib/i18n-context';
 import { type Locale, localeNames, localeFlags } from '@/lib/i18n';
 import { shopCategoriesData } from '@/lib/shop-data';
+import { useCartStore, useWishlistStore } from '@/lib/cart-store';
 import {
   Search,
   User,
@@ -102,9 +103,12 @@ const profileItems = [
   { key: 'profile.moreServices', icon: Grid3X3 },
 ];
 
-export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => void; onProfileClick?: () => void }) {
+export function Navbar({ onProfileClick }: { onCartClick?: () => void; onProfileClick?: () => void }) {
   const router = useRouter();
   const { t, locale, setLocale } = useI18n();
+  const cartOpen = useCartStore(function(s) { return s.open; });
+  const cartTotalItems = useCartStore(function(s) { return s.totalItems; });
+  const wishlistCount = useWishlistStore(function(s) { return s.count; });
   const [mobileOpen, setMobileOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -119,15 +123,15 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const openMega = () => {
+  const openMega = function() {
     if (megaTimeout.current) clearTimeout(megaTimeout.current);
     setMegaOpen(true);
   };
-  const closeMega = () => {
-    megaTimeout.current = setTimeout(() => setMegaOpen(false), 200);
+  const closeMega = function() {
+    megaTimeout.current = setTimeout(function() { setMegaOpen(false); }, 200);
   };
 
-  const openCategory = (key: string) => {
+  const openCategory = function(key: string) {
     const slug = keyToSlug[key];
     if (slug) {
       router.push('/categorie/' + slug);
@@ -167,7 +171,7 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
             {/* Mobile menu button */}
             <button
               className="lg:hidden p-2 text-foreground hover:text-gold transition-colors"
-              onClick={() => setMobileOpen(!mobileOpen)}
+              onClick={function() { setMobileOpen(!mobileOpen); }}
               aria-label="Toggle menu"
             >
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
@@ -215,7 +219,7 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
               {/* Profile dropdown */}
               <div className="relative">
                 <button
-                  onClick={() => { setProfileOpen(!profileOpen); setLangOpen(false); }}
+                  onClick={function() { setProfileOpen(!profileOpen); setLangOpen(false); }}
                   className="p-2 text-foreground/80 hover:text-gold transition-colors relative"
                   aria-label={t('nav.account')}
                 >
@@ -233,7 +237,7 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
                         return (
                           <button
                             key={item.key}
-                            onClick={() => { onProfileClick?.(); setProfileOpen(false); }}
+                            onClick={function() { setProfileOpen(false); }}
                             className="w-full text-start px-4 py-3 text-sm flex items-center gap-3 hover:bg-noir-card transition-colors text-foreground/80 hover:text-gold"
                           >
                             <Icon size={16} className="text-muted-foreground" />
@@ -243,7 +247,7 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
                       })}
                       <div className="border-t border-border mt-1 pt-1">
                         <button
-                          onClick={() => { onProfileClick?.(); setProfileOpen(false); }}
+                          onClick={function() { setProfileOpen(false); }}
                           className="w-full text-start px-4 py-3 text-sm font-bold text-gold hover:bg-gold/5 transition-colors flex items-center gap-3"
                         >
                           {t('profile.signIn')}
@@ -257,7 +261,7 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
               {/* Language selector */}
               <div className="relative">
                 <button
-                  onClick={() => { setLangOpen(!langOpen); setProfileOpen(false); }}
+                  onClick={function() { setLangOpen(!langOpen); setProfileOpen(false); }}
                   className="flex items-center gap-1 px-2 py-2 text-sm text-foreground/80 hover:text-gold transition-colors rounded-lg hover:bg-noir-lighter"
                 >
                   <Globe size={16} />
@@ -271,7 +275,7 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
                       {locales.map((l) => (
                         <button
                           key={l}
-                          onClick={() => { setLocale(l); setLangOpen(false); }}
+                          onClick={function() { setLocale(l); setLangOpen(false); }}
                           className={`w-full text-start px-4 py-2.5 text-sm flex items-center gap-3 hover:bg-noir-card transition-colors ${locale === l ? 'text-gold bg-gold/5' : 'text-foreground/80'}`}
                         >
                           <span>{localeFlags[l]}</span>
@@ -286,17 +290,21 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
               {/* Wishlist */}
               <button className="p-2 text-foreground/80 hover:text-gold transition-colors relative" aria-label={t('nav.wishlist')}>
                 <Heart size={20} />
-                <span className="absolute -top-0.5 -end-0.5 w-4 h-4 bg-gold text-noir text-[10px] font-bold rounded-full flex items-center justify-center">2</span>
+                {wishlistCount() > 0 && (
+                  <span className="absolute -top-0.5 -end-0.5 w-4 h-4 bg-gold text-noir text-[10px] font-bold rounded-full flex items-center justify-center">{wishlistCount()}</span>
+                )}
               </button>
 
               {/* Cart */}
               <button
-                onClick={onCartClick}
+                onClick={cartOpen}
                 className="p-2 text-foreground/80 hover:text-gold transition-colors relative"
                 aria-label={t('nav.cart')}
               >
                 <ShoppingBag size={20} />
-                <span className="absolute -top-0.5 -end-0.5 w-4 h-4 bg-gold text-noir text-[10px] font-bold rounded-full flex items-center justify-center">0</span>
+                {cartTotalItems() > 0 && (
+                  <span className="absolute -top-0.5 -end-0.5 w-4 h-4 bg-gold text-noir text-[10px] font-bold rounded-full flex items-center justify-center">{cartTotalItems()}</span>
+                )}
               </button>
             </div>
           </div>
@@ -319,8 +327,8 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
                   return (
                     <button
                       key={cat.slug}
-                      onMouseEnter={() => setHoveredSlug(cat.slug)}
-                      onClick={() => openCategory(cat.key)}
+                      onMouseEnter={function() { setHoveredSlug(cat.slug); }}
+                      onClick={function() { openCategory(cat.key); }}
                       className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-start transition-colors duration-150 ${isActive ? 'bg-gold/10 text-gold' : 'text-foreground/70 hover:text-foreground hover:bg-noir-lighter'}`}
                     >
                       <Icon size={16} className={isActive ? 'text-gold' : 'text-muted-foreground'} />
@@ -338,7 +346,7 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
                     <div className="flex items-center justify-between mb-5">
                       <h3 className="font-display text-lg font-bold text-foreground">{t(shopCategoriesData[hoveredSlug].key)}</h3>
                       <button
-                        onClick={() => openCategory(shopCats.find(c => c.slug === hoveredSlug)?.key || '')}
+                        onClick={function() { openCategory(shopCats.find(function(c) { return c.slug === hoveredSlug; })?.key || ''); }}
                         className="text-xs text-gold hover:text-gold-light font-semibold tracking-wide uppercase"
                       >
                         {t('cat.seeAll')} →
@@ -368,7 +376,7 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
                         {shopCategoriesData[hoveredSlug].subCategories!.map((sub) => (
                           <button
                             key={sub.key}
-                            onClick={() => {
+                            onClick={function() {
                               router.push('/categorie/' + hoveredSlug + '?sub=' + encodeURIComponent(sub.key));
                               setMegaOpen(false);
                             }}
@@ -409,7 +417,7 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
                 <a
                   key={link.key}
                   href={link.href}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={function() { setMobileOpen(false); }}
                   className="block py-2.5 text-foreground/80 hover:text-gold transition-colors font-medium tracking-wide uppercase text-sm"
                 >
                   {t(link.key)}
@@ -424,7 +432,7 @@ export function Navbar({ onCartClick, onProfileClick }: { onCartClick?: () => vo
                     return (
                       <button
                         key={cat.key}
-                        onClick={() => openCategory(cat.key)}
+                        onClick={function() { openCategory(cat.key); }}
                         className="flex items-center gap-2 py-1.5 text-foreground/70 hover:text-gold transition-colors text-xs w-full text-start"
                       >
                         <Icon size={14} className="text-gold/60" />

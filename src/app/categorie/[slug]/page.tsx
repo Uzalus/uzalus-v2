@@ -6,12 +6,14 @@ import { Navbar } from '@/components/uzalus/navbar';
 import { Footer } from '@/components/uzalus/footer';
 import { TrustBar } from '@/components/uzalus/trust-bar';
 import { ChatWidget } from '@/components/uzalus/chat-widget';
+import { CartSidebar } from '@/components/uzalus/cart-sidebar';
 import MobileNav from '@/components/uzalus/mobile-nav';
+import { useCartStore, useWishlistStore } from '@/lib/cart-store';
 import { shopCategoriesData } from '@/lib/shop-data';
 import { useI18n } from '@/lib/i18n-context';
 import {
   Search, Star, Heart, SlidersHorizontal, ChevronDown,
-  ArrowLeft, Flame, Eye, CheckCircle, ChevronRight,
+  ArrowLeft, Flame, Eye, CheckCircle, ChevronRight, ShoppingBag,
 } from 'lucide-react';
 
 interface CJProduct {
@@ -51,12 +53,27 @@ function Stars({ rating, count }: { rating: number; count?: number }) {
 }
 
 function ProductCard({ product }: { product: CJProduct }) {
-  const [liked, setLiked] = useState(false);
+  const addToCart = useCartStore(function(s) { return s.addItem; });
+  const wishlistToggle = useWishlistStore(function(s) { return s.toggle; });
+  const isLiked = useWishlistStore(function(s) { return s.isLiked; });
+  const liked = isLiked(product.pid);
+
+  function handleAddToCart(e: React.MouseEvent) {
+    e.stopPropagation();
+    addToCart({
+      pid: product.pid,
+      name: product.productNameEn || product.productName,
+      image: product.productImage,
+      price: product.sellPrice,
+      originalPrice: product.originalPrice,
+    });
+  }
+
   return (
     <div
-      className="group bg-noir-card border border-border rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-[0_8px_30px_rgba(212,175,55,0.08)]"
+      className="group bg-noir-card border border-border rounded-xl overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-[0_8px_30px_rgba(212,175,55,0.08)]"
     >
-      <div className="relative aspect-[3/4] overflow-hidden bg-noir-lighter">
+      <div className="relative aspect-[3/4] overflow-hidden bg-noir-lighter cursor-pointer">
         <img
           src={product.productImage || ''}
           alt={product.productNameEn || product.productName}
@@ -72,7 +89,7 @@ function ProductCard({ product }: { product: CJProduct }) {
           )}
         </div>
         <button
-          onClick={function(e) { e.stopPropagation(); setLiked(!liked); }}
+          onClick={function(e) { e.stopPropagation(); wishlistToggle(product.pid); }}
           className="absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-black/70"
         >
           <Heart size={15} className={liked ? 'fill-red-500 text-red-500' : 'text-white/70'} />
@@ -93,6 +110,13 @@ function ProductCard({ product }: { product: CJProduct }) {
             </span>
           )}
         </div>
+        <button
+          onClick={handleAddToCart}
+          className="mt-3 w-full py-2.5 bg-gold/10 border border-gold/20 text-gold text-xs font-semibold rounded-lg hover:bg-gold hover:text-noir transition-all duration-200 flex items-center justify-center gap-2"
+        >
+          <ShoppingBag size={13} />
+          Ajouter au panier
+        </button>
       </div>
     </div>
   );
@@ -448,6 +472,7 @@ function CategoriePageContent() {
       <Footer />
       <ChatWidget />
       <MobileNav />
+      <CartSidebar />
     </div>
   );
 }

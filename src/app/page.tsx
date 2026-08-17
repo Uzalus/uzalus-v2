@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Navbar } from '@/components/uzalus/navbar';
 import { Footer } from '@/components/uzalus/footer';
 import { ChatWidget } from '@/components/uzalus/chat-widget';
+import { CartSidebar } from '@/components/uzalus/cart-sidebar';
 import MobileNav from '@/components/uzalus/mobile-nav';
 import { CategoryPage, type CatSlug } from '@/components/uzalus/category-page';
 import { ProductDetail } from '@/components/uzalus/product-detail';
@@ -904,6 +905,7 @@ export default function Home() {
       <Footer />
       <ChatWidget />
       <MobileNav />
+      <CartSidebar />
     </div>
   );
 }

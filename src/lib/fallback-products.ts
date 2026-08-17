@@ -13,6 +13,20 @@ export interface FallbackProduct {
   slug: string;
 }
 
+export function toCJProduct(p: FallbackProduct) {
+  return {
+    pid: p.pid,
+    productName: p.name,
+    productNameEn: p.name,
+    productImage: p.image,
+    sellPrice: p.price,
+    originalPrice: p.oldPrice || undefined,
+    discount: p.discount || undefined,
+    rating: p.rating,
+    commentCount: p.comments,
+  };
+}
+
 export const fallbackProducts: FallbackProduct[] = [
   // === TÉLÉPHONES & ACCESSOIRES (telephones) ===
   { pid: 'fb-t1', name: 'Écouteurs Bluetooth TWS Pro', image: 'https://z-cdn.chatglm.cn/image-search-mcp/images-ppt/9c3d13b42f9f.jpg', price: 19.99, oldPrice: 39.99, discount: 50, rating: 4.7, comments: 2341, slug: 'telephones' },
