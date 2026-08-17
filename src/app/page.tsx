@@ -11,6 +11,7 @@ import { CategoryPage, type CatSlug } from '@/components/uzalus/category-page';
 import { ProductDetail } from '@/components/uzalus/product-detail';
 import { useI18n } from '@/lib/i18n-context';
 import { PopularGrid } from '@/components/uzalus/popular-grid';
+import { useCartStore } from '@/lib/cart-store';
 import {
   Search,
   ShoppingBag,
@@ -79,6 +80,10 @@ function getLocalName(p: { name: string; nameEn?: string; nameEs?: string; nameA
   if (loc === 'es' && p.nameEs) return p.nameEs;
   if (loc === 'en' && p.nameEn) return p.nameEn;
   return p.name;
+}
+
+function parsePrice(priceStr: string): number {
+  return parseFloat(priceStr.replace(/[^0-9,]/g, '').replace(',', '.')) || 0;
 }
 
 /* ================================================================== */
@@ -302,6 +307,8 @@ export default function Home() {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [bannerIndex, setBannerIndex] = useState(0);
   const bannerTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const addItemCart = useCartStore(function(state) { return state.addItem; });
+  const openCart = useCartStore(function(state) { return state.open; });
 
   /* Auto-rotate hero banner */
   useEffect(() => {
@@ -527,6 +534,19 @@ export default function Home() {
                         -{p.discount}%
                       </span>
                     )}
+                    {/* Hover cart overlay */}
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                      <button
+                        onClick={function(e) {
+                          e.stopPropagation();
+                          addItemCart({ pid: p.id, name: getLocalName(p, locale), image: p.image, price: parsePrice(p.price), originalPrice: p.oldPrice ? parsePrice(p.oldPrice) : undefined });
+                          openCart();
+                        }}
+                        className="gold-btn text-[10px] sm:text-[11px] px-2.5 py-1"
+                      >
+                        Ajouter au panier
+                      </button>
+                    </div>
                   </div>
                   {/* Info */}
                   <div className="p-2 sm:p-2.5">
@@ -733,6 +753,19 @@ export default function Home() {
                     <span className="absolute top-2 start-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gold text-noir">
                       -{product.discount}%
                     </span>
+                    {/* Hover cart overlay */}
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                      <button
+                        onClick={function(e) {
+                          e.stopPropagation();
+                          addItemCart({ pid: String(product.id), name: getLocalName(product, locale), image: product.image, price: product.price, originalPrice: product.oldPrice });
+                          openCart();
+                        }}
+                        className="gold-btn text-xs px-3 py-1.5"
+                      >
+                        Ajouter au panier
+                      </button>
+                    </div>
                   </div>
                   <div className="p-3">
                     <h3 className="text-xs font-semibold text-foreground/90 mb-2 line-clamp-2 group-hover:text-gold transition-colors leading-snug">
@@ -802,6 +835,19 @@ export default function Home() {
                       {p.discount && (
                         <span className="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">-{p.discount}%</span>
                       )}
+                      {/* Hover cart overlay */}
+                      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                        <button
+                          onClick={function(e) {
+                            e.stopPropagation();
+                            addItemCart({ pid: p.id, name: getLocalName(p, locale), image: p.image, price: parsePrice(p.price), originalPrice: p.oldPrice ? parsePrice(p.oldPrice) : undefined });
+                            openCart();
+                          }}
+                          className="gold-btn text-[10px] px-2.5 py-1"
+                        >
+                          Ajouter au panier
+                        </button>
+                      </div>
                     </div>
                     {/* Info */}
                     <div className="p-2.5">
@@ -875,6 +921,19 @@ export default function Home() {
                     {p.discount && (
                       <span className="absolute top-2 right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">-{p.discount}%</span>
                     )}
+                    {/* Hover cart overlay */}
+                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                      <button
+                        onClick={function(e) {
+                          e.stopPropagation();
+                          addItemCart({ pid: p.id, name: getLocalName(p, locale), image: p.image, price: parsePrice(p.price), originalPrice: p.oldPrice ? parsePrice(p.oldPrice) : undefined });
+                          openCart();
+                        }}
+                        className="gold-btn text-[10px] px-2.5 py-1"
+                      >
+                        Ajouter au panier
+                      </button>
+                    </div>
                   </div>
                   <div className="p-2.5">
                     <p className="text-[11px] text-foreground/70 leading-tight line-clamp-2 mb-2 min-h-[28px]">{getLocalName(p, locale)}</p>

@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useI18n } from '@/lib/i18n-context';
 import { fallbackProducts, type FallbackProduct } from '@/lib/fallback-products';
 import { Flame, ArrowRight, Sparkles, Truck } from 'lucide-react';
+import { useCartStore } from '@/lib/cart-store';
 import cjProductsFr from '@/lib/cj-products-fr.json';
 
 
@@ -47,10 +48,12 @@ function fallbackToGrid(p: FallbackProduct): GridProduct {
 
 function ProductCard({ p }: { p: GridProduct }) {
   const router = useRouter();
+  const addItemCart = useCartStore(function(state) { return state.addItem; });
+  const openCart = useCartStore(function(state) { return state.open; });
   return (
     <div
       className="group bg-noir-card rounded-lg border border-border overflow-hidden hover:border-gold/30 hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(212,175,55,0.06)] transition-all duration-300 flex flex-col cursor-pointer"
-      onClick={() => router.push('/categorie/' + p.slug)}
+      onClick={function() { router.push('/categorie/' + p.slug); }}
     >
       <div className="relative aspect-[3/4] bg-noir-lighter overflow-hidden">
         <img
@@ -62,6 +65,19 @@ function ProductCard({ p }: { p: GridProduct }) {
         {p.discount && p.discount >= 10 && (
           <span className="absolute top-1 left-1 bg-red-500 text-white text-[8px] font-bold px-1 py-0.5 rounded">-{p.discount}%</span>
         )}
+        {/* Hover cart overlay */}
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+          <button
+            onClick={function(e) {
+              e.stopPropagation();
+              addItemCart({ pid: p.pid, name: p.name, image: p.image, price: p.price, originalPrice: p.oldPrice || undefined });
+              openCart();
+            }}
+            className="gold-btn text-[9px] sm:text-[10px] px-2 py-1"
+          >
+            Ajouter au panier
+          </button>
+        </div>
       </div>
       <div className="p-1.5 flex flex-col flex-1">
         <h3 className="text-[9px] sm:text-[10px] text-foreground/70 leading-tight line-clamp-2 mb-1 flex-1 group-hover:text-gold transition-colors">
