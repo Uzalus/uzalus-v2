@@ -1,7 +1,7 @@
 /* Category page — loads CJ products */
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Footer } from '@/components/uzalus/footer';
 import { ChatWidget } from '@/components/uzalus/chat-widget';
@@ -215,7 +215,7 @@ function FilterDropdown({ label, open, onToggle }: { label: string; open: boolea
 /* ================================================================== */
 /*  MAIN PAGE                                                           */
 /* ================================================================== */
-export default function CategoriePage() {
+function CategoriePageContent() {
   const params = useParams();
   const router = useRouter();
   const slug = (params.slug as string) || '';
@@ -544,5 +544,17 @@ export default function CategoriePage() {
       <Footer />
       <ChatWidget />
     </div>
+  );
+}
+
+export default function CategoriePage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="animate-spin w-8 h-8 border-4 border-black border-t-transparent rounded-full" />
+      </div>
+    }>
+      <CategoriePageContent />
+    </Suspense>
   );
 }

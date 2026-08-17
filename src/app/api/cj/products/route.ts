@@ -3,6 +3,24 @@ export const maxDuration = 60;
 
 import { NextRequest, NextResponse } from 'next/server';
 import { CJDropshippingAPI, UZALUS_TO_CJ_CATEGORIES } from '@/lib/cj-api';
+import { fallbackProducts, FallbackProduct } from '@/lib/fallback-products';
+
+/**
+ * Transform fallback products into CJProduct-like format for the frontend
+ */
+function toCJProduct(p: FallbackProduct) {
+  return {
+    pid: p.pid,
+    productName: p.name,
+    productNameEn: p.name,
+    productImage: p.image,
+    sellPrice: p.price,
+    originalPrice: p.oldPrice || undefined,
+    discount: p.discount || undefined,
+    rating: p.rating,
+    commentCount: p.comments,
+  };
+}
 
 // GET /api/cj/products?category=cosmetiques&keyword=serum
 export async function GET(request: NextRequest) {
@@ -17,12 +35,26 @@ export async function GET(request: NextRequest) {
     const cjEmail = process.env.CJ_EMAIL || '';
     const cjApiKey = process.env.CJ_API_KEY || '';
 
+    // If CJ API is not configured, return fallback products
     if (!cjEmail || !cjApiKey) {
+      let filtered = fallbackProducts.filter(p => p.slug === category);
+
+      // If keyword is provided, further filter by name
+      if (keyword) {
+        const kw = keyword.toLowerCase();
+        filtered = filtered.filter(p => p.name.toLowerCase().includes(kw));
+      }
+
+      // If no specific category or no results, return all products for that category or empty
+      const products = filtered.map(toCJProduct);
+
       return NextResponse.json({
-        success: false,
-        error: 'CJ Dropshipping API non configuré. Définissez CJ_EMAIL et CJ_API_KEY dans .env',
-        products: [],
-      }, { status: 400 });
+        success: true,
+        products,
+        total: products.length,
+        page: 1,
+        pageSize: products.length,
+      });
     }
 
     const cj = new CJDropshippingAPI(cjEmail, cjApiKey);
