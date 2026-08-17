@@ -1,15 +1,17 @@
 'use client';
 
 import { useCartStore } from '@/lib/cart-store';
-import { User, UserPlus, Shield, Truck, Package, Lock, ShoppingBag, ArrowLeft, ArrowRight, RotateCcw } from 'lucide-react';
+import { User, Truck, Package, Shield, Lock, ShoppingBag, ArrowLeft, ArrowRight, RotateCcw } from 'lucide-react';
 import Link from 'next/link';
+import { useState, useEffect, Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 function formatPrice(amount: number): string {
   return amount.toFixed(2).replace('.', ',') + ' \u20ac';
 }
 
 /* ------------------------------------------------------------------ */
-/*  Order summary sidebar (compact for checkout)                       */
+/*  Order summary sidebar                                              */
 /* ------------------------------------------------------------------ */
 function OrderSummary() {
   const items = useCartStore(function (s) { return s.items; });
@@ -27,7 +29,6 @@ function OrderSummary() {
         </h3>
       </div>
 
-      {/* Items list */}
       <div className="space-y-3 mb-5">
         {items.map(function (item) {
           return (
@@ -54,7 +55,6 @@ function OrderSummary() {
         })}
       </div>
 
-      {/* Totals */}
       <div className="space-y-2.5 pt-4 border-t border-border">
         <div className="flex justify-between text-sm">
           <span className="text-muted-foreground">Sous-total</span>
@@ -73,12 +73,11 @@ function OrderSummary() {
         </div>
       </div>
 
-      {/* Security + service icons */}
       <div className="flex items-center gap-2 mt-4 pt-4 border-t border-border">
         <Lock size={14} className="text-muted-foreground/50" />
         <span className="text-xs text-muted-foreground/50">Paiement 100% s\u00e9curis\u00e9</span>
       </div>
-      <div className="flex items-center justify-center gap-6 mt-4">
+      <div className="grid grid-cols-3 gap-3 mt-4">
         <div className="flex flex-col items-center gap-1">
           <Truck size={18} className="text-muted-foreground/50" />
           <span className="text-[10px] text-muted-foreground/50">Livraison gratuite</span>
@@ -97,12 +96,41 @@ function OrderSummary() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Main checkout choice page                                          */
+/*  Content that uses useSearchParams                                   */
 /* ------------------------------------------------------------------ */
-export default function CheckoutPage() {
+function InformationsContent() {
   const items = useCartStore(function (s) { return s.items; });
+  const searchParams = useSearchParams();
+  const [mode, setMode] = useState<'guest' | 'register'>('guest');
+  const [form, setForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    password: '',
+    confirmPassword: '',
+  });
 
-  /* Empty cart redirect */
+  useEffect(function () {
+    var m = searchParams.get('mode');
+    if (m === 'register') setMode('register');
+  }, [searchParams]);
+
+  function updateField(field: string, value: string) {
+    setForm(function (prev) {
+      return Object.assign({}, prev, { [field]: value });
+    });
+  }
+
+  function inputClass(): string {
+    return 'w-full bg-noir-lighter border border-[#404040] rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-gold transition-colors';
+  }
+
+  function labelClass(): string {
+    return 'block text-sm font-semibold text-foreground mb-1.5';
+  }
+
+  /* Empty cart */
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-noir flex flex-col items-center justify-center px-4">
@@ -141,62 +169,87 @@ export default function CheckoutPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Back to cart */}
-        <Link href="/panier" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-gold transition-colors mb-8">
+        {/* Back to checkout */}
+        <Link href="/checkout" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-gold transition-colors mb-8">
           <ArrowLeft size={16} />
-          Retour au panier
+          Retour
         </Link>
 
-        {/* Page title centered */}
-        <div className="text-center mb-10">
-          <h1 className="text-3xl sm:text-4xl font-bold text-foreground tracking-wide uppercase font-display">
-            Passer votre commande
-          </h1>
-          <p className="text-muted-foreground mt-2">Choisissez comment vous souhaitez commander</p>
-        </div>
-
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Left: choice cards */}
+          {/* Left: form */}
           <div className="lg:col-span-2">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              {/* Guest card */}
-              <Link href="/checkout/informations?mode=guest" className="block bg-noir-card border border-border rounded-xl p-6 hover:border-gold/40 transition-all group">
-                <div className="w-14 h-14 rounded-full bg-noir-lighter border border-border flex items-center justify-center mb-4 group-hover:border-gold/40 transition-colors">
-                  <User size={24} className="text-muted-foreground group-hover:text-gold transition-colors" />
-                </div>
-                <h2 className="text-base font-bold text-foreground uppercase tracking-wider mb-3">
-                  Commander sans inscription
+            <div className="bg-noir-card border border-border rounded-2xl p-6 sm:p-8">
+              {/* Section title */}
+              <div className="flex items-center gap-2.5 mb-6">
+                <User size={22} className="text-gold" />
+                <h2 className="text-lg font-bold text-foreground uppercase tracking-wider">
+                  {mode === 'register' ? 'Cr\u00e9er votre compte' : 'Vos informations'}
                 </h2>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Paiement rapide, aucune cr\u00e9ation de compte n\u00e9cessaire. Recevez votre confirmation par email.
-                </p>
-                <div className="flex items-center gap-1.5 text-gold text-sm font-bold mt-5 group-hover:gap-2.5 transition-all">
-                  Continuer
-                  <ArrowRight size={16} />
-                </div>
-              </Link>
+              </div>
 
-              {/* Register card */}
-              <Link href="/checkout/informations?mode=register" className="block bg-noir-card border border-border rounded-xl p-6 hover:border-gold/40 transition-all group relative">
-                <div className="absolute top-4 right-4">
-                  <span className="bg-gold text-noir text-[10px] font-bold px-3 py-1 rounded uppercase tracking-wider">
-                    Recommand\u00e9
-                  </span>
+              <div className="space-y-5">
+                {/* Name row */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelClass()}>Pr\u00e9nom <span className="text-red-500">*</span></label>
+                    <input type="text" className={inputClass()} placeholder="Jean" value={form.firstName} onChange={function (e) { updateField('firstName', e.target.value); }} />
+                  </div>
+                  <div>
+                    <label className={labelClass()}>Nom <span className="text-red-500">*</span></label>
+                    <input type="text" className={inputClass()} placeholder="Dupont" value={form.lastName} onChange={function (e) { updateField('lastName', e.target.value); }} />
+                  </div>
                 </div>
-                <div className="w-14 h-14 rounded-full bg-noir-lighter border border-border flex items-center justify-center mb-4 group-hover:border-gold/40 transition-colors">
-                  <UserPlus size={24} className="text-muted-foreground group-hover:text-gold transition-colors" />
+
+                {/* Email & Phone */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className={labelClass()}>Email <span className="text-red-500">*</span></label>
+                    <input type="email" className={inputClass()} placeholder="jean@email.com" value={form.email} onChange={function (e) { updateField('email', e.target.value); }} />
+                  </div>
+                  <div>
+                    <label className={labelClass()}>T\u00e9l\u00e9phone <span className="text-red-500">*</span></label>
+                    <input type="tel" className={inputClass()} placeholder="+33 6 12 34 56 78" value={form.phone} onChange={function (e) { updateField('phone', e.target.value); }} />
+                  </div>
                 </div>
-                <h2 className="text-base font-bold text-foreground uppercase tracking-wider mb-3">
-                  Cr\u00e9er un compte
-                </h2>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Suivez vos commandes, cr\u00e9ez une wishlist et profitez d&apos;offres exclusives.
-                </p>
-                <div className="flex items-center gap-1.5 text-gold text-sm font-bold mt-5 group-hover:gap-2.5 transition-all">
-                  Continuer
-                  <ArrowRight size={16} />
+
+                {/* Password fields (register mode only) */}
+                {mode === 'register' && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className={labelClass()}>Mot de passe <span className="text-red-500">*</span></label>
+                      <input type="password" className={inputClass()} placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" value={form.password} onChange={function (e) { updateField('password', e.target.value); }} />
+                    </div>
+                    <div>
+                      <label className={labelClass()}>Confirmer le mot de passe <span className="text-red-500">*</span></label>
+                      <input type="password" className={inputClass()} placeholder="\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022" value={form.confirmPassword} onChange={function (e) { updateField('confirmPassword', e.target.value); }} />
+                    </div>
+                  </div>
+                )}
+
+                {/* Actions */}
+                <div className="flex items-center justify-between pt-4">
+                  <button
+                    onClick={function () { window.location.href = '/checkout'; }}
+                    className="flex items-center gap-2 px-6 py-3 border border-[#404040] text-foreground text-sm font-semibold rounded-lg hover:bg-noir-lighter transition-colors"
+                  >
+                    <ArrowLeft size={16} />
+                    Retour
+                  </button>
+                  <button
+                    onClick={function () {
+                      if (mode === 'register') {
+                        alert('Compte cr\u00e9\u00e9 avec succ\u00e8s ! Bienvenue sur UZALUS.');
+                      } else {
+                        window.location.href = '/checkout/livraison';
+                      }
+                    }}
+                    className="flex items-center gap-2 px-8 py-3 bg-gold text-noir text-sm font-bold rounded-lg uppercase tracking-wider hover:bg-gold-light transition-colors"
+                  >
+                    Continuer
+                    <ArrowRight size={16} />
+                  </button>
                 </div>
-              </Link>
+              </div>
             </div>
           </div>
 
@@ -207,5 +260,20 @@ export default function CheckoutPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Page wrapper with Suspense                                          */
+/* ------------------------------------------------------------------ */
+export default function InformationsPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-noir flex items-center justify-center">
+        <div className="w-8 h-8 border-2 border-gold border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <InformationsContent />
+    </Suspense>
   );
 }

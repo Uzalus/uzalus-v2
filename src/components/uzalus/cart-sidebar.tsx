@@ -194,7 +194,7 @@ export function CartSidebar() {
             <button
               onClick={function () {
                 close();
-                window.location.href = '/checkout';
+                window.location.href = '/panier';
               }}
               className="w-full py-3.5 bg-gold text-noir text-sm font-bold rounded-full uppercase tracking-wider hover:bg-gold-light transition-colors flex items-center justify-center gap-2"
             >
