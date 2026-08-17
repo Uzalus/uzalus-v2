@@ -191,7 +191,13 @@ export function CartSidebar() {
               </div>
             </div>
 
-            <button className="w-full py-3.5 bg-gold text-noir text-sm font-bold rounded-full uppercase tracking-wider hover:bg-gold-light transition-colors flex items-center justify-center gap-2">
+            <button
+              onClick={function () {
+                close();
+                window.location.href = '/checkout';
+              }}
+              className="w-full py-3.5 bg-gold text-noir text-sm font-bold rounded-full uppercase tracking-wider hover:bg-gold-light transition-colors flex items-center justify-center gap-2"
+            >
               Passer la commande
               <ArrowRight size={16} />
             </button>
