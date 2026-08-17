@@ -534,15 +534,15 @@ export default function Home() {
                         -{p.discount}%
                       </span>
                     )}
-                    {/* Hover cart overlay */}
-                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                    {/* Hover cart — slide up from bottom */}
+                    <div className="absolute bottom-0 inset-x-0 p-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-10 bg-gradient-to-t from-black/70 to-transparent pt-6">
                       <button
                         onClick={function(e) {
                           e.stopPropagation();
                           addItemCart({ pid: p.id, name: getLocalName(p, locale), image: p.image, price: parsePrice(p.price), originalPrice: p.oldPrice ? parsePrice(p.oldPrice) : undefined });
                           openCart();
                         }}
-                        className="gold-btn text-[10px] sm:text-[11px] px-2.5 py-1"
+                        className="gold-btn w-full py-1.5 rounded-lg text-[10px] sm:text-[11px] font-bold tracking-wider uppercase"
                       >
                         Ajouter au panier
                       </button>
@@ -753,15 +753,15 @@ export default function Home() {
                     <span className="absolute top-2 start-2 px-2 py-0.5 rounded text-[10px] font-bold bg-gold text-noir">
                       -{product.discount}%
                     </span>
-                    {/* Hover cart overlay */}
-                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                    {/* Hover cart — slide up from bottom */}
+                    <div className="absolute bottom-0 inset-x-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-10 bg-gradient-to-t from-black/70 to-transparent pt-8">
                       <button
                         onClick={function(e) {
                           e.stopPropagation();
                           addItemCart({ pid: String(product.id), name: getLocalName(product, locale), image: product.image, price: product.price, originalPrice: product.oldPrice });
                           openCart();
                         }}
-                        className="gold-btn text-xs px-3 py-1.5"
+                        className="gold-btn w-full py-2 rounded-xl text-xs font-bold tracking-wider uppercase"
                       >
                         Ajouter au panier
                       </button>
@@ -835,15 +835,15 @@ export default function Home() {
                       {p.discount && (
                         <span className="absolute top-2 left-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">-{p.discount}%</span>
                       )}
-                      {/* Hover cart overlay */}
-                      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                      {/* Hover cart — slide up from bottom */}
+                      <div className="absolute bottom-0 inset-x-0 p-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-10 bg-gradient-to-t from-black/70 to-transparent pt-6">
                         <button
                           onClick={function(e) {
                             e.stopPropagation();
                             addItemCart({ pid: p.id, name: getLocalName(p, locale), image: p.image, price: parsePrice(p.price), originalPrice: p.oldPrice ? parsePrice(p.oldPrice) : undefined });
                             openCart();
                           }}
-                          className="gold-btn text-[10px] px-2.5 py-1"
+                          className="gold-btn w-full py-1.5 rounded-lg text-[10px] font-bold tracking-wider uppercase"
                         >
                           Ajouter au panier
                         </button>
@@ -921,15 +921,15 @@ export default function Home() {
                     {p.discount && (
                       <span className="absolute top-2 right-2 bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded">-{p.discount}%</span>
                     )}
-                    {/* Hover cart overlay */}
-                    <div className="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10">
+                    {/* Hover cart — slide up from bottom */}
+                    <div className="absolute bottom-0 inset-x-0 p-2 translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-10 bg-gradient-to-t from-black/70 to-transparent pt-6">
                       <button
                         onClick={function(e) {
                           e.stopPropagation();
                           addItemCart({ pid: p.id, name: getLocalName(p, locale), image: p.image, price: parsePrice(p.price), originalPrice: p.oldPrice ? parsePrice(p.oldPrice) : undefined });
                           openCart();
                         }}
-                        className="gold-btn text-[10px] px-2.5 py-1"
+                        className="gold-btn w-full py-1.5 rounded-lg text-[10px] font-bold tracking-wider uppercase"
                       >
                         Ajouter au panier
                       </button>
