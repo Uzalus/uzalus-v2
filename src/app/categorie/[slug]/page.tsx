@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback, Suspense } from 'react';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useParams, useSearchParams } from 'next/navigation';
 import { Navbar } from '@/components/uzalus/navbar';
 import { Footer } from '@/components/uzalus/footer';
 import { TrustBar } from '@/components/uzalus/trust-bar';
@@ -36,13 +36,13 @@ function Stars({ rating, count }: { rating: number; count?: number }) {
   const empty = 5 - full - half;
   return (
     <div className="flex items-center gap-0.5">
-      {Array.from({ length: full }).map((_, i) => (
-        <Star key={'f' + i} size={12} className="fill-amber-400 text-amber-400" />
-      ))}
+      {Array.from({ length: full }).map(function(_, i) {
+        return <Star key={'f' + i} size={12} className="fill-amber-400 text-amber-400" />;
+      })}
       {half === 1 && <Star size={12} className="fill-amber-400/50 text-amber-400" />}
-      {Array.from({ length: empty }).map((_, i) => (
-        <Star key={'e' + i} size={12} className="text-gray-600" />
-      ))}
+      {Array.from({ length: empty }).map(function(_, i) {
+        return <Star key={'e' + i} size={12} className="text-gray-600" />;
+      })}
       {count !== undefined && count > 0 && (
         <span className="text-[11px] text-muted-foreground ml-1">({count})</span>
       )}
@@ -52,10 +52,8 @@ function Stars({ rating, count }: { rating: number; count?: number }) {
 
 function ProductCard({ product }: { product: CJProduct }) {
   const [liked, setLiked] = useState(false);
-  const router = useRouter();
   return (
     <div
-      onClick={() => router.push('/categorie/' + encodeURIComponent(product.pid))}
       className="group bg-noir-card border border-border rounded-xl overflow-hidden cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:border-gold/30 hover:shadow-[0_8px_30px_rgba(212,175,55,0.08)]"
     >
       <div className="relative aspect-[3/4] overflow-hidden bg-noir-lighter">
@@ -64,7 +62,7 @@ function ProductCard({ product }: { product: CJProduct }) {
           alt={product.productNameEn || product.productName}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           loading="lazy"
-          onError={(e) => { (e.target as HTMLImageElement).src = 'https://placehold.co/300x400/1a1a1a/333?text=UZALUS'; }}
+          onError={function(e) { (e.target as HTMLImageElement).src = 'https://placehold.co/300x400/1a1a1a/333?text=UZALUS'; }}
         />
         <div className="absolute top-2.5 left-2.5 flex flex-col gap-1.5">
           {product.discount && product.discount >= 10 && (
@@ -74,7 +72,7 @@ function ProductCard({ product }: { product: CJProduct }) {
           )}
         </div>
         <button
-          onClick={(e) => { e.stopPropagation(); setLiked(!liked); }}
+          onClick={function(e) { e.stopPropagation(); setLiked(!liked); }}
           className="absolute top-2.5 right-2.5 w-8 h-8 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-black/70"
         >
           <Heart size={15} className={liked ? 'fill-red-500 text-red-500' : 'text-white/70'} />
@@ -103,21 +101,22 @@ function ProductCard({ product }: { product: CJProduct }) {
 function SkeletonGrid() {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-      {Array.from({ length: 12 }).map((_, i) => (
-        <div key={i} className="animate-pulse">
-          <div className="aspect-[3/4] bg-noir-lighter rounded-xl mb-3" />
-          <div className="h-4 bg-noir-lighter rounded w-3/4 mb-2" />
-          <div className="h-3 bg-noir-lighter rounded w-1/2 mb-2" />
-          <div className="h-5 bg-noir-lighter rounded w-2/5" />
-        </div>
-      ))}
+      {Array.from({ length: 12 }).map(function(_, i) {
+        return (
+          <div key={i} className="animate-pulse">
+            <div className="aspect-[3/4] bg-noir-lighter rounded-xl mb-3" />
+            <div className="h-4 bg-noir-lighter rounded w-3/4 mb-2" />
+            <div className="h-3 bg-noir-lighter rounded w-1/2 mb-2" />
+            <div className="h-5 bg-noir-lighter rounded w-2/5" />
+          </div>
+        );
+      })}
     </div>
   );
 }
 
 function CategoriePageContent() {
   const params = useParams();
-  const router = useRouter();
   const searchParams = useSearchParams();
   const { t } = useI18n();
   const slug = (params.slug as string) || '';
@@ -139,9 +138,7 @@ function CategoriePageContent() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
-  const SORT_CYCLE = ['salesVolume', 'newArrival', 'priceAsc', 'priceDesc'];
-
-  const fetchProducts = useCallback(async (resetPage = true) => {
+  function doFetch(resetPage: boolean) {
     if (resetPage) {
       setLoading(true);
       setProducts([]);
@@ -150,54 +147,72 @@ function CategoriePageContent() {
       setLoadingMore(true);
     }
     setError(null);
-    try {
-      const sortIndex = resetPage ? 0 : Math.floor(Math.random() * SORT_CYCLE.length);
-      const cjSortType = SORT_CYCLE[sortIndex];
-      let url = '/api/cj/products?category=' + slug + '&pageSize=100&page=1&sortType=' + cjSortType;
-      if (activeSub) {
-        const kw = activeSub.split('.').pop() || activeSub;
-        url += '&keyword=' + encodeURIComponent(kw);
-      }
-      if (searchQuery) {
-        url += '&keyword=' + encodeURIComponent(searchQuery);
-      }
-      const res = await fetch(url);
-      const data = await res.json();
-      if (data.success) {
-        const newProducts = data.products || [];
-        if (resetPage) {
-          setProducts(newProducts);
-        } else {
-          setProducts(prev => {
-            const existingIds = new Set(prev.map((p: CJProduct) => p.pid));
-            const unique = newProducts.filter((p: CJProduct) => !existingIds.has(p.pid));
-            if (unique.length === 0 && prev.length > 0) setHasMore(false);
-            return [...prev, ...unique];
-          });
-        }
-        setTotal(data.total || 0);
-      } else {
-        setError(data.error || 'Erreur de chargement');
-      }
-    } catch {
-      setError('Erreur r\u00e9seau');
-    } finally {
-      if (resetPage) setLoading(false);
-      else setLoadingMore(false);
-    }
-  }, [slug, activeSub, searchQuery]);
 
-  useEffect(() => {
-    if (slug) fetchProducts(true);
+    const sortTypes = ['salesVolume', 'newArrival', 'priceAsc', 'priceDesc'];
+    const sortIndex = resetPage ? 0 : Math.floor(Math.random() * sortTypes.length);
+    const cjSortType = sortTypes[sortIndex];
+
+    let url = '/api/cj/products?category=' + slug + '&pageSize=100&page=1&sortType=' + cjSortType;
+    if (activeSub) {
+      const kw = activeSub.split('.').pop() || activeSub;
+      url += '&keyword=' + encodeURIComponent(kw);
+    }
+    if (searchQuery) {
+      url += '&keyword=' + encodeURIComponent(searchQuery);
+    }
+
+    fetch(url)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        if (data.success) {
+          const newProducts: CJProduct[] = (data.products || []).map(function(p: any) {
+            return {
+              pid: String(p.pid || ''),
+              productName: String(p.productName || ''),
+              productNameEn: p.productNameEn ? String(p.productNameEn) : undefined,
+              productImage: String(p.productImage || ''),
+              sellPrice: Number(p.sellPrice || 0),
+              originalPrice: p.originalPrice ? Number(p.originalPrice) : undefined,
+              rating: p.rating ? Number(p.rating) : undefined,
+              commentCount: p.commentCount ? Number(p.commentCount) : undefined,
+              discount: p.discount ? Number(p.discount) : undefined,
+            };
+          });
+          if (resetPage) {
+            setProducts(newProducts);
+          } else {
+            setProducts(function(prev) {
+              const existingIds = new Set(prev.map(function(p) { return p.pid; }));
+              const unique = newProducts.filter(function(p) { return !existingIds.has(p.pid); });
+              if (unique.length === 0 && prev.length > 0) setHasMore(false);
+              return prev.concat(unique);
+            });
+          }
+          setTotal(data.total || 0);
+        } else {
+          setError(data.error || 'Erreur de chargement');
+        }
+      })
+      .catch(function() {
+        setError('Erreur r\u00e9seau');
+      })
+      .finally(function() {
+        if (resetPage) setLoading(false);
+        else setLoadingMore(false);
+      });
+  }
+
+  useEffect(function() {
+    if (slug) doFetch(true);
   }, [slug, activeSub]);
 
-  useEffect(() => {
+  useEffect(function() {
     if (!slug) return;
-    const timer = setTimeout(() => fetchProducts(true), 400);
-    return () => clearTimeout(timer);
+    const timer = setTimeout(function() { doFetch(true); }, 400);
+    return function() { clearTimeout(timer); };
   }, [searchQuery]);
 
-  const sorted = [...products].sort((a, b) => {
+  const sorted = products.slice().sort(function(a, b) {
     if (sortBy === 'price-asc') return a.sellPrice - b.sellPrice;
     if (sortBy === 'price-desc') return b.sellPrice - a.sellPrice;
     if (sortBy === 'rating') return (b.rating || 0) - (a.rating || 0);
@@ -210,7 +225,7 @@ function CategoriePageContent() {
     { value: 'price-desc', label: t('sort.priceDesc') || 'Prix d\u00e9croissant' },
     { value: 'rating', label: t('sort.rating') || 'Meilleures notes' },
   ];
-  const currentSortLabel = (sortOptions.find(o => o.value === sortBy)?.label) || 'Populaires';
+  const currentSortLabel = (sortOptions.find(function(o) { return o.value === sortBy; }) || {}).label || 'Populaires';
 
   const sidebarBtnBase = 'w-full text-start px-4 py-3 rounded-lg text-sm transition-all duration-200 flex items-center justify-between ';
   const sidebarBtnActive = 'bg-gold/15 text-gold border border-gold/20 font-medium';
@@ -233,7 +248,7 @@ function CategoriePageContent() {
             {catLabel.toUpperCase()}
           </h1>
           <p className="text-sm sm:text-base text-white/60 max-w-md">
-            D\u00e9couvrez notre s\u00e9lection premium
+            Découvrez notre sélection premium
           </p>
         </div>
       </div>
@@ -274,20 +289,20 @@ function CategoriePageContent() {
           }>
             {sidebarOpen && (
               <button
-                onClick={() => setSidebarOpen(false)}
+                onClick={function() { setSidebarOpen(false); }}
                 className="absolute top-6 right-6 text-foreground hover:text-gold transition-colors text-2xl"
               >
-                \u2715
+                ✕
               </button>
             )}
             <div className="lg:sticky lg:top-24">
               <p className="text-[10px] text-gold font-bold tracking-[3px] uppercase mb-4 flex items-center justify-between">
-                CAT\u00c9GORIES
+                CATÉGORIES
                 <span className="text-muted-foreground font-normal">({subs.length})</span>
               </p>
               <div className="space-y-1">
                 <button
-                  onClick={() => { setActiveSub(null); setSidebarOpen(false); }}
+                  onClick={function() { setActiveSub(null); setSidebarOpen(false); }}
                   className={sidebarBtnBase + 'font-medium ' + (!activeSub ? sidebarBtnActive : sidebarBtnInactive)}
                 >
                   <span>Tout voir</span>
@@ -295,13 +310,13 @@ function CategoriePageContent() {
                     <span className="text-xs opacity-60">({products.length})</span>
                   )}
                 </button>
-                {subs.map((sub) => {
+                {subs.map(function(sub) {
                   const isActive = sub.key === activeSub;
                   const subName = t(sub.key) || (sub.key.split('.').pop() || '').replace(/-/g, ' ');
                   return (
                     <button
                       key={sub.key}
-                      onClick={() => { setActiveSub(sub.key); setSidebarOpen(false); }}
+                      onClick={function() { setActiveSub(sub.key); setSidebarOpen(false); }}
                       className={sidebarBtnBase + (isActive ? sidebarBtnActive : sidebarBtnInactive)}
                     >
                       <span className="truncate">{subName}</span>
@@ -318,7 +333,7 @@ function CategoriePageContent() {
             {/* Filter Bar */}
             <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
               <button
-                onClick={() => setSidebarOpen(true)}
+                onClick={function() { setSidebarOpen(true); }}
                 className="lg:hidden flex items-center gap-2 px-4 py-2.5 rounded-lg bg-noir-card border border-border text-xs text-foreground/80 hover:border-gold/30 transition-colors"
               >
                 <SlidersHorizontal size={14} className="text-gold" />
@@ -330,8 +345,8 @@ function CategoriePageContent() {
                   type="text"
                   placeholder={'Rechercher dans ' + catLabel + '...'}
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === 'Enter') fetchProducts(); }}
+                  onChange={function(e) { setSearchQuery(e.target.value); }}
+                  onKeyDown={function(e) { if (e.key === 'Enter') doFetch(true); }}
                   className="bg-transparent text-sm text-foreground placeholder-muted-foreground outline-none w-full"
                 />
               </div>
@@ -346,20 +361,22 @@ function CategoriePageContent() {
                     <ChevronDown size={14} className="text-gold" />
                   </button>
                   <div className="absolute right-0 top-full mt-1 w-48 bg-noir-card border border-border rounded-xl shadow-2xl shadow-black/50 py-1 z-30">
-                    {sortOptions.map((opt) => (
-                      <button
-                        key={opt.value}
-                        onClick={() => setSortBy(opt.value)}
-                        className={
-                          'w-full text-start px-4 py-2.5 text-xs transition-colors ' +
-                          (sortBy === opt.value
-                            ? 'text-gold font-semibold bg-gold/5'
-                            : 'text-foreground/60 hover:text-foreground hover:bg-noir-lighter')
-                        }
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
+                    {sortOptions.map(function(opt) {
+                      return (
+                        <button
+                          key={opt.value}
+                          onClick={function() { setSortBy(opt.value); }}
+                          className={
+                            'w-full text-start px-4 py-2.5 text-xs transition-colors ' +
+                            (sortBy === opt.value
+                              ? 'text-gold font-semibold bg-gold/5'
+                              : 'text-foreground/60 hover:text-foreground hover:bg-noir-lighter')
+                          }
+                        >
+                          {opt.label}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
               </div>
@@ -367,7 +384,7 @@ function CategoriePageContent() {
 
             {activeSub && (
               <button
-                onClick={() => setActiveSub(null)}
+                onClick={function() { setActiveSub(null); }}
                 className="flex items-center gap-2 text-sm text-muted-foreground hover:text-gold transition-colors mb-5"
               >
                 <ArrowLeft size={16} />
@@ -385,10 +402,10 @@ function CategoriePageContent() {
                 <p className="text-foreground/60 text-lg mb-2">Aucun produit disponible</p>
                 <p className="text-muted-foreground text-sm mb-6">Essayez de modifier vos filtres ou votre recherche</p>
                 <button
-                  onClick={() => fetchProducts(true)}
+                  onClick={function() { doFetch(true); }}
                   className="px-8 py-3 bg-gold text-noir text-sm font-bold rounded-full uppercase tracking-wider hover:bg-gold-light transition-colors"
                 >
-                  R\u00e9essayer
+                  Réessayer
                 </button>
               </div>
             )}
@@ -405,14 +422,14 @@ function CategoriePageContent() {
             {!loading && !error && products.length > 0 && (
               <>
                 <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {sorted.map((p) => (
-                    <ProductCard key={p.pid} product={p} />
-                  ))}
+                  {sorted.map(function(p) {
+                    return <ProductCard key={p.pid} product={p} />;
+                  })}
                 </div>
                 {hasMore && products.length > 0 && (
                   <div className="flex justify-center mt-10">
                     <button
-                      onClick={() => fetchProducts(false)}
+                      onClick={function() { doFetch(false); }}
                       disabled={loadingMore || loading}
                       className="flex items-center gap-2 px-8 py-3 border-2 border-gold text-sm font-semibold text-gold rounded-full hover:bg-gold hover:text-noir transition-colors disabled:opacity-50"
                     >
