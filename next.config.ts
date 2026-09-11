@@ -5,6 +5,12 @@ const nextConfig: NextConfig = {
     ignoreBuildErrors: true,
   },
   reactStrictMode: false,
+  async rewrites() {
+    return [
+      { source: '/marketplace', destination: '/marketplace.html' },
+      { source: '/uzalus-ia', destination: '/uzalus-ia.html' },
+    ];
+  },
 };
 
 export default nextConfig;

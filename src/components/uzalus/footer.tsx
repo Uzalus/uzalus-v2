@@ -8,6 +8,8 @@ const quickLinks = [
   { key: 'nav.shop', href: '/categories' },
   { key: 'nav.categories', href: '#categories' },
   { key: 'nav.deals', href: '#promotions' },
+  { key: 'nav.marketplace', href: '/marketplace' },
+  { key: 'nav.ai', href: '/uzalus-ia' },
 ];
 
 const serviceLinks = [

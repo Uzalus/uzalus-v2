@@ -47,6 +47,8 @@ const navLinks = [
   { key: 'nav.home', href: '/' },
   { key: 'nav.shop', href: '/categories', megaMenu: true },
   { key: 'nav.categories', href: '/categories' },
+  { key: 'nav.marketplace', href: '/marketplace' },
+  { key: 'nav.ai', href: '/uzalus-ia' },
   { key: 'nav.deals', href: '#promotions' },
   { key: 'nav.tools', href: '/tools' },
 ];

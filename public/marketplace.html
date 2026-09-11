@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UZALUS Marketplace — Petites annonces</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --gold:#d4af37; --gold-soft:rgba(212,175,55,.14); --gold-line:rgba(212,175,55,.35);
+    --bg:#0a0a0b; --bg2:#101012; --card:#15151a; --card2:#1a1a20;
+    --text:#f2f0ea; --muted:#a8a49b; --border:#2a2a30; --green:#3ecf8e;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;line-height:1.55;overflow-x:hidden}
+  h1,h2,h3{font-family:'Cinzel',serif}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer}
+  .container{max-width:1200px;margin:0 auto;padding:0 20px}
+  .small-bar{background:var(--gold);color:#0a0a0b;font-size:12px;font-weight:600;text-align:center;padding:7px 12px;letter-spacing:.3px}
+
+  /* ---- header : reproduit la structure leboncoin ---- */
+  header{position:sticky;top:0;z-index:50;background:rgba(10,10,11,.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  .nav-top{display:flex;align-items:center;gap:18px;padding:14px 20px;max-width:1240px;margin:0 auto;flex-wrap:wrap}
+  .logo{font-family:'Cinzel',serif;font-weight:900;font-size:23px;letter-spacing:2px;flex-shrink:0}
+  .logo span{color:var(--gold)}
+  .deposer-btn{display:flex;align-items:center;gap:6px;background:var(--gold);color:#0a0a0b;font-weight:700;font-size:13.5px;padding:11px 18px;border-radius:8px;border:none;white-space:nowrap;transition:.2s}
+  .deposer-btn:hover{background:#e5c65a}
+  .search-pill{flex:1;min-width:200px;display:flex;align-items:center;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:2px 4px 2px 16px;transition:.2s}
+  .search-pill:focus-within{border-color:var(--gold-line)}
+  .search-pill input{flex:1;background:none;border:none;color:var(--text);font-family:inherit;font-size:14px;padding:10px 6px;outline:none;min-width:80px}
+  .search-pill input::placeholder{color:#6b6860}
+  .search-pill .divider{width:1px;height:20px;background:var(--border)}
+  .search-pill input#loc{flex:0 0 130px}
+  .search-pill button{background:var(--gold);color:#0a0a0b;border:none;border-radius:8px;width:38px;height:38px;font-size:15px;flex-shrink:0}
+  .icon-links{display:flex;align-items:center;gap:20px;flex-shrink:0}
+  .icon-link{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10.5px;color:var(--muted);white-space:nowrap;transition:.2s}
+  .icon-link .ic{font-size:17px;line-height:1}
+  .icon-link:hover{color:var(--gold)}
+  .icon-link.primary{color:var(--gold)}
+
+  .cat-nav{border-top:1px solid var(--border);background:var(--bg2)}
+  .cat-nav-inner{max-width:1240px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:22px;overflow-x:auto;scrollbar-width:thin}
+  .cat-nav a{font-size:13px;font-weight:600;color:var(--muted);padding:11px 0;white-space:nowrap;border-bottom:2px solid transparent;transition:.2s}
+  .cat-nav a:hover,.cat-nav a.on{color:var(--gold);border-bottom-color:var(--gold)}
+  .cat-nav a.bons-plans{color:var(--gold);font-weight:800}
+  .cat-nav .sep{color:var(--border);font-size:12px}
+
+  .btn{display:inline-block;padding:13px 26px;font-weight:700;font-size:14px;letter-spacing:.4px;border-radius:6px;cursor:pointer;transition:.25s;border:1px solid transparent}
+  .btn-gold{background:var(--gold);color:#0a0a0b}
+  .btn-gold:hover{background:#e5c65a;box-shadow:0 10px 26px rgba(212,175,55,.25)}
+  .btn-ghost{border-color:var(--gold-line);color:var(--gold);background:transparent}
+  .btn-ghost:hover{background:var(--gold-soft)}
+
+  .iso-note{max-width:1240px;margin:10px auto 0;padding:0 20px;font-size:11.5px;color:#6b6860;text-align:right}
+  .iso-note a{color:var(--gold);text-decoration:underline}
+
+  .breadcrumb{max-width:1200px;margin:18px auto 0;padding:0 20px;font-size:12.5px;color:var(--muted)}
+  .breadcrumb b{color:var(--gold)}
+
+  /* ---- sous-titre recherche ---- */
+  .search-zone{padding:22px 0 14px}
+  .search-zone h1{font-size:clamp(20px,2.6vw,26px);letter-spacing:.5px}
+  .search-zone h1 b{color:var(--gold)}
+  .cat-rail{display:flex;gap:10px;overflow-x:auto;padding:16px 4px 6px;scrollbar-width:thin}
+  .chip{white-space:nowrap;background:var(--card);border:1px solid var(--border);color:var(--muted);border-radius:50px;padding:9px 16px;font-size:13px;font-weight:600;transition:.2s}
+  .chip:hover{border-color:var(--gold-line);color:var(--text)}
+  .chip.on{background:var(--gold);border-color:var(--gold);color:#0a0a0b}
+
+  /* ---- layout ---- */
+  .layout{display:grid;grid-template-columns:250px 1fr;gap:24px;padding:10px 0 70px}
+  @media(max-width:900px){.layout{grid-template-columns:1fr}}
+  aside{align-self:start;position:sticky;top:150px}
+  @media(max-width:900px){aside{position:static}}
+  .panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px}
+  .panel h3{font-size:13px;letter-spacing:2px;color:var(--gold);margin-bottom:14px;text-transform:uppercase;font-family:'Montserrat',sans-serif;font-weight:700}
+  .cat-list button{display:flex;width:100%;align-items:center;justify-content:space-between;background:none;border:none;color:var(--muted);font-size:13.5px;padding:8px 6px;border-radius:6px;text-align:left;transition:.15s}
+  .cat-list button:hover,.cat-list button.on{background:var(--gold-soft);color:var(--gold)}
+  .cat-list .n{font-size:11px;opacity:.6}
+  .topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;gap:12px;flex-wrap:wrap}
+  .topbar h2{font-size:19px;letter-spacing:.5px}
+  .topbar h2 span{color:var(--muted);font-size:13px;font-family:'Montserrat',sans-serif;font-weight:400}
+  #sort{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:9px 12px;font-size:13px;outline:none}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:16px}
+  .ad{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:.22s;display:flex;flex-direction:column}
+  .ad:hover{transform:translateY(-4px);border-color:var(--gold-line);box-shadow:0 14px 34px rgba(0,0,0,.45)}
+  .ad .thumb{height:140px;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative}
+  .ad .flag{position:absolute;top:10px;left:10px;background:rgba(10,10,11,.8);border:1px solid var(--gold-line);color:var(--gold);font-size:10px;font-weight:700;letter-spacing:1px;border-radius:50px;padding:4px 10px}
+  .ad .flag.free{background:rgba(62,207,142,.15);border-color:rgba(62,207,142,.5);color:var(--green)}
+  .ad .flag.pro{left:auto;right:10px;background:rgba(212,175,55,.2);color:var(--gold)}
+  .ad .flag.drop{top:auto;bottom:10px;background:rgba(255,110,0,.18);border-color:rgba(255,110,0,.5);color:#ff9e5e}
+  .ad .ship{font-size:11.5px;color:#8a877e;margin-top:2px}
+  .ad .body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;gap:5px}
+  .ad .title{font-size:14px;font-weight:600;line-height:1.35}
+  .ad .price{font-size:17px;font-weight:800;color:var(--gold)}
+  .ad .price.free{color:var(--green)}
+  .ad .meta{font-size:12px;color:var(--muted);margin-top:auto}
+  .ai-note{background:var(--gold-soft);border:1px dashed var(--gold-line);border-radius:10px;padding:12px 16px;font-size:12.5px;color:var(--muted);margin-top:18px;text-align:center}
+  .ai-note b{color:var(--gold)}
+  /* ---- modal déposer ---- */
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(4px);display:none;align-items:flex-start;justify-content:center;z-index:100;padding:30px 16px;overflow-y:auto}
+  .overlay.open{display:flex}
+  .modal{background:var(--card2);border:1px solid var(--gold-line);border-radius:14px;max-width:560px;width:100%;padding:30px 28px;position:relative}
+  .modal h2{font-size:21px;margin-bottom:4px}
+  .modal .sub{color:var(--muted);font-size:13px;margin-bottom:22px}
+  .modal .close{position:absolute;top:14px;right:16px;background:none;border:none;color:var(--muted);font-size:22px}
+  .fgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .fgrid .full{grid-column:1/-1}
+  @media(max-width:520px){.fgrid{grid-template-columns:1fr}}
+  .fld label{display:block;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+  .fld input,.fld select,.fld textarea{width:100%;background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:12px 14px;color:var(--text);font-family:inherit;font-size:14px;outline:none;transition:.2s}
+  .fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--gold-line)}
+  .fld textarea{resize:vertical;min-height:80px}
+  .fld select option{background:var(--bg2)}
+  .modal .actions{display:flex;gap:12px;margin-top:22px;flex-wrap:wrap;align-items:center}
+  #mod-status{margin-top:16px;font-size:13.5px;padding:12px 16px;border-radius:8px;display:none}
+  #mod-status.ok{display:block;background:rgba(62,207,142,.12);border:1px solid rgba(62,207,142,.4);color:var(--green)}
+  #mod-status.ko{display:block;background:rgba(255,80,80,.1);border:1px solid rgba(255,80,80,.4);color:#ff8080}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(90px);background:var(--card2);border:1px solid var(--gold);color:var(--text);border-radius:10px;padding:14px 22px;font-size:14px;transition:.35s;z-index:200;box-shadow:0 16px 40px rgba(0,0,0,.5);max-width:90vw;text-align:center}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+  .toast b{color:var(--gold)}
+  .empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:60px 0;font-size:15px}
+  footer{border-top:1px solid var(--border);padding:44px 24px;text-align:center;color:var(--muted);font-size:13px}
+  footer .logo{margin-bottom:12px}
+  footer .links{margin-top:14px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap}
+  footer .links a:hover{color:var(--gold)}
+</style>
+</head>
+<body>
+
+<div class="small-bar">Marketplace UZALUS — annonces entre particuliers · vérifiées par UZALUS IA · 0% commission au lancement</div>
+
+<header>
+  <div class="nav-top">
+    <a class="logo" href="https://www.uzalus.com">UZALUS<span>.</span></a>
+    <button class="deposer-btn" onclick="openModal()">⊕ Déposer une annonce</button>
+    <div class="search-pill">
+      <input id="q" type="text" placeholder="Rechercher sur UZALUS Marketplace">
+      <span class="divider"></span>
+      <input id="loc" type="text" placeholder="📍 Autour de…">
+      <button onclick="render()">🔍</button>
+    </div>
+    <div class="icon-links">
+      <a class="icon-link" onclick="showToast('🔔 Vos recherches enregistrées — bientôt disponible')"><span class="ic">🔔</span>Mes recherches</a>
+      <a class="icon-link" onclick="showToast('♡ Favoris — bientôt disponible')"><span class="ic">♡</span>Favoris</a>
+      <a class="icon-link" href="/uzalus-ia"><span class="ic">🤖</span>UZALUS IA</a>
+      <a class="icon-link" onclick="showToast('💬 Messages — bientôt disponible')"><span class="ic">💬</span>Messages</a>
+      <a class="icon-link primary" href="https://www.uzalus.com"><span class="ic">👤</span>Se connecter</a>
+    </div>
+  </div>
+  <nav class="cat-nav">
+    <div class="cat-nav-inner" id="mainCatNav"></div>
+  </nav>
+</header>
+
+<div class="iso-note">Page indépendante de <a href="https://www.uzalus.com">uzalus.com</a> — <a href="/uzalus-ia">→ UZALUS IA</a></div>
+
+<div class="container">
+  <div class="breadcrumb"><a href="https://www.uzalus.com">Accueil</a> › <b>Marketplace</b> <span id="bc-sub"></span></div>
+
+  <section class="search-zone" id="top">
+    <div class="container" style="padding:0">
+      <h1 id="page-h1">Toutes les annonces sur <b>UZALUS Marketplace</b></h1>
+      <div class="cat-rail" id="rail"></div>
+    </div>
+  </section>
+
+  <div class="layout">
+    <aside>
+      <div class="panel">
+        <h3>Catégories détaillées</h3>
+        <div class="cat-list" id="sidecats"></div>
+      </div>
+      <div class="panel">
+        <h3>Confiance &amp; sécurité</h3>
+        <div style="font-size:12.5px;color:var(--muted);line-height:1.9">
+          🤖 Modération IA automatique<br>
+          ✔ Annonces vérifiées avant publication<br>
+          📍 Localisation approximative<br>
+          🤝 Remise en main propre<br>
+          🚚 ou livraison
+        </div>
+      </div>
+      <div class="panel" style="text-align:center">
+        <h3>UZALUS IA</h3>
+        <p style="font-size:12.5px;color:var(--muted);margin-bottom:14px">Laissez l'IA rédiger votre annonce pour vous.</p>
+        <a class="btn btn-ghost" href="/uzalus-ia" style="padding:10px 18px;font-size:12.5px">🤖 Créer avec l'IA</a>
+      </div>
+    </aside>
+
+    <main>
+      <div class="topbar">
+        <h2 id="res-title">Toutes les annonces <span id="count"></span></h2>
+        <select id="sort" onchange="render()">
+          <option value="new">Plus récentes</option>
+          <option value="asc">Prix croissant</option>
+          <option value="desc">Prix décroissant</option>
+        </select>
+      </div>
+      <div class="grid" id="grid"></div>
+      <div class="ai-note"><b>🤖 UZALUS IA</b> modère chaque annonce avant publication : catégorie, fraude, doublons, contenu interdit, prix anormal, données personnelles.</div>
+    </main>
+  </div>
+</div>
+
+<!-- ---------- MODAL DÉPOSER UNE ANNONCE ---------- -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <button class="close" onclick="closeModal()">✕</button>
+    <h2>Déposer une annonce</h2>
+    <div class="sub">UZALUS IA vérifie votre annonce avant publication — rien n'est mis en ligne sans validation.</div>
+    <div class="fgrid">
+      <div class="fld full"><label>Titre</label><input id="f-title" placeholder="Ex : iPhone 13 bleu 128 Go, comme neuf"></div>
+      <div class="fld"><label>Catégorie</label>
+        <select id="f-cat"><option value="">— Auto-détection IA —</option></select>
+      </div>
+      <div class="fld"><label>Prix (€)</label><input id="f-price" type="number" min="0" placeholder="Ex : 320"></div>
+      <div class="fld"><label>État</label>
+        <select id="f-state">
+          <option>Neuf</option><option>Comme neuf</option><option selected>Bon état</option><option>État correct</option><option>À réparer</option>
+        </select>
+      </div>
+      <div class="fld"><label>Localisation (approx.)</label><input id="f-loc" placeholder="Ex : Paris 15e"></div>
+      <div class="fld full"><label>Description</label><textarea id="f-desc" placeholder="Décrivez votre objet — l'IA peut l'améliorer et la traduire."></textarea></div>
+      <div class="fld full"><label>Photos</label>
+        <input id="f-photo" type="file" accept="image/*" multiple>
+      </div>
+    </div>
+    <div id="mod-status"></div>
+    <div class="actions">
+      <button class="btn btn-gold" onclick="submitAd()">Vérifier &amp; publier</button>
+      <span style="font-size:12px;color:var(--muted)">Gratuit · sans commission au lancement</span>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="logo">UZALUS<span style="color:var(--gold)">.</span></div>
+  <div>Marketplace — Buy &amp; Sell. Des milliers d'objets vérifiés par IA.</div>
+  <div class="links">
+    <a href="https://www.uzalus.com">Accueil</a>
+    <a href="https://www.uzalus.com">Boutique</a>
+    <a href="/uzalus-ia">UZALUS IA</a>
+    <a href="https://www.uzalus.com">Confidentialité</a>
+    <a href="https://www.uzalus.com">CGV</a>
+  </div>
+  <div style="margin-top:16px">© 2026 UZALUS. Tous droits réservés.</div>
+</footer>
+
+<script>
+// Sous-catégories détaillées (panneau latéral + démo IA)
+const CATS = [
+  ['🚗','Voitures'],['🏍️','Motos'],['🚲','Vélos'],['💻','Ordinateurs'],['📱','Téléphones'],
+  ['📺','TV / Multimédia'],['🛋️','Meubles'],['🏠','Maison'],['👕','Vêtements'],['👟','Chaussures'],
+  ['🔧','Bricolage'],['🧸','Enfants'],['🎮','Jeux vidéo'],['📷','Photo / Caméra'],['⚙️','Pièces auto'],
+  ['🏭','Matériel pro'],['📚','Livres'],['🎵','Instruments'],['📦','Autres'],['🎁','Gratuit']
+];
+
+// Grandes catégories façon leboncoin — barre du haut (identique en structure à leboncoin.fr)
+const MAIN_CATS = [
+  {label:'Immobilier',      ico:'🏘️', subs:[],           soon:true},
+  {label:'Véhicules',       ico:'🚗', subs:[0,1,2,14]},
+  {label:'Matériel pro',    ico:'🏭', subs:[15]},
+  {label:'Emploi',          ico:'💼', subs:[],           soon:true},
+  {label:'Mode',            ico:'👕', subs:[8,9]},
+  {label:'Maison & Jardin', ico:'🏠', subs:[6,7,10]},
+  {label:'Famille',         ico:'🧸', subs:[11]},
+  {label:'Électronique',    ico:'📱', subs:[3,4,5,12,13]},
+  {label:'Loisirs',         ico:'🎵', subs:[16,17]},
+  {label:'Autres',          ico:'📦', subs:[18]},
+];
+
+let ADS = [
+  {t:'Canapé 3 places gris — Bon état', c:6, p:180, e:'Bon état', loc:'Lyon 3e', ago:'il y a 2 h', ico:'🛋️', v:'Marc_69', r:'4,9 (87)', ship:19.9},
+  {t:'iPhone 13 128 Go bleu — Comme neuf', c:4, p:390, e:'Comme neuf', loc:'Paris 15e', ago:'il y a 4 h', ico:'📱', hot:true, v:'Sarah_75', r:'5 (23)', ship:5.99},
+  {t:'Vélo de ville Btwin — pneus neufs', c:2, p:150, e:'Bon état', loc:'Bordeaux', ago:'il y a 6 h', ico:'🚲', v:'CycloM', r:'4,8 (142)', ship:29.9},
+  {t:'PC portable Dell Latitude i7', c:3, p:320, e:'État correct', loc:'Lille', ago:'il y a 9 h', ico:'💻', v:'TechNord', r:'4,7 (56)', ship:8.49, pro:true},
+  {t:'TV Samsung 55" 4K', c:5, p:250, e:'Comme neuf', loc:'Nantes', ago:'il y a 12 h', ico:'📺', v:'Léa_44', r:'5 (9)', ship:24.9, drop:true, old:290},
+  {t:'PS5 + 2 manettes + 3 jeux', c:12, p:420, e:'Bon état', loc:'Toulouse', ago:'il y a 1 j', ico:'🎮', v:'Gamer31', r:'4,9 (201)', ship:11.9},
+  {t:'Table basse chêne massif', c:6, p:75, e:'Bon état', loc:'Rennes', ago:'il y a 1 j', ico:'🛋️', v:'Anne_35', r:'4,6 (31)', ship:14.9},
+  {t:'Nike Air Max 42 — très peu portées', c:9, p:60, e:'Comme neuf', loc:'Marseille', ago:'il y a 1 j', ico:'👟', v:'Sneak_13', r:'4,8 (64)', ship:6.9},
+  {t:'Reflex Canon EOS 700D + objectif', c:13, p:290, e:'Bon état', loc:'Strasbourg', ago:'il y a 2 j', ico:'📷', v:'Photo_67', r:'5 (18)', ship:12.9},
+  {t:'4 pneus hiver 205/55 R16', c:14, p:160, e:'Comme neuf', loc:'Grenoble', ago:'il y a 2 j', ico:'⚙️', v:'PneuAlp', r:'4,9 (77)', ship:34.9, pro:true},
+  {t:'Perceuse Bosch professionnelle', c:15, p:95, e:'Bon état', loc:'Montpellier', ago:'il y a 3 j', ico:'🏭', v:'Brico_34', r:'4,5 (12)', ship:9.9},
+  {t:'Lot de 12 romans — polars & SF', c:16, p:0, e:'Bon état', loc:'Nice', ago:'il y a 3 j', ico:'📚', free:true, v:'Aude_06', r:'5 (3)', ship:4.49},
+  {t:'Guitare acoustique Yamaha F310', c:17, p:110, e:'État correct', loc:'Le Mans', ago:'il y a 4 j', ico:'🎵', v:'Jam72', r:'4,7 (40)', ship:16.9},
+  {t:'Poussette Bugaboo Cougar', c:11, p:200, e:'Bon état', loc:'Rouen', ago:'il y a 4 j', ico:'🧸', v:'Famille76', r:'4,8 (52)', ship:21.9},
+  {t:'Robe de soirée noire — taille 38', c:8, p:45, e:'Comme neuf', loc:'Lyon 6e', ago:'il y a 5 j', ico:'👗', v:'Chloé_69', r:'5 (27)', ship:4.9},
+  {t:'Scooter Yamaha 125 — 2019', c:1, p:1900, e:'Bon état', loc:'Avignon', ago:'il y a 6 j', ico:'🏍️', v:'MotoVau', r:'4,9 (95)', ship:0, drop:true, old:2100},
+  {t:'Lot d\u2019outils de bricolage complet', c:10, p:120, e:'État correct', loc:'Reims', ago:'il y a 6 j', ico:'🔧', v:'Dom51', r:'4,6 (22)', ship:17.9},
+  {t:'Étagère murale en métal — à chercher', c:6, p:0, e:'État correct', loc:'Dijon', ago:'il y a 7 j', ico:'📦', free:true, v:'Emi_21', r:'4,7 (8)', ship:0},
+];
+
+const KEY = [
+  ['voiture','auto','renault','peugeot','citroën'],['moto','scooter','yamaha'],['vélo','btwin','vtt','bicyclette'],
+  ['pc','ordinateur','laptop','macbook','dell','portable'],['iphone','samsung','smartphone','téléphone','xiaomi'],
+  ['tv','télévision','multimédia','samsung tv'],['meuble','canapé','table','armoire','étagère','commode'],
+  ['maison','déco','salon'],['robe','vêtement','manteau','t-shirt','mode'],['nike','chaussure','basket','adidas'],
+  ['outil','perceuse','bricolage','visseuse'],['enfant','poussette','bébé','jouet','trampoline'],
+  ['ps5','jeu','console','switch','xbox'],['photo','canon','nikon','caméra','objectif'],
+  ['pneu','pièce','moteur','frein'],['pro','matériel','chantier','bosch'],
+  ['livre','roman','polar'],['guitare','piano','instrument','violon']
+];
+
+let filterCat = -1;      // sous-catégorie sélectionnée (-1 = toutes)
+let filterMain = -1;     // grande catégorie sélectionnée (-1 = toutes)
+
+function catName(i){ return CATS[i][1]; }
+function catIco(i){ return CATS[i][0]; }
+
+function subsForMain(mi){ return MAIN_CATS[mi].subs; }
+
+function render(){
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  const locF = document.getElementById('loc').value.trim().toLowerCase();
+  const sort = document.getElementById('sort').value;
+  let list = ADS.filter(a => {
+    if(filterCat === 19) { if(a.p !== 0) return false; }
+    else if(filterCat >= 0) { if(a.c !== filterCat) return false; }
+    else if(filterMain >= 0){
+      if(filterMain === -2){ if(!(a.drop || a.free)) return false; } // Bons plans
+      else { const subs = subsForMain(filterMain); if(!subs.includes(a.c)) return false; }
+    }
+    if(q && !a.t.toLowerCase().includes(q)) return false;
+    if(locF && !a.loc.toLowerCase().includes(locF)) return false;
+    return true;
+  });
+  if(sort === 'asc') list.sort((a,b)=>a.p-b.p);
+  if(sort === 'desc') list.sort((a,b)=>b.p-a.p);
+
+  document.getElementById('count').textContent = '— ' + list.length + ' annonce' + (list.length>1?'s':'');
+  let label = 'Toutes les annonces ';
+  let bc = '';
+  if(filterCat >= 0){ label = catIco(filterCat) + ' ' + catName(filterCat) + ' '; bc = '› ' + catName(filterCat); }
+  else if(filterMain === -2){ label = '🔥 Bons plans '; bc = '› Bons plans'; }
+  else if(filterMain >= 0){ label = MAIN_CATS[filterMain].ico + ' ' + MAIN_CATS[filterMain].label + ' '; bc = '› ' + MAIN_CATS[filterMain].label; }
+  document.getElementById('res-title').firstChild.textContent = label;
+  document.getElementById('bc-sub').textContent = bc;
+
+  document.getElementById('grid').innerHTML = list.length === 0
+    ? '<div class="empty">Aucune annonce trouvée.<br>Essayez un autre mot-clé ou déposez la première annonce de cette catégorie !</div>'
+    : list.map(a => `
+      <div class="ad" onclick="viewAd(this)" data-loc="${a.loc}">
+        <div class="thumb" style="background:linear-gradient(135deg,#1a1a20,#232330)">${a.ico}
+          ${a.free ? '<span class="flag free">GRATUIT</span>' : (a.hot ? '<span class="flag">🔥 POPULAIRE</span>' : '')}
+          ${a.pro ? '<span class="flag pro">PRO</span>' : ''}
+          ${a.drop ? '<span class="flag drop">↓ BAISSE DE PRIX</span>' : ''}
+        </div>
+        <div class="body">
+          <div class="title">${a.t}</div>
+          <div class="price ${a.free?'free':''}">${a.free ? 'Gratuit' : a.p.toLocaleString('fr-FR') + ' €'}
+            ${a.drop ? '<s style="color:#6b6860;font-weight:400;font-size:13px"> ' + (a.old||0).toLocaleString('fr-FR') + ' €</s>' : ''}
+          </div>
+          <div class="meta">⭐ ${a.r} · ${a.pro ? a.v + ' (vendeur pro)' : a.v}</div>
+          <div class="meta">📍 ${a.loc} · ${a.ago} · ${a.e}</div>
+          <div class="ship">${a.ship > 0 ? '🚚 Livraison dès ' + a.ship.toLocaleString('fr-FR') + ' €' : '🤝 Remise en main propre'}</div>
+        </div>
+      </div>`).join('');
+}
+
+function renderMainNav(){
+  document.getElementById('mainCatNav').innerHTML =
+    MAIN_CATS.map((m,i) => `<a class="${filterMain===i?'on':''}" onclick="setMain(${i})">${m.label}${m.soon?' <span style="opacity:.5;font-size:11px">(bientôt)</span>':''}</a>`).join('<span class="sep">·</span>') +
+    '<span class="sep">·</span><a class="bons-plans ' + (filterMain===-2?'on':'') + '" onclick="setMain(-2)">Bons plans !</a>';
+}
+
+function chips(){
+  document.getElementById('rail').innerHTML =
+    `<button class="chip ${filterCat<0?'on':''}" onclick="setCat(-1)">✦ Tout</button>` +
+    CATS.map((c,i)=>`<button class="chip ${filterCat===i?'on':''}" onclick="setCat(${i})">${c[0]} ${c[1]}</button>`).join('');
+  document.getElementById('sidecats').innerHTML =
+    CATS.map((c,i)=>{
+      const n = ADS.filter(a => i===19 ? a.p===0 : a.c===i).length;
+      return `<button class="${filterCat===i?'on':''}" onclick="setCat(${i})"><span>${c[0]} ${c[1]}</span><span class="n">${n}</span></button>`;
+    }).join('');
+  document.getElementById('f-cat').innerHTML =
+    '<option value="">— Auto-détection IA —</option>' + CATS.slice(0,19).map((c,i)=>`<option value="${i}">${c[0]} ${c[1]}</option>`).join('');
+}
+
+function setCat(i){
+  filterCat = i; filterMain = -1;
+  chips(); renderMainNav(); render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+function setMain(i){
+  filterMain = i; filterCat = -1;
+  if(MAIN_CATS[i] && MAIN_CATS[i].soon){ showToast('🚧 ' + MAIN_CATS[i].label + ' arrive bientôt sur UZALUS Marketplace'); filterMain = -1; }
+  chips(); renderMainNav(); render();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function viewAd(el){ showToast('🔒 Contact acheteur/vendeur — disponible à l\u2019ouverture officielle de la Marketplace'); }
+
+function openModal(){
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('mod-status').className = ''; document.getElementById('mod-status').style.display='none';
+}
+function closeModal(){ document.getElementById('overlay').classList.remove('open'); }
+document.getElementById('overlay').addEventListener('click', e => { if(e.target.id==='overlay') closeModal(); });
+
+function detectCat(t){
+  const lq = t.toLowerCase();
+  for(let i=0;i<KEY.length;i++){ if(KEY[i].some(k=>lq.includes(k))) return i; }
+  return 18; // Autres
+}
+
+function submitAd(){
+  const t = document.getElementById('f-title').value.trim();
+  const p = parseInt(document.getElementById('f-price').value, 10);
+  const loc = document.getElementById('f-loc').value.trim();
+  const st = document.getElementById('mod-status');
+  if(t.length < 5){ st.className='ko'; st.textContent='❌ Titre trop court ou bizarre — UZALUS IA refuse l\u2019annonce.'; return; }
+  if(isNaN(p) || p < 0 || p > 500000){ st.className='ko'; st.textContent='❌ Prix anormal détecté — vérifiez le montant.'; return; }
+  if(loc.length < 2){ st.className='ko'; st.textContent='❌ Localisation manquante — elle reste approximative et privée.'; return; }
+  st.className='ok';
+  let c = document.getElementById('f-cat').value;
+  let auto = false;
+  if(c === ''){ c = detectCat(t); auto = true; }
+  else c = parseInt(c,10);
+  const base = {t:t, c:c, e:document.getElementById('f-state').value, loc:loc, ago:'à l\u2019instant', ico:catIco(c), v:'Vous', r:'— nouveau vendeur', ship:9.9};
+  if(p === 0){ ADS.unshift(Object.assign({}, base, {p:0, free:true})); }
+  else ADS.unshift(Object.assign({}, base, {p:p}));
+  st.innerHTML = '🤖 <b style="color:var(--gold)">UZALUS IA</b> — annonce vérifiée ✔' +
+    (auto ? ' · catégorie détectée automatiquement : <b style="color:var(--gold)">' + catIco(c) + ' ' + catName(c) + '</b>' : '') +
+    ' · publication…';
+  setTimeout(()=>{ closeModal(); chips(); render(); showToast('🚀 Annonce publiée — <b>vérifiée par UZALUS IA</b>'); }, 1400);
+}
+
+let toastTimer;
+function showToast(html){
+  const t = document.getElementById('toast');
+  t.innerHTML = html; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(()=>t.classList.remove('show'), 3200);
+}
+
+document.getElementById('q').addEventListener('keydown', e=>{ if(e.key==='Enter') render(); });
+document.getElementById('loc').addEventListener('keydown', e=>{ if(e.key==='Enter') render(); });
+
+renderMainNav(); chips(); render();
+</script>
+
+</body>
+</html>
